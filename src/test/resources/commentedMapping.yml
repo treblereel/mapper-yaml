@@ -1,0 +1,9 @@
+# Comment of the whole document
+---
+architect: mihai
+# all the contributors here
+developers:
+  - rultor
+  - salikjan
+  - sherif
+name: "eo-yaml" # name of the project

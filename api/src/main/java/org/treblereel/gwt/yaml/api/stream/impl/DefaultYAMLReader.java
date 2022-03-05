@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 import com.amihaiemil.eoyaml.Yaml;
 import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 public class DefaultYAMLReader implements YAMLReader {

@@ -12,11 +12,11 @@
     <webappdir>${project.build.directory}/webapp</webappdir>
     <webapp.libdir>${webappdir}/WEB-INF/lib</webapp.libdir>
 
-    <j2cl.maven.plugin.version>0.13-SNAPSHOT</j2cl.maven.plugin.version>
+    <j2cl.maven.plugin.version>0.19-SNAPSHOT</j2cl.maven.plugin.version>
     <elemental2.version>1.0.0</elemental2.version>
 
     <google.jsinterop.version>1.0.0</google.jsinterop.version>
-    <j2cl.version>0.7-SNAPSHOT</j2cl.version>
+    <j2cl.version>0.10-SNAPSHOT</j2cl.version>
 
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>

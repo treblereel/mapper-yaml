@@ -32,7 +32,7 @@ import org.treblereel.gwt.yaml.serializer.SerializerGenerator;
  */
 public class MapperGenerator extends AbstractGenerator {
 
-    private static final String MAPPER_IMPL = "_MapperImpl";
+    private static final String MAPPER_IMPL = "_YAMLMapperImpl";
 
     private final DeserializerGenerator deserializerGenerator;
     private final SerializerGenerator serializerGenerator;

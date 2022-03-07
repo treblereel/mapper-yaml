@@ -1,8 +1,7 @@
-package aaa.bbb.ccc.ddd;
+package org.treblereel.gwt.yaml.demo;
 
 import java.io.IOException;
 
-import com.google.gwt.core.client.EntryPoint;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
@@ -12,13 +11,12 @@ import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLLabelElement;
 import elemental2.dom.HTMLTextAreaElement;
 
-public class App implements EntryPoint {
+public class App {
 
     Company_MapperImpl mapper = Company_MapperImpl.INSTANCE;
     private HTMLTextAreaElement generatedYAML = (HTMLTextAreaElement) DomGlobal.document.createElement("textarea");
     private HTMLDivElement generatedPOJO = (HTMLDivElement) DomGlobal.document.createElement("div");
 
-    @Override
     public void onModuleLoad() {
         HTMLLabelElement label1 = (HTMLLabelElement) DomGlobal.document.createElement("label");
         label1.textContent = "Pojo to YAML";

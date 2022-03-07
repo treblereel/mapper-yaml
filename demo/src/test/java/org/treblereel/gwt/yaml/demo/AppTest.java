@@ -1,4 +1,4 @@
-package aaa.bbb.ccc.ddd;
+package org.treblereel.gwt.yaml.demo;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Test;

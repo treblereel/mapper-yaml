@@ -46,6 +46,7 @@
     </properties>
 
     <modules>
+        <module>eo-yaml</module>
         <module>api</module>
         <module>processor</module>
         <module>tests</module>

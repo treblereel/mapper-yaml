@@ -1,4 +1,4 @@
-package aaa.bbb.ccc.ddd;
+package org.treblereel.gwt.yaml.demo;
 
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 

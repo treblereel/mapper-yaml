@@ -77,7 +77,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSe
             writer.beginObject(propertyName);
         }
 
-        for (T value : values) {
+        for (T value : (Collection<T>)values) {
             serializer.setParent(this).setPropertyName(propertyName).serialize(writer, value, ctx, params);
         }
         if (ctx.isWrapCollections()) {

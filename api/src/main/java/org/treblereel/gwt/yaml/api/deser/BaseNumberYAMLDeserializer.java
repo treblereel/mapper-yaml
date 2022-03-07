@@ -233,7 +233,7 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
         @Override
         public Integer deserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
                 YAMLDeserializationException {
-            if (value.isEmpty()) {
+            if (value == null || value.isEmpty()) {
                 return null;
             }
             return Integer.valueOf(value);

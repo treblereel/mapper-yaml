@@ -77,7 +77,7 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
         }
 
         writer.beginObject(propertyName);
-        for (T value : values) {
+        for (T value : (T[])values) {
             serializer.serialize(writer, value, ctx, params);
         }
         writer.endObject();

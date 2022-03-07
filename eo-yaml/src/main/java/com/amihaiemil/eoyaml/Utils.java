@@ -25,69 +25,33 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+
 package com.amihaiemil.eoyaml;
 
-/**
- * An YAML Line indented by us. We override the line's
- * initial indentation with a given value.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
- * @since 5.1.0
- */
-final class Indented implements YamlLine {
+public class Utils {
 
-    /**
-     * Original YAML line.
-     */
-    private final YamlLine original;
+    private static JRE env = new JRE();
 
-    /**
-     * Given indentation.
-     */
-    private int indentation;
 
-    /**
-     * Ctor.
-     * @param original Original YamlLine.
-     * @param indentation Given indentation.
-     */
-    Indented(final YamlLine original, final int indentation) {
-        this.original = original;
-        this.indentation = indentation;
+    public static String lineSeparator() {
+        return env.lineSeparator();
     }
 
-    @Override
-    public String trimmed() {
-        return this.original.trimmed();
+
+    private static class GWT {
+
+        protected String lineSeparator() {
+            return "\n";
+        }
+
     }
 
-    @Override
-    public String contents(final int previousIndent) {
-        return this.original.contents(previousIndent);
-    }
+    private static class JRE extends GWT{
 
-    @Override
-    public String comment() {
-        return this.original.comment();
-    }
-
-    @Override
-    public int number() {
-        return this.original.number();
-    }
-
-    @Override
-    public int indentation() {
-        return this.indentation;
-    }
-
-    @Override
-    public boolean requireNestedIndentation() {
-        return this.original.requireNestedIndentation();
-    }
-
-    @Override
-    public int compareTo(final YamlLine other) {
-        return this.original.compareTo(other);
+        @GwtIncompatible
+        @Override
+        protected String lineSeparator() {
+            return System.lineSeparator();
+        }
     }
 }

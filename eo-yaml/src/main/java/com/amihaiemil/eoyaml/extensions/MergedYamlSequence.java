@@ -52,7 +52,7 @@ import java.util.function.Supplier;
  *     );
  * </pre>
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: bccefba7fdc4dce03915f593f66a535f304e8c22 $
  * @since 4.1.0
  */
 public final class MergedYamlSequence extends BaseYamlSequence {

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Unit tests for {@link RtYamlSequenceBuilder}.
  * @author Salavat.Yalalov (s.yalalov@gmail.com)
- * @version $Id$
+ * @version $Id: e23701c1841389f76a216e67e036c2111fcbe68e $
  * @since 1.0.0
  */
 public final class RtYamlSequenceBuilderTest {

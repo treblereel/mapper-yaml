@@ -34,7 +34,7 @@ import java.util.List;
  * YamlSequenceBuilder implementation. "Rt" stands for "Runtime".
  * This class is immutable and thread-safe.
  * @author Salavat.Yalalov (s.yalalov@gmail.com)
- * @version $Id$
+ * @version $Id: 79ce93ccc05fe5f26943fae0743bcbb3760d44fd $
  * @since 1.0.0
  */
 final class RtYamlSequenceBuilder implements YamlSequenceBuilder {
@@ -73,10 +73,6 @@ final class RtYamlSequenceBuilder implements YamlSequenceBuilder {
 
     @Override
     public YamlSequence build(final String comment) {
-        YamlSequence sequence = new RtYamlSequence(this.nodes, comment);
-        if (this.nodes.isEmpty()) {
-            sequence = new EmptyYamlSequence(sequence);
-        }
-        return sequence;
+        return new RtYamlSequence(this.nodes, comment);
     }
 }

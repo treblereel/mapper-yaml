@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Unit tests for {@link Backwards}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 5fc605fd3566da73044ec13513675e6b53448700 $
  * @since 4.2.0
  */
 public final class BackwardsTest {
@@ -67,9 +67,9 @@ public final class BackwardsTest {
         final YamlLines initial = Mockito.mock(YamlLines.class);
         final YamlLine prev = Mockito.mock(YamlLine.class);
         final YamlNode node = Mockito.mock(YamlNode.class);
-        Mockito.when(initial.toYamlNode(prev, false)).thenReturn(node);
+        Mockito.when(initial.toYamlNode(prev)).thenReturn(node);
         MatcherAssert.assertThat(
-            new Backwards(initial).toYamlNode(prev, false),
+            new Backwards(initial).toYamlNode(prev),
             Matchers.is(node)
         );
     }

@@ -42,7 +42,7 @@ import org.junit.Assert;
 /**
  * Unit tests for {@link WellIndented}.
  * @author Mihai Andronache
- * @version $Id$
+ * @version $Id: 9d61a6dad127ff271ab1628cb01c16a7ce6b7187 $
  * @since 3.1.2
  */
 public final class WellIndentedTest {
@@ -70,9 +70,9 @@ public final class WellIndentedTest {
         final YamlLines lines = Mockito.mock(YamlLines.class);
         final YamlLine prev = Mockito.mock(YamlLine.class);
         final YamlNode result = Mockito.mock(YamlNode.class);
-        Mockito.when(lines.toYamlNode(prev, false)).thenReturn(result);
+        Mockito.when(lines.toYamlNode(prev)).thenReturn(result);
         MatcherAssert.assertThat(
-            new WellIndented(lines).toYamlNode(prev, false),
+            new WellIndented(lines).toYamlNode(prev),
             Matchers.is(result)
         );
     }

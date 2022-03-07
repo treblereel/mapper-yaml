@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Unit tests for {@link ReflectedYamlMapping}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 90ebb0becdd0461f458d20a542cd2f003bbffeed $
  * @since 4.3.3
  */
 public final class ReflectedYamlMappingTest {
@@ -105,14 +105,6 @@ public final class ReflectedYamlMappingTest {
             mapping.yamlMapping("grades"),
             Matchers.instanceOf(ReflectedYamlMapping.class)
         );
-    }
-
-    /**
-     * Use the wrong object to construct a sequence - non-collection or array.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void throwsExceptionWhenWrongObject() {
-        new ReflectedYamlMapping(new String[] {"wrong"});
     }
 
     /**

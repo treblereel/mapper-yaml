@@ -39,7 +39,7 @@ import org.junit.Test;
  * in {@link YamlSequence}.
  * @checkstyle JavadocMethod (300 lines)
  * @author Mihai Andronache
- * @version $Id$
+ * @version $Id: 61dd1b636f3e1bcbb9d5b4a9a025d194a1f907e4 $
  * @since 3.1.1
  */
 public final class YamlSequenceTypeCastingTestCase {

@@ -27,6 +27,8 @@
  */
 package com.amihaiemil.eoyaml;
 
+import java.util.Iterator;
+
 /**
  * Read Yaml literal block Scalar. This is a Scalar spanning multiple lines.
  * This Scalar's lines will be treated as separate lines and won't be folded
@@ -38,7 +40,7 @@ package com.amihaiemil.eoyaml;
  *     line three of the scalar
  * </pre>
  * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id$
+ * @version $Id: 67474478b627b55c60f9a5910ad86820367a240a $
  * @since 1.0.2
  *
  */
@@ -87,17 +89,6 @@ final class ReadLiteralBlockScalar extends BaseScalar {
             new Skip(
                 lines,
                 line -> line.number() <= previous.number(),
-                line -> {
-                    final YamlLine key = previous;
-                    final Skip.Line skipLine = (Skip.Line) line;
-                    if(skipLine.indentation() == key.indentation()) {
-                        // mark that we finished the block by storing the
-                        // block's key line
-                        skipLine.store(key);
-                    }
-                    // if the key is set then we can safely skip remaining lines
-                    return skipLine.getStored().equals(key);
-                },
                 line -> line.trimmed().endsWith("|"),
                 line -> line.trimmed().startsWith("---"),
                 line -> line.trimmed().startsWith("..."),
@@ -113,10 +104,12 @@ final class ReadLiteralBlockScalar extends BaseScalar {
      */
     public String value() {
         StringBuilder builder = new StringBuilder();
-        for (final YamlLine yamlLine: this.significant) {
-            int previousIndent = previous.indentation();
-            builder.append(yamlLine.contents(Math.max(previousIndent, 0)));
-            builder.append(System.lineSeparator());
+        final Iterator<YamlLine> linesIt = this.significant.iterator();
+        while(linesIt.hasNext()) {
+            builder.append(linesIt.next().trimmed());
+            if(linesIt.hasNext()) {
+                builder.append(Utils.lineSeparator());
+            }
         }
         return builder.toString();
     }
@@ -124,31 +117,28 @@ final class ReadLiteralBlockScalar extends BaseScalar {
     @Override
     public Comment comment() {
         return new ReadComment(
-            //@checkstyle LineLength (50 lines)
-            new Backwards(
-                new FirstCommentFound(
-                    new Backwards(
-                        new Skip(
-                            this.all,
-                            line -> {
-                                final boolean skip;
-                                if(this.previous.number() < 0) {
-                                    if(this.significant.iterator().hasNext()) {
-                                        skip = line.number() >= this.significant
-                                                .iterator().next().number();
-                                    } else {
-                                        skip = false;
-                                    }
+            new FirstCommentFound(
+                new Backwards(
+                    new Skip(
+                        this.all,
+                        line -> {
+                            final boolean skip;
+                            if(this.previous.number() < 0) {
+                                if(this.significant.iterator().hasNext()) {
+                                    skip = line.number() >= this.significant
+                                            .iterator().next().number();
                                 } else {
-                                    skip = line.number() >= this.previous.number();
+                                    skip = false;
                                 }
-                                return skip;
-                            },
-                            line -> line.trimmed().startsWith("---"),
-                            line -> line.trimmed().startsWith("..."),
-                            line -> line.trimmed().startsWith("%"),
-                            line -> line.trimmed().startsWith("!!")
-                        )
+                            } else {
+                                skip = line.number() >= this.previous.number();
+                            }
+                            return skip;
+                        },
+                        line -> line.trimmed().startsWith("---"),
+                        line -> line.trimmed().startsWith("..."),
+                        line -> line.trimmed().startsWith("%"),
+                        line -> line.trimmed().startsWith("!!")
                     )
                 )
             ),

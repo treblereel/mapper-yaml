@@ -38,16 +38,11 @@ import java.util.*;
  * but we are not allowed to have default implementations of java.lang.Object
  * methods.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 7450487421a81126a50eab74769488b8af3571fd $
  * @since 4.0.0
  */
 public abstract class BaseYamlMapping
     extends BaseYamlNode implements YamlMapping {
-
-    @Override
-    public final Node type() {
-        return Node.MAPPING;
-    }
 
     @Override
     public final int hashCode() {
@@ -139,7 +134,7 @@ public abstract class BaseYamlMapping
     }
 
     @Override
-    public final boolean isEmpty() {
+    final boolean isEmpty() {
         return this.keys().isEmpty();
     }
 }

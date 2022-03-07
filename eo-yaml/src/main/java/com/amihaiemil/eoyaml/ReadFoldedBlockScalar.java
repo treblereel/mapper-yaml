@@ -42,7 +42,7 @@ import java.util.List;
  *     lines for readability
  * </pre>
  * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id$
+ * @version $Id: 0c945eb27d22af6a727de674f7cbfef99019bf53 $
  * @since 1.0.2
  */
 final class ReadFoldedBlockScalar extends BaseFoldedScalar {
@@ -107,7 +107,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
      */
     private boolean doNotEndWithNewLine(final StringBuilder builder) {
         return builder.length() > 0
-                && !builder.toString().endsWith(System.lineSeparator());
+                && !builder.toString().endsWith(Utils.lineSeparator());
     }
     /**
      * Value of this scalar.
@@ -115,7 +115,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
      */
     public String value() {
         StringBuilder builder = new StringBuilder();
-        final String newLine = System.lineSeparator();
+        final String newLine = Utils.lineSeparator();
         for(final YamlLine line: this.significant) {
             if(line.trimmed().length() == 0 || line.indentation() > 0) {
                 if(this.doNotEndWithNewLine(builder)) {
@@ -139,32 +139,29 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     @Override
     public Comment comment() {
-        //@checkstyle LineLength (50 lines)
         return new ReadComment(
-            new Backwards(
-                new FirstCommentFound(
-                    new Backwards(
-                        new Skip(
-                            this.all,
-                            line -> {
-                                final boolean skip;
-                                if(this.previous.number() < 0) {
-                                    if(this.significant.iterator().hasNext()) {
-                                        skip = line.number() >= this.significant
-                                                .iterator().next().number();
-                                    } else {
-                                        skip = false;
-                                    }
+            new FirstCommentFound(
+                new Backwards(
+                    new Skip(
+                        this.all,
+                        line -> {
+                            final boolean skip;
+                            if(this.previous.number() < 0) {
+                                if(this.significant.iterator().hasNext()) {
+                                    skip = line.number() >= this.significant
+                                            .iterator().next().number();
                                 } else {
-                                    skip = line.number() >= this.previous.number();
+                                    skip = false;
                                 }
-                                return skip;
-                            },
-                            line -> line.trimmed().startsWith("---"),
-                            line -> line.trimmed().startsWith("..."),
-                            line -> line.trimmed().startsWith("%"),
-                            line -> line.trimmed().startsWith("!!")
-                        )
+                            } else {
+                                skip = line.number() >= this.previous.number();
+                            }
+                            return skip;
+                        },
+                        line -> line.trimmed().startsWith("---"),
+                        line -> line.trimmed().startsWith("..."),
+                        line -> line.trimmed().startsWith("%"),
+                        line -> line.trimmed().startsWith("!!")
                     )
                 )
             ),

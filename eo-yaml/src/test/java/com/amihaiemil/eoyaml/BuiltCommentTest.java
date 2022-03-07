@@ -35,7 +35,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link BuiltComment}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 627ad875a23e96e7c3a99843df9fd8f7fb3d7179 $
  * @since 4.2.0
  */
 public final class BuiltCommentTest {

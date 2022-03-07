@@ -27,14 +27,12 @@
  */
 package com.amihaiemil.eoyaml;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * YamlSequence read from somewhere.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: dcaf8cd0c90b1dc05aed7c4b81af329823e18e84 $
  * @since 1.0.0
  */
 final class ReadYamlSequence extends BaseYamlSequence {
@@ -67,30 +65,11 @@ final class ReadYamlSequence extends BaseYamlSequence {
     private final YamlLines significant;
 
     /**
-     * If set to true we will try to guess the correct indentation
-     * of misplaced lines.
-     */
-    private final boolean guessIndentation;
-
-    /**
      * Ctor.
      * @param lines Given lines.
      */
     ReadYamlSequence(final AllYamlLines lines) {
-        this(lines, false);
-    }
-
-    /**
-     * Ctor.
-     * @param lines Given lines.
-     * @param guessIndentation If set to true, we will try to
-     *  guess the correct indentation of misplaced lines.
-     */
-    ReadYamlSequence(
-        final AllYamlLines lines,
-        final boolean guessIndentation
-    ) {
-        this(new YamlLine.NullYamlLine(), lines, guessIndentation);
+        this(new YamlLine.NullYamlLine(), lines);
     }
 
     /**
@@ -99,21 +78,6 @@ final class ReadYamlSequence extends BaseYamlSequence {
      * @param lines Given lines.
      */
     ReadYamlSequence(final YamlLine previous, final AllYamlLines lines) {
-        this(previous, lines, false);
-    }
-
-    /**
-     * Ctor.
-     * @param previous Line just before the start of this sequence.
-     * @param lines Given lines.
-     * @param guessIndentation If set to true, we will try to guess the
-     *  correct indentation of misplaced lines.
-     */
-    ReadYamlSequence(
-        final YamlLine previous,
-        final AllYamlLines lines,
-        final boolean guessIndentation
-    ) {
         this.previous = previous;
         this.all = lines;
         this.significant = new SameIndentationLevel(
@@ -126,58 +90,23 @@ final class ReadYamlSequence extends BaseYamlSequence {
                     line -> line.trimmed().startsWith("..."),
                     line -> line.trimmed().startsWith("%"),
                     line -> line.trimmed().startsWith("!!")
-                ),
-                guessIndentation
+                )
             )
         );
-        this.guessIndentation = guessIndentation;
     }
 
     @Override
     public Collection<YamlNode> values() {
         final List<YamlNode> kids = new LinkedList<>();
-        final boolean foldedSequence = this.previous.trimmed().matches(
-            "^.*\\|.*\\-$"
-        );
         for(final YamlLine line : this.significant) {
             final String trimmed = line.trimmed();
-            if(foldedSequence || trimmed.startsWith("-")) {
-                if ("-".equals(trimmed)
-                    || trimmed.endsWith("|")
-                    || trimmed.endsWith(">")
-                ) {
-                    kids.add(
-                            this.significant.toYamlNode(
-                                    line, this.guessIndentation
-                            )
-                    );
-                } else if (trimmed.matches("^-[ ]*\\{}")) {
-                    kids.add(new EmptyYamlMapping(new ReadYamlMapping(
-                            line.number(),
-                            this.all.line(line.number()),
-                            this.all,
-                            this.guessIndentation
-                    )));
-                } else if (trimmed.matches("^-[ ]*\\[]")) {
-                    kids.add(new EmptyYamlSequence(new ReadYamlSequence(
-                            this.all.line(line.number()),
-                            this.all,
-                            this.guessIndentation
-                    )));
-                } else {
-                    if(this.mappingStartsAtDash(line)) {
-                        kids.add(
-                            new ReadYamlMapping(
-                                line.number() + 1,
-                                this.all.line(line.number() - 1),
-                                this.all,
-                                this.guessIndentation
-                            )
-                        );
-                    } else {
-                        kids.add(new ReadPlainScalar(this.all, line));
-                    }
-                }
+            if("-".equals(trimmed)
+                || trimmed.endsWith("|")
+                || trimmed.endsWith(">")
+            ) {
+                kids.add(this.significant.toYamlNode(line));
+            } else {
+                kids.add(new ReadPlainScalar(this.all, line));
             }
         }
         return kids;
@@ -185,50 +114,34 @@ final class ReadYamlSequence extends BaseYamlSequence {
 
     @Override
     public Comment comment() {
-        boolean documentComment = this.previous.number() < 0;
-        //@checkstyle LineLength (50 lines)
         return new ReadComment(
-            new Backwards(
-                new FirstCommentFound(
-                    new Backwards(
-                        new Skip(
-                            this.all,
-                            line -> {
-                                final boolean skip;
-                                if(documentComment) {
-                                    if(this.significant.iterator().hasNext()) {
-                                        skip = line.number() >= this.significant
-                                                .iterator().next().number();
-                                    } else {
-                                        skip = false;
-                                    }
+            new FirstCommentFound(
+                new Backwards(
+                    new Skip(
+                        this.all,
+                        line -> {
+                            final boolean skip;
+                            if(this.previous.number() < 0) {
+                                if(this.significant.iterator().hasNext()) {
+                                    skip = line.number() >= this.significant
+                                            .iterator().next().number();
                                 } else {
-                                    skip = line.number() >= this.previous.number();
+                                    skip = false;
                                 }
-                                return skip;
-                            },
-                            line -> line.trimmed().startsWith("..."),
-                            line -> line.trimmed().startsWith("%"),
-                            line -> line.trimmed().startsWith("!!")
-                        )
-                    ),
-                    documentComment
+                            } else {
+                                skip = line.number() >= this.previous.number();
+                            }
+                            return skip;
+                        },
+                        line -> line.trimmed().startsWith("---"),
+                        line -> line.trimmed().startsWith("..."),
+                        line -> line.trimmed().startsWith("%"),
+                        line -> line.trimmed().startsWith("!!")
+                    )
                 )
             ),
             this
         );
     }
 
-    /**
-     * Returns true if there's a YamlMapping starting right after the
-     * dash, on the same line.
-     * @param dashLine Line.
-     * @return True of false.
-     */
-    private boolean mappingStartsAtDash(final YamlLine dashLine) {
-        final String trimmed = dashLine.trimmed();
-        final boolean escapedScalar = trimmed.matches("^[ ]*\\-[ ]*\".*\"$")
-            || trimmed.matches("^[ ]*\\-[ ]*\'.*\'$");
-        return trimmed.matches("^.*\\-.*\\:.*$") && !escapedScalar;
-    }
 }

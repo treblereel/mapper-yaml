@@ -35,7 +35,7 @@ import org.mockito.Mockito;
 /**
  * Unit Tests for {@link CachedYamlLine}.
  * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id$
+ * @version $Id: b70007d88459685e8116662b05c8918907569a85 $
  * @since 1.0.0
  *
  */
@@ -78,19 +78,5 @@ public final class CachedYamlLineTest {
         YamlLine cachedLine = new CachedYamlLine(mock);
         MatcherAssert.assertThat(cachedLine.indentation(), Matchers.is(12));
         MatcherAssert.assertThat(cachedLine.indentation(), Matchers.is(12));
-    }
-
-    /**
-     * CachedIndentedLine caches contents value and doesn't recalculate it.
-     */
-    @Test
-    public void cachesContentValue() {
-        YamlLine mock = Mockito.mock(YamlLine.class);
-        Mockito.when(mock.contents(12))
-                .thenReturn("this line")
-                .thenThrow(new RuntimeException());
-        YamlLine line = new CachedYamlLine(mock);
-        MatcherAssert.assertThat(line.contents(12), Matchers.is("this line"));
-        MatcherAssert.assertThat(line.contents(12), Matchers.is("this line"));
     }
 }

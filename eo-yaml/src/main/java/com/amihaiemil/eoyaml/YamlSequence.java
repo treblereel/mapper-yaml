@@ -27,9 +27,6 @@
  */
 package com.amihaiemil.eoyaml;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -38,7 +35,7 @@ import java.util.Iterator;
  * A Yaml sequence.
  * @checkstyle ReturnCount (400 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 68d9eef07b5e32f27e1c498d4a749161dd84534c $
  * @since 1.0.0
  */
 public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
@@ -150,7 +147,7 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
             if(count == index && (node instanceof Scalar)) {
                 value = Arrays.asList(
                     ((Scalar) node)
-                        .value().split(System.lineSeparator())
+                        .value().split(Utils.lineSeparator())
                 );
                 break;
             }
@@ -248,12 +245,13 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
      * </pre>
      * @param index The index of the value.
      * @return Found LocalDate.
-     * @throws DateTimeParseException - if the Scalar value cannot be parsed.
+     * @throws java.time.format.DateTimeParseException - if the Scalar value cannot be parsed.
      */
-    default LocalDate date(final int index) {
+    @GwtIncompatible
+    default java.time.LocalDate date(final int index) {
         final String value = this.string(index);
         if(value != null && !value.isEmpty()) {
-            return LocalDate.parse(value);
+            return java.time.LocalDate.parse(value);
         }
         return null;
     }
@@ -267,12 +265,13 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
      * </pre>
      * @param index The index of the value.
      * @return Found LocalDateTime.
-     * @throws DateTimeParseException - if the Scalar value cannot be parsed.
+     * @throws java.time.format.DateTimeParseException - if the Scalar value cannot be parsed.
      */
-    default LocalDateTime dateTime(final int index) {
+    @GwtIncompatible
+    default java.time.LocalDateTime dateTime(final int index) {
         final String value = this.string(index);
         if(value != null && !value.isEmpty()) {
-            return LocalDateTime.parse(value);
+            return java.time.LocalDateTime.parse(value);
         }
         return null;
     }

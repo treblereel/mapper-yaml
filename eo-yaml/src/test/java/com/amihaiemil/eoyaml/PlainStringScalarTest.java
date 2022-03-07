@@ -39,7 +39,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link PlainStringScalar}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 248667c94428759815a9602cf62495a1850abb48 $
  * @since 1.0.0
  *
  */
@@ -56,36 +56,15 @@ public final class PlainStringScalarTest {
     }
 
     /**
-     * Scalar can return its inline comment.
+     * Scalar can return its comment.
      */
     @Test
-    public void returnsInlineComment() {
+    public void returnsComment() {
         final String val = "test scalar value";
         final PlainStringScalar scl = new PlainStringScalar(val, "comment");
         MatcherAssert.assertThat(
             scl.comment().value(),
             Matchers.equalTo("comment")
-        );
-        MatcherAssert.assertThat(
-            scl.comment().yamlNode(),
-            Matchers.is(scl)
-        );
-    }
-
-    /**
-     * Scalar can return its above and inline comments concatenated.
-     */
-    @Test
-    public void returnsConcatenatedComment() {
-        final String val = "test scalar value";
-        final PlainStringScalar scl = new PlainStringScalar(
-            val, "above", "inline"
-        );
-        MatcherAssert.assertThat(
-            scl.comment().value(),
-            Matchers.equalTo(
-                "above" + System.lineSeparator() + "inline"
-            )
         );
         MatcherAssert.assertThat(
             scl.comment().yamlNode(),
@@ -124,7 +103,6 @@ public final class PlainStringScalarTest {
         PlainStringScalar second = new PlainStringScalar("java");
         PlainStringScalar digits = new PlainStringScalar("123");
         PlainStringScalar otherDigits = new PlainStringScalar("124");
-        PlainStringScalar nullScalar = new PlainStringScalar(null);
         MatcherAssert.assertThat(first.compareTo(first), Matchers.equalTo(0));
         MatcherAssert.assertThat(first.compareTo(second), Matchers.equalTo(0));
         MatcherAssert.assertThat(
@@ -135,12 +113,6 @@ public final class PlainStringScalarTest {
         );
         MatcherAssert.assertThat(
             digits.compareTo(otherDigits), Matchers.lessThan(0)
-        );
-        MatcherAssert.assertThat(
-            first.compareTo(nullScalar), Matchers.greaterThan(0)
-        );
-        MatcherAssert.assertThat(
-            nullScalar.compareTo(first), Matchers.lessThan(0)
         );
     }
 

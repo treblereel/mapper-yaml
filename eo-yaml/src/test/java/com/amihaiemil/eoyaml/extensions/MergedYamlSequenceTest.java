@@ -36,7 +36,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link MergedYamlSequence}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 22403dddfe846bdd97ef704eedfcc76a35cec29a $
  * @since 4.1.0
  */
 public final class MergedYamlSequenceTest {

@@ -42,7 +42,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link RtYamlSequence}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 998c538e3d358e89959f7a0ec73e5712eb6987f4 $
  * @since 1.0.0
  */
 public final class RtYamlSequenceTest {

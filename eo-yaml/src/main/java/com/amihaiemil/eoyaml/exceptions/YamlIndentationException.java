@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml.exceptions;
 /**
  * Represents an indentation exception.
  * @author Aislan Nadrowski (aislan.nadrowski@gmail.com)
- * @version $Id$
+ * @version $Id: 4b5b2fcc87a82ea4c103898bf9f735b59e0a06bc $
  * @since 3.1.5
  */
 public final class YamlIndentationException extends RuntimeException {

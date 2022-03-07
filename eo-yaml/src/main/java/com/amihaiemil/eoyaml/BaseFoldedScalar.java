@@ -35,7 +35,7 @@ import java.util.List;
  * method returns the folded value whereas in printing, we need to use the
  * original, unfolded one.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 1315c2500e8709343e55b467bb0f17fa7924a668 $
  * @since 4.3.1
  */
 abstract class BaseFoldedScalar extends BaseScalar {

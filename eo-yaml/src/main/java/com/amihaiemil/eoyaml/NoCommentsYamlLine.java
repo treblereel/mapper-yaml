@@ -27,56 +27,83 @@
  */
 package com.amihaiemil.eoyaml;
 
-import java.util.Set;
-
 /**
- * Decorator for a {@link YamlMapping} which throws
- * YamlNodenotFoundException, instead of returning null,
- * if a given key doesn't exist in the mapping, or if it points
- * to a different type of node than the demanded one.<br><br>
- * It is based on the fail-fast and null-is-bad idea <br>
- * see here: http://www.yegor256.com/2014/05/13/why-null-is-bad.html
- * @deprecated This class will be moved to the extensions package in one
- *  of the future releases. There will be no changes to it other than a
- *  more suitable package.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
- * @since 1.0.0
+ * A decorator class for YamlLine to remove comments from a given YamlLine.
+ * @author Sherif Waly (sherifwaly95@gmail.com)
+ * @version $Id: 60c1a54acbda759ccc044ad1124415ddd7459f81 $
+ * @since 1.0.1
+ *
  */
-@Deprecated
-public final class StrictYamlMapping extends BaseYamlMapping {
+final class NoCommentsYamlLine implements YamlLine {
 
     /**
-     * Original YamlMapping.
+     * Original line.
      */
-    private YamlMapping decorated;
+    private YamlLine line;
 
     /**
      * Ctor.
-     * @param decorated Original YamlMapping
+     * @param line Original YamlLine
      */
-    public StrictYamlMapping(final YamlMapping decorated) {
-        this.decorated = decorated;
+    NoCommentsYamlLine(final YamlLine line) {
+        this.line = line;
     }
 
     @Override
-    public Set<YamlNode> keys() {
-        return this.decorated.keys();
+    public int compareTo(final YamlLine other) {
+        return this.line.compareTo(other);
     }
 
+    /**
+     * Trim the comments off.
+     * @return String
+     */
     @Override
-    public YamlNode value(final YamlNode key) {
-        YamlNode found = this.decorated.value(key);
-        if (found == null) {
-            throw new YamlNodeNotFoundException(
-                "No YAML found for key " + key
-            );
+    public String trimmed() {
+        String trimmed = this.line.trimmed();
+        int i = 0;
+        while(i < trimmed.length()) {
+            if(trimmed.charAt(i) == '#') {
+                trimmed = trimmed.substring(0, i);
+                break;
+            } else if(trimmed.charAt(i) == '"') {
+                i++;
+                while(i < trimmed.length() && trimmed.charAt(i) != '"') {
+                    i++;
+                }
+            } else if(trimmed.charAt(i) == '\'') {
+                i++;
+                while(i < trimmed.length() && trimmed.charAt(i) != '\'') {
+                    i++;
+                }
+            }
+            i++;
         }
-        return found;
+        return trimmed.trim();
     }
 
     @Override
-    public Comment comment() {
-        return this.decorated.comment();
+    public String comment() {
+        return "";
+    }
+
+    @Override
+    public int number() {
+        return this.line.number();
+    }
+
+    @Override
+    public int indentation() {
+        return this.line.indentation();
+    }
+
+    @Override
+    public boolean requireNestedIndentation() {
+        return new RtYamlLine(this.trimmed(), 0).requireNestedIndentation();
+    }
+
+    @Override
+    public String toString() {
+        return this.line.toString();
     }
 }

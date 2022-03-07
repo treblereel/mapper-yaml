@@ -27,26 +27,17 @@
  */
 package com.amihaiemil.eoyaml;
 
-import com.amihaiemil.eoyaml.exceptions.YamlReadingException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Unit tests for {@link RtYamlLine}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 76a7bf7bb7d492b21bdce9cb0108e634f4e6b847 $
  * @since 1.0.0
  */
 public final class RtYamlLineTest {
-    /**
-     * Expect no exceptions thrown in tests.
-     */
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     /**
      * RtYamlLine knows its number.
@@ -179,11 +170,8 @@ public final class RtYamlLineTest {
 
     /**
      * RtYamlLine can trim off the anchors.
-     * This test is ignored until Issue 374 gets fixed
-     * properly. At the moment, we do small workaround.
      */
     @Test
-    @Ignore
     public void trimsAnchorOff() {
         YamlLine line = new RtYamlLine("this: line  &anc ", 0);
         MatcherAssert.assertThat(
@@ -198,42 +186,5 @@ public final class RtYamlLineTest {
     public void knowsIndentation() {
         YamlLine line = new RtYamlLine("this: line", 5);
         MatcherAssert.assertThat(line.indentation(), Matchers.is(0));
-    }
-
-    /**
-     * RtYamlLine ignores previous indentation if line isn't indented.
-     */
-    @Test
-    public void contentsInline() {
-        YamlLine line = new RtYamlLine("this: line ", 5);
-        MatcherAssert.assertThat(
-                line.contents(-1),
-                Matchers.equalTo("this: line "));
-    }
-
-    /**
-     * RtYamlLine throws exception if indented but previous doesn't match.
-     */
-    @Test
-    public void badIndentationForContent() {
-        thrown.expect(YamlReadingException.class);
-        thrown.expectMessage("Literal must be indented at least 2 spaces"
-                + " from previous element.");
-        YamlLine line = new RtYamlLine("  this: line", 5);
-        MatcherAssert.assertThat(
-                line.contents(4),
-                Matchers.is(0));
-    }
-
-    /**
-     * RtYamlLine if literal is indented more than the previous extract the
-     * string.
-     */
-    @Test
-    public void correctIndentationForContent() {
-        YamlLine line = new RtYamlLine("      this: line  ", 5);
-        MatcherAssert.assertThat(
-                line.contents(4),
-                Matchers.equalTo("this: line  "));
     }
 }

@@ -41,7 +41,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link RtYamlStreamBuilder.BuiltYamlStream}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: bbf23df1db7f8e473a6504f3706b0a9a2ee6108a $
  * @since 3.1.1
  *
  */

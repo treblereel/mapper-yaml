@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Unit tests for {@link FirstCommentFound}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 22d57c4b9df4a4b84a83707d2247f19892d332e2 $
  * @since 4.2.0
  */
 public final class FirstCommentFoundTest {
@@ -66,9 +66,9 @@ public final class FirstCommentFoundTest {
         final YamlLines initial = Mockito.mock(YamlLines.class);
         final YamlLine prev = Mockito.mock(YamlLine.class);
         final YamlNode node = Mockito.mock(YamlNode.class);
-        Mockito.when(initial.toYamlNode(prev, false)).thenReturn(node);
+        Mockito.when(initial.toYamlNode(prev)).thenReturn(node);
         MatcherAssert.assertThat(
-            new FirstCommentFound(initial).toYamlNode(prev, false),
+            new FirstCommentFound(initial).toYamlNode(prev),
             Matchers.is(node)
         );
     }
@@ -132,21 +132,5 @@ public final class FirstCommentFoundTest {
                 new AllYamlLines(lines)
         );
         MatcherAssert.assertThat(comment, Matchers.emptyIterable());
-    }
-
-    /**
-     * {@link FirstCommentFound} returns the comment when called multiple
-     *  times - check we re-parse correctly.
-     */
-    @Test
-    public void findCommentsMultipleTimes() {
-        final List<YamlLine> lines = new ArrayList<>();
-        lines.add(new RtYamlLine("# two", 0));
-        lines.add(new RtYamlLine("three: three", 1));
-        final YamlLines comment = new FirstCommentFound(
-                new AllYamlLines(lines)
-        );
-        MatcherAssert.assertThat(comment, Matchers.iterableWithSize(1));
-        MatcherAssert.assertThat(comment, Matchers.iterableWithSize(1));
     }
 }

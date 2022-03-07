@@ -27,22 +27,14 @@
  */
 package com.amihaiemil.eoyaml;
 
-import com.amihaiemil.eoyaml.exceptions.YamlReadingException;
-
 /**
  * YAML node.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: a4b38b7ec4b54049b096f9b2843e7d2dc383f4eb $
  * @since 1.0.0
  * @see <a href="http://yaml.org/spec/1.2/spec.html#node/">Spec1.2/node</a>
  */
 public interface YamlNode extends Comparable<YamlNode> {
-
-    /**
-     * Is this YamlNode empty?
-     * @return True or false.
-     */
-    boolean isEmpty();
 
     /**
      * Comment referring to this Node.
@@ -51,63 +43,5 @@ public interface YamlNode extends Comparable<YamlNode> {
      */
     Comment comment();
 
-    /**
-     * Type of the node.
-     * @return Node type.
-     */
-    Node type();
-
-    /**
-     * Gives a String value of the node.
-     * @return String value of the node.
-     * @throws YamlReadingException If the node type is not
-     *  Scalar.
-     * @throws ClassCastException   If the node type couldn't
-     *  defined correctly.
-     */
-    Scalar asScalar() throws YamlReadingException, ClassCastException;
-
-    /**
-     * Gives a Mapping value of the node.
-     * @return Mapping value of the node.
-     * @throws YamlReadingException If the node type is not
-     *  Mapping.
-     * @throws ClassCastException   If the node type couldn't
-     *  defined correctly.
-     */
-    YamlMapping asMapping() throws YamlReadingException, ClassCastException;
-
-    /**
-     * Gives a Sequence value of the node.
-     * @return Sequence value of the node.
-     * @throws YamlReadingException If the node type is not
-     *  Sequence.
-     * @throws ClassCastException   If the node type couldn't
-     *  defined correctly.
-     */
-    YamlSequence asSequence() throws YamlReadingException, ClassCastException;
-
-    /**
-     * Gives a Stream value of the node.
-     * @return Stream value of the node.
-     * @throws YamlReadingException If the node type is not
-     *  Stream.
-     * @throws ClassCastException   If the node type couldn't
-     *  defined correctly.
-     */
-    YamlStream asStream() throws YamlReadingException, ClassCastException;
-
-    /**
-     * Gives the {@link T} instance from node class and node type.
-     * @param clazz Requested a {@link YamlNode} class.
-     * @param type Requested a {@link Node}.
-     * @param <T> Requested a {@link YamlNode} class instance.
-     * @return Requested a {@link YamlNode}.
-     * @throws YamlReadingException If the type is not a {@link T}.
-     * @throws ClassCastException   If the node type couldn't
-     *  defined correctly.
-     */
-    <T extends YamlNode> T asClass(Class<T> clazz, Node type)
-        throws YamlReadingException, ClassCastException;
 
 }

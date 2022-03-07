@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Unit tests for {@link ReadComment}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 19fc8dd9a1de2c4e95a5a4a8eed17aeffaa14e27 $
  * @since 4.2.0
  */
 public final class ReadCommentTest {
@@ -62,12 +62,11 @@ public final class ReadCommentTest {
      */
     @Test
     public void returnsValueFromEmptyLines() {
-        Comment readComment = new ReadComment(
-            new AllYamlLines(new ArrayList<>()),
-            Mockito.mock(YamlNode.class)
-        );
         MatcherAssert.assertThat(
-            readComment.value(),
+            new ReadComment(
+                new AllYamlLines(new ArrayList<>()),
+                Mockito.mock(YamlNode.class)
+            ).value(),
             Matchers.isEmptyString()
         );
     }
@@ -79,12 +78,11 @@ public final class ReadCommentTest {
     public void returnsValueFromSingleLine() {
         final List<YamlLine> lines = new ArrayList<>();
         lines.add(new RtYamlLine("# comment line", 0));
-        Comment readComment = new ReadComment(
-            new AllYamlLines(lines),
-            Mockito.mock(YamlNode.class)
-        );
         MatcherAssert.assertThat(
-            readComment.value(),
+            new ReadComment(
+                new AllYamlLines(lines),
+                Mockito.mock(YamlNode.class)
+            ).value(),
             Matchers.equalTo("comment line")
         );
     }
@@ -103,12 +101,11 @@ public final class ReadCommentTest {
             .append("comment").append(System.lineSeparator())
             .append("on multiple").append(System.lineSeparator())
             .append("lines");
-        Comment readComment = new ReadComment(
-            new AllYamlLines(lines),
-            Mockito.mock(YamlNode.class)
-        );
         MatcherAssert.assertThat(
-            readComment.value(),
+            new ReadComment(
+                new AllYamlLines(lines),
+                Mockito.mock(YamlNode.class)
+            ).value(),
             Matchers.equalTo(expected.toString())
         );
     }
@@ -132,31 +129,11 @@ public final class ReadCommentTest {
             .append("on multiple").append(System.lineSeparator())
             .append(System.lineSeparator())
             .append("lines");
-        Comment readComment = new ReadComment(
-            new AllYamlLines(lines),
-            Mockito.mock(YamlNode.class)
-        );
         MatcherAssert.assertThat(
-            readComment.value(),
-            Matchers.equalTo(expected.toString())
-        );
-    }
-
-    /**
-     * ReadComment can return a comment starting on a different line.
-     */
-    @Test
-    public void singleLineCommentStartingOnTheSecondLine() {
-        final List<YamlLine> lines = new ArrayList<>();
-        lines.add(new RtYamlLine("# comment", 1));
-        final StringBuilder expected = new StringBuilder();
-        expected.append("comment");
-        Comment readComment = new ReadComment(
-            new AllYamlLines(lines),
-            Mockito.mock(YamlNode.class)
-        );
-        MatcherAssert.assertThat(
-            readComment.value(),
+            new ReadComment(
+                new AllYamlLines(lines),
+                Mockito.mock(YamlNode.class)
+            ).value(),
             Matchers.equalTo(expected.toString())
         );
     }

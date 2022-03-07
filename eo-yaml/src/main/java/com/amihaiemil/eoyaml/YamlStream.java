@@ -43,7 +43,7 @@ import java.util.stream.*;
  * @checkstyle ParameterName (400 lines)
  * @checkstyle FinalParameters (400 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: aad913b2279664e8464f5d0a6f56bb4658687351 $
  * @since 3.1.1
  */
 public interface YamlStream extends YamlNode, Stream<YamlNode> {

@@ -36,7 +36,7 @@ import java.util.Iterator;
  * referring to the key:value pairs. In the case of a sequence,
  * these are the comments referring to its elements.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 16cbafd276747fbce4bc4b83aaab37f59bad5bdf $
  * @since 4.2.0
  */
 interface Comments extends Iterable<Comment> {
@@ -65,7 +65,7 @@ interface Comments extends Iterable<Comment> {
      * Empty comments. Use this as an alternative to null, when you have no
      * Comments to give.
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id$
+     * @version $Id: 16cbafd276747fbce4bc4b83aaab37f59bad5bdf $
      * @since 4.2.0
      */
     class Empty implements Comments {

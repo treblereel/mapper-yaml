@@ -33,7 +33,7 @@ import java.util.Iterator;
 /**
  * Iterable yaml lines.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: bf79eb54baf3d7018c50f20a1f9da60a9743ca03 $
  * @since 1.0.0
  */
 interface YamlLines extends Iterable<YamlLine> {
@@ -50,18 +50,18 @@ interface YamlLines extends Iterable<YamlLine> {
     /**
      * Turn these lines into a YamlNode.
      * @param prev Previous YamlLine
-     * @param guessIndentation If set to true, we will try to guess
-     *  the correct indentation of misplaced lines.
      * @return YamlNode
      */
-    YamlNode toYamlNode(final YamlLine prev, final boolean guessIndentation);
+    YamlNode toYamlNode(final YamlLine prev);
 
     /**
      * Default iterator which doesn't skip any line,
      * iterates over all of them.
      * @return Iterator of YamlLine.
      */
-    Iterator<YamlLine> iterator();
+    default Iterator<YamlLine> iterator() {
+        return this.original().iterator();
+    }
 
     /**
      * Get a certain YamlLine.

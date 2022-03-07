@@ -35,9 +35,10 @@ import java.util.List;
 /**
  * YamlSequence reflected from a Collection or an array of Object.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: bf7105fd4a67657a10207dedcd0d6354f62aab9b $
  * @since 4.3.3
  */
+@GwtIncompatible
 final class ReflectedYamlSequence extends BaseYamlSequence {
 
     /**

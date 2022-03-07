@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Unit tests for {@link StartMarkers}.
  * @author Mihai Andronache(amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: c7e20096df85dc687417665e983eb23a4a0c8db1 $
  * @since 3.1.4
  */
 public final class StartMarkersTest {
@@ -68,9 +68,9 @@ public final class StartMarkersTest {
         final YamlLines lines = Mockito.mock(YamlLines.class);
         final YamlLine prev = Mockito.mock(YamlLine.class);
         final YamlNode result = Mockito.mock(YamlNode.class);
-        Mockito.when(lines.toYamlNode(prev, false)).thenReturn(result);
+        Mockito.when(lines.toYamlNode(prev)).thenReturn(result);
         MatcherAssert.assertThat(
-            new StartMarkers(lines).toYamlNode(prev, false),
+            new StartMarkers(lines).toYamlNode(prev),
             Matchers.is(result)
         );
     }

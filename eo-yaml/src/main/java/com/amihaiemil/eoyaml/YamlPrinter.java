@@ -32,7 +32,7 @@ import java.io.IOException;
 /**
  * YAML Printer.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 560dee29ca1faa319d79dee1ae1ebb5cabc4eff2 $
  * @since 4.3.1
  */
 public interface YamlPrinter {

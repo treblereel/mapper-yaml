@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * YAML mapping implementation (rt means runtime).
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 4a7f68598d2e4f09e027c5bdba01d3dd8f588983 $
  * @since 1.0.0
  * @see http://yaml.org/spec/1.2/spec.html#mapping//
  */

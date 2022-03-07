@@ -27,11 +27,8 @@
  */
 package com.amihaiemil.eoyaml;
 
-import static com.amihaiemil.eoyaml.YamlLine.UNKNOWN_LINE_NUMBER;
-
 import com.amihaiemil.eoyaml.exceptions.YamlReadingException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * YamlMapping read from somewhere. YAML directives and
@@ -39,7 +36,7 @@ import java.util.regex.Pattern;
  * to be a plain YAML mapping.
  * @checkstyle CyclomaticComplexity (300 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 376539b4ff560ea7f6e854e2fd988c8298ae7209 $
  * @since 1.0.0
  */
 final class ReadYamlMapping extends BaseYamlMapping {
@@ -72,54 +69,19 @@ final class ReadYamlMapping extends BaseYamlMapping {
     private final YamlLines significant;
 
     /**
-     * If set to true we will try to guess the correct indentation
-     * of misplaced lines.
-     */
-    private final boolean guessIndentation;
-
-    /**
-     * Where to stop looking for comments.
-     */
-    private final int commentStop;
-
-    /**
      * Ctor.
      * @param lines Given lines.
      */
     ReadYamlMapping(final AllYamlLines lines) {
-        this(lines, Boolean.FALSE);
+        this(new YamlLine.NullYamlLine(), lines);
     }
 
     /**
      * Ctor.
-     * @param lines Given lines.
-     * @param guessIndentation If true, we will try to guess the correct
-     *  indentation of misplaced lines.
-     */
-    ReadYamlMapping(
-        final AllYamlLines lines,
-        final boolean guessIndentation
-    ) {
-        this(UNKNOWN_LINE_NUMBER, new YamlLine.NullYamlLine(), lines,
-            guessIndentation);
-    }
-
-    /**
-     * Ctor.
-     * @checkstyle ParameterNumber (100 lines)
-     * @param commentStop Where to
      * @param previous Line just before the start of this mapping.
      * @param lines Given lines.
-     * @param guessIndentation If true, we will try to guess the correct
-     *  indentation of misplaced lines.
      */
-    ReadYamlMapping(
-        final int commentStop,
-        final YamlLine previous,
-        final AllYamlLines lines,
-        final boolean guessIndentation
-    ) {
-        this.commentStop = commentStop;
+    ReadYamlMapping(final YamlLine previous, final AllYamlLines lines) {
         this.previous = previous;
         this.all = lines;
         this.significant = new SameIndentationLevel(
@@ -132,47 +94,37 @@ final class ReadYamlMapping extends BaseYamlMapping {
                     line -> line.trimmed().startsWith("..."),
                     line -> line.trimmed().startsWith("%"),
                     line -> line.trimmed().startsWith("!!")
-                ),
-                guessIndentation
+                )
             )
         );
-        this.guessIndentation = guessIndentation;
     }
 
     @Override
     public Set<YamlNode> keys() {
         final Set<YamlNode> keys = new LinkedHashSet<>();
-        YamlLine prev = new YamlLine.NullYamlLine();
         for (final YamlLine line : this.significant) {
             final String trimmed = line.trimmed();
-            if(trimmed.startsWith(":")
-                || (trimmed.startsWith("-")
-                        && !(prev instanceof YamlLine.NullYamlLine))
-            ) {
+            if(trimmed.startsWith(":")) {
                 continue;
             } else if ("?".equals(trimmed)) {
-                keys.add(
-                    this.significant.toYamlNode(line, this.guessIndentation)
-                );
+                keys.add(this.significant.toYamlNode(line));
             } else {
                 if(!trimmed.contains(":")) {
-                    continue;
+                    throw new YamlReadingException(
+                        "Expected scalar key on line " 
+                        + (line.number() + 1) + "."
+                        + " The line should have the format " 
+                        + "'key: value' or 'key:'. "
+                        + "Instead, the line is: "
+                        + "[" + line.trimmed() + "]."
+                    );
                 }
-                final String key;
-                if(trimmed.startsWith("-")) {
-                    key = trimmed.substring(
-                        1, trimmed.indexOf(":")
-                    ).trim();
-                } else {
-                    key = trimmed.substring(
-                        0, trimmed.indexOf(":")
-                    ).trim();
-                }
+                final String key = trimmed.substring(
+                        0, trimmed.indexOf(":")).trim();
                 if(!key.isEmpty()) {
                     keys.add(new PlainStringScalar(key));
                 }
             }
-            prev = line;
         }
         return keys;
     }
@@ -190,34 +142,30 @@ final class ReadYamlMapping extends BaseYamlMapping {
 
     @Override
     public Comment comment() {
-        boolean documentComment = this.previous.number() < 0;
-        //@checkstyle LineLength (50 lines)
         return new ReadComment(
-            new Backwards(
-                new FirstCommentFound(
-                    new Backwards(
-                        new Skip(
-                            this.all,
-                            line -> {
-                                final boolean skip;
-                                if(documentComment) {
-                                    if(this.significant.iterator().hasNext()) {
-                                        skip = line.number() >= this.significant
-                                                .iterator().next().number();
-                                    } else {
-                                        skip = false;
-                                    }
+            new FirstCommentFound(
+                new Backwards(
+                    new Skip(
+                        this.all,
+                        line -> {
+                            final boolean skip;
+                            if(this.previous.number() < 0) {
+                                if(this.significant.iterator().hasNext()) {
+                                    skip = line.number() >= this.significant
+                                            .iterator().next().number();
                                 } else {
-                                    skip = line.number() >= commentStop;
+                                    skip = false;
                                 }
-                                return skip;
-                            },
-                            line -> line.trimmed().startsWith("..."),
-                            line -> line.trimmed().startsWith("%"),
-                            line -> line.trimmed().startsWith("!!")
-                        )
-                    ),
-                    documentComment
+                            } else {
+                                skip = line.number() >= this.previous.number();
+                            }
+                            return skip;
+                        },
+                        line -> line.trimmed().startsWith("---"),
+                        line -> line.trimmed().startsWith("..."),
+                        line -> line.trimmed().startsWith("%"),
+                        line -> line.trimmed().startsWith("!!")
+                    )
                 )
             ),
             this
@@ -228,52 +176,23 @@ final class ReadYamlMapping extends BaseYamlMapping {
      * The YamlNode value associated with a String (scalar) key.
      * @param key String key.
      * @return YamlNode.
-     * @checkstyle ReturnCount (50 lines)
-     * @checkstyle LineLength (30 lines)
      */
     private YamlNode valueOfStringKey(final String key) {
         YamlNode value = null;
-        final String[] keys = new String[] {
-            key,
-            "\"" + key + "\"",
-            "'" + key + "'",
-        };
-        for(final String tryKey : keys) {
-            for (final YamlLine line : this.significant) {
-                final String trimmed = line.trimmed();
-                if(trimmed.matches("^-?[ ]*" + Pattern.quote(tryKey) + ":")
-                    || trimmed.matches("^" + Pattern.quote(tryKey) + ":[ ]*>$")
-                    || trimmed.matches("^" + Pattern.quote(tryKey) + ":[ ]*\\|[+-]?$")
-                ) {
-                    value = this.significant.toYamlNode(
-                        line, this.guessIndentation
-                    );
-                } else if (trimmed.matches(tryKey + ":[ ]*\\{}")) {
-                    value = new EmptyYamlMapping(new ReadYamlMapping(
-                            line.number(),
-                            this.all.line(line.number()),
-                            this.all,
-                            this.guessIndentation
-                    ));
-                } else if (trimmed.matches(tryKey + ":[ ]*\\[]")) {
-                    value = new EmptyYamlSequence(new ReadYamlSequence(
-                            this.all.line(line.number()),
-                            this.all,
-                            this.guessIndentation
-                    ));
-                } else if((trimmed.startsWith(tryKey + ":")
-                        || trimmed.startsWith("- " + tryKey + ":"))
-                        && trimmed.length() > 1
-                ) {
-                    value = new ReadPlainScalar(this.all, line);
-                }
-
-                if(value != null) {
-                    return value;
-                }
+        for (final YamlLine line : this.significant) {
+            final String trimmed = line.trimmed();
+            if(trimmed.endsWith(key + ":")
+                || trimmed.matches("^" + key + "\\:[ ]*\\>$")
+                || trimmed.matches("^" + key + "\\:[ ]*\\|$")
+            ) {
+                value = this.significant.toYamlNode(line);
+            } else if(trimmed.startsWith(key + ":")
+                && trimmed.length() > 1
+            ) {
+                value = new ReadPlainScalar(this.all, line);
             }
         }
-        return null;
+        return value;
     }
 
     /**
@@ -289,18 +208,14 @@ final class ReadYamlMapping extends BaseYamlMapping {
             final YamlLine line = linesIt.next();
             final String trimmed = line.trimmed();
             if("?".equals(trimmed)) {
-                final YamlNode keyNode = this.significant.toYamlNode(
-                    line, this.guessIndentation
-                );
+                final YamlNode keyNode = this.significant.toYamlNode(line);
                 if(keyNode.equals(key)) {
                     final YamlLine colonLine = linesIt.next();
                     if(":".equals(colonLine.trimmed())
                         || colonLine.trimmed().matches("^\\:[ ]*\\>$")
                         || colonLine.trimmed().matches("^\\:[ ]*\\|$")
                     ) {
-                        value = this.significant.toYamlNode(
-                            colonLine, this.guessIndentation
-                        );
+                        value = this.significant.toYamlNode(colonLine);
                     } else if(colonLine.trimmed().startsWith(":")
                         && (colonLine.trimmed().length() > 1)
                     ){
@@ -308,8 +223,8 @@ final class ReadYamlMapping extends BaseYamlMapping {
                     } else {
                         throw new YamlReadingException(
                             "No value found for existing complex key: "
-                          + System.lineSeparator()
-                          + key.toString()
+                          + Utils.lineSeparator()
+                          + ((BaseYamlNode) key).toString()
                         );
                     }
                     break;

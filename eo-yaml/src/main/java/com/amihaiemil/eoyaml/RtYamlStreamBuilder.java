@@ -35,7 +35,7 @@ import java.util.List;
  * YamlStreamBuilder implementation. "Rt" stands for "Runtime".
  * This class is immutable and thread-safe.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
  * @since 3.1.1
  */
 final class RtYamlStreamBuilder implements YamlStreamBuilder {
@@ -76,7 +76,7 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
     /**
      * Built YamlStream.
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id$
+     * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
      * @since 3.1.1
      */
     static class BuiltYamlStream extends BaseYamlStream {

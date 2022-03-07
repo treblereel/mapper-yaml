@@ -43,7 +43,7 @@ import java.util.List;
  *  ); //Iterates only over the lines which have the same indentation.
  * </pre>
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 497093c75e0f577cb28e792adf105da5019b8c17 $
  * @since 3.0.2
  */
 final class SameIndentationLevel implements YamlLines {
@@ -76,15 +76,11 @@ final class SameIndentationLevel implements YamlLines {
             final List<YamlLine> sameIndentation = new ArrayList<>();
             final YamlLine first = iterator.next();
             sameIndentation.add(first);
-            int firstIndentation = first.indentation();
-            if(this.mappingStartsAtDash(first)) {
-                firstIndentation += 2;
-            }
             while (iterator.hasNext()) {
                 YamlLine current = iterator.next();
-                if(current.indentation() == firstIndentation) {
+                if(current.indentation() == first.indentation()) {
                     sameIndentation.add(current);
-                } else if (current.indentation() < firstIndentation) {
+                } else if (current.indentation() < first.indentation()) {
                     break;
                 }
             }
@@ -99,24 +95,8 @@ final class SameIndentationLevel implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(
-        final YamlLine prev,
-        final boolean guessIndentation
-    ) {
-        return this.yamlLines.toYamlNode(prev, guessIndentation);
-    }
-
-    /**
-     * Returns true if there's a YamlMapping starting right after the
-     * dash, on the same line.
-     * @param dashLine Line.
-     * @return True of false.
-     */
-    private boolean mappingStartsAtDash(final YamlLine dashLine) {
-        final String trimmed = dashLine.trimmed();
-        final boolean escapedScalar = trimmed.matches("^[ ]*\\-[ ]*\".*\"$")
-            || trimmed.matches("^[ ]*\\-[ ]*\'.*\'$");
-        return trimmed.matches("^[ ]*\\-.*\\:.+$") && !escapedScalar;
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
     }
 
 }

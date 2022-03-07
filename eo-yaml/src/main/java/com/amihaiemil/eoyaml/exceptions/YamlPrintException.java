@@ -34,7 +34,7 @@ import java.io.IOException;
  * runtime exception is thrown, encapsulating the original
  * IOException.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 672155148c8e1e640e4d98a3f6ec66f21bc6bfe7 $
  * @since 4.3.1
  */
 public final class YamlPrintException extends RuntimeException {

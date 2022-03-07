@@ -38,7 +38,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link SameIndentationLevel}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: b7ef3730757811752b63c83c36d9bdcb1221ad7c $
  * @since 3.0.2
  */
 public final class SameIndentationLevelTestCase {

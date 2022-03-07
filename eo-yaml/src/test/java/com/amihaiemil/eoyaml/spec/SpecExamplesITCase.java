@@ -39,7 +39,7 @@ import org.junit.Test;
  * It tests the spec 1.2 examples.
  *
  * @author Aislan Nadrowski (aislan.nadrowski@gmail.com)
- * @version $Id$
+ * @version $Id: c5f7d40f3b737d371d448c866816c822de85b752 $
  * @since 4.3.6
  *
  * @todo #336:30min Add more tests to cover all the examples from the 

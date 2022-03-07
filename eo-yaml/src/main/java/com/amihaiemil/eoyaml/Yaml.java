@@ -27,17 +27,12 @@
  */
 package com.amihaiemil.eoyaml;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import java.io.*;
-
 /**
  * Yaml.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 2f4f35a1734bc30075ad48e30403afe1c1efb08b $
  * @since 1.0.0
- * @todo #231:60min Wiki documentation is needed for YAML mappings from JSON.
- *  (fromJsonObject() and fromJsonArray()).
+ *
  */
 public final class Yaml {
 
@@ -82,30 +77,12 @@ public final class Yaml {
      * Create a {@link YamlInput} from a File.
      * @return YamlInput, reader of Yaml.
      * @param input File to read from.
-     * @throws FileNotFoundException If the file is not found.
+     * @throws java.io.FileNotFoundException If the file is not found.
      */
-    public static YamlInput createYamlInput(final File input)
-        throws FileNotFoundException {
-        return Yaml.createYamlInput(input, Boolean.FALSE);
-    }
-
-    /**
-     * Create a {@link YamlInput} from a File.
-     * @return YamlInput, reader of Yaml.
-     * @param input File to read from.
-     * @param guessIndentation If set to true, we will try to guess the correct
-     *  indentation of misplaced lines. The default value is false
-     *  and an exception is thrown if indentation is not correct.
-     * @throws FileNotFoundException If the file is not found.
-     */
-    public static YamlInput createYamlInput(
-        final File input,
-        final boolean guessIndentation
-    ) throws FileNotFoundException {
-        return Yaml.createYamlInput(
-            new FileInputStream(input),
-            guessIndentation
-        );
+    @GwtIncompatible
+    public static YamlInput createYamlInput(final java.io.File input)
+        throws java.io.FileNotFoundException {
+        return Yaml.createYamlInput(new java.io.FileInputStream(input));
     }
 
     /**
@@ -114,24 +91,8 @@ public final class Yaml {
      * @return YamlInput, reader of Yaml.
      */
     public static YamlInput createYamlInput(final String input) {
-        return Yaml.createYamlInput(input, Boolean.FALSE);
-    }
-
-    /**
-     * Create a {@link YamlInput} from a String.
-     * @param input String to read from.
-     * @param guessIndentation If set to true, we will try to guess the correct
-     *  indentation of misplaced lines. The default value is false
-     *  and an exception is thrown if indentation is not correct.
-     * @return YamlInput, reader of Yaml.
-     */
-    public static YamlInput createYamlInput(
-        final String input,
-        final boolean guessIndentation
-    ) {
         return Yaml.createYamlInput(
-            new ByteArrayInputStream(input.getBytes()),
-            guessIndentation
+            new java.io.ByteArrayInputStream(input.getBytes())
         );
     }
 
@@ -140,23 +101,8 @@ public final class Yaml {
      * @param input InputStream to read from.
      * @return YamlInput, reader of Yaml.
      */
-    public static YamlInput createYamlInput(final InputStream input) {
-        return Yaml.createYamlInput(input, Boolean.FALSE);
-    }
-
-    /**
-     * Create a {@link YamlInput} from an InputStream.
-     * @param input InputStream to read from.
-     * @param guessIndentation If set to true, we will try to guess the correct
-     *  indentation of misplaced lines. The default value is false
-     *  and an exception is thrown if indentation is not correct.
-     * @return YamlInput, reader of Yaml.
-     */
-    public static YamlInput createYamlInput(
-        final InputStream input,
-        final boolean guessIndentation
-    ) {
-        return new RtYamlInput(input, guessIndentation);
+    public static YamlInput createYamlInput(final java.io.InputStream input) {
+        return new RtYamlInput(input);
     }
 
     /**
@@ -172,7 +118,8 @@ public final class Yaml {
      * @param destination Writer where the YamlNode will be printed.
      * @return YamlPrinter.
      */
-    public static YamlPrinter createYamlPrinter(final Writer destination) {
+    @GwtIncompatible
+    public static YamlPrinter createYamlPrinter(final java.io.Writer destination) {
         return new RtYamlPrinter(destination);
     }
 
@@ -181,25 +128,8 @@ public final class Yaml {
      * @param object Object to dump.
      * @return YamlDump.
      */
+    @GwtIncompatible
     public static YamlDump createYamlDump(final Object object) {
         return new ReflectedYamlDump(object);
-    }
-
-    /**
-     * Create a YAML mapping from a {@link JsonObject}.
-     * @param object JsonObject in question.
-     * @return YamlMapping.
-     */
-    public static YamlMapping fromJsonObject(final JsonObject object) {
-        return new JsonYamlMapping(object);
-    }
-
-    /**
-     * Create a YAML sequence from a {@link JsonArray}.
-     * @param array JsonArray in question.
-     * @return YamlSequence.
-     */
-    public static YamlSequence fromJsonArray(final JsonArray array){
-        return new JsonYamlSequence(array);
     }
 }

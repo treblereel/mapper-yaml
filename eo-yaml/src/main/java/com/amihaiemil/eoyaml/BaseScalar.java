@@ -35,15 +35,10 @@ package com.amihaiemil.eoyaml;
  * but we are not allowed to have default implementations of java.lang.Object
  * methods.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: f29a77218517327e3c8ff2795426bc17abdc49eb $
  * @since 4.0.0
  */
 abstract class BaseScalar extends BaseYamlNode implements Scalar {
-
-    @Override
-    public final Node type() {
-        return Node.SCALAR;
-    }
 
     /**
      * Equality of two objects.
@@ -108,7 +103,7 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
     }
 
     @Override
-    public final boolean isEmpty() {
-        return this.value() == null || this.value().isEmpty();
+    final boolean isEmpty() {
+        return this.value() == null || this.value().trim().isEmpty();
     }
 }

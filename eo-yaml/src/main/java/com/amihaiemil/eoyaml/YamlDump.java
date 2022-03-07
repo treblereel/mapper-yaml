@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml;
 /**
  * In YAML, "dumping" means representing the state of an Object as YAML.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 31e32467ccd9f865ee17cbc4342df72a114f938e $
  * @since 4.3.3
  */
 public interface YamlDump {

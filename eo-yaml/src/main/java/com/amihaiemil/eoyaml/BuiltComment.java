@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml;
 /**
  * This is a comment used when building YAML.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 75bfa5906b35525e908a0f53d4a36457fe04501a $
  * @since 4.2.0
  */
 class BuiltComment implements Comment {

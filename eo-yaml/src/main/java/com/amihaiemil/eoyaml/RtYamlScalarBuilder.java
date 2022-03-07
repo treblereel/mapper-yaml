@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * Implementation for {@link YamlScalarBuilder}. "Rt" stands for "Runtime.
  * This class is immutable and thread-safe.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: f17b8fb221296c86bfe360ffff4481ca4526bd5a $
  * @since 4.0.0
  */
 final class RtYamlScalarBuilder implements YamlScalarBuilder {
@@ -70,11 +70,11 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
     }
 
     @Override
-    public Scalar buildPlainScalar(final String above, final String inline) {
+    public Scalar buildPlainScalar(final String comment) {
         final String plain = this.lines.stream().filter(line -> line!=null).map(
-            line -> line.replaceAll(System.lineSeparator(), " ")
+            line -> line.replaceAll(Utils.lineSeparator(), " ")
         ).collect(Collectors.joining(" "));
-        return new PlainStringScalar(plain, above, inline);
+        return new PlainStringScalar(plain, comment);
     }
 
     @Override
@@ -90,7 +90,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
     /**
      * A built folded block Scalar.
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id$
+     * @version $Id: f17b8fb221296c86bfe360ffff4481ca4526bd5a $
      * @since 4.0.0
      */
     static class BuiltFoldedBlockScalar extends BaseFoldedScalar {
@@ -137,7 +137,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
         @Override
         public String value() {
             return this.lines.stream().map(
-                line -> line.replaceAll(System.lineSeparator(), " ")
+                line -> line.replaceAll(Utils.lineSeparator(), " ")
             ).collect(Collectors.joining(" "));
         }
 
@@ -157,7 +157,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
     /**
      * A built literal block Scalar.
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id$
+     * @version $Id: f17b8fb221296c86bfe360ffff4481ca4526bd5a $
      * @since 4.0.0
      */
     static class BuiltLiteralBlockScalar extends BaseScalar {
@@ -200,7 +200,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
         @Override
         public String value() {
             return this.lines.stream().collect(
-                Collectors.joining(System.lineSeparator())
+                Collectors.joining(Utils.lineSeparator())
             );
         }
 

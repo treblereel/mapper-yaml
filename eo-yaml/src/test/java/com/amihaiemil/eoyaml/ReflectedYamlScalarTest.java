@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link ReflectedYamlScalar}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: c382b40007aa0532f0688b845eab5269c1e91fcf $
  * @since 4.3.3
  */
 public final class ReflectedYamlScalarTest {

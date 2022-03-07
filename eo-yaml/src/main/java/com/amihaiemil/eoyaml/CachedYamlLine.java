@@ -31,7 +31,7 @@ package com.amihaiemil.eoyaml;
  * Decorator class to cache values of trimmed() and indentation() method for
  * a YamlLine.
  * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id$
+ * @version $Id: 0c17524800cdf33b78d3fa7b46d0cbd69a4bf4eb $
  * @since 1.0.0
  *
  */
@@ -46,11 +46,6 @@ final class CachedYamlLine implements YamlLine {
      * Cached trimmed line.
      */
     private String trimmed;
-
-    /**
-     * Cached contents line.
-     */
-    private String contents;
 
     /**
      * Cached indentation.
@@ -81,14 +76,6 @@ final class CachedYamlLine implements YamlLine {
             this.trimmed = this.line.trimmed();
         }
         return this.trimmed;
-    }
-
-    @Override
-    public String contents(final int previousIndent) {
-        if(this.contents == null) {
-            this.contents = this.line.contents(previousIndent);
-        }
-        return this.contents;
     }
 
     @Override

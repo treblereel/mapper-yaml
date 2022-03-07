@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * YamlLines which are being iterated backwards.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: cb174edb971cd35dea5e20d4a8b6a9084c5a9266 $
  * @since 4.2.0
  */
 final class Backwards implements YamlLines {
@@ -56,11 +56,8 @@ final class Backwards implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(
-        final YamlLine prev,
-        final boolean guessIndentation
-    ) {
-        return this.lines.toYamlNode(prev, guessIndentation);
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.lines.toYamlNode(prev);
     }
 
     @Override

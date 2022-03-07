@@ -42,7 +42,7 @@ import java.util.Iterator;
  * Test cases for printing a YamlSequence together with its
  * added or read comments.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 08d321cf022f4c2d949323954ef630830610f022 $
  * @since 4.2.0
  */
 public final class YamlSequenceCommentsPrintTest {
@@ -126,102 +126,6 @@ public final class YamlSequenceCommentsPrintTest {
         MatcherAssert.assertThat(
             values.next().comment().value(),
             Matchers.equalTo("a mapping as an element of a sequence")
-        );
-    }
-
-    /**
-     * A read YamlSequence can access its document comment, as
-     * well as the comment of the very first node.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void distinguishDocumentCommentFromNodeComment() throws Exception {
-        final YamlSequence read = Yaml.createYamlInput(
-            new File(
-                "src/test/resources/sequenceWithDocumentComment.yml"
-            )
-        ).readYamlSequence();
-        MatcherAssert.assertThat(
-            read.comment().value(),
-            Matchers.equalTo("This is the document comment")
-        );
-        MatcherAssert.assertThat(
-            read.yamlMapping(0).comment().value(),
-            Matchers.equalTo("Comment referring to the mapping bellow.")
-        );
-        System.out.println(read);
-        MatcherAssert.assertThat(
-            read.toString(),
-            Matchers.equalTo(
-                this.readExpected("sequenceWithDocumentComment.yml")
-            )
-        );
-    }
-
-    /**
-     * Reads scalar comments from a sequence properly.
-     * @throws IOException If something goes wrong.
-     */
-    @Test
-    public void readsScalarComments() throws IOException {
-        final YamlSequence read = Yaml.createYamlInput(
-            new File(
-                "src/test/resources/scalarCommentsInSequence.yml"
-            )
-        ).readYamlSequence();
-        final Iterator<YamlNode> values = read.values().iterator();
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.isEmptyString()
-        );
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.equalTo("a plain scalar string in a sequence")
-        );
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.isEmptyString()
-        );
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.equalTo("a mapping as an element of a sequence")
-        );
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.equalTo(
-                "comment on top of scalar in sequence\nit's multiline"
-            )
-        );
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.isEmptyString()
-        );
-        MatcherAssert.assertThat(
-            values.next().comment().value(),
-            Matchers.equalTo(
-                "this comment refers\n"
-                + "to the element6 scalar\n"
-                + "element6 also has an inline comment"
-            )
-        );
-    }
-
-    /**
-     * A read YamlSequence should print itself together with the
-     * read scalar comments.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void printsReadYamlSequenceWithScalarComments() throws Exception {
-        final YamlSequence read = Yaml.createYamlInput(
-            new File("src/test/resources/scalarCommentsInSequence.yml")
-        ).readYamlSequence();
-        System.out.println(read);
-        MatcherAssert.assertThat(
-            read.toString(),
-            Matchers.equalTo(
-                this.readExpected("scalarCommentsInSequence.yml")
-            )
         );
     }
 

@@ -29,9 +29,6 @@ package com.amihaiemil.eoyaml;
 
 import com.amihaiemil.eoyaml.exceptions.YamlReadingException;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * YamlLines default implementation. "All" refers to the fact that
@@ -39,42 +36,13 @@ import java.util.regex.Pattern;
  * are cases where we need to iterate only over the lines which are
  * at the same indentation level and for that we use the decorator
  * {@link SameIndentationLevel}.
+ * @checkstyle ExecutableStatementCount (400 lines)
+ * @checkstyle CyclomaticComplexity (400 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 9aa2eabe5a7e96e47d05b0e4dc178d11b1b57925 $
  * @since 1.0.0
  */
 final class AllYamlLines implements YamlLines {
-
-    /**
-     * There are 3 types of nodes: scalar, sequence and mapping.  This matches
-     * either a sequence or map - no match indicates it's a scalar.
-     *
-     * Does not handle '?' mapping key or flow mapping
-     * (https://yaml.org/spec/1.2/spec.html#id2790832).
-     *
-     * A sequence (group 2) is:
-     *  - [ ]* : 0 or more spaces
-     *    - [\-](|[ ]+.*) : a dash (-) optionally followed by 1 or more
-     *      spaces and any other characters.
-     *
-     * A map (group 4) is:
-     *  - [ ]* : 0 or more spaces followed by:
-     *    - a key:
-     *      - ('(?:[^'\\]|\\.)*') : a single (') quoted string or
-     *      - ("(?:[^"\\]|\\.)*") : double (") quoted string
-     *      - ([^"']*) : a non quoted string (characters other than ' or ").
-     *        - followed by:
-     *          - :(|[ ].*) : a colon (:) optionally followed by a space
-     *            and any other characters.
-     */
-    private static final Pattern SEQUENCE_OR_MAP = Pattern.compile("^("
-            + "([\\-](|[ ]+.*))|"
-            + "((?:"
-                + "('(?:[^'\\\\]|\\\\.)*')|"
-                  + "(\"(?:[^\"\\\\]|\\\\.)*\")|"
-                  + "([^\"']*)"
-                + "):(|[ ].*))"
-            + ")$");
 
     /**
      * Yaml lines.
@@ -93,7 +61,7 @@ final class AllYamlLines implements YamlLines {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         for (final YamlLine line : this.lines) {
-            builder.append(line.toString()).append(System.lineSeparator());
+            builder.append(line.toString()).append(Utils.lineSeparator());
         }
         return builder.toString();
     }
@@ -104,49 +72,35 @@ final class AllYamlLines implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(
-        final YamlLine prev,
-        final boolean guessIndentation
-    ) {
+    public YamlNode toYamlNode(final YamlLine prev) {
         final YamlNode node;
         final String prevLine = prev.trimmed();
         if(prevLine.isEmpty()) {
-            node = this.mappingSequenceOrPlainScalar(prev, guessIndentation);
+            node = this.mappingSequenceOrPlainScalar(prev);
         } else {
             final String lastChar = prevLine.substring(prevLine.length() - 1);
-            if (prevLine.matches(Follows.FOLDED_SEQUENCE)) {
-                node = new ReadYamlSequence(prev, this, guessIndentation);
-            } else if (lastChar.equals(Follows.LITERAL_BLOCK_SCALAR)) {
+
+            if (lastChar.equals(Follows.LITERAL_BLOCK_SCALAR)) {
                 node = new ReadLiteralBlockScalar(prev, this);
             } else if (lastChar.equals(Follows.FOLDED_BLOCK_SCALAR)) {
                 node = new ReadFoldedBlockScalar(prev, this);
+            } else if (prevLine.matches(Follows.FOLDED_SEQUENCE)) {
+                node = new ReadYamlSequence(prev, this);
             } else {
-                node = this.mappingSequenceOrPlainScalar(
-                    prev, guessIndentation
-                );
+                node = this.mappingSequenceOrPlainScalar(prev);
             }
         }
         return node;
     }
 
-    @Override
-    public Iterator<YamlLine> iterator() {
-        return this.lines.iterator();
-    }
-
     /**
-     * Try to figure out what YAML node (mapping, sequence or scalar) is found
-     * after the given line.
+     * Try to figure out what YAML node (mapping, sequence or scalar) do these
+     * lines represent.
      * @param prev YamlLine just previous to the node we're trying to find.
-     * @param guessIndentation If true, we will guess the correct indentation,
-     *  if any YAML line is misplaced.
      * @return Found YamlNode.
      */
-    private YamlNode mappingSequenceOrPlainScalar(
-        final YamlLine prev,
-        final boolean guessIndentation
-    ) {
-        YamlNode node = null;
+    private YamlNode mappingSequenceOrPlainScalar(final YamlLine prev) {
+        final YamlNode node;
         final YamlLine first = new Skip(
             this,
             line -> line.number() <= prev.number(),
@@ -156,18 +110,14 @@ final class AllYamlLines implements YamlLines {
             line -> line.trimmed().startsWith("%"),
             line -> line.trimmed().startsWith("!!")
         ).iterator().next();
-        Matcher matcher = SEQUENCE_OR_MAP.matcher(first.trimmed());
-        if (matcher.matches()) {
-            if (matcher.group(2) != null) {
-                node = new ReadYamlSequence(prev, this, guessIndentation);
-            } else if (matcher.group(4) != null) {
-                node = new ReadYamlMapping(prev.number(),
-                        prev, this, guessIndentation);
-            }
-        } else if (this.original().size() == 1) {
+        if(first.trimmed().startsWith("-")) {
+            node = new ReadYamlSequence(prev, this);
+        } else if (first.trimmed().contains(":")){
+            node = new ReadYamlMapping(prev, this);
+        } else if(this.original().size() == 1) {
             node = new ReadPlainScalar(this, first);
-        }
-        if (node == null) {
+        } else {
+            System.out.println("LINE IS: [" + first.trimmed() + "]");
             throw new YamlReadingException(
                 "Could not parse YAML starting at line " + (first.number() + 1)
                 + " . It should be a sequence (line should start with '-'), "
@@ -175,8 +125,8 @@ final class AllYamlLines implements YamlLines {
                 + "scalar, but it has " + this.lines.size() + " lines, "
                 + "while a plain scalar should be only 1 line!"
             );
-        } else {
-            return node;
         }
+        return node;
     }
+
 }

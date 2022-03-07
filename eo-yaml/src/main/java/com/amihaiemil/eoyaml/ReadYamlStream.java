@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Read YAML Stream of documents.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 6872c5283ef30491bc0a8d88ffe08950a78b39ed $
  * @since 3.1.4
  */
 final class ReadYamlStream extends BaseYamlStream {
@@ -50,26 +50,10 @@ final class ReadYamlStream extends BaseYamlStream {
     private final YamlLines startMarkers;
 
     /**
-     * If set to true we will try to guess the correct indentation
-     * of misplaced lines.
-     */
-    private final boolean guessIndentation;
-
-    /**
      * Constructor.
      * @param lines All YAML lines as they are read from the input.
      */
     ReadYamlStream(final AllYamlLines lines) {
-        this(lines, false);
-    }
-
-    /**
-     * Constructor.
-     * @param lines All YAML lines as they are read from the input.
-     * @param guessIndentation If set to true, we will try to guess
-     *  the correct indentation of misplaced lines.
-     */
-    ReadYamlStream(final AllYamlLines lines, final boolean guessIndentation) {
         this.startMarkers = new WellIndented(
             new StartMarkers(
                 new Skip(
@@ -81,9 +65,9 @@ final class ReadYamlStream extends BaseYamlStream {
         );
         this.all = new Skip(
             lines,
+            line -> line.trimmed().startsWith("#"),
             line -> line.trimmed().startsWith("%")
         );
-        this.guessIndentation = guessIndentation;
     }
 
     @Override
@@ -92,11 +76,7 @@ final class ReadYamlStream extends BaseYamlStream {
         for(final YamlLine startDoc : this.startMarkers) {
             final YamlLines document = this.readDocument(startDoc);
             if(!document.original().isEmpty()) {
-                values.add(
-                    document.toYamlNode(
-                        startDoc, this.guessIndentation
-                    )
-                );
+                values.add(document.toYamlNode(startDoc));
             }
         }
         return values;
@@ -109,17 +89,11 @@ final class ReadYamlStream extends BaseYamlStream {
      */
     private YamlLines readDocument(final YamlLine start) {
         final List<YamlLine> yamlDocLines = new ArrayList<>();
-        final YamlLines docComment = new Backwards(
-            new FirstCommentFound(
-                new Backwards(
-                    new Skip(this.all, (line) -> line.number() > start.number())
-                ), true
-            )
-        );
-        for (final YamlLine line: docComment){
-            yamlDocLines.add(line);
+        final YamlLine startLine = this.all.line(start.number());
+        if(!"---".equals(startLine.trimmed())) {
+            yamlDocLines.add(startLine);
         }
-        for(final YamlLine line : this.all) {
+        for(final YamlLine line : this.all.original()) {
             if(line.number() > start.number()) {
                 final String current = line.trimmed();
                 if("---".equals(current) || "...".equals(current)) {

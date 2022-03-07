@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml;
 /**
  * A YAML comment.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: aff7134e2607b5f6db740ef27a5aed734008e092 $
  * @since 4.2.0
  */
 public interface Comment {

@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Unit tests for {@link BuiltComments}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: ee2b23a13cd4279540c5196cdd0dec7513be731a $
  * @since 4.2.0
  */
 public final class BuiltCommentsTest {

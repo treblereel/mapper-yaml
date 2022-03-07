@@ -10,14 +10,6 @@
 -
   key: value
 -
-  key: |
-    literal
-    block
-    scalar
--
   - a sequence
   - of plain scalars
   - as child
-- []
-- {}
-- " "

@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml;
 /**
  * Builder of YamlStream. Implementations should be immutable and thread-safe.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: e0fe348daa925a06849bf7c61c1845bb9bb8953a $
  * @since 3.1.1
  */
 public interface YamlStreamBuilder {

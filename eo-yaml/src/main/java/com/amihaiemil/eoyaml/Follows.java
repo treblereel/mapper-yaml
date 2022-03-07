@@ -31,7 +31,7 @@ package com.amihaiemil.eoyaml;
  * Nested Yaml types. If a YAML line ends with one
  * of these, it means a certain type of YAML Node follows.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: af6f85c38951818fe986ace378db53fce3893d7e $
  * @since 1.0.2
  */
 final class Follows {

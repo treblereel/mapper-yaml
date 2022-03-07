@@ -38,7 +38,7 @@ import java.util.List;
  * Unit tests for
  * {@link com.amihaiemil.eoyaml.RtYamlScalarBuilder.BuiltFoldedBlockScalar}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 9f3376fcc50df91864f8ad7b5af38679f10e68eb $
  * @since 4.0.0
  */
 public final class BuiltFoldedBlockScalarTest {

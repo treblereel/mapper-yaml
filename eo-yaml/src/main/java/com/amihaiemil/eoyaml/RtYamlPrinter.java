@@ -37,7 +37,7 @@ import java.util.List;
  * @checkstyle ExecutableStatementCount (400 lines)
  * @checkstyle CyclomaticComplexity (400 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: c7e0f666d0ed192c5f0173ae96345c7147204139 $
  * @since 4.3.1
  */
 final class RtYamlPrinter implements YamlPrinter {
@@ -59,21 +59,14 @@ final class RtYamlPrinter implements YamlPrinter {
     public void print(final YamlNode node) throws IOException  {
         try {
             if (node instanceof Scalar) {
-                this.writer.append("---").append(System.lineSeparator());
-                this.printPossibleComment(node, "");
+                this.writer.append("---").append(Utils.lineSeparator());
                 this.printScalar((Scalar) node, 0);
-                this.writer.append(System.lineSeparator()).append("...");
+                this.writer.append(Utils.lineSeparator()).append("...");
             } else if (node instanceof YamlSequence) {
-                boolean documentComment = this.printPossibleComment(node, "");
-                if(documentComment) {
-                    this.writer.append("---").append(System.lineSeparator());
-                }
+                this.printPossibleComment(node, "");
                 this.printSequence((YamlSequence) node, 0);
             } else if (node instanceof YamlMapping) {
-                boolean documentComment = this.printPossibleComment(node, "");
-                if(documentComment) {
-                    this.writer.append("---").append(System.lineSeparator());
-                }
+                this.printPossibleComment(node, "");
                 this.printMapping((YamlMapping) node, 0);
             } else if (node instanceof YamlStream) {
                 this.printStream((YamlStream) node, 0);
@@ -93,7 +86,7 @@ final class RtYamlPrinter implements YamlPrinter {
         final YamlStream stream,
         final int indentation
     ) throws IOException {
-        final String newLine = System.lineSeparator();
+        final String newLine = Utils.lineSeparator();
         int spaces = indentation;
         final StringBuilder indent = new StringBuilder();
         while (spaces > 0) {
@@ -123,7 +116,7 @@ final class RtYamlPrinter implements YamlPrinter {
         final YamlMapping mapping,
         final int indentation
     ) throws IOException {
-        final String newLine = System.lineSeparator();
+        final String newLine = Utils.lineSeparator();
         int spaces = indentation;
         final StringBuilder alignment = new StringBuilder();
         while (spaces > 0) {
@@ -133,16 +126,14 @@ final class RtYamlPrinter implements YamlPrinter {
         final Iterator<YamlNode> keysIt = mapping.keys().iterator();
         while(keysIt.hasNext()) {
             final YamlNode key = keysIt.next();
-            final YamlNode value = mapping.value(key);
-            this.printPossibleComment(value, alignment.toString());
+            this.printPossibleComment(key, alignment.toString());
             this.writer.append(alignment);
+            final YamlNode value = mapping.value(key);
+            if(!(value instanceof Scalar)) {
+                this.printPossibleComment(value, alignment.toString());
+            }
             if(key instanceof Scalar) {
-                this.writer.append(
-                    this.indent(
-                        new Escaped((Scalar) key).value(),
-                        0
-                    )
-                );
+                this.printScalar((Scalar) key, 0);
                 this.writer
                     .append(":");
             } else {
@@ -154,7 +145,7 @@ final class RtYamlPrinter implements YamlPrinter {
                     .append(":");
             }
             if (value instanceof Scalar) {
-                this.printNode(value, false, indentation);
+                this.printNode(value, false, 0);
             } else  {
                 this.printNode(value, true, indentation + 2);
             }
@@ -174,7 +165,7 @@ final class RtYamlPrinter implements YamlPrinter {
         final YamlSequence sequence,
         final int indentation
     ) throws IOException {
-        final String newLine = System.lineSeparator();
+        final String newLine = Utils.lineSeparator();
         int spaces = indentation;
         final StringBuilder alignment = new StringBuilder();
         while (spaces > 0) {
@@ -184,13 +175,16 @@ final class RtYamlPrinter implements YamlPrinter {
         final Iterator<YamlNode> valuesIt = sequence.values().iterator();
         while(valuesIt.hasNext()) {
             final YamlNode node = valuesIt.next();
-            this.printPossibleComment(node, alignment.toString());
-            this.writer
-                .append(alignment)
-                .append("-");
             if (node instanceof Scalar) {
+                this.writer
+                    .append(alignment)
+                    .append("-");
                 this.printNode(node, false, 0);
             } else  {
+                this.printPossibleComment(node, alignment.toString());
+                this.writer
+                    .append(alignment)
+                    .append("-");
                 this.printNode(node, true, indentation + 2);
             }
             if(valuesIt.hasNext()) {
@@ -211,11 +205,12 @@ final class RtYamlPrinter implements YamlPrinter {
     ) throws IOException {
         if (scalar instanceof BaseFoldedScalar) {
             final BaseFoldedScalar foldedScalar = (BaseFoldedScalar) scalar;
-            this.writer.append(">");
+            this.writer
+                    .append(">");
             if(!scalar.comment().value().isEmpty()) {
                 this.writer.append(" # ").append(scalar.comment().value());
             }
-            this.writer.append(System.lineSeparator());
+            this.writer.append(Utils.lineSeparator());
             final List<String> unfolded = foldedScalar.unfolded();
             for(int idx = 0; idx < unfolded.size(); idx++) {
                 this.writer.append(
@@ -225,37 +220,31 @@ final class RtYamlPrinter implements YamlPrinter {
                     )
                 );
                 if(idx < unfolded.size() - 1) {
-                    this.writer.append(System.lineSeparator());
+                    this.writer.append(Utils.lineSeparator());
                 }
             }
         } else if (scalar instanceof RtYamlScalarBuilder.BuiltLiteralBlockScalar
                 || scalar instanceof ReadLiteralBlockScalar
         ) {
-            this.writer.append("|");
+            this.writer
+                .append("|");
             if(!scalar.comment().value().isEmpty()) {
                 this.writer.append(" # ").append(scalar.comment().value());
             }
             this.writer
-                .append(System.lineSeparator())
+                .append(Utils.lineSeparator())
                 .append(
                     this.indent(scalar.value(), indentation + 2)
                 );
         } else {
-            final Comment comment = scalar.comment();
-            if(comment instanceof ScalarComment) {
-                this.writer.append(
-                    this.indent(
-                        new Escaped(scalar).value(),
-                        0
-                    )
-                );
-                final ScalarComment scalarComment = (ScalarComment) comment;
-
-                if(!scalarComment.inline().value().isEmpty()) {
-                    this.writer.append(" # ").append(
-                        scalarComment.inline().value()
-                    );
-                }
+            this.writer.append(
+                this.indent(
+                    new Escaped(scalar).value(),
+                    indentation
+                )
+            );
+            if(!scalar.comment().value().isEmpty()) {
+                this.writer.append(" # ").append(scalar.comment().value());
             }
         }
     }
@@ -273,17 +262,11 @@ final class RtYamlPrinter implements YamlPrinter {
         final boolean onNewLine,
         final int indentation
     ) throws IOException {
-        if (node == null || node.isEmpty()) {
-            if (node instanceof EmptyYamlSequence) {
-                this.writer.append(" ").append("[]");
-            } else if (node instanceof EmptyYamlMapping) {
-                this.writer.append(" ").append("{}");
-            } else {
-                this.writer.append(" ").append("null");
-            }
+        if(node == null || ((BaseYamlNode) node).isEmpty()) {
+            this.writer.append(" ").append("null");
         } else {
             if (onNewLine) {
-                this.writer.append(System.lineSeparator());
+                this.writer.append(Utils.lineSeparator());
             } else {
                 this.writer.append(" ");
             }
@@ -305,35 +288,25 @@ final class RtYamlPrinter implements YamlPrinter {
      * line.
      * @param node Node containing the Comment.
      * @param alignment Indentation.
-     * @return True if a comment was printed, false otherwise.
      * @throws IOException If any I/O problem occurs.
      */
-    private boolean printPossibleComment(
+    private void printPossibleComment(
         final YamlNode node,
         final String alignment
     ) throws IOException {
-        boolean printed = false;
-        if(node != null && node.comment() != null) {
-            final Comment tmpComment;
-            if(node.comment() instanceof ScalarComment) {
-                tmpComment = ((ScalarComment) node.comment()).above();
-            } else {
-                tmpComment = node.comment();
-            }
-            final String com = tmpComment.value();
+        if(node != null) {
+            final String com = node.comment().value();
             if (com.trim().length() != 0) {
-                String[] lines = com.split(System.lineSeparator());
+                String[] lines = com.split(Utils.lineSeparator());
                 for (final String line : lines) {
                     this.writer
                             .append(alignment)
                             .append("# ")
                             .append(line)
-                            .append(System.lineSeparator());
+                            .append(Utils.lineSeparator());
                 }
-                printed = true;
             }
         }
-        return printed;
     }
 
     /**
@@ -350,13 +323,13 @@ final class RtYamlPrinter implements YamlPrinter {
             alignment.append(" ");
             spaces--;
         }
-        String[] lines = value.split(System.lineSeparator());
+        String[] lines = value.split(Utils.lineSeparator());
         StringBuilder printed = new StringBuilder();
         for(int idx = 0; idx < lines.length; idx++) {
             printed.append(alignment);
             printed.append(lines[idx]);
             if(idx < lines.length - 1) {
-                printed.append(System.lineSeparator());
+                printed.append(Utils.lineSeparator());
             }
         }
         return printed.toString();
@@ -365,10 +338,15 @@ final class RtYamlPrinter implements YamlPrinter {
     /**
      * A scalar which escapes its value.
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id$
+     * @version $Id: c7e0f666d0ed192c5f0173ae96345c7147204139 $
      * @since 4.3.1
      */
     static class Escaped extends BaseScalar {
+
+        /**
+         * Special chars that need escaping.
+         */
+        private final String RESERVED = "#:->|$%&";
 
         /**
          * Original unescaped scalar.
@@ -386,14 +364,25 @@ final class RtYamlPrinter implements YamlPrinter {
         @Override
         public String value() {
             final String value = this.original.value();
-            String escaped = value;
-            boolean quoted = (value.startsWith("'") && value.endsWith("'"))
-                    || (value.startsWith("\"") && value.endsWith("\""));
-            if (!quoted && value.matches(".*[?\\-#:>|$%&{}\\[\\]]+.*|[ ]+")) {
-                if(value.contains("\"")) {
-                    escaped = "'" + value + "'";
-                } else {
-                    escaped = "\"" + value + "\"";
+            String escaped = null;
+            if(value.startsWith("'") && value.endsWith("'")
+                || value.startsWith("\"") && value.endsWith("\"")
+            ) {
+                escaped = value;
+            } else {
+                for (int idx = 0; idx < value.length(); idx++){
+                    if(RESERVED.contains(
+                        String.valueOf(value.charAt(idx)))) {
+                        if(value.contains("\"")) {
+                            escaped = "'" + value + "'";
+                        } else {
+                            escaped = "\"" + value + "\"";
+                        }
+                        break;
+                    }
+                }
+                if(escaped == null) {
+                    escaped = value;
                 }
             }
             return escaped;

@@ -46,29 +46,10 @@ import java.io.IOException;
  * but it's better to also have a dedicated test class.
  * @checkstyle LineLength (300 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 541ddacff69a6196109254ebf072fd0a3bee1a36 $
  * @since 4.0.0
  */
 public final class YamlMappingPrintTest {
-
-    /**
-     * We read a YamlMapping containing indented nodes and comments
-     * and print it.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void printsReadYamlMappingWithIndentedComment() throws Exception {
-        final YamlMapping read = Yaml.createYamlInput(
-            new File("src/test/resources/printing_tests/yamlMappingIndentedComments.yml")
-        ).readYamlMapping();
-        MatcherAssert.assertThat(
-            read.toString(),
-            Matchers.equalTo(
-                this.readExpected("yamlMappingIndentedComments.yml")
-            )
-        );
-    }
-
     /**
      * We read a YamlMapping containing all types of
      * YamlNode we have so far and print it.
@@ -127,16 +108,6 @@ public final class YamlMappingPrintTest {
                     .build()
             )
             .add(
-                "key6",
-                Yaml.createYamlMappingBuilder()
-                    .build()
-            )
-            .add(
-                "key7",
-                Yaml.createYamlSequenceBuilder()
-                    .build()
-            )
-            .add(
                 Yaml.createYamlSequenceBuilder()
                     .add("Atlanta Braves")
                     .add("New York Yankees")
@@ -163,7 +134,7 @@ public final class YamlMappingPrintTest {
     }
 
     /**
-     * An empty YamlSequence value is printed as empty sequence ([]).
+     * An empty YamlSequence value is printed as null.
      */
     @Test
     public void printsEmptySequenceAsNull() {
@@ -175,7 +146,7 @@ public final class YamlMappingPrintTest {
         final StringBuilder expected = new StringBuilder();
         expected
             .append("key: value1").append(System.lineSeparator())
-            .append("seq: []").append(System.lineSeparator())
+            .append("seq: null").append(System.lineSeparator())
             .append("anotherKey: value2");
         MatcherAssert.assertThat(
             map.toString(),
@@ -206,7 +177,7 @@ public final class YamlMappingPrintTest {
     }
 
     /**
-     * An empty YamlMapping value is printed as empty mapping ({}).
+     * An empty YamlMapping value is printed as null.
      */
     @Test
     public void printsEmptyMappingAsNull() {
@@ -218,7 +189,7 @@ public final class YamlMappingPrintTest {
         final StringBuilder expected = new StringBuilder();
         expected
             .append("key: value1").append(System.lineSeparator())
-            .append("map: {}").append(System.lineSeparator())
+            .append("map: null").append(System.lineSeparator())
             .append("anotherKey: value2");
         MatcherAssert.assertThat(
             map.toString(),
@@ -323,64 +294,6 @@ public final class YamlMappingPrintTest {
         );
     }
 
-    /**
-     * Duplication of the test case described https://github.com/decorators-squad/eo-yaml/issues/396 where a sequence
-     * inside a map duplicated the comment.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void printsReadYamlDuplicatedComments() throws Exception {
-        final YamlMapping read = Yaml.createYamlInput(
-                new File("src/test/resources/printing_tests/yamlDuplicatedComments.txt")
-        ).readYamlMapping();
-        MatcherAssert.assertThat(
-                read.toString(),
-                Matchers.equalTo(
-                        this.readExpected("yamlDuplicatedCommentsRoundTrip.txt")
-                )
-        );
-    }
-
-    /**
-     * When a map and sequence .
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void printsReadYamlCommentsOnMapOrSequence() throws Exception {
-        final YamlMapping read = Yaml.createYamlInput(
-            new File(
-                "src/test/resources/printing_tests/yamlCommentsOnMapOrSeq.txt")
-        ).readYamlMapping();
-        MatcherAssert.assertThat(
-                read.toString(),
-                Matchers.equalTo(
-                        this.readExpected("yamlCommentsOnMapOrSeqRoundTrip.txt")
-                )
-        );
-    }
-
-    /**
-     * When on separate lines we can distinguish which node to apply the
-     * comment to.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void printsReadYamlCommentsOnMapAndSequence() throws Exception {
-        final YamlMapping read = Yaml.createYamlInput(
-            new File(
-                "src/test/resources/printing_tests/yamlCommentsOnMapAndSeq.txt")
-        ).readYamlMapping();
-        MatcherAssert.assertThat(
-                read.toString(),
-                Matchers.equalTo(
-                        this.readExpected(
-                                "yamlCommentsOnMapAndSeqRoundTrip.txt")
-                )
-        );
-    }
 
     /**
      * Read a test resource file's contents.

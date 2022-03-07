@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Unit tests for {@link Skip}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 13f54dd0f72debb6908b7316cc1eec8d699d2973 $
  * @since 4.2.0
  */
 public final class SkipTest {
@@ -167,9 +167,9 @@ public final class SkipTest {
         final YamlLines initial = Mockito.mock(YamlLines.class);
         final YamlLine prev = Mockito.mock(YamlLine.class);
         final YamlNode node = Mockito.mock(YamlNode.class);
-        Mockito.when(initial.toYamlNode(prev, false)).thenReturn(node);
+        Mockito.when(initial.toYamlNode(prev)).thenReturn(node);
         MatcherAssert.assertThat(
-            new Skip(initial).toYamlNode(prev, false),
+            new Skip(initial).toYamlNode(prev),
             Matchers.is(node)
         );
     }

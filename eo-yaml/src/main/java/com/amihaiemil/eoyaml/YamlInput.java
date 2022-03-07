@@ -32,7 +32,7 @@ import java.io.IOException;
 /**
  * Yaml input.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: b2f1463fc24dde66e8e44f98ed2bd40afd37ba56 $
  * @since 1.0.0
  */
 public interface YamlInput {

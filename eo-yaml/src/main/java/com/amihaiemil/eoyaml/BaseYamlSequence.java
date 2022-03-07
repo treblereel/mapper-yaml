@@ -37,16 +37,11 @@ import java.util.*;
  * but we are not allowed to have default implementations of java.lang.Object
  * methods.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 61e318c050cc68d3147b3664c0568058abfb19e8 $
  * @since 4.0.0
  */
 public abstract class BaseYamlSequence
     extends BaseYamlNode implements YamlSequence {
-
-    @Override
-    public final Node type() {
-        return Node.SEQUENCE;
-    }
 
     @Override
     public final int hashCode() {
@@ -125,7 +120,7 @@ public abstract class BaseYamlSequence
     }
 
     @Override
-    public final boolean isEmpty() {
+    final boolean isEmpty() {
         return this.values().isEmpty();
     }
 }

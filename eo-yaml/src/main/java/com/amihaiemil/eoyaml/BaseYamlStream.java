@@ -38,15 +38,10 @@ import java.util.Iterator;
  * but we are not allowed to have default implementations of java.lang.Object
  * methods.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 4bab463fc8d514c1d25e39098ed0fb7aaff90ff1 $
  * @since 4.0.0
  */
 abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
-
-    @Override
-    public final Node type() {
-        return Node.STREAM;
-    }
 
     @Override
     public int hashCode() {
@@ -126,7 +121,7 @@ abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
     }
 
     @Override
-    public final boolean isEmpty() {
+    final boolean isEmpty() {
         return this.values().isEmpty();
     }
 }

@@ -35,7 +35,7 @@ package com.amihaiemil.eoyaml;
  * {@link ReadPlainScalar}!
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: e30e1b2a445853208af79cca6a1c997795b98a8a $
  * @since 1.0.0
  * @see http://yaml.org/spec/1.2/spec.html#scalar//
  */
@@ -61,31 +61,12 @@ final class PlainStringScalar extends BaseScalar {
 
     /**
      * Ctor.
+     * @param comment Comment referring to this Scalar.
      * @param value Given value for this scalar.
-     * @param inline Comment inline with the scalar (after it).
      */
-    PlainStringScalar(final String value, final String inline) {
-        this(value, "", inline);
-    }
-
-    /**
-     * Ctor.
-     * @param value Given value for this scalar.
-     * @param above Comment above the scalar.
-     * @param inline Comment inline with the scalar.
-     */
-    PlainStringScalar(
-        final String value, final String above, final String inline
-    ) {
+    PlainStringScalar(final String value, final String comment) {
         this.value = value;
-        this.comment = new Concatenated(
-            new BuiltComment(
-                this, above
-            ),
-            new InlineComment(
-                new BuiltComment(this, inline)
-            )
-        );
+        this.comment = new BuiltComment(this, comment);
     }
 
     /**

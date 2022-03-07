@@ -36,9 +36,10 @@ import java.util.*;
  * YamlMapping reflected from a Java Bean.
  * @checkstyle BooleanExpressionComplexity (300 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: b09d17a137ca82e387dfec05a86595db90e3e39f $
  * @since 4.3.3
  */
+@GwtIncompatible
 final class ReflectedYamlMapping extends BaseYamlMapping {
 
     /**

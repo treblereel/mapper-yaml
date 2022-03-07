@@ -34,7 +34,7 @@ import java.util.Map;
  * YamlMappingBuilder implementation. "Rt" stands for "Runtime".
  * This class is immutable and thread-safe.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 30539bbe4deda6ffbde194a845e465a1b4b80c20 $
  * @since 1.0.0
  *
  */
@@ -80,7 +80,7 @@ final class RtYamlMappingBuilder implements YamlMappingBuilder {
 
     @Override
     public YamlMappingBuilder add(final YamlNode key, final YamlNode value) {
-        if(key == null || key.isEmpty()) {
+        if(key == null || ((BaseYamlNode) key).isEmpty()) {
             throw new IllegalArgumentException(
                 "The key in YamlMapping cannot be null or empty!"
             );
@@ -93,11 +93,7 @@ final class RtYamlMappingBuilder implements YamlMappingBuilder {
 
     @Override
     public YamlMapping build(final String comment) {
-        YamlMapping mapping = new RtYamlMapping(this.pairs, comment);
-        if (pairs.isEmpty()) {
-            mapping = new EmptyYamlMapping(mapping);
-        }
-        return mapping;
+        return new RtYamlMapping(this.pairs, comment);
     }
 
 }

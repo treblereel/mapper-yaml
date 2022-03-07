@@ -40,7 +40,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link ReadYamlSequence}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 0651f548ed5a60122182a2af4b2bda5194dcbff3 $
  * @since 1.0.0
  *
  */
@@ -48,7 +48,6 @@ public final class ReadYamlSequenceTest {
 
     /**
      * ReadYamlSequence can return the YamlMapping from a given index.
-     * The YamlMapping starts after the dash line.
      */
     @Test
     public void returnsYamlMappingFromIndex(){
@@ -69,71 +68,6 @@ public final class ReadYamlSequenceTest {
         MatcherAssert.assertThat(alfa, Matchers.instanceOf(YamlMapping.class));
         MatcherAssert.assertThat(
             alfa.yamlMapping("alfa").string("key"), Matchers.equalTo("value")
-        );
-    }
-
-    /**
-     * ReadYamlSequence can return the YamlMapping which starts right
-     * at the dash line. The YamlMapping has a scalar key and another mapping
-     * as value of this key.
-     */
-    @Test
-    public void returnsYamlMappingWithMappingValueStartingAtDash(){
-        final List<YamlLine> lines = new ArrayList<>();
-        lines.add(new RtYamlLine("- scalar0", 0));
-        lines.add(new RtYamlLine("- scalar1", 1));
-        lines.add(new RtYamlLine("- alfa:", 2));
-        lines.add(new RtYamlLine("    key: value", 3));
-        lines.add(new RtYamlLine("    key2: value2", 4));
-        lines.add(new RtYamlLine("- scalar2", 5));
-        final YamlSequence sequence = new ReadYamlSequence(
-            new AllYamlLines(lines)
-        );
-        System.out.println(sequence);
-        final YamlMapping alfa = sequence.yamlMapping(2);
-        MatcherAssert.assertThat(alfa, Matchers.notNullValue());
-        MatcherAssert.assertThat(alfa, Matchers.instanceOf(YamlMapping.class));
-        MatcherAssert.assertThat(
-            alfa.yamlMapping("alfa").string("key"), Matchers.equalTo("value")
-        );
-        MatcherAssert.assertThat(
-            alfa.yamlMapping("alfa").string("key2"), Matchers.equalTo("value2")
-        );
-        for(final YamlNode value : sequence.values()) {
-            System.out.println(value.type());
-        }
-    }
-
-    /**
-     * ReadYamlSequence can return the YamlMapping which starts right
-     * at the dash line.
-     */
-    @Test
-    public void returnsYamlMappingWithScalarValuesStartingAtDash(){
-        final List<YamlLine> lines = new ArrayList<>();
-        lines.add(new RtYamlLine("- scalar0", 0));
-        lines.add(new RtYamlLine("- scalar1", 1));
-        lines.add(new RtYamlLine("- alfa: beta", 2));
-        lines.add(new RtYamlLine("  teta: gama", 3));
-        lines.add(new RtYamlLine("  omega: value", 4));
-        lines.add(new RtYamlLine("- scalar2", 5));
-        final YamlSequence sequence = new ReadYamlSequence(
-                new AllYamlLines(lines)
-        );
-        System.out.println(sequence);
-        final YamlMapping dashMap = sequence.yamlMapping(2);
-        MatcherAssert.assertThat(dashMap, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            dashMap, Matchers.instanceOf(YamlMapping.class)
-        );
-        MatcherAssert.assertThat(
-            dashMap.string("alfa"), Matchers.equalTo("beta")
-        );
-        MatcherAssert.assertThat(
-            dashMap.string("teta"), Matchers.equalTo("gama")
-        );
-        MatcherAssert.assertThat(
-            dashMap.string("omega"), Matchers.equalTo("value")
         );
     }
 
@@ -371,40 +305,6 @@ public final class ReadYamlSequenceTest {
         MatcherAssert.assertThat(
             sequence.yamlSequence(10),
             Matchers.nullValue()
-        );
-    }
-
-    /**
-     * ReadYamlSequence returns the correct value for empty maps and sequences.
-     */
-    @Test
-    public void dontTurnEmptyMapsAndArraysIntoStrings() {
-        final List<YamlLine> lines = new ArrayList<>();
-        lines.add(new RtYamlLine("# A", 0));
-        lines.add(new RtYamlLine("- {}", 1));
-        lines.add(new RtYamlLine("# B", 2));
-        lines.add(new RtYamlLine("- []", 3));
-        final YamlSequence seq = new ReadYamlSequence(new AllYamlLines(lines));
-        Iterator<YamlNode> iterator = seq.values().iterator();
-        YamlMapping actualMap = iterator.next().asMapping();
-        YamlMapping expectedMap = Yaml.createYamlMappingBuilder().build("A");
-        MatcherAssert.assertThat(
-                actualMap,
-                Matchers.equalTo(expectedMap)
-        );
-        MatcherAssert.assertThat(
-                actualMap.comment().value(),
-                Matchers.equalTo(expectedMap.comment().value())
-        );
-        YamlSequence actualSeq = iterator.next().asSequence();
-        YamlSequence expectedSeq = Yaml.createYamlSequenceBuilder().build("B");
-        MatcherAssert.assertThat(
-                actualSeq,
-                Matchers.equalTo(expectedSeq)
-        );
-        MatcherAssert.assertThat(
-                actualSeq.comment().value(),
-                Matchers.equalTo(expectedSeq.comment().value())
         );
     }
 

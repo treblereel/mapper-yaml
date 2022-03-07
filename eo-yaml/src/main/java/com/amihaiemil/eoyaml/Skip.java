@@ -37,7 +37,7 @@ import java.util.List;
  * which satisfy one of the given conditions are ignored from
  * iteration.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 35ec6b8e13c9e2f2b294dd0f3949aabca16291fb $
  * @since 4.2.0
  */
 final class Skip implements YamlLines {
@@ -67,12 +67,9 @@ final class Skip implements YamlLines {
         Iterator<YamlLine> iterator = this.yamlLines.iterator();
         if (iterator.hasNext()) {
             final List<YamlLine> notSkipped = new ArrayList<>();
-            YamlLine previous = new YamlLine.NullYamlLine();
             while (iterator.hasNext()) {
                 boolean skip = false;
-                final YamlLine next = iterator.next();
-                final Skip.Line current = new Skip.Line(next, previous);
-                previous = current;
+                final YamlLine current = iterator.next();
                 for(int idx = 0; idx < this.conditions.length; idx++) {
                     if(this.conditions[idx].isMet(current)) {
                         skip = true;
@@ -80,7 +77,7 @@ final class Skip implements YamlLines {
                     }
                 }
                 if(!skip) {
-                    notSkipped.add(current.unwrap());
+                    notSkipped.add(current);
                 }
             }
             iterator = notSkipped.iterator();
@@ -94,18 +91,15 @@ final class Skip implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(
-        final YamlLine prev,
-        final boolean guessIndentation
-    ) {
-        return this.yamlLines.toYamlNode(prev, guessIndentation);
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
     }
 
     /**
      * Condition that a YamlLine has to satisfy in order to be
      * skipped/ignored from iteration.
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id$
+     * @version $Id: 35ec6b8e13c9e2f2b294dd0f3949aabca16291fb $
      * @since 4.2.0
      */
     interface Condition {
@@ -117,122 +111,5 @@ final class Skip implements YamlLines {
          */
         boolean isMet(final YamlLine line);
 
-    }
-
-    /**
-     * A wrapper line that keeps track of current and previous line.
-     * <br/>
-     * It also can arbitrary store a line in order to be used as a reference
-     * downstream when evaluating the current iteration line condition.
-     * <br/>
-     * The current line is used as delegate for {@link YamlLine} API
-     * and previous line is a {@link Line} in order to carry over the
-     * "stored" state.
-     * <br/>
-     * <br/>
-     * <br/>
-     * Used by {@link Skip#iterator()} to feed current line {@link Condition}.
-     */
-    static final class Line implements YamlLine {
-
-        /**
-         * Current line.
-         */
-        private final YamlLine current;
-
-        /**
-         * Previous line.
-         */
-        private final YamlLine previous;
-
-        /**
-         * Arbitrary stored line.
-         */
-        private YamlLine stored;
-
-        /**
-         * Ctor.
-         * @param current Current line.
-         * @param previous Previous line.
-         */
-        private Line(final YamlLine current, final YamlLine previous) {
-            this.current = current;
-            this.previous = previous;
-            final YamlLine store;
-            if (previous instanceof Line) {
-                final Line prevLine = (Line) previous;
-                store = prevLine.stored;
-            } else {
-                store = new NullYamlLine();
-            }
-            this.stored = store;
-        }
-
-        @Override
-        public String trimmed() {
-            return this.current.trimmed();
-        }
-
-        @Override
-        public String contents(final int previousIndent) {
-            return this.current.contents(previousIndent);
-        }
-
-        @Override
-        public String comment() {
-            return this.current.comment();
-        }
-
-        @Override
-        public int number() {
-            return this.current.number();
-        }
-
-        @Override
-        public int indentation() {
-            return this.current.indentation();
-        }
-
-        @Override
-        public boolean requireNestedIndentation() {
-            return this.current.requireNestedIndentation();
-        }
-
-        @Override
-        public int compareTo(final YamlLine other) {
-            return this.current.compareTo(other);
-        }
-
-        /**
-         * Previous line. Usually a skip {@link Line}
-         * @return YamlLine.
-         */
-        YamlLine getPrevious() {
-            return this.previous;
-        }
-
-        /**
-         * Stores a line.
-         * @param line A {@link YamlLine}.
-         */
-        void store(final YamlLine line){
-            this.stored = line;
-        }
-
-        /**
-         * Get currently stored line.
-         * @return YamlLine
-         */
-        YamlLine getStored() {
-            return this.stored;
-        }
-
-        /**
-         * Unwraps to current line.
-         * @return YamlLine.
-         */
-        private YamlLine unwrap() {
-            return this.current;
-        }
     }
 }

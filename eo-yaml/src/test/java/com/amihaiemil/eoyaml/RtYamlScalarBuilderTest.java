@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link RtYamlScalarBuilder}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 233ca4fc931585cb3aa17f64f9879f03d2db3a70 $
  * @since 4.0.0
  */
 public final class RtYamlScalarBuilderTest {

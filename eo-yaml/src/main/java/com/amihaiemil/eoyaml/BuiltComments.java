@@ -37,7 +37,7 @@ import java.util.List;
  * Use this class when building YAML. For reading YAML, there
  * should be an analogue implementation working with YamlLines.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 46ffdeb7930d104873fdd44fdda9ed0c13428b10 $
  * @since 4.2.0
  */
 final class BuiltComments implements Comments {

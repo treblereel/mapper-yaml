@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml;
 /**
  * Yaml Scalar.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: a3fc0cf8017a486e72dca505f285e3d20dca5a58 $
  * @since 3.1.3
  */
 public interface Scalar extends YamlNode {

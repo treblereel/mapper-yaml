@@ -43,7 +43,7 @@ import org.mockito.Mockito;
  * Unit tests for {@link RtYamlMapping}.
  * @checkstyle LineLength (1000 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 1de5b4c42578c41655089171f780176a87feefaa $
  * @ince 1.0.0
  *
  */

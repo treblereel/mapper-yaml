@@ -27,14 +27,12 @@
  */
 package com.amihaiemil.eoyaml;
 
-import com.amihaiemil.eoyaml.exceptions.YamlReadingException;
-
 /**
  * Default implementation of {@link YamlLine}.
  * "Rt" stands for "Runtime".
  * @checkstyle CyclomaticComplexity (200 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: c6f158411ad66edd69b68677fe27670a4caef003 $
  * @since 1.0.0
  */
 final class RtYamlLine implements YamlLine {
@@ -64,7 +62,9 @@ final class RtYamlLine implements YamlLine {
         String trimmed = this.value.trim();
         int i = 0;
         while(i < trimmed.length()) {
-            if(i > 0 && trimmed.charAt(i) == '#') {
+            if((i > 0 && trimmed.charAt(i) == '#')
+                || trimmed.charAt(i) == '&'
+            ) {
                 trimmed = trimmed.substring(0, i);
                 break;
             } else if(trimmed.charAt(i) == '"') {
@@ -81,21 +81,6 @@ final class RtYamlLine implements YamlLine {
             i++;
         }
         return trimmed.trim();
-    }
-
-    @Override
-    public String contents(final int previousIndent) {
-        String contents;
-        int indentation = indentation();
-        if (indentation == 0 && previousIndent <= 0) {
-            contents = this.value;
-        } else if (indentation > previousIndent) {
-            contents = this.value.substring(previousIndent + 2);
-        } else {
-            throw new YamlReadingException("Literal must be indented "
-                    + "at least 2 spaces from previous element.");
-        }
-        return contents;
     }
 
     @Override
@@ -165,7 +150,11 @@ final class RtYamlLine implements YamlLine {
             final String specialCharacters = ":>|-?";
             final CharSequence prevLineLastChar =
                 this.trimmed().substring(this.trimmed().length() - 1);
-            result = specialCharacters.contains(prevLineLastChar);
+            if (specialCharacters.contains(prevLineLastChar)) {
+                result = true;
+            } else {
+                result = false;
+            }
         }
         return result;
     }

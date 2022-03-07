@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Unit tests for {@ling ReadPlainScalar}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 6d212bcd858976a8c014b79658f5069568e9d85f $
  * @since 3.1.3
  */
 public final class ReadPlainScalarTest {
@@ -52,31 +52,6 @@ public final class ReadPlainScalarTest {
             new RtYamlLine("key: value", 0)
         );
         MatcherAssert.assertThat(scalar.value(), Matchers.equalTo("value"));
-    }
-
-    /**
-     * ReadPlainScalar can return the scalar's value from a mapping line.
-     */
-    @Test
-    public void returnsValueFromScalarLineWithColon() {
-        final Scalar scalar = new ReadPlainScalar(
-            new AllYamlLines(new ArrayList<>()),
-            new RtYamlLine("key:value", 0)
-        );
-        MatcherAssert.assertThat(scalar.value(), Matchers.equalTo("key:value"));
-    }
-
-    /**
-     * ReadPlainScalar can return the scalar's value from an
-     * unbalanced/incorrect string escaping.
-     */
-    @Test
-    public void returnsValueFromUnbalancedString() {
-        final Scalar scalar = new ReadPlainScalar(
-            new AllYamlLines(new ArrayList<>()),
-            new RtYamlLine("key: \"value'", 0)
-        );
-        MatcherAssert.assertThat(scalar.value(), Matchers.equalTo("\"value'"));
     }
 
     /**
@@ -121,19 +96,6 @@ public final class ReadPlainScalarTest {
     }
 
     /**
-     * ReadPlainScalar can return the scalar's value from a scalar line
-     * (that looks like a sequence line).
-     */
-    @Test
-    public void returnsValueFromScalarLine() {
-        final Scalar scalar = new ReadPlainScalar(
-            new AllYamlLines(new ArrayList<>()),
-            new RtYamlLine("-value", 0)
-        );
-        MatcherAssert.assertThat(scalar.value(), Matchers.equalTo("-value"));
-    }
-
-    /**
      * ReadPlainScalar can return the scalar's value from a sequence line.
      */
     @Test
@@ -143,37 +105,6 @@ public final class ReadPlainScalarTest {
             new RtYamlLine("- value", 0)
         );
         MatcherAssert.assertThat(scalar.value(), Matchers.equalTo("value"));
-    }
-
-    /**
-     * ReadPlainScalar can return the scalar's value from a sequence
-     * line with multiple spaces.
-     */
-    @Test
-    public void returnsValueFromSequenceLineMultipleSpaces() {
-        final Scalar scalar = new ReadPlainScalar(
-            new AllYamlLines(new ArrayList<>()),
-            new RtYamlLine("-    \"value\"", 0)
-        );
-        MatcherAssert.assertThat(scalar.value(), Matchers.equalTo("value"));
-    }
-
-    /**
-     * ReadPlainScalar can return the scalar's value from a sequence line where
-     * there's an extra line.
-     */
-    @Test
-    public void returnsValueOnNextLineFromSequence() {
-        final List<YamlLine> lines = new ArrayList<>();
-        lines.add(new RtYamlLine("sns: ", 0));
-        lines.add(new RtYamlLine("  -", 1));
-        lines.add(new RtYamlLine("    \"arn:aws:sns:{{ r }}:{{ a }}:T\"", 2));
-        final Scalar scalar = new ReadPlainScalar(
-                new AllYamlLines(lines), lines.get(2)
-        );
-        MatcherAssert.assertThat(scalar.value(),
-                Matchers.equalTo(
-                        "arn:aws:sns:{{ r }}:{{ a }}:T"));
     }
 
     /**

@@ -30,10 +30,15 @@ package com.amihaiemil.eoyaml;
 /**
  * A comment which has been read from somewhere.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: b9d6aaf089cfadbf68635feb7d3b383383d361bd $
  * @since  4.2.0
  */
 final class ReadComment implements Comment {
+
+    /**
+     * Lines of this comment.
+     */
+    private final YamlLines lines;
 
     /**
      * Node to which this comment refers.
@@ -41,19 +46,13 @@ final class ReadComment implements Comment {
     private final YamlNode node;
 
     /**
-     * Calculated comment.
-     */
-    private final String comment;
-
-
-    /**
      * Constructor.
      * @param lines Lines of this comment.
      * @param node Node to which it refers.
      */
     ReadComment(final YamlLines lines, final YamlNode node) {
+        this.lines = lines;
         this.node = node;
-        this.comment = calculateComments(lines).toString().trim();
     }
 
     @Override
@@ -63,22 +62,12 @@ final class ReadComment implements Comment {
 
     @Override
     public String value() {
-        return this.comment;
-    }
-
-    /**
-     * Pre-compute the comment value.
-     *
-     * @param lines The lines to parse into comments.
-     * @return Comments.
-     */
-    private StringBuilder calculateComments(final YamlLines lines) {
-        final StringBuilder tmpComment = new StringBuilder();
-        for(final YamlLine line : lines) {
-            tmpComment
-                    .append(line.comment().trim())
-                    .append(System.lineSeparator());
+        final StringBuilder comment = new StringBuilder();
+        for(final YamlLine line : this.lines) {
+            comment
+                .append(line.comment().trim())
+                .append(Utils.lineSeparator());
         }
-        return tmpComment;
+        return comment.toString().trim();
     }
 }

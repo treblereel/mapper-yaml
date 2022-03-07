@@ -39,7 +39,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link RtYamlMappingBuilder}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 146a322173f8d069852222c0641fd71ee7c9fecb $
  * @since 1.0.0
  */
 public final class RtYamlMappingBuilderTest {

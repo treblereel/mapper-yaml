@@ -35,9 +35,10 @@ import java.util.List;
  * A YamlDump that works with the Reflection API.
  * @checkstyle LineLength (100 lines)
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: 7de3e67db263c1940c02a9049eb1822e7b543f14 $
  * @since 4.3.3
  */
+@GwtIncompatible
 final class ReflectedYamlDump implements YamlDump {
 
     /**
@@ -67,7 +68,7 @@ final class ReflectedYamlDump implements YamlDump {
         if(this.object == null || SCALAR_TYPES.contains(this.object.getClass())) {
             node = new ReflectedYamlScalar(this.object);
         } else if(this.object instanceof Collection || this.object.getClass().isArray()){
-            node = new ReflectedYamlSequence(this.object);
+            node = new ReflectedYamlScalar(this.object);
         } else {
             node = new ReflectedYamlMapping(this.object);
         }

@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml.exceptions;
 /**
  * Represents a reading exception.
  * @author Aislan Nadrowski (aislan.nadrowski@gmail.com)
- * @version $Id$
+ * @version $Id: 7c82a4f364a62f477377a5ecd0fd2275c5e6e922 $
  * @since 3.1.5
  */
 public final class YamlReadingException extends RuntimeException {

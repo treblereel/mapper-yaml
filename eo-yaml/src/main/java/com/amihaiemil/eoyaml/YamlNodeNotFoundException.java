@@ -30,7 +30,7 @@ package com.amihaiemil.eoyaml;
 /**
  * Exception thrown when a YamlNode cannot be cast to a given type.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: ca82a5b3710d71d51ede9f73249d2d46a811a10c $
  * @since 1.0.0
  */
 public final class YamlNodeNotFoundException extends RuntimeException {

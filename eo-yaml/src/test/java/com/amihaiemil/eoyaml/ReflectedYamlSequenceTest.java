@@ -37,7 +37,7 @@ import java.util.*;
 /**
  * Unit tests for {@link ReflectedYamlSequence}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
+ * @version $Id: d79a9da12fa218c91b8295f2dd1c4753182cee79 $
  * @since 4.3.3
  */
 public final class ReflectedYamlSequenceTest {
@@ -177,13 +177,5 @@ public final class ReflectedYamlSequenceTest {
             ((ReflectedYamlScalar) valuesIt.next()).value(),
             Matchers.equalTo("3")
         );
-    }
-
-    /**
-     * Use the wrong object to construct a sequence - non-collection or array.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void throwsExceptionWhenWrongObject() {
-        new ReflectedYamlSequence("wrong");
     }
 }

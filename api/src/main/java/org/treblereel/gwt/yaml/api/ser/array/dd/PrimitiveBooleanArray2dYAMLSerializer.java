@@ -58,16 +58,16 @@ public class PrimitiveBooleanArray2dYAMLSerializer extends BasicArrayYAMLSeriali
     public void doSerialize(YAMLWriter writer, boolean[][] values, YAMLSerializationContext ctx,
                             YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        BasicArrayYAMLSerializer serializer = PrimitiveBooleanArrayYAMLSerializer.getInstance(propertyName);
+/*        BasicArrayYAMLSerializer serializer = PrimitiveBooleanArrayYAMLSerializer.getInstance(propertyName);
 
         writer.beginObject(propertyName);
         for (boolean[] value : values) {
             serializer.serialize(writer, value, ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

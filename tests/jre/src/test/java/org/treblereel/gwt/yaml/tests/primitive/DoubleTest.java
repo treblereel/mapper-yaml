@@ -20,7 +20,7 @@ public class DoubleTest {
     private static final String YAML_17222 = "value: 17222.0";
     private static final String YAML__17222 = "value: \"-17222.0\"";
 
-    private DoubleTest_DoubleType_MapperImpl mapper = DoubleTest_DoubleType_MapperImpl.INSTANCE;
+    private DoubleTest_DoubleType_YAMLMapperImpl mapper = DoubleTest_DoubleType_YAMLMapperImpl.INSTANCE;
 
     @Test
     public void testSerializeValue() throws IOException {

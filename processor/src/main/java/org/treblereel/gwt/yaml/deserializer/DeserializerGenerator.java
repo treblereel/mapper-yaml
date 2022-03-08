@@ -25,7 +25,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import org.treblereel.gwt.yaml.TypeUtils;
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -59,7 +59,7 @@ public class DeserializerGenerator extends AbstractGenerator {
 
     @Override
     protected void configureClassType(BeanDefinition type) {
-        cu.addImport(JacksonContextProvider.class);
+        cu.addImport(YAMLContextProvider.class);
         cu.addImport(YAMLDeserializationContext.class);
         cu.addImport(YAMLDeserializer.class);
         cu.addImport(YAMLDeserializerParameters.class);
@@ -125,7 +125,7 @@ public class DeserializerGenerator extends AbstractGenerator {
         VariableDeclarator map = new VariableDeclarator();
         map.setType(varType);
         map.setName("map");
-        map.setInitializer(new NameExpr("JacksonContextProvider.get().mapLikeFactory().make()"));
+        map.setInitializer(new NameExpr("YAMLContextProvider.get().mapLikeFactory().make()"));
 
         ExpressionStmt expressionStmt = new ExpressionStmt();
         VariableDeclarationExpr variableDeclarationExpr = new VariableDeclarationExpr();

@@ -20,7 +20,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -45,7 +45,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
      */
     @Override
     public D doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        return deserializeNumber(reader.valueLong(), params);
+        return deserializeNumber(Long.valueOf(reader.getValue(params.getTypeInfo().getPropertyName())), params);
     }
 
     /**
@@ -181,7 +181,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
 
         @Override
         protected Timestamp deserializeString(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-            return new Timestamp(JacksonContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), params.getPattern(), null, date).getTime());
+            return new Timestamp(YAMLContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), params.getPattern(), null, date).getTime());
         }
 
         @Override

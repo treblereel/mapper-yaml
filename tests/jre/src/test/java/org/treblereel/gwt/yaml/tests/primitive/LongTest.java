@@ -20,7 +20,7 @@ public class LongTest {
     private static final String YAML_17222 = "value: 17222";
     private static final String YAML__17222 = "value: \"-17222\"";
 
-    private LongTest_LongType_MapperImpl mapper = LongTest_LongType_MapperImpl.INSTANCE;
+    private LongTest_LongType_YAMLMapperImpl mapper = LongTest_LongType_YAMLMapperImpl.INSTANCE;
 
     @Test
     public void testSerializeValue() throws IOException {

@@ -46,6 +46,6 @@ public class BooleanYAMLSerializer extends YAMLSerializer<Boolean> {
      */
     @Override
     public void doSerialize(YAMLWriter writer, Boolean value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.value(value);
+        writer.value(propertyName, String.valueOf(value));
     }
 }

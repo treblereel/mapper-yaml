@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Test;
 import org.treblereel.gwt.yaml.tests.beans.CharacterBean;
-import org.treblereel.gwt.yaml.tests.beans.CharacterBean_MapperImpl;
+import org.treblereel.gwt.yaml.tests.beans.CharacterBean_YAMLMapperImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,11 +16,11 @@ import static org.junit.Assert.assertEquals;
 @J2clTestInput(CharacterTest.class)
 public class CharacterTest {
 
-    CharacterBean_MapperImpl mapper = CharacterBean_MapperImpl.INSTANCE;
+    CharacterBean_YAMLMapperImpl mapper = CharacterBean_YAMLMapperImpl.INSTANCE;
 
     @Test
     public void testDeserializeValue() throws IOException {
-        assertEquals('e', CharacterBean_MapperImpl.INSTANCE.read("charVal: e").getCharVal());
+        assertEquals('e', CharacterBean_YAMLMapperImpl.INSTANCE.read("charVal: e").getCharVal());
     }
 
     @Test

@@ -18,24 +18,13 @@ package org.treblereel.gwt.yaml.api.stream;
 
 import java.util.Set;
 
-import com.amihaiemil.eoyaml.YamlNode;
-
-/**
- * <p>YAMLReader interface.</p>
- * @author nicolasmorel
- * @version $Id: $
- */
 public interface YAMLReader {
 
     Set<String> getProperties();
 
     String getInput();
 
-    String value();
-
-    Long valueLong();
-
-    Number number();
-
     String getValue(String key);
+
+    String getArray(String key);
 }

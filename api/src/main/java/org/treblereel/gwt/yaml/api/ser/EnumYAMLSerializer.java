@@ -47,6 +47,6 @@ public class EnumYAMLSerializer<E extends Enum<E>> extends YAMLSerializer<E> {
     /** {@inheritDoc} */
     @Override
     public void doSerialize(YAMLWriter writer, E value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.value(value.name());
+        writer.value(propertyName, value.name());
     }
 }

@@ -36,6 +36,9 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
      */
     @Override
     public T doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        if(true) {
+            System.out.println("AbstractArrayYAMLDeserializer 1");
+        }
         return doDeserializeArray(reader, ctx, params);
     }
 
@@ -68,7 +71,16 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
      */
     protected <C> List<C> deserializeIntoList(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializer<C> deserializer,
                                               YAMLDeserializerParameters params) {
+        if(true) {
+            System.out.println("deserializeIntoList 2");
+        }
+
+
         List<C> list = new ArrayList<>();
+
+        System.out.println("deserializeInline " + params.getTypeInfo().getPropertyName());
+        reader.getArray(params.getTypeInfo().getPropertyName());
+
         throw new UnsupportedOperationException();
     }
 }

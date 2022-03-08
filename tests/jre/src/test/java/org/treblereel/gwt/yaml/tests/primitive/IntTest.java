@@ -20,7 +20,7 @@ public class IntTest {
     private static final String YAML_17222 = "value: 17222";
     private static final String YAML__17222 = "value: \"-17222\"";
 
-    private IntTest_IntType_MapperImpl mapper = IntTest_IntType_MapperImpl.INSTANCE;
+    private IntTest_IntType_YAMLMapperImpl mapper = IntTest_IntType_YAMLMapperImpl.INSTANCE;
 
     @Test
     public void testSerializeValue() throws IOException {

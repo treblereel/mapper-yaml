@@ -19,7 +19,7 @@ package org.treblereel.gwt.yaml.api.utils;
 
 import java.util.Date;
 
-import org.treblereel.gwt.yaml.api.JacksonContext;
+import org.treblereel.gwt.yaml.api.YAMLContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 
 /**
@@ -28,7 +28,7 @@ import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public final class JsDateFormat implements JacksonContext.DateFormat {
+public final class JsDateFormat implements YAMLContext.DateFormat {
 
     @Override
     public String format(Date date) {

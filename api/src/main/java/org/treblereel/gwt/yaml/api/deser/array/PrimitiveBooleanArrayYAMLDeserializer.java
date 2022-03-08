@@ -49,6 +49,10 @@ public class PrimitiveBooleanArrayYAMLDeserializer extends AbstractArrayYAMLDese
      */
     @Override
     public boolean[] doDeserializeArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        if(true) {
+            System.out.println("doDeserializeArray !!!");
+        }
+
         List<Boolean> list = deserializeIntoList(reader, ctx, BooleanYAMLDeserializer.getInstance(), params);
 
         boolean[] result = new boolean[list.size()];
@@ -67,6 +71,9 @@ public class PrimitiveBooleanArrayYAMLDeserializer extends AbstractArrayYAMLDese
      */
     @Override
     protected boolean[] doDeserializeSingleArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        if(true) {
+            System.out.println("doDeserializeSingleArray !!!");
+        }
         return new boolean[]{BooleanYAMLDeserializer.getInstance().deserialize(reader, ctx, params)};
     }
 }

@@ -18,7 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.bean;
 
 import java.util.Map;
 
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -78,7 +78,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
      */
     protected MapLike<BeanPropertyDeserializer<T, ?>> initDeserializers() {
         //Change by Ahmad Bawaneh, replace JSNI types with IsInterop types
-        return JacksonContextProvider.get().mapLikeFactory().make();
+        return YAMLContextProvider.get().mapLikeFactory().make();
     }
 
     protected abstract String getRootElement();

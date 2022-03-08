@@ -71,11 +71,11 @@ public class Array2dYAMLSerializer<T> extends YAMLSerializer<T[][]> {
     @Override
     public void doSerialize(YAMLWriter writer, T[][] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        writer.beginObject(propertyName);
+/*        writer.beginObject(propertyName);
         for (T[] array : values) {
             writer.beginObject(propertyName);
             for (T value : array) {
@@ -83,6 +83,6 @@ public class Array2dYAMLSerializer<T> extends YAMLSerializer<T[][]> {
             }
             writer.endObject();
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

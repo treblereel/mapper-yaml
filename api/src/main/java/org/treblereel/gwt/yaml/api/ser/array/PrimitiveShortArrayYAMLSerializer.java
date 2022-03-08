@@ -57,14 +57,14 @@ public class PrimitiveShortArrayYAMLSerializer extends BasicArrayYAMLSerializer<
     @Override
     public void doSerialize(YAMLWriter writer, short[] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        writer.beginObject(propertyName);
+/*        writer.beginObject(propertyName);
         for (short value : values) {
             serializer.doSerialize(writer, Short.valueOf(value), ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

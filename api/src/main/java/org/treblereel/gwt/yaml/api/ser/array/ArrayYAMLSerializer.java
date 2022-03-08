@@ -72,14 +72,12 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
     @Override
     public void doSerialize(YAMLWriter writer, T[] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
-
-        writer.beginObject(propertyName);
+        //TODO
         for (T value : (T[])values) {
             serializer.serialize(writer, value, ctx, params);
         }
-        writer.endObject();
     }
 }

@@ -72,7 +72,7 @@ public class EnumYAMLDeserializer<E extends Enum<E>> extends YAMLDeserializer<E>
     @Override
     public E doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         try {
-            return getEnum(values, reader.value());
+            return getEnum(values, reader.getValue(params.getTypeInfo().getPropertyName()));
         } catch (IllegalArgumentException ex) {
             if (ctx.isReadUnknownEnumValuesAsNull()) {
                 return null;

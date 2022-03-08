@@ -46,7 +46,7 @@ public class VoidYAMLSerializer extends YAMLSerializer<Void> {
     /** {@inheritDoc} */
     @Override
     protected void serializeNullValue(YAMLWriter writer, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.nullValue();
+        writer.nullValue(propertyName);
     }
 
     /** {@inheritDoc} */

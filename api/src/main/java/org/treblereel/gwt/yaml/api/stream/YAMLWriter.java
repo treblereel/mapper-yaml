@@ -16,6 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.stream;
 
+import java.util.Collection;
+
 /**
  * <p>YAMLWriter interface.</p>
  * @author nicolasmorel
@@ -23,109 +25,11 @@ package org.treblereel.gwt.yaml.api.stream;
  */
 public interface YAMLWriter {
 
-    /**
-     * Begins encoding a new object. Each call to this method must be paired
-     * with a call to {@link #endObject}.
-     * @return this writer.
-     */
-    YAMLWriter beginObject(String name);
+    YAMLWriter value(String name, String value);
 
-    /**
-     * Ends encoding the current object.
-     * @return this writer.
-     */
-    YAMLWriter endObject();
+    YAMLWriter value(String name, Collection<String> values);
 
-    /**
-     * Encodes the property name.
-     * @param name the name of the forthcoming value. May not be null.
-     * @return this writer.
-     */
-    YAMLWriter name(String name);
-
-    /**
-     * Encodes the property name without escaping it.
-     * @param name the name of the forthcoming value. May not be null.
-     * @return this writer.
-     */
-    YAMLWriter unescapeName(String name);
-
-    /**
-     * Encodes {@code value}.
-     * @param value the literal string value, or null to encode a null literal.
-     * @return this writer.
-     */
-    YAMLWriter value(String value);
-
-    /**
-     * Encodes {@code value} without escaping it.
-     * @param value the literal string value, or null to encode a null literal.
-     * @return this writer.
-     */
-    YAMLWriter unescapeValue(String value);
-
-    /**
-     * Encodes {@code null}.
-     * @return this writer.
-     */
-    YAMLWriter nullValue();
-
-    /**
-     * Encodes {@code value}.
-     * @param value a boolean.
-     * @return this writer.
-     */
-    YAMLWriter value(Boolean value);
-
-    /**
-     * Encodes {@code value}.
-     * @param value a finite value. May not be {@link java.lang.Integer#isNaN() NaNs} or
-     * {@link java.lang.Integer infinities}.
-     * @return this writer.
-     */
-    YAMLWriter value(Integer value);
-
-    /**
-     * Encodes {@code value}.
-     * @param value a finite value. May not be {@link java.lang.Double#isNaN() NaNs} or
-     * {@link java.lang.Double#isInfinite() infinities}.
-     * @return this writer.
-     */
-    YAMLWriter value(Double value);
-
-    /**
-     * Encodes {@code value}.
-     * @param value a long.
-     * @return this writer.
-     */
-    YAMLWriter value(Long value);
-
-    /**
-     * Encodes {@code value}.
-     * @param value a finite value. May not be {@link java.lang.Double#isNaN() NaNs} or
-     * {@link java.lang.Double#isInfinite() infinities}.
-     * @return this writer.
-     */
-    YAMLWriter value(Number value);
-
-    /**
-     * Ensures all buffered data is written to the underlying {@link java.lang.StringBuilder}
-     * and flushes that writer.
-     */
-    void flush();
-
-    /**
-     * Flushes and closes this writer and the underlying {@link java.lang.StringBuilder}.
-     */
-    void close();
-
-    /**
-     * <p>getOutput</p>
-     * @return the output when the serialization is over
-     */
     String getOutput();
 
-    void beginArray();
-
-    void endArray();
+    void nullValue(String propertyName);
 }

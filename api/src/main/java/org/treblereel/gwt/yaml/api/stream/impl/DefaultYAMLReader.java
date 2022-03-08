@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 
 import com.amihaiemil.eoyaml.Yaml;
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
+import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 public class DefaultYAMLReader implements YAMLReader {
@@ -30,10 +32,6 @@ public class DefaultYAMLReader implements YAMLReader {
     private final YamlMapping reader;
     private final String in;
 
-    /**
-     * Creates a new instance that reads a JSON-encoded stream from {@code in}.
-     * @param in a {@link String} object.
-     */
     public DefaultYAMLReader(String in) throws IOException {
         if (in == null) {
             throw new NullPointerException("in == null");
@@ -47,31 +45,27 @@ public class DefaultYAMLReader implements YAMLReader {
         return reader.keys().stream().map(prop -> prop.toString()).collect(Collectors.toSet());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getInput() {
         return in;
     }
 
     @Override
-    public String value() {
-        return null;
-    }
-
-    @Override
-    public Long valueLong() {
-        return null;
-    }
-
-    @Override
-    public Number number() {
-        return null;
-    }
-
-    @Override
     public String getValue(String key) {
-        return reader.string(key);
+        String value = reader.string(key);
+        if(value.equals("~")) {
+            return null;
+        }
+        return value;
+    }
+
+    @Override
+    public String getArray(String key) {
+        YamlSequence sequence = reader.yamlSequence(key);
+        for (YamlNode yamlNode : sequence) {
+            System.out.println("YamlNode " + yamlNode);
+        }
+
+        return null;
     }
 }

@@ -56,14 +56,14 @@ public class PrimitiveLongArrayYAMLSerializer extends BasicArrayYAMLSerializer<l
     @Override
     public void doSerialize(YAMLWriter writer, long[] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        writer.beginObject(propertyName);
+/*        writer.beginObject(propertyName);
         for (long value : values) {
             serializer.doSerialize(writer, value, ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

@@ -8,7 +8,7 @@ import org.treblereel.gwt.yaml.api.utils.JsDateFormat;
  * @author vegegoku
  * @version $Id: $Id
  */
-public class JsJacksonContext implements JacksonContext {
+public class JsYAMLContext implements YAMLContext {
 
     /**
      * {@inheritDoc}
@@ -31,12 +31,12 @@ public class JsJacksonContext implements JacksonContext {
      */
     @Override
     public YAMLSerializerParameters defaultSerializerParameters() {
-        return GwtJacksonYAMLSerializerParameters.DEFAULT;
+        return GwtYAMLSerializerParameters.DEFAULT;
     }
 
     @Override
     public YAMLSerializerParameters newSerializerParameters() {
-        return new GwtJacksonYAMLSerializerParameters();
+        return new GwtYAMLSerializerParameters();
     }
 
     /**
@@ -44,11 +44,11 @@ public class JsJacksonContext implements JacksonContext {
      */
     @Override
     public YAMLDeserializerParameters defaultDeserializerParameters() {
-        return GwtJacksonYAMLDeserializerParameters.DEFAULT;
+        return GwtYAMLDeserializerParameters.DEFAULT;
     }
 
     @Override
     public YAMLDeserializerParameters newDeserializerParameters() {
-        return new GwtJacksonYAMLDeserializerParameters();
+        return new GwtYAMLDeserializerParameters();
     }
 }

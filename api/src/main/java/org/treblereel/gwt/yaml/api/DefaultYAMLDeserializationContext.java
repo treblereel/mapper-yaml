@@ -183,7 +183,7 @@ public class DefaultYAMLDeserializationContext implements YAMLDeserializationCon
      */
     @Override
     public YAMLDeserializerParameters defaultParameters() {
-        return JacksonContextProvider.get().defaultDeserializerParameters();
+        return YAMLContextProvider.get().defaultDeserializerParameters();
     }
 
     /**

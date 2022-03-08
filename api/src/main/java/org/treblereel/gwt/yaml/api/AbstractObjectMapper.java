@@ -59,6 +59,7 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
      */
     public T read(String in, YAMLDeserializationContext ctx) throws YAMLDeserializationException, IOException {
         YAMLReader reader = ctx.newYAMLReader(in);
+        System.out.println("getDeserializer " + getDeserializer().getClass().getCanonicalName());
 
         try {
             return getDeserializer().deserialize(reader, ctx);
@@ -66,6 +67,7 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
             // already logged, we just throw it
             throw e;
         } catch (RuntimeException e) {
+            System.out.println("RuntimeException " + e);
             throw ctx.traceError(e, reader);
         }
     }
@@ -113,8 +115,6 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
             throw ctx.traceError(value, e, writer);
         } catch (Exception e) {
             throw new Error(e);
-        } finally {
-            writer.close();
         }
     }
 

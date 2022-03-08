@@ -16,7 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.ser.bean;
 
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
@@ -47,7 +47,7 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
      * @return a {@link YAMLSerializerParameters} object.
      */
     protected YAMLSerializerParameters newParameters() {
-        return JacksonContextProvider.get().defaultSerializerParameters();
+        return YAMLContextProvider.get().defaultSerializerParameters();
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
      * @param ctx context of the serialization process
      */
     public void serialize(YAMLWriter writer, T bean, YAMLSerializationContext ctx) {
-        writer.unescapeName(propertyName);
+        //writer.unescapeName(propertyName); //TODO
         getSerializer((V) bean.getClass()).setPropertyName(propertyName)
                 .setParent(parent)
                 .serialize(writer, getValue(bean, ctx), ctx, getParameters());

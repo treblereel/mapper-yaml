@@ -56,7 +56,7 @@ public class CharacterYAMLDeserializer extends YAMLDeserializer<Character> {
      */
     @Override
     public Character doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        String value = reader.value();
+        String value = reader.getValue(params.getTypeInfo().getPropertyName());
         if (value == null || value.isEmpty()) {
             return null;
         }

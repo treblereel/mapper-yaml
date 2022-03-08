@@ -8,23 +8,23 @@ import static java.util.Objects.isNull;
  * @author vegegoku
  * @version $Id: $Id
  */
-public class JacksonContextProvider {
+public class YAMLContextProvider {
 
-    static JacksonContext jacksonContext;
+    static YAMLContext yamlContext;
 
 
     /**
      * <p>get.</p>
      *
-     * @return a {@link JacksonContext} object.
+     * @return a {@link YAMLContext} object.
      */
-    public static JacksonContext get() {
-        if (isNull(jacksonContext))
+    public static YAMLContext get() {
+        if (isNull(yamlContext))
             initContext();
-        return jacksonContext;
+        return yamlContext;
     }
 
     private static void initContext() {
-        jacksonContext = new ServerJacksonContext();
+        yamlContext = new ServerYAMLContext();
     }
 }

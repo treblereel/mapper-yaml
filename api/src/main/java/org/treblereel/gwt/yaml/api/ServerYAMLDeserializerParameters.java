@@ -29,12 +29,13 @@ import org.treblereel.gwt.yaml.api.deser.bean.TypeDeserializationInfo;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public final class GwtJacksonYAMLDeserializerParameters implements YAMLDeserializerParameters {
+@GwtIncompatible
+public final class ServerYAMLDeserializerParameters implements YAMLDeserializerParameters {
 
     /**
      * Constant <code>DEFAULT</code>
      */
-    public static final YAMLDeserializerParameters DEFAULT = new GwtJacksonYAMLDeserializerParameters();
+    public static final YAMLDeserializerParameters DEFAULT = new ServerYAMLDeserializerParameters();
 
     /**
      * Datatype-specific additional piece of configuration that may be used
@@ -135,7 +136,7 @@ public final class GwtJacksonYAMLDeserializerParameters implements YAMLDeseriali
     @Override
     public YAMLDeserializerParameters addIgnoredProperty(String ignoredProperty) {
         if (null == ignoredProperties) {
-            ignoredProperties = new HashSet<>();
+            ignoredProperties = new HashSet<String>();
         }
         ignoredProperties.add(ignoredProperty);
         return this;

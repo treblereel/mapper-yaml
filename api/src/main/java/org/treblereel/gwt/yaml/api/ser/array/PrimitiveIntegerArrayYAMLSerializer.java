@@ -57,14 +57,14 @@ public class PrimitiveIntegerArrayYAMLSerializer extends BasicArrayYAMLSerialize
     @Override
     public void doSerialize(YAMLWriter writer, int[] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        writer.beginObject(propertyName);
+/*        writer.beginObject(propertyName);
         for (int value : values) {
             serializer.doSerialize(writer, value, ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

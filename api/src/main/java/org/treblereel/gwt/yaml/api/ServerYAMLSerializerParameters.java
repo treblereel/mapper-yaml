@@ -16,26 +16,26 @@
 
 package org.treblereel.gwt.yaml.api;
 
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
 
-import elemental2.core.JsNumber;
-import jsinterop.base.JsPropertyMap;
 import org.treblereel.gwt.yaml.api.ser.bean.TypeSerializationInfo;
 
 /**
- * This class includes parameters defined through properties annotations like { YAMLFormat}. They are specific to one
+ * This class includes parameters defined through properties annotations like YAMLFormat. They are specific to one
  * {@link YAMLSerializer} and that's why they are not contained inside {@link YAMLSerializationContext}.
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-public final class GwtJacksonYAMLSerializerParameters implements YAMLSerializerParameters {
+@GwtIncompatible
+public final class ServerYAMLSerializerParameters implements YAMLSerializerParameters {
 
     /**
      * Constant <code>DEFAULT</code>
      */
-    public static final YAMLSerializerParameters DEFAULT = new GwtJacksonYAMLSerializerParameters();
+    public static final YAMLSerializerParameters DEFAULT = new ServerYAMLSerializerParameters();
 
     /**
      * Datatype-specific additional piece of configuration that may be used
@@ -49,6 +49,11 @@ public final class GwtJacksonYAMLSerializerParameters implements YAMLSerializerP
      * Locale to use for serialization (if needed).
      */
     private String locale;
+
+    /**
+     * Timezone to use for serialization (if needed).
+     */
+    private ZoneId timezone;
 
     /**
      * Names of properties to ignore.
@@ -107,14 +112,25 @@ public final class GwtJacksonYAMLSerializerParameters implements YAMLSerializerP
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Getter for the field <code>timezone</code>.</p>
+     */
     @Override
-    public Object getTimezone() {
-        return null;
+    public ZoneId getTimezone() {
+        return timezone;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Setter for the field <code>timezone</code>.</p>
+     */
     @Override
     public YAMLSerializerParameters setTimezone(Object timezone) {
-        return null;
+        this.timezone = (ZoneId) timezone;
+        return this;
     }
 
     /**
@@ -185,11 +201,6 @@ public final class GwtJacksonYAMLSerializerParameters implements YAMLSerializerP
 
     @Override
     public String doubleValue(Double value) {
-        //TODO reuse options
-        JsPropertyMap options = JsPropertyMap.of();
-        options.set("useGrouping", false);
-        options.set("minimumFractionDigits", 1);
-
-        return new JsNumber(value).toLocaleString(JsNumber.ToLocaleStringLocalesUnionType.of("us"), options);
+        return value.toString();
     }
 }

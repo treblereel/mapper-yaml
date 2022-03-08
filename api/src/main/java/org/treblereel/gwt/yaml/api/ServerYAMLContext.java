@@ -4,17 +4,17 @@ import org.treblereel.gwt.yaml.api.deser.bean.DefaultMapLike;
 import org.treblereel.gwt.yaml.api.utils.DefaultDateFormat;
 
 /**
- * <p>ServerJacksonContext class.</p>
+ * <p>ServerYAMLContext class.</p>
  *
  * @author vegegoku
  * @version $Id: $Id
  */
-public class ServerJacksonContext extends JsJacksonContext{
+public class ServerYAMLContext extends JsYAMLContext {
 
     /** {@inheritDoc} */
     @GwtIncompatible
     @Override
-    public JacksonContext.DateFormat dateFormat() {
+    public YAMLContext.DateFormat dateFormat() {
         return new DefaultDateFormat();
     }
 
@@ -29,28 +29,28 @@ public class ServerJacksonContext extends JsJacksonContext{
     @GwtIncompatible
     @Override
     public YAMLSerializerParameters defaultSerializerParameters() {
-        return ServerJacksonYAMLSerializerParameters.DEFAULT;
+        return ServerYAMLSerializerParameters.DEFAULT;
     }
 
     /** {@inheritDoc} */
     @GwtIncompatible
     @Override
     public YAMLDeserializerParameters defaultDeserializerParameters() {
-        return ServerJacksonYAMLDeserializerParameters.DEFAULT;
+        return ServerYAMLDeserializerParameters.DEFAULT;
     }
 
     /** {@inheritDoc} */
     @GwtIncompatible
     @Override
     public YAMLSerializerParameters newSerializerParameters() {
-        return new ServerJacksonYAMLSerializerParameters();
+        return new ServerYAMLSerializerParameters();
     }
 
     /** {@inheritDoc} */
     @GwtIncompatible
     @Override
     public YAMLDeserializerParameters newDeserializerParameters() {
-        return new ServerJacksonYAMLDeserializerParameters();
+        return new ServerYAMLDeserializerParameters();
     }
 
 }

@@ -17,12 +17,14 @@
 
 package org.treblereel.gwt.yaml.api.stream.impl;
 
-import com.amihaiemil.eoyaml.Yaml;
-import com.amihaiemil.eoyaml.YamlMappingBuilder;
+import com.amihaiemil.eoyaml.*;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+
+import java.util.Collection;
 
 /**
  * <p>DefaultYAMLWriter class.</p>
+ *
  * @author nicolasmorel
  * @version $Id: $
  */
@@ -30,182 +32,31 @@ public class DefaultYAMLWriter implements YAMLWriter {
 
     private YamlMappingBuilder writer = Yaml.createYamlMappingBuilder();
 
-    private String deferredName;
-
-    /**
-     * Creates a new instance that writes a YAML-encoded stream to {@code out}.
-     * @param out a {@link StringBuilder} object.
-     */
-    public DefaultYAMLWriter() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public DefaultYAMLWriter beginObject(String name) {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter endObject() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter name(String name) {
-        checkName(name);
-        StringBuffer sb = new StringBuffer();
-        sb.append('\"').append(name).append('\"');
-        deferredName = sb.toString();
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter unescapeName(String name) {
-        checkName(name);
-        deferredName = name;
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter value(String value) {
-        if (value == null) {
-            return nullValue();
-        }
-        string(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter unescapeValue(String value) {
-        if (value == null) {
-            return nullValue();
-        }
-        StringBuffer sb = new StringBuffer();
-        sb.append('\"').append(value).append('\"');
-        value(sb.toString());
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter nullValue() {
+    public YAMLWriter value(String name, String value) {
+        writer = writer.add(name, value);
         return this;
     }
 
     @Override
-    public YAMLWriter value(Integer value) {
-        return value(value.toString());
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public YAMLWriter value(Boolean value) {
-        value(value ? "true" : "false");
-        return this;
-    }
+    public YAMLWriter value(String name, Collection<String> values) {
+        YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public YAMLWriter value(Double value) {
-        if (Double.isNaN(value) || Double.isInfinite(value)) {
-            throw new IllegalArgumentException("Numeric values must be finite, but was " + value);
-        }
-        value(Double.toString(value));
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public YAMLWriter value(Long value) {
-        value(Long.toString(value));
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DefaultYAMLWriter value(Number value) {
-        if (value == null) {
-            value(0);
-            return this;
-        }
-        String string = value.toString();
-
-        if (string.equals("-Infinity") || string.equals("Infinity") || string.equals("NaN")) {
-            throw new IllegalArgumentException("Numeric values must be finite, but was " + value);
+        for (String val : values) {
+            builder = builder.add(val);
         }
 
-        value(value.toString());
+        writer = writer.add(name, builder.build());
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void flush() {
-        //out.flush();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void close() {
-        //out.close();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getOutput() {
         return writer.build().toString();
     }
 
     @Override
-    public void beginArray() {
-
-    }
-
-    @Override
-    public void endArray() {
-
-    }
-
-    private void string(String value) {
-        writer = writer.add(deferredName, value);
-    }
-
-    private void checkName(String name) {
-        if (name == null) {
-            throw new NullPointerException("name == null");
-        }
+    public void nullValue(String name) {
+        writer = writer.add(name, "~");
     }
 }
-//@formatter:on

@@ -54,6 +54,9 @@ public class StringYAMLSerializer extends YAMLSerializer<String> {
      */
     @Override
     public void doSerialize(YAMLWriter writer, String value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.value(value);
+        if(value == null) {
+            writer.nullValue(propertyName);
+        }
+        writer.value(propertyName, value);
     }
 }

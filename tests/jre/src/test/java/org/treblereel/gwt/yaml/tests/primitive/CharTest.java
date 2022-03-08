@@ -17,7 +17,7 @@ public class CharTest {
     private static final String YAML_0 = "value: \u0000";
     private static final String YAML_C = "value: c";
 
-    private CharTest_CharType_MapperImpl mapper = CharTest_CharType_MapperImpl.INSTANCE;
+    private CharTest_CharType_YAMLMapperImpl mapper = CharTest_CharType_YAMLMapperImpl.INSTANCE;
 
     @Test
     public void testSerializeValue() throws IOException {

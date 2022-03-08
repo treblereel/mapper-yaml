@@ -58,16 +58,16 @@ public class PrimitiveDoubleArray2dYAMLSerializer extends BasicArrayYAMLSerializ
     public void doSerialize(YAMLWriter writer, double[][] values, YAMLSerializationContext ctx,
                             YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        BasicArrayYAMLSerializer serializer = PrimitiveDoubleArrayYAMLSerializer.getInstance(propertyName);
+/*        BasicArrayYAMLSerializer serializer = PrimitiveDoubleArrayYAMLSerializer.getInstance(propertyName);
 
         writer.beginObject(propertyName);
         for (double[] value : values) {
             serializer.serialize(writer, value, ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

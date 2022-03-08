@@ -20,7 +20,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
@@ -61,14 +61,10 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
         @Override
         protected void doSerialize(YAMLWriter writer, Date value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
                 if ((ctx.isWriteDatesAsTimestamps())) {
-                    writer.value(value.getTime());
+                    writer.value(propertyName, String.valueOf(value.getTime()));
                 } else {
-                    String date = JacksonContextProvider.get().dateFormat().format(params, value);
-                    if (null == params.getPattern()) {
-                        writer.unescapeValue(date);
-                    } else {
-                        writer.value(date);
-                    }
+                    String date = YAMLContextProvider.get().dateFormat().format(params, value);
+                    writer.value(propertyName, date);
                 }
         }
     }
@@ -93,7 +89,7 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
         @Override
         protected void doSerialize(YAMLWriter writer, java.sql.Date value, YAMLSerializationContext ctx,
                                    YAMLSerializerParameters params) {
-            writer.unescapeValue(value.toString());
+            writer.value(propertyName, value.toString());
         }
     }
 
@@ -115,10 +111,8 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
         }
 
         @Override
-        protected void doSerialize(YAMLWriter writer, Time value, YAMLSerializationContext ctx, YAMLSerializerParameters params
-        ) {
-            writer.unescapeValue(value.toString());
-
+        protected void doSerialize(YAMLWriter writer, Time value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+            writer.value(propertyName, value.toString());
         }
     }
 
@@ -143,14 +137,10 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
         protected void doSerialize(YAMLWriter writer, Timestamp value, YAMLSerializationContext ctx, YAMLSerializerParameters
                 params) {
             if (ctx.isWriteDatesAsTimestamps()) {
-                writer.value(value.getTime());
+                writer.value(propertyName, String.valueOf(value.getTime()));
             } else {
-                String date = JacksonContextProvider.get().dateFormat().format(params, value);
-                if (null == params.getPattern()) {
-                    writer.unescapeValue(date);
-                } else {
-                    writer.value(date);
-                }
+                String date = YAMLContextProvider.get().dateFormat().format(params, value);
+                writer.value(propertyName, date);
             }
         }
     }

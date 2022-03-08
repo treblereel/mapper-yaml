@@ -147,7 +147,6 @@ import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.Doubl
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.FloatYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.IntegerYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.LongYAMLDeserializer;
-import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.NumberYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.ShortYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseDateYAMLSerializer.DateYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseDateYAMLSerializer.SqlDateYAMLSerializer;
@@ -336,11 +335,6 @@ public final class TypeRegistry {
                 .deserializer(ShortYAMLDeserializer.class)
                 .register(basicTypes);
 
-        MAPPER
-                .forType(Number.class)
-                .serializer(NumberYAMLSerializer.class)
-                .deserializer(NumberYAMLDeserializer.class)
-                .register(basicTypes);
     }
 
     private void initDataMappers() {

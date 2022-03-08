@@ -19,34 +19,34 @@ package org.treblereel.gwt.yaml.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.treblereel.gwt.yaml.api.deser.bean.IdentityDeserializationInfo;
-import org.treblereel.gwt.yaml.api.deser.bean.TypeDeserializationInfo;
+import elemental2.core.JsNumber;
+import jsinterop.base.JsPropertyMap;
+import org.treblereel.gwt.yaml.api.ser.bean.TypeSerializationInfo;
 
 /**
- * This class includes parameters defined through properties annotations like { YAMLIgnoreProperties}. They are specific to one
- * {@link YAMLDeserializer} and that's why they are not contained inside {@link YAMLDeserializationContext}.
+ * This class includes parameters defined through properties annotations like { YAMLFormat}. They are specific to one
+ * {@link YAMLSerializer} and that's why they are not contained inside {@link YAMLSerializationContext}.
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-@GwtIncompatible
-public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeserializerParameters {
+public final class GwtYAMLSerializerParameters implements YAMLSerializerParameters {
 
     /**
      * Constant <code>DEFAULT</code>
      */
-    public static final YAMLDeserializerParameters DEFAULT = new ServerJacksonYAMLDeserializerParameters();
+    public static final YAMLSerializerParameters DEFAULT = new GwtYAMLSerializerParameters();
 
     /**
      * Datatype-specific additional piece of configuration that may be used
      * to further refine formatting aspects. This may, for example, determine
      * low-level format String used for {@link java.util.Date} serialization;
-     * however, exact use is determined by specific {@link YAMLDeserializer}
+     * however, exact use is determined by specific {@link YAMLSerializer}
      */
     private String pattern;
 
     /**
-     * Locale to use for deserialization (if needed).
+     * Locale to use for serialization (if needed).
      */
     private String locale;
 
@@ -56,25 +56,14 @@ public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeseri
     private Set<String> ignoredProperties;
 
     /**
-     * Property that defines whether it is ok to just ignore any
-     * unrecognized properties during deserialization.
-     * If true, all properties that are unrecognized -- that is,
-     * there are no setters or creators that accept them -- are
-     * ignored without warnings (although handlers for unknown
-     * properties, if any, will still be called) without
-     * exception.
-     */
-    private boolean ignoreUnknown = false;
-
-    /**
-     * Bean identity informations
-     */
-    private IdentityDeserializationInfo identityInfo;
-
-    /**
      * Bean type informations
      */
-    private TypeDeserializationInfo typeInfo;
+    private TypeSerializationInfo typeInfo;
+
+    /**
+     * If true, all the properties of an object will be serialized inside the current object.
+     */
+    private boolean unwrapped = false;
 
     /**
      * {@inheritDoc}
@@ -92,7 +81,7 @@ public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeseri
      * <p>Setter for the field <code>pattern</code>.</p>
      */
     @Override
-    public YAMLDeserializerParameters setPattern(String pattern) {
+    public YAMLSerializerParameters setPattern(String pattern) {
         this.pattern = pattern;
         return this;
     }
@@ -113,9 +102,19 @@ public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeseri
      * <p>Setter for the field <code>locale</code>.</p>
      */
     @Override
-    public YAMLDeserializerParameters setLocale(String locale) {
+    public YAMLSerializerParameters setLocale(String locale) {
         this.locale = locale;
         return this;
+    }
+
+    @Override
+    public Object getTimezone() {
+        return null;
+    }
+
+    @Override
+    public YAMLSerializerParameters setTimezone(Object timezone) {
+        return null;
     }
 
     /**
@@ -134,7 +133,7 @@ public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeseri
      * <p>addIgnoredProperty</p>
      */
     @Override
-    public YAMLDeserializerParameters addIgnoredProperty(String ignoredProperty) {
+    public YAMLSerializerParameters addIgnoredProperty(String ignoredProperty) {
         if (null == ignoredProperties) {
             ignoredProperties = new HashSet<String>();
         }
@@ -145,52 +144,10 @@ public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeseri
     /**
      * {@inheritDoc}
      *
-     * <p>isIgnoreUnknown</p>
-     */
-    @Override
-    public boolean isIgnoreUnknown() {
-        return ignoreUnknown;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>Setter for the field <code>ignoreUnknown</code>.</p>
-     */
-    @Override
-    public YAMLDeserializerParameters setIgnoreUnknown(boolean ignoreUnknown) {
-        this.ignoreUnknown = ignoreUnknown;
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>Getter for the field <code>identityInfo</code>.</p>
-     */
-    @Override
-    public IdentityDeserializationInfo getIdentityInfo() {
-        return identityInfo;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>Setter for the field <code>identityInfo</code>.</p>
-     */
-    @Override
-    public YAMLDeserializerParameters setIdentityInfo(IdentityDeserializationInfo identityInfo) {
-        this.identityInfo = identityInfo;
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * <p>Getter for the field <code>typeInfo</code>.</p>
      */
     @Override
-    public TypeDeserializationInfo getTypeInfo() {
+    public TypeSerializationInfo getTypeInfo() {
         return typeInfo;
     }
 
@@ -200,8 +157,39 @@ public final class ServerJacksonYAMLDeserializerParameters implements YAMLDeseri
      * <p>Setter for the field <code>typeInfo</code>.</p>
      */
     @Override
-    public YAMLDeserializerParameters setTypeInfo(TypeDeserializationInfo typeInfo) {
+    public YAMLSerializerParameters setTypeInfo(TypeSerializationInfo typeInfo) {
         this.typeInfo = typeInfo;
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>isUnwrapped</p>
+     */
+    @Override
+    public boolean isUnwrapped() {
+        return unwrapped;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Setter for the field <code>unwrapped</code>.</p>
+     */
+    @Override
+    public YAMLSerializerParameters setUnwrapped(boolean unwrapped) {
+        this.unwrapped = unwrapped;
+        return this;
+    }
+
+    @Override
+    public String doubleValue(Double value) {
+        //TODO reuse options
+        JsPropertyMap options = JsPropertyMap.of();
+        options.set("useGrouping", false);
+        options.set("minimumFractionDigits", 1);
+
+        return new JsNumber(value).toLocaleString(JsNumber.ToLocaleStringLocalesUnionType.of("us"), options);
     }
 }

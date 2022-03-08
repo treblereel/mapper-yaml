@@ -53,6 +53,6 @@ public class StringYAMLDeserializer extends YAMLDeserializer<String> {
      */
     @Override
     public String doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        return reader.value();
+        return reader.getValue(params.getTypeInfo().getPropertyName());
     }
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Test;
 import org.treblereel.gwt.yaml.tests.beans.BooleanBean;
-import org.treblereel.gwt.yaml.tests.beans.BooleanBean_MapperImpl;
+import org.treblereel.gwt.yaml.tests.beans.BooleanBean_YAMLMapperImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,7 +21,7 @@ public class BooleanTest {
     private static final String YAML_TRUE = "check: true";
     private static final String YAML_FALSE = "check: false";
 
-    private BooleanBean_MapperImpl mapper = BooleanBean_MapperImpl.INSTANCE;
+    private BooleanBean_YAMLMapperImpl mapper = BooleanBean_YAMLMapperImpl.INSTANCE;
 
     @Test
     public void testSerializeValue() throws IOException {

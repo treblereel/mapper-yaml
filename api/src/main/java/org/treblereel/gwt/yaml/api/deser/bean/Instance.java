@@ -28,17 +28,13 @@ public class Instance<T> {
 
     private final T instance;
 
-    private final Map<String, String> bufferedProperties;
-
     /**
      * <p>Constructor for Instance.</p>
      *
-     * @param instance           a T object.
-     * @param bufferedProperties a {@link java.util.Map} object.
+     * @param instance a T object.
      */
-    public Instance(T instance, Map<String, String> bufferedProperties) {
+    public Instance(T instance) {
         this.instance = instance;
-        this.bufferedProperties = bufferedProperties;
     }
 
     /**
@@ -50,12 +46,4 @@ public class Instance<T> {
         return instance;
     }
 
-    /**
-     * <p>Getter for the field <code>bufferedProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object.
-     */
-    public Map<String, String> getBufferedProperties() {
-        return bufferedProperties;
-    }
 }

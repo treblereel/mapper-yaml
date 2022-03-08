@@ -114,8 +114,10 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
     public final T deserializeInline(final YAMLReader reader, final YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
                                      IdentityDeserializationInfo identityInfo, TypeDeserializationInfo typeInfo, String type,
                                      Map<String, String> bufferedProperties) {
-        T instance = instanceBuilder.newInstance(reader, ctx, params, null, null).getInstance();
+        T instance = instanceBuilder.newInstance(reader, ctx, params).getInstance();
         deserializers.keys().forEach(key -> {
+            System.out.println("KEY ");
+
             getPropertyDeserializer(key, ctx).deserialize(reader.getValue(key), instance, ctx);
         });
         return instance;

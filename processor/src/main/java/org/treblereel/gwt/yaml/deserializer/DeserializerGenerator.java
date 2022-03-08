@@ -251,8 +251,6 @@ public class DeserializerGenerator extends AbstractGenerator {
         addParameter(method, "YAMLReader", "reader");
         addParameter(method, "YAMLDeserializationContext", "ctx");
         addParameter(method, "YAMLDeserializerParameters", "params");
-        addParameter(method, "Map<String, String>", "bufferedProperties");
-        addParameter(method, "Map<String, Object>", "bufferedPropertiesValues");
 
         ObjectCreationExpr instanceBuilder = new ObjectCreationExpr();
         ClassOrInterfaceType instanceBuilderType = new ClassOrInterfaceType()
@@ -262,7 +260,6 @@ public class DeserializerGenerator extends AbstractGenerator {
 
         instanceBuilder.setType(instanceBuilderType);
         instanceBuilder.addArgument(new MethodCallExpr("create"));
-        instanceBuilder.addArgument("bufferedProperties");
 
         method.getBody().ifPresent(body -> body.addAndGetStatement(new ReturnStmt().setExpression(instanceBuilder)));
         anonymousClassBody.add(method);

@@ -36,13 +36,9 @@ public interface InstanceBuilder<T> {
      * @param reader                   a {@link YAMLReader} object.
      * @param ctx                      a {@link YAMLDeserializationContext} object.
      * @param params                   a {@link YAMLDeserializerParameters} object.
-     * @param bufferedProperties       a {@link java.util.Map} object.
-     * @param bufferedPropertiesValues a {@link java.util.Map} object.
      * @return a {@link deser.bean.Instance} object.
      */
-    Instance<T> newInstance(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
-                            Map<String, String> bufferedProperties,
-                            Map<String, Object> bufferedPropertiesValues);
+    Instance<T> newInstance(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
 
     /**
      * <p>getParametersDeserializer</p>

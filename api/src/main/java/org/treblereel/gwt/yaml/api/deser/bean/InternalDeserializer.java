@@ -43,7 +43,6 @@ interface InternalDeserializer<T, S extends YAMLDeserializer<T>> {
      * @param identityInfo a {@link IdentityDeserializationInfo} object.
      * @param typeInfo a {@link TypeDeserializationInfo} object.
      * @param typeInformation a {@link java.lang.String} object.
-     * @param typeInformation a {@link java.lang.String} object.
      * @param bufferedProperties a {@link java.util.Map} object.
      * @return a T object.
      */

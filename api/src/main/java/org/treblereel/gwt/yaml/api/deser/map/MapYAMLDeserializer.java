@@ -19,7 +19,9 @@ package org.treblereel.gwt.yaml.api.deser.map;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.util.Map}. The deserialization process returns a {@link java.util.LinkedHashMap}.

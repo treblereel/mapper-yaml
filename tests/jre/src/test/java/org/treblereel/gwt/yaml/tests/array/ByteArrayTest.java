@@ -23,46 +23,43 @@ import java.io.IOException;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-@J2clTestInput(BooleanArrayTest.class)
-public class BooleanArrayTest {
+@J2clTestInput(ByteArrayTest.class)
+public class ByteArrayTest {
+    private static final ByteArrayTest_ByteArray_YAMLMapperImpl mapper = ByteArrayTest_ByteArray_YAMLMapperImpl.INSTANCE;
 
-    private static final BooleanArrayTest_BooleanArray_YAMLMapperImpl mapper = BooleanArrayTest_BooleanArray_YAMLMapperImpl.INSTANCE;
+    private static final byte[] values = new byte[] {17, 2, 33, 66};
+
 
     @Test
     public void testSerializeValue() throws IOException {
-        BooleanArray booleanArray = new BooleanArray();
-        booleanArray.setValues(new boolean[] {true, false, true, false});
-        String yaml = mapper.write(booleanArray);
-
-        assertEquals("values:\n" +
-                "  - true\n" +
-                "  - false\n" +
-                "  - true\n" +
-                "  - false", yaml);
+        ByteArrayTest.ByteArray array = new ByteArrayTest.ByteArray();
+        array.setValues(values);
+        String yaml = mapper.write(array);
+        assertEquals("values: EQIhQg==", yaml);
 
     }
 
     @Test
     public void tesDeSerializeValue() throws IOException {
-        BooleanArray booleanArray = new BooleanArray();
-        boolean[] value = new boolean[] {true, false, true, false};
-        booleanArray.setValues(value);
-        String yaml = mapper.write(booleanArray);
-        assertArrayEquals(value, mapper.read(yaml).getValues());
+        ByteArrayTest.ByteArray array = new ByteArrayTest.ByteArray();
+        array.setValues(values);
+        String yaml = mapper.write(array);
+        assertArrayEquals(values, mapper.read(yaml).getValues());
     }
 
 
     @YAMLMapper
-    public static class BooleanArray {
+    public static class ByteArray {
 
-        private boolean[] values;
+        private byte[] values;
 
-        public boolean[] getValues() {
+        public byte[] getValues() {
             return values;
         }
 
-        public void setValues(boolean[] values) {
+        public void setValues(byte[] values) {
             this.values = values;
         }
     }
 }
+

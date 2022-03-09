@@ -23,46 +23,47 @@ import java.io.IOException;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-@J2clTestInput(BooleanArrayTest.class)
-public class BooleanArrayTest {
+@J2clTestInput(CharArrayTest.class)
+public class CharArrayTest {
+    private static final CharArrayTest_CharArray_YAMLMapperImpl mapper = CharArrayTest_CharArray_YAMLMapperImpl.INSTANCE;
 
-    private static final BooleanArrayTest_BooleanArray_YAMLMapperImpl mapper = BooleanArrayTest_BooleanArray_YAMLMapperImpl.INSTANCE;
+    private static final char[] values = new char[] {'a', 'z', 'F', '!'};
+
 
     @Test
     public void testSerializeValue() throws IOException {
-        BooleanArray booleanArray = new BooleanArray();
-        booleanArray.setValues(new boolean[] {true, false, true, false});
-        String yaml = mapper.write(booleanArray);
-
+        CharArrayTest.CharArray array = new CharArrayTest.CharArray();
+        array.setValues(values);
+        String yaml = mapper.write(array);
         assertEquals("values:\n" +
-                "  - true\n" +
-                "  - false\n" +
-                "  - true\n" +
-                "  - false", yaml);
+                "  - a\n" +
+                "  - z\n" +
+                "  - F\n" +
+                "  - !", yaml);
 
     }
 
     @Test
     public void tesDeSerializeValue() throws IOException {
-        BooleanArray booleanArray = new BooleanArray();
-        boolean[] value = new boolean[] {true, false, true, false};
-        booleanArray.setValues(value);
-        String yaml = mapper.write(booleanArray);
-        assertArrayEquals(value, mapper.read(yaml).getValues());
+        CharArrayTest.CharArray array = new CharArrayTest.CharArray();
+        array.setValues(values);
+        String yaml = mapper.write(array);
+        assertArrayEquals(values, mapper.read(yaml).getValues());
     }
 
 
     @YAMLMapper
-    public static class BooleanArray {
+    public static class CharArray {
 
-        private boolean[] values;
+        private char[] values;
 
-        public boolean[] getValues() {
+        public char[] getValues() {
             return values;
         }
 
-        public void setValues(boolean[] values) {
+        public void setValues(char[] values) {
             this.values = values;
         }
     }
 }
+

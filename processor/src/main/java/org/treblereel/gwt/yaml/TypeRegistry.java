@@ -60,7 +60,6 @@ import org.treblereel.gwt.yaml.api.deser.EnumYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.StringArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.UUIDYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.deser.VoidYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.array.PrimitiveBooleanArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.array.PrimitiveByteArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.array.PrimitiveCharacterArrayYAMLDeserializer;
@@ -159,7 +158,6 @@ import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.DoubleYAM
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.FloatYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.IntegerYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.LongYAMLSerializer;
-import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.NumberYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.ShortYAMLSerializer;
 
 /**
@@ -272,12 +270,6 @@ public final class TypeRegistry {
                 .serializer(UUIDYAMLSerializer.class)
                 .deserializer(UUIDYAMLDeserializer.class)
                 .register(basicTypes);
-
-        MAPPER
-                .forType(Void.class)
-                .serializer(VoidYAMLSerializer.class)
-                .deserializer(VoidYAMLDeserializer.class)
-                .register(simpleTypes);
 
         MAPPER
                 .forType(Enum.class)

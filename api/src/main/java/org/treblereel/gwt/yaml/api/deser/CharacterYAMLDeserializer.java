@@ -16,11 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.deser;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Character}.
@@ -42,23 +41,19 @@ public class CharacterYAMLDeserializer extends YAMLDeserializer<Character> {
         return INSTANCE;
     }
 
-    @Override
-    public Character deserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
-            YAMLDeserializationException {
-        if (value.isEmpty()) {
-            return '\u0000';
-        }
-        return value.charAt(0);
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Character doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        String value = reader.getValue(params.getTypeInfo().getPropertyName());
+    public Character doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        String value = yaml.string(key);
+        return doDeserialize(value, ctx, params);
+    }
+
+    @Override
+    public Character doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         if (value == null || value.isEmpty()) {
-            return null;
+            return '\u0000';
         }
         return value.charAt(0);
     }

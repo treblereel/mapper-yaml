@@ -248,7 +248,6 @@ public class DeserializerGenerator extends AbstractGenerator {
         method.setName("newInstance");
         method.setType(new ClassOrInterfaceType().setName("Instance")
                                .setTypeArguments(new ClassOrInterfaceType().setName(type.getSimpleName())));
-        addParameter(method, "YAMLReader", "reader");
         addParameter(method, "YAMLDeserializationContext", "ctx");
         addParameter(method, "YAMLDeserializerParameters", "params");
 

@@ -21,6 +21,9 @@ import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Default {@link YAMLSerializer} implementation for array.
  * @param <T> Type of the elements inside the array
@@ -75,9 +78,11 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
             writer.nullValue(propertyName);
             return;
         }
-        //TODO
-        for (T value : (T[])values) {
-            serializer.serialize(writer, value, ctx, params);
+
+        Collection<String> temp = new ArrayList<>();
+        for (T value : values) {
+            temp.add(String.valueOf(value));
         }
+        writer.value(propertyName, temp);
     }
 }

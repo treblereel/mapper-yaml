@@ -52,6 +52,7 @@ public class DefaultYAMLReader implements YAMLReader {
 
     @Override
     public String getValue(String key) {
+
         String value = reader.string(key);
         if(value.equals("~")) {
             return null;

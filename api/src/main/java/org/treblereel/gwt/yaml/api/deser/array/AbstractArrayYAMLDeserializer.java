@@ -19,10 +19,11 @@ package org.treblereel.gwt.yaml.api.deser.array;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for array.
@@ -35,52 +36,39 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
      * {@inheritDoc}
      */
     @Override
-    public T doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        if(true) {
-            System.out.println("AbstractArrayYAMLDeserializer 1");
-        }
-        return doDeserializeArray(reader, ctx, params);
+    public T doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        return doDeserializeArray(yaml, key, ctx, params);
     }
 
     /**
      * <p>doDeserializeArray</p>
-     * @param reader a {@link YAMLReader} object.
+     * @param yaml a {@link YamlMapping} object.
      * @param ctx a {@link YAMLDeserializationContext} object.
      * @param params a {@link YAMLDeserializerParameters} object.
      * @return a T object.
      */
-    protected abstract T doDeserializeArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
-
-    /**
-     * <p>doDeserializeSingleArray</p>
-     * @param reader a {@link YAMLReader} object.
-     * @param ctx a {@link YAMLDeserializationContext} object.
-     * @param params a {@link YAMLDeserializerParameters} object.
-     * @return a T object.
-     */
-    protected abstract T doDeserializeSingleArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
+    protected abstract T doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
 
     /**
      * Deserializes the array into a {@link java.util.List}. We need the length of the array before creating it.
-     * @param reader reader
+     * @param sequence YamlSequence
      * @param ctx context of the deserialization process
      * @param deserializer deserializer for element inside the array
      * @param params Parameters for the deserializer
      * @param <C> type of the element inside the array
      * @return a list containing all the elements of the array
      */
-    protected <C> List<C> deserializeIntoList(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializer<C> deserializer,
-                                              YAMLDeserializerParameters params) {
-        if(true) {
-            System.out.println("deserializeIntoList 2");
-        }
-
-
+    protected <C> List<C> deserializeIntoList(YamlSequence sequence,  YAMLDeserializer<C> deserializer,
+                                              YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         List<C> list = new ArrayList<>();
+        for (int i = 0; i < sequence.size(); i++) {
+            list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+        }
+        return list;
+    }
 
-        System.out.println("deserializeInline " + params.getTypeInfo().getPropertyName());
-        reader.getArray(params.getTypeInfo().getPropertyName());
-
-        throw new UnsupportedOperationException();
+    @Override
+    final public T doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        throw new Error("Unsupported operation");
     }
 }

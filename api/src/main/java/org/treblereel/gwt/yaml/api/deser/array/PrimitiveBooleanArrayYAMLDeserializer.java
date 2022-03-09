@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.array;
 
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -48,12 +49,8 @@ public class PrimitiveBooleanArrayYAMLDeserializer extends AbstractArrayYAMLDese
      * {@inheritDoc}
      */
     @Override
-    public boolean[] doDeserializeArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        if(true) {
-            System.out.println("doDeserializeArray !!!");
-        }
-
-        List<Boolean> list = deserializeIntoList(reader, ctx, BooleanYAMLDeserializer.getInstance(), params);
+    public boolean[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<Boolean> list = deserializeIntoList(yaml.yamlSequence(key), BooleanYAMLDeserializer.getInstance(), ctx, params);
 
         boolean[] result = new boolean[list.size()];
         int i = 0;
@@ -66,14 +63,4 @@ public class PrimitiveBooleanArrayYAMLDeserializer extends AbstractArrayYAMLDese
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected boolean[] doDeserializeSingleArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        if(true) {
-            System.out.println("doDeserializeSingleArray !!!");
-        }
-        return new boolean[]{BooleanYAMLDeserializer.getInstance().deserialize(reader, ctx, params)};
-    }
 }

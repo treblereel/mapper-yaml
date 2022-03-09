@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser;
 
 import java.util.UUID;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -31,33 +32,25 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
  */
 public class UUIDYAMLDeserializer extends YAMLDeserializer<UUID> {
 
-    private static final UUIDYAMLDeserializer INSTANCE = new UUIDYAMLDeserializer();
+    public static final UUIDYAMLDeserializer INSTANCE = new UUIDYAMLDeserializer();
 
     private UUIDYAMLDeserializer() {
-    }
-
-    /**
-     * <p>getInstance.</p>
-     * @return an instance of {@link UUIDYAMLDeserializer}
-     */
-    public static UUIDYAMLDeserializer getInstance() {
-        return INSTANCE;
-    }
-
-    @Override
-    public UUID deserialize(String uuid, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
-            YAMLDeserializationException {
-        if (uuid != null) {
-            return UUID.fromString(uuid);
-        }
-        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UUID doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        throw new UnsupportedOperationException();
+    public UUID doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        String uuid = yaml.string(key);
+        return doDeserialize(uuid, ctx, params);
+    }
+
+    @Override
+    public UUID doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        if (value != null) {
+            return UUID.fromString(value);
+        }
+        return null;
     }
 }

@@ -16,13 +16,15 @@
 
 package org.treblereel.gwt.yaml.api.deser;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.deser.array.AbstractArrayYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of {@link java.lang.String}.
@@ -49,17 +51,14 @@ public class StringArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<S
      * {@inheritDoc}
      */
     @Override
-    public String[] doDeserializeArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        List<String> list = deserializeIntoList(reader, ctx, StringYAMLDeserializer.getInstance(), params);
+    public String[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<String> list = new ArrayList<>();
+        YamlSequence yamlSequence = yaml.yamlSequence(key);
+
+        for (int i = 0; i < yamlSequence.size(); i++) {
+            list.add(yamlSequence.string(i));
+        }
         return list.toArray(new String[list.size()]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String[] doDeserializeSingleArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        //return new String[]{reader.nextString()};
-        throw new UnsupportedOperationException();
-    }
 }

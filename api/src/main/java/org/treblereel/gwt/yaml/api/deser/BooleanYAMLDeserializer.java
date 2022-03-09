@@ -16,11 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.deser;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Boolean}.
@@ -42,20 +41,16 @@ public class BooleanYAMLDeserializer extends YAMLDeserializer<Boolean> {
         return INSTANCE;
     }
 
-    @Override
-    public Boolean deserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
-            YAMLDeserializationException {
-        if (value.isEmpty()) {
-            return null;
-        }
-        return Boolean.valueOf(value);
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Boolean doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        throw new UnsupportedOperationException();
+    public Boolean doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        return doDeserialize(yaml.string(key), ctx, params);
+    }
+
+    @Override
+    public Boolean doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        return Boolean.valueOf(value);
     }
 }

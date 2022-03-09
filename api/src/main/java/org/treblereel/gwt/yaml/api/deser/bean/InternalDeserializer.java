@@ -35,35 +35,5 @@ interface InternalDeserializer<T, S extends YAMLDeserializer<T>> {
      */
     S getDeserializer();
 
-    /**
-     * <p>deserializeInline</p>
-     * @param reader a {@link YAMLReader} object.
-     * @param ctx a {@link YAMLDeserializationContext} object.
-     * @param params a {@link YAMLDeserializerParameters} object.
-     * @param identityInfo a {@link IdentityDeserializationInfo} object.
-     * @param typeInfo a {@link TypeDeserializationInfo} object.
-     * @param typeInformation a {@link java.lang.String} object.
-     * @param bufferedProperties a {@link java.util.Map} object.
-     * @return a T object.
-     */
-    T deserializeInline(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
-                        IdentityDeserializationInfo identityInfo, TypeDeserializationInfo typeInfo,
-                        String typeInformation, Map<String,
-            String> bufferedProperties);
-
-    /**
-     * <p>deserializeWrapped</p>
-     * @param reader a {@link YAMLReader} object.
-     * @param ctx a {@link YAMLDeserializationContext} object.
-     * @param params a {@link YAMLDeserializerParameters} object.
-     * @param identityInfo a {@link IdentityDeserializationInfo} object.
-     * @param typeInfo a {@link TypeDeserializationInfo} object.
-     * @param typeInformation a {@link java.lang.String} object.
-     * @param typeInformation a {@link java.lang.String} object.
-     * @return a T object.
-     */
-    T deserializeWrapped(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
-                         IdentityDeserializationInfo identityInfo, TypeDeserializationInfo typeInfo,
-                         String typeInformation);
 }
 

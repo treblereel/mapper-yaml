@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.deser.array.dd;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -50,11 +51,11 @@ public class PrimitiveByteArray2dYAMLDeserializer extends AbstractArray2dYAMLDes
      * {@inheritDoc}
      */
     @Override
-    public byte[][] doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public byte[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
 
         byte[][] result;
 
-        List<String> strings = doDeserializeInnerIntoList(reader, ctx, StringYAMLDeserializer.getInstance(), params);
+        List<String> strings = doDeserializeInnerIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.getInstance(), params);
 
         if (strings.isEmpty()) {
             result = new byte[0][0];

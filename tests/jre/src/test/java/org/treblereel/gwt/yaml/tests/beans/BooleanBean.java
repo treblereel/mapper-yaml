@@ -4,10 +4,6 @@ import java.util.Objects;
 
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 
-/**
- * @author Dmitrii Tikhomirov
- * Created by treblereel 3/27/20
- */
 @YAMLMapper
 public class BooleanBean {
 

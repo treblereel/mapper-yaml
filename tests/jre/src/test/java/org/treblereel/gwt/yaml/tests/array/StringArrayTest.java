@@ -23,45 +23,46 @@ import java.io.IOException;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-@J2clTestInput(BooleanArrayTest.class)
-public class BooleanArrayTest {
+@J2clTestInput(StringArrayTest.class)
+public class StringArrayTest {
 
-    private static final BooleanArrayTest_BooleanArray_YAMLMapperImpl mapper = BooleanArrayTest_BooleanArray_YAMLMapperImpl.INSTANCE;
+    private static final StringArrayTest_StringArray_YAMLMapperImpl mapper = StringArrayTest_StringArray_YAMLMapperImpl.INSTANCE;
+
+    private static final String[] values = new String[] {"aaa", "bbb", "ccc", "ddd"};
 
     @Test
     public void testSerializeValue() throws IOException {
-        BooleanArray booleanArray = new BooleanArray();
-        booleanArray.setValues(new boolean[] {true, false, true, false});
-        String yaml = mapper.write(booleanArray);
+        StringArrayTest.StringArray array = new StringArrayTest.StringArray();
+        array.setValues(values);
+        String yaml = mapper.write(array);
 
         assertEquals("values:\n" +
-                "  - true\n" +
-                "  - false\n" +
-                "  - true\n" +
-                "  - false", yaml);
+                "  - aaa\n" +
+                "  - bbb\n" +
+                "  - ccc\n" +
+                "  - ddd", yaml);
 
     }
 
     @Test
     public void tesDeSerializeValue() throws IOException {
-        BooleanArray booleanArray = new BooleanArray();
-        boolean[] value = new boolean[] {true, false, true, false};
-        booleanArray.setValues(value);
-        String yaml = mapper.write(booleanArray);
-        assertArrayEquals(value, mapper.read(yaml).getValues());
+        StringArrayTest.StringArray array = new StringArrayTest.StringArray();
+        array.setValues(values);
+        String yaml = mapper.write(array);
+        assertArrayEquals(values, mapper.read(yaml).getValues());
     }
 
 
     @YAMLMapper
-    public static class BooleanArray {
+    public static class StringArray {
 
-        private boolean[] values;
+        private String[] values;
 
-        public boolean[] getValues() {
+        public String[] getValues() {
             return values;
         }
 
-        public void setValues(boolean[] values) {
+        public void setValues(String[] values) {
             this.values = values;
         }
     }

@@ -16,10 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.deser.collection;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Iterable}. The deserialization process returns an {@link java.util.ArrayList}.
@@ -50,27 +50,7 @@ public class IterableYAMLDeserializer<T> extends BaseIterableYAMLDeserializer<It
      * {@inheritDoc}
      */
     @Override
-    public Iterable<T> doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-/*        if (YAMLToken.BEGIN_ARRAY == reader.peek()) {
-
-            Collection<T> result = new ArrayList<T>();
-
-            reader.beginArray();
-            while (YAMLToken.END_ARRAY != reader.peek()) {
-                result.add(deserializer.deserialize(reader, ctx, params));
-            }
-            reader.endArray();
-            return result;
-
-        } else if (ctx.isAcceptSingleValueAsArray()) {
-
-            Collection<T> result = new ArrayList<T>();
-            result.add(deserializer.deserialize(reader, ctx, params));
-            return result;
-
-        } else {
-            throw ctx.traceError("Cannot deserialize a java.lang.Iterable out of " + reader.peek() + " token", reader);
-        }*/
+    public Iterable<T> doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         throw new UnsupportedOperationException();
     }
 }

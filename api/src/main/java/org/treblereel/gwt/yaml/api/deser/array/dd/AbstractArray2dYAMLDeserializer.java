@@ -17,9 +17,9 @@
 package org.treblereel.gwt.yaml.api.deser.array.dd;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -34,28 +34,28 @@ public abstract class AbstractArray2dYAMLDeserializer<T> extends YAMLDeserialize
 
     /**
      * Deserializes the array into a {@link java.util.List}. We need the length of the array before creating it.
-     * @param reader reader
+     * @param sequence reader
      * @param ctx context of the deserialization process
      * @param deserializer deserializer for element inside the array
      * @param params Parameters for the deserializer
      * @param <C> type of the element inside the array
      * @return a list containing all the elements of the array
      */
-    protected <C> List<List<C>> deserializeIntoList(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializer<C> deserializer,
+    protected <C> List<List<C>> deserializeIntoList(YamlSequence sequence, YAMLDeserializationContext ctx, YAMLDeserializer<C> deserializer,
                                                     YAMLDeserializerParameters params) {
-        return doDeserializeIntoList(reader, ctx, deserializer, params);
+        return doDeserializeIntoList(sequence, ctx, deserializer, params);
     }
 
     /**
      * <p>doDeserializeIntoList</p>
-     * @param reader a {@link YAMLReader} object.
+     * @param sequence a {@link YamlSequence} object.
      * @param ctx a {@link YAMLDeserializationContext} object.
      * @param deserializer a {@link YAMLDeserializer} object.
      * @param params a {@link YAMLDeserializerParameters} object.
      * @param <C> a C object.
      * @return a {@link java.util.List} object.
      */
-    protected <C> List<List<C>> doDeserializeIntoList(YAMLReader reader, YAMLDeserializationContext ctx,
+    protected <C> List<List<C>> doDeserializeIntoList(YamlSequence sequence, YAMLDeserializationContext ctx,
                                                       YAMLDeserializer<C> deserializer, YAMLDeserializerParameters params) {
         List<List<C>> list = new ArrayList<>();
         // we keep the size of the first inner list to initialize the next lists with the correct size
@@ -63,7 +63,7 @@ public abstract class AbstractArray2dYAMLDeserializer<T> extends YAMLDeserialize
         throw new UnsupportedOperationException();
     }
 
-    protected <C> List<C> doDeserializeInnerIntoList(YAMLReader reader, YAMLDeserializationContext ctx,
+    protected <C> List<C> doDeserializeInnerIntoList(YamlSequence sequence, YAMLDeserializationContext ctx,
                                                      YAMLDeserializer<C> deserializer, YAMLDeserializerParameters params) {
 /*        List<C> innerList = new ArrayList<>();
         ctx.iterator().iterateOverCollection(reader, (Collection<T>) innerList, (reader1, ctx1, instance) -> {
@@ -73,5 +73,10 @@ public abstract class AbstractArray2dYAMLDeserializer<T> extends YAMLDeserialize
         }, ctx, params);
         return innerList;*/
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    final public T doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        throw new Error("Unsupported operation");
     }
 }

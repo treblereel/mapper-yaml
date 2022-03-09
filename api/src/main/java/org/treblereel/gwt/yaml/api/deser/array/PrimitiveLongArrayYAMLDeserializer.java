@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.array;
 
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -48,8 +49,8 @@ public class PrimitiveLongArrayYAMLDeserializer extends AbstractArrayYAMLDeseria
      * {@inheritDoc}
      */
     @Override
-    public long[] doDeserializeArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        List<Long> list = deserializeIntoList(reader, ctx, BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance(), params);
+    public long[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<Long> list = deserializeIntoList(yaml.yamlSequence(key), BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance(), ctx, params);
 
         long[] result = new long[list.size()];
         int i = 0;
@@ -62,11 +63,4 @@ public class PrimitiveLongArrayYAMLDeserializer extends AbstractArrayYAMLDeseria
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected long[] doDeserializeSingleArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        return new long[]{BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance().deserialize(reader, ctx, params)};
-    }
 }

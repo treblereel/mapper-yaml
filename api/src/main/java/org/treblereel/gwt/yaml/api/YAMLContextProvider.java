@@ -12,7 +12,6 @@ public class YAMLContextProvider {
 
     static YAMLContext yamlContext;
 
-
     /**
      * <p>get.</p>
      *

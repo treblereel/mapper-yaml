@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.array;
 
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -64,22 +65,12 @@ public class ArrayYAMLDeserializer<T> extends AbstractArrayYAMLDeserializer<T[]>
      * {@inheritDoc}
      */
     @Override
-    public T[] doDeserializeArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        List<T> list = deserializeIntoList(reader, ctx, deserializer, params);
+    public T[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<T> list = deserializeIntoList(yaml.yamlSequence(key), deserializer, ctx, params);
         if (list == null) {
             return null;
         }
         return list.toArray(arrayCreator.create(list.size()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected T[] doDeserializeSingleArray(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        T[] result = arrayCreator.create(1);
-        result[0] = deserializer.deserialize(reader, ctx, params);
-        return result;
     }
 
     @FunctionalInterface

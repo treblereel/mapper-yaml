@@ -16,6 +16,7 @@
 
 package org.treblereel.gwt.yaml.api;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
@@ -26,41 +27,45 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
  */
 public abstract class YAMLDeserializer<T> {
 
-    public T deserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
-            YAMLDeserializationException {
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Deserializes a YAML input into an object.
-     * @param reader {@link YAMLReader} used to read the JSON input
+     * @param yaml {@link YamlMapping} used to read the YAML input
+     * @param key {@link String} the key
      * @param ctx Context for the full deserialization process
      * @return the deserialized object
      * @throws YAMLDeserializationException if an error occurs during the deserialization
      */
-    public T deserialize(YAMLReader reader, YAMLDeserializationContext ctx) throws YAMLDeserializationException {
-        return deserialize(reader, ctx, ctx.defaultParameters());
+    public T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) throws YAMLDeserializationException {
+        return deserialize(yaml, key, ctx, ctx.defaultParameters());
     }
 
     /**
      * Deserializes a JSON input into an object.
-     * @param reader {@link YAMLReader} used to read the JSON input
+     * @param yaml {@link YamlMapping} used to read the YAML input
+     * @param key {@link String} the key
      * @param ctx Context for the full deserialization process
      * @param params Parameters for this deserialization
      * @return the deserialized object
      * @throws YAMLDeserializationException if an error occurs during the deserialization
      */
-    public T deserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
+    public T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
             YAMLDeserializationException {
-        return doDeserialize(reader, ctx, params);
+        return doDeserialize(yaml, key, ctx, params);
     }
 
     /**
      * Deserializes a non-null JSON input into an object.
-     * @param reader {@link YAMLReader} used to read the JSON input
+     * @param yaml {@link YamlMapping} used to read the YAML input
+     * @param key {@link String} the key
      * @param ctx Context for the full deserialization process
      * @param params Parameters for this deserialization
      * @return the deserialized object
      */
-    protected abstract T doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
+    public T doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        throw new Error("Unsupported operation");
+    }
+
+    public T doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        throw new Error("Unsupported operation");
+    }
 }

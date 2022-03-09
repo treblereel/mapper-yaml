@@ -16,11 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.deser;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Enum}.
@@ -53,26 +52,18 @@ public class EnumYAMLDeserializer<E extends Enum<E>> extends YAMLDeserializer<E>
         return new EnumYAMLDeserializer<>(enumClass, values);
     }
 
-    @Override
-    public E deserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
-            YAMLDeserializationException {
-        try {
-            return Enum.valueOf(enumClass, value);
-        } catch (IllegalArgumentException ex) {
-            if (ctx.isReadUnknownEnumValuesAsNull()) {
-                return null;
-            }
-            throw ex;
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public E doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public E doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        return doDeserialize(yaml.string(key), ctx, params);
+    }
+
+    @Override
+    public E doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         try {
-            return getEnum(values, reader.value());
+            return getEnum(values, value);
         } catch (IllegalArgumentException ex) {
             if (ctx.isReadUnknownEnumValuesAsNull()) {
                 return null;

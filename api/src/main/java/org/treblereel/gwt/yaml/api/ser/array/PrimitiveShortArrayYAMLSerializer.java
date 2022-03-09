@@ -22,6 +22,9 @@ import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Default {@link YAMLSerializer} implementation for array of short.
  * @author Nicolas Morel
@@ -57,14 +60,14 @@ public class PrimitiveShortArrayYAMLSerializer extends BasicArrayYAMLSerializer<
     @Override
     public void doSerialize(YAMLWriter writer, short[] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        writer.beginObject(propertyName);
+        Collection<String> temp = new ArrayList<>();
         for (short value : values) {
-            serializer.doSerialize(writer, Short.valueOf(value), ctx, params);
+            temp.add(String.valueOf(value));
         }
-        writer.endObject();
+        writer.value(propertyName, temp);
     }
 }

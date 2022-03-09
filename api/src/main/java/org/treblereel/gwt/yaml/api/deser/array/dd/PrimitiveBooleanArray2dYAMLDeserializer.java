@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.array.dd;
 
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -48,8 +49,8 @@ public class PrimitiveBooleanArray2dYAMLDeserializer extends AbstractArray2dYAML
 
     /** {@inheritDoc} */
     @Override
-    public boolean[][] doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        List<List<Boolean>> list = deserializeIntoList(reader, ctx, BooleanYAMLDeserializer.getInstance(), params);
+    public boolean[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<List<Boolean>> list = deserializeIntoList(yaml.yamlSequence(key), ctx, BooleanYAMLDeserializer.getInstance(), params);
 
         if (list.isEmpty()) {
             return new boolean[0][0];

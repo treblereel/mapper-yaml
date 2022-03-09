@@ -20,12 +20,11 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for dates.
@@ -34,36 +33,13 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
  */
 public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeserializer<D> {
 
-    @Override
-    public D deserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) throws
-            YAMLDeserializationException {
-        return deserializeString(value, ctx, params);
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public D doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        return deserializeNumber(reader.valueLong(), params);
+    public D doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        return doDeserialize(yaml.string(key), ctx, params);
     }
-
-    /**
-     * <p>deserializeNumber</p>
-     * @param millis a long.
-     * @param params a {@link YAMLDeserializerParameters} object.
-     * @return a D object.
-     */
-    protected abstract D deserializeNumber(long millis, YAMLDeserializerParameters params);
-
-    /**
-     * <p>deserializeString</p>
-     * @param date a {@link java.lang.String} object.
-     * @param ctx a {@link YAMLDeserializationContext} object.
-     * @param params a {@link YAMLDeserializerParameters} object.
-     * @return a D object.
-     */
-    protected abstract D deserializeString(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
 
     /**
      * Default implementation of {@link BaseDateYAMLDeserializer} for {@link Date}
@@ -83,20 +59,12 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
         }
 
         @Override
-        protected Date deserializeString(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        public Date doDeserialize(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
             if (date == null) {
                 return null;
             }
             return new Date(Long.valueOf(date));
-            //return JacksonContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), params.getPattern(), null, date);
-        }
-
-        @Override
-        protected Date deserializeNumber(long millis, YAMLDeserializerParameters params) {
-            if (millis == 0) {
-                return null;
-            }
-            return new Date(millis);
+            //return YamlContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), params.getPattern(), null, date);
         }
     }
 
@@ -120,18 +88,14 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
         }
 
         @Override
-        protected java.sql.Date deserializeString(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        public java.sql.Date doDeserialize(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
             if (date == null) {
                 return null;
             }
             return new java.sql.Date(Long.valueOf(date));
-            //return new java.sql.Date(JacksonContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), SQL_DATE_FORMAT, false, date).getTime());
+            //return new java.sql.Date(YamlContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), SQL_DATE_FORMAT, false, date).getTime());
         }
 
-        @Override
-        protected java.sql.Date deserializeNumber(long millis, YAMLDeserializerParameters params) {
-            return new java.sql.Date(millis);
-        }
     }
 
     /**
@@ -152,13 +116,8 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
         }
 
         @Override
-        protected Time deserializeString(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        public Time doDeserialize(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
             return Time.valueOf(date);
-        }
-
-        @Override
-        protected Time deserializeNumber(long millis, YAMLDeserializerParameters params) {
-            return new Time(millis);
         }
     }
 
@@ -180,13 +139,9 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
         }
 
         @Override
-        protected Timestamp deserializeString(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-            return new Timestamp(JacksonContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), params.getPattern(), null, date).getTime());
+        public Timestamp doDeserialize(String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+            return new Timestamp(YAMLContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(), params.getPattern(), null, date).getTime());
         }
 
-        @Override
-        protected Timestamp deserializeNumber(long millis, YAMLDeserializerParameters params) {
-            return new Timestamp(millis);
-        }
     }
 }

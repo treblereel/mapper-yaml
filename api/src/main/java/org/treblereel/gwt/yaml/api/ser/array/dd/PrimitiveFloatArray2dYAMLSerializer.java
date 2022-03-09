@@ -57,16 +57,16 @@ public class PrimitiveFloatArray2dYAMLSerializer extends BasicArrayYAMLSerialize
     @Override
     public void doSerialize(YAMLWriter writer, float[][] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        BasicArrayYAMLSerializer serializer = PrimitiveFloatArrayYAMLSerializer.getInstance(propertyName);
+/*        BasicArrayYAMLSerializer serializer = PrimitiveFloatArrayYAMLSerializer.getInstance(propertyName);
 
         writer.beginObject(propertyName);
         for (float[] value : values) {
             serializer.serialize(writer, value, ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

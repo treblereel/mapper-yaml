@@ -16,9 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.deser.bean;
 
-import java.util.Map;
-
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -63,12 +62,10 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
     /**
      * {@inheritDoc}
      */
-    @Override
-    public T doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public T doDeserialize(YamlMapping yaml, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         deserializers = initDeserializers();
         // Processing the parameters. We fallback to default if parameter is not present.
-        final IdentityDeserializationInfo identityInfo = null == params.getIdentityInfo() ? defaultIdentityInfo : params.getIdentityInfo();
-        return deserializeWrapped(reader, ctx, params, identityInfo, null, null);
+        return deserializeInline(yaml, ctx, params);
     }
 
     /**
@@ -78,7 +75,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
      */
     protected MapLike<BeanPropertyDeserializer<T, ?>> initDeserializers() {
         //Change by Ahmad Bawaneh, replace JSNI types with IsInterop types
-        return JacksonContextProvider.get().mapLikeFactory().make();
+        return YAMLContextProvider.get().mapLikeFactory().make();
     }
 
     protected abstract String getRootElement();
@@ -110,23 +107,14 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
      * <p>
      * Deserializes all the properties of the bean. The {@link YAMLReader} must be in a json object.
      */
-    @Override
-    public final T deserializeInline(final YAMLReader reader, final YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
-                                     IdentityDeserializationInfo identityInfo, TypeDeserializationInfo typeInfo, String type,
-                                     Map<String, String> bufferedProperties) {
-        T instance = instanceBuilder.newInstance(reader, ctx, params, null, null).getInstance();
+    public final T deserializeInline(YamlMapping yaml, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        T instance = instanceBuilder.newInstance(ctx, params).getInstance();
+        deserializers = initDeserializers();
+
         deserializers.keys().forEach(key -> {
-            getPropertyDeserializer(key, ctx).deserialize(reader.getValue(key), instance, ctx);
+            getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);
         });
         return instance;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public T deserializeWrapped(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
-                                IdentityDeserializationInfo identityInfo, TypeDeserializationInfo typeInfo, String typeInformation) {
-        return deserializeInline(reader, ctx, params, identityInfo, typeInfo, typeInformation, null);
-    }
 }

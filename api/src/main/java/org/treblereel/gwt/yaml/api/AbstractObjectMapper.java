@@ -18,7 +18,10 @@ package org.treblereel.gwt.yaml.api;
 
 import java.io.IOException;
 
+import com.amihaiemil.eoyaml.Yaml;
+import com.amihaiemil.eoyaml.YamlMapping;
 import elemental2.dom.DomGlobal;
+import org.treblereel.gwt.yaml.api.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
@@ -58,16 +61,8 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
      * {@inheritDoc}
      */
     public T read(String in, YAMLDeserializationContext ctx) throws YAMLDeserializationException, IOException {
-        YAMLReader reader = ctx.newYAMLReader(in);
-
-        try {
-            return getDeserializer().deserialize(reader, ctx);
-        } catch (YAMLDeserializationException e) {
-            // already logged, we just throw it
-            throw e;
-        } catch (RuntimeException e) {
-            throw ctx.traceError(e, reader);
-        }
+        YamlMapping reader = Yaml.createYamlInput(in).readYamlMapping();
+        return ((AbstractBeanYAMLDeserializer<T>)getDeserializer()).deserializeInline(reader, ctx, null);
     }
 
     /**
@@ -113,8 +108,6 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
             throw ctx.traceError(value, e, writer);
         } catch (Exception e) {
             throw new Error(e);
-        } finally {
-            writer.close();
         }
     }
 

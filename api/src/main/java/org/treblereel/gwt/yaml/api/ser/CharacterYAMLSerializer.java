@@ -46,6 +46,6 @@ public class CharacterYAMLSerializer extends YAMLSerializer<Character> {
      */
     @Override
     public void doSerialize(YAMLWriter writer, Character value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.value(value.toString());
+        writer.value(propertyName, value.toString());
     }
 }

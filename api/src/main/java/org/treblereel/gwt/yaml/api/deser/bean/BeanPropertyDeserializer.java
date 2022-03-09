@@ -16,6 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.deser.bean;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
@@ -28,19 +29,6 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 public abstract class BeanPropertyDeserializer<T, V> extends HasDeserializerAndParameters<V, YAMLDeserializer<V>> {
 
     /**
-     * Deserializes the property defined for this instance.
-     * @param reader reader
-     * @param bean bean to set the deserialized property to
-     * @param ctx context of the deserialization process
-     */
-    public void deserialize(YAMLReader reader, T bean, YAMLDeserializationContext ctx) {
-        V value = deserialize(reader, ctx);
-        if (value != null) {
-            setValue(bean, value, ctx);
-        }
-    }
-
-    /**
      * <p>setValue</p>
      * @param bean a T object.
      * @param value a V object.
@@ -48,8 +36,8 @@ public abstract class BeanPropertyDeserializer<T, V> extends HasDeserializerAndP
      */
     public abstract void setValue(T bean, V value, YAMLDeserializationContext ctx);
 
-    public void deserialize(String value, T bean, YAMLDeserializationContext ctx) {
-        setValue(bean, deserialize(value, ctx), ctx);
+    public void deserialize(YamlMapping yaml, String key, T bean, YAMLDeserializationContext ctx) {
+        setValue(bean, deserialize(yaml, key, ctx), ctx);
     }
 
 }

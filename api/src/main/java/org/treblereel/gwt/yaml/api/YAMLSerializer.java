@@ -83,7 +83,7 @@ public abstract class YAMLSerializer<T> {
             if (ctx.isSerializeNulls() || (isMapValue && ctx.isWriteNullMapValues())) {
                 serializeNullValue(writer, ctx, params);
             } else {
-                writer.nullValue();
+                writer.nullValue(propertyName);
             }
         } else {
             doSerialize(writer, value, ctx, params);
@@ -97,7 +97,7 @@ public abstract class YAMLSerializer<T> {
      * @param params Parameters for this serialization
      */
     protected void serializeNullValue(YAMLWriter writer, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.nullValue();
+        writer.nullValue(propertyName);
     }
 
     /**

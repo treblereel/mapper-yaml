@@ -60,7 +60,6 @@ import org.treblereel.gwt.yaml.api.deser.EnumYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.StringArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.UUIDYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.deser.VoidYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.array.PrimitiveBooleanArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.array.PrimitiveByteArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.deser.array.PrimitiveCharacterArrayYAMLDeserializer;
@@ -147,7 +146,6 @@ import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.Doubl
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.FloatYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.IntegerYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.LongYAMLDeserializer;
-import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.NumberYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.deser.BaseNumberYAMLDeserializer.ShortYAMLDeserializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseDateYAMLSerializer.DateYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseDateYAMLSerializer.SqlDateYAMLSerializer;
@@ -160,7 +158,6 @@ import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.DoubleYAM
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.FloatYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.IntegerYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.LongYAMLSerializer;
-import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.NumberYAMLSerializer;
 import static org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer.ShortYAMLSerializer;
 
 /**
@@ -275,12 +272,6 @@ public final class TypeRegistry {
                 .register(basicTypes);
 
         MAPPER
-                .forType(Void.class)
-                .serializer(VoidYAMLSerializer.class)
-                .deserializer(VoidYAMLDeserializer.class)
-                .register(simpleTypes);
-
-        MAPPER
                 .forType(Enum.class)
                 .serializer(EnumYAMLSerializer.class)
                 .deserializer(EnumYAMLDeserializer.class)
@@ -336,11 +327,6 @@ public final class TypeRegistry {
                 .deserializer(ShortYAMLDeserializer.class)
                 .register(basicTypes);
 
-        MAPPER
-                .forType(Number.class)
-                .serializer(NumberYAMLSerializer.class)
-                .deserializer(NumberYAMLDeserializer.class)
-                .register(basicTypes);
     }
 
     private void initDataMappers() {

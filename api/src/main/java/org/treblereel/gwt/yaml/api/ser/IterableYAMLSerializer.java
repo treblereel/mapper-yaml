@@ -69,7 +69,7 @@ public class IterableYAMLSerializer<I extends Iterable<T>, T> extends YAMLSerial
     public void doSerialize(YAMLWriter writer, I values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         Iterator<T> iterator = values.iterator();
 
-        if (!iterator.hasNext()) {
+/*        if (!iterator.hasNext()) {
             if (ctx.isWriteEmptyYAMLArrays()) {
                 writer.beginArray();
                 writer.endArray();
@@ -83,6 +83,6 @@ public class IterableYAMLSerializer<I extends Iterable<T>, T> extends YAMLSerial
         while (iterator.hasNext()) {
             serializer.serialize(writer, iterator.next(), ctx, params);
         }
-        writer.endArray();
+        writer.endArray();*/
     }
 }

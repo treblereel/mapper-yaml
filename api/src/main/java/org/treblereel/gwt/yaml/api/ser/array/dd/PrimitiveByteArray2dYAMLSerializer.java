@@ -57,11 +57,11 @@ public class PrimitiveByteArray2dYAMLSerializer extends BasicArrayYAMLSerializer
     @Override
     public void doSerialize(YAMLWriter writer, byte[][] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
 
-        if (values.length == 0) {
+/*        if (values.length == 0) {
             if (ctx.isWriteEmptyYAMLArrays()) {
                 writer.beginObject(propertyName);
                 writer.endObject();
@@ -76,6 +76,6 @@ public class PrimitiveByteArray2dYAMLSerializer extends BasicArrayYAMLSerializer
         for (byte[] value : values) {
             serializer.serialize(writer, value, ctx, params);
         }
-        writer.endObject();
+        writer.endObject();*/
     }
 }

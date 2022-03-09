@@ -16,8 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.deser.bean;
 
-import java.util.Map;
-
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
@@ -33,16 +32,11 @@ public interface InstanceBuilder<T> {
     /**
      * <p>newInstance</p>
      *
-     * @param reader                   a {@link YAMLReader} object.
-     * @param ctx                      a {@link YAMLDeserializationContext} object.
-     * @param params                   a {@link YAMLDeserializerParameters} object.
-     * @param bufferedProperties       a {@link java.util.Map} object.
-     * @param bufferedPropertiesValues a {@link java.util.Map} object.
+     * @param ctx    a {@link YAMLDeserializationContext} object.
+     * @param params a {@link YAMLDeserializerParameters} object.
      * @return a {@link deser.bean.Instance} object.
      */
-    Instance<T> newInstance(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params,
-                            Map<String, String> bufferedProperties,
-                            Map<String, Object> bufferedPropertiesValues);
+    Instance<T> newInstance(YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
 
     /**
      * <p>getParametersDeserializer</p>

@@ -16,8 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.deser.collection;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -46,18 +50,15 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
      * {@inheritDoc}
      */
     @Override
-    public C doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public C doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<T> list = new ArrayList<>();
 
-/*        YAMLIterator.Scanner scanner = (YAMLIterator.Scanner<C>) (reader1, ctx1, instance) -> {
-            T element = deserializer.deserialize(reader1, ctx1, params);
-            if (element != null) {
-                instance.add(element);
-            }
-            return null;
-        };
-        return (C) ctx.iterator().iterateOverCollection(reader, ctx.isWrapCollections() ? ((Collection<C>) newCollection()) : (Collection<C>) collection,
-                                                        scanner, ctx, params);*/
-        throw new UnsupportedOperationException();
+        YamlSequence sequence = yaml.yamlSequence(key);
+
+        for (int i = 0; i < sequence.size(); i++) {
+            list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+        }
+        return (C) list;
     }
 
     /**

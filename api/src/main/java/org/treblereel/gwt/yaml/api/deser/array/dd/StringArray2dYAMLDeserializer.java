@@ -2,6 +2,7 @@ package org.treblereel.gwt.yaml.api.deser.array.dd;
 
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.deser.StringYAMLDeserializer;
@@ -30,8 +31,8 @@ public class StringArray2dYAMLDeserializer extends AbstractArray2dYAMLDeserializ
      * {@inheritDoc}
      */
     @Override
-    public String[][] doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        List<List<String>> list = deserializeIntoList(reader, ctx, StringYAMLDeserializer.getInstance(), params);
+    public String[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<List<String>> list = deserializeIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.getInstance(), params);
 
         if (list.isEmpty()) {
             return new String[0][0];

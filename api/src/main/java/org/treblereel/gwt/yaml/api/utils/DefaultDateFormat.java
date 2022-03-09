@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.treblereel.gwt.yaml.api.GwtIncompatible;
-import org.treblereel.gwt.yaml.api.JacksonContext;
+import org.treblereel.gwt.yaml.api.YAMLContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 
 /**
@@ -38,7 +38,7 @@ import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
  * @version $Id: $
  */
 @GwtIncompatible
-public final class DefaultDateFormat implements JacksonContext.DateFormat {
+public final class DefaultDateFormat implements YAMLContext.DateFormat {
 
     /**
      * Defines a commonly used date format that conforms

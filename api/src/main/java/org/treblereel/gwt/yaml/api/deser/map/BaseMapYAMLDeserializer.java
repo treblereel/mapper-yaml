@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.map;
 
 import java.util.Map;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -63,11 +64,16 @@ public abstract class BaseMapYAMLDeserializer<M extends Map<K, V>, K, V> extends
      * {@inheritDoc}
      */
     @Override
-    public M doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public M doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         M result = newMap();
 /*        ctx.iterator().doDeserializeMap(reader, result, keyDeserializer, valueDeserializer, ctx, params);
         return result;*/
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    final public M doDeserialize(String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        throw new Error("Unsupported operation");
     }
 
     /**

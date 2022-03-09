@@ -64,7 +64,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSe
      */
     @Override
     public void doSerialize(YAMLWriter writer, C values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        if (values.isEmpty()) {
+/*        if (values.isEmpty()) {
             if (ctx.isWriteEmptyYAMLArrays()) {
                 writer.beginArray();
                 writer.endArray();
@@ -77,12 +77,12 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSe
             writer.beginObject(propertyName);
         }
 
-        for (T value : values) {
+        for (T value : (Collection<T>)values) {
             serializer.setParent(this).setPropertyName(propertyName).serialize(writer, value, ctx, params);
         }
         if (ctx.isWrapCollections()) {
             writer.endObject();
-        }
+        }*/
     }
 
     /**

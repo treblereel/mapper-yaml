@@ -12,7 +12,6 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -26,7 +25,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import org.treblereel.gwt.yaml.TypeUtils;
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -60,7 +59,7 @@ public class DeserializerGenerator extends AbstractGenerator {
 
     @Override
     protected void configureClassType(BeanDefinition type) {
-        cu.addImport(JacksonContextProvider.class);
+        cu.addImport(YAMLContextProvider.class);
         cu.addImport(YAMLDeserializationContext.class);
         cu.addImport(YAMLDeserializer.class);
         cu.addImport(YAMLDeserializerParameters.class);
@@ -126,7 +125,7 @@ public class DeserializerGenerator extends AbstractGenerator {
         VariableDeclarator map = new VariableDeclarator();
         map.setType(varType);
         map.setName("map");
-        map.setInitializer(new NameExpr("JacksonContextProvider.get().mapLikeFactory().make()"));
+        map.setInitializer(new NameExpr("YAMLContextProvider.get().mapLikeFactory().make()"));
 
         ExpressionStmt expressionStmt = new ExpressionStmt();
         VariableDeclarationExpr variableDeclarationExpr = new VariableDeclarationExpr();
@@ -249,11 +248,8 @@ public class DeserializerGenerator extends AbstractGenerator {
         method.setName("newInstance");
         method.setType(new ClassOrInterfaceType().setName("Instance")
                                .setTypeArguments(new ClassOrInterfaceType().setName(type.getSimpleName())));
-        addParameter(method, "YAMLReader", "reader");
         addParameter(method, "YAMLDeserializationContext", "ctx");
         addParameter(method, "YAMLDeserializerParameters", "params");
-        addParameter(method, "Map<String, String>", "bufferedProperties");
-        addParameter(method, "Map<String, Object>", "bufferedPropertiesValues");
 
         ObjectCreationExpr instanceBuilder = new ObjectCreationExpr();
         ClassOrInterfaceType instanceBuilderType = new ClassOrInterfaceType()
@@ -263,7 +259,6 @@ public class DeserializerGenerator extends AbstractGenerator {
 
         instanceBuilder.setType(instanceBuilderType);
         instanceBuilder.addArgument(new MethodCallExpr("create"));
-        instanceBuilder.addArgument("bufferedProperties");
 
         method.getBody().ifPresent(body -> body.addAndGetStatement(new ReturnStmt().setExpression(instanceBuilder)));
         anonymousClassBody.add(method);

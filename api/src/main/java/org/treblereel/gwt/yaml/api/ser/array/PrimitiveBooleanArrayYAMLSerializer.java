@@ -22,6 +22,10 @@ import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.ser.BooleanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * Default {@link YAMLSerializer} implementation for array of boolean.
  * @author Nicolas Morel
@@ -53,14 +57,13 @@ public class PrimitiveBooleanArrayYAMLSerializer extends BasicArrayYAMLSerialize
     @Override
     public void doSerialize(YAMLWriter writer, boolean[] values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
         if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-            writer.nullValue();
+            writer.nullValue(propertyName);
             return;
         }
-
-        writer.beginObject(propertyName);
+        Collection<String> temp = new ArrayList<>();
         for (boolean value : values) {
-            serializer.doSerialize(writer, value, ctx, params);
+            temp.add(String.valueOf(value));
         }
-        writer.endObject();
+        writer.value(propertyName, temp);
     }
 }

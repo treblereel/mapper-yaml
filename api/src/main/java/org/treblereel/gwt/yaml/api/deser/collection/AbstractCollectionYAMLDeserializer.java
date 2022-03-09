@@ -19,7 +19,10 @@ package org.treblereel.gwt.yaml.api.deser.collection;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 
+import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.util.AbstractCollection}. The deserialization process returns an {@link java.util.ArrayList}.
@@ -53,4 +56,5 @@ public class AbstractCollectionYAMLDeserializer<T> extends BaseCollectionYAMLDes
     protected AbstractCollection<T> newCollection() {
         return new ArrayList<>();
     }
+
 }

@@ -48,6 +48,6 @@ public class UUIDYAMLSerializer extends YAMLSerializer<UUID> {
      */
     @Override
     public void doSerialize(YAMLWriter writer, UUID value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-        writer.value(value.toString());
+        writer.value(propertyName, value.toString());
     }
 }

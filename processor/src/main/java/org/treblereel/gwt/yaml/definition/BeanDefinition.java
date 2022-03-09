@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
-import javax.xml.bind.annotation.XmlTransient;
+//import javax.xml.bind.annotation.XmlTransient;
 
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
@@ -34,7 +34,7 @@ public class BeanDefinition extends Definition {
                 .filter(field -> !field.getModifiers().contains(Modifier.STATIC))
                 .filter(field -> !field.getModifiers().contains(Modifier.FINAL))
                 .filter(field -> !field.getModifiers().contains(Modifier.TRANSIENT))
-                .filter(field -> field.getAnnotation(XmlTransient.class) == null)
+                //.filter(field -> field.getAnnotation(XmlTransient.class) == null)
                 .map(field -> new PropertyDefinition(field, context))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }

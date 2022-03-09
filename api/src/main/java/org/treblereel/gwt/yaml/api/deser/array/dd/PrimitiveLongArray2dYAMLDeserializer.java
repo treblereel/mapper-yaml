@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api.deser.array.dd;
 
 import java.util.List;
 
+import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -48,8 +49,8 @@ public class PrimitiveLongArray2dYAMLDeserializer extends AbstractArray2dYAMLDes
      * {@inheritDoc}
      */
     @Override
-    public long[][] doDeserialize(YAMLReader reader, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        List<List<Long>> list = deserializeIntoList(reader, ctx, BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance(), params);
+    public long[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        List<List<Long>> list = deserializeIntoList(yaml.yamlSequence(key), ctx, BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance(), params);
 
         if (list.isEmpty()) {
             return new long[0][0];

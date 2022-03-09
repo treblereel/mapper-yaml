@@ -15,7 +15,7 @@
         <developer>
             <id>treblereel</id>
             <name>Dmitrii Tikhomirov</name>
-            <email>chani@me.com</email>
+            <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
 
@@ -46,6 +46,7 @@
     </properties>
 
     <modules>
+        <module>eo-yaml</module>
         <module>api</module>
         <module>processor</module>
         <module>tests</module>
@@ -116,14 +117,9 @@
 
     <repositories>
         <repository>
-            <id>vertispan</id>
-            <name>vertispan</name>
-            <url>https://repo.vertispan.com/gwt-snapshot/</url>
-        </repository>
-        <repository>
-            <id>vertispan-releases</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>https://repo.vertispan.com/j2cl</url>
+            <id>sonatype-releases</id>
+            <name>Sonatype hosted artifacts-releases</name>
+            <url>https://repo1.maven.org/maven2/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -132,14 +128,9 @@
             </snapshots>
         </repository>
         <repository>
-            <id>vertispan-snapshots</id>
-            <name>Vertispan Snapshots</name>
+            <id>vertispan</id>
+            <name>vertispan</name>
             <url>https://repo.vertispan.com/gwt-snapshot/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
-            </snapshots>
         </repository>
     </repositories>
 </project>

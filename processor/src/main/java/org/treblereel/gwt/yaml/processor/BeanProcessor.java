@@ -14,7 +14,6 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
-import javax.xml.bind.annotation.XmlTransient;
 
 import com.google.auto.common.MoreTypes;
 import org.treblereel.gwt.yaml.TypeUtils;
@@ -93,7 +92,7 @@ public class BeanProcessor {
     private boolean checkField(VariableElement field) {
         if (field.getModifiers().contains(Modifier.STATIC) ||
                 field.getModifiers().contains(Modifier.TRANSIENT) ||
-                field.getAnnotation(XmlTransient.class) != null ||
+                //field.getAnnotation(XmlTransient.class) != null ||
                 field.getModifiers().contains(Modifier.FINAL)) {
             return false;
         }

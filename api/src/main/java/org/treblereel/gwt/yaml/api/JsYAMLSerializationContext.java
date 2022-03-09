@@ -194,7 +194,7 @@ public class JsYAMLSerializationContext implements YAMLSerializationContext {
      */
     @Override
     public YAMLSerializerParameters defaultParameters() {
-        return JacksonContextProvider.get().defaultSerializerParameters();
+        return YAMLContextProvider.get().defaultSerializerParameters();
     }
 
     /**

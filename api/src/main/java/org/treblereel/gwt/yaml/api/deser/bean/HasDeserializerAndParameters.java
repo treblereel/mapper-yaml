@@ -16,7 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.deser.bean;
 
-import org.treblereel.gwt.yaml.api.JacksonContextProvider;
+import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
@@ -33,12 +34,13 @@ public abstract class HasDeserializerAndParameters<V, S extends YAMLDeserializer
 
     /**
      * Deserializes the property defined for this instance.
-     * @param reader reader
+     * @param yaml YamlMapping
+     * @param key String
      * @param ctx context of the deserialization process
      * @return a V object.
      */
-    public V deserialize(YAMLReader reader, YAMLDeserializationContext ctx) {
-        return getDeserializer().deserialize(reader, ctx, getParameters());
+    public V deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+        return getDeserializer().deserialize(yaml, key, ctx, getParameters());
     }
 
     /**
@@ -57,10 +59,7 @@ public abstract class HasDeserializerAndParameters<V, S extends YAMLDeserializer
      * @return a {@link YAMLDeserializerParameters} object.
      */
     protected YAMLDeserializerParameters newParameters() {
-        return JacksonContextProvider.get().defaultDeserializerParameters();
+        return YAMLContextProvider.get().defaultDeserializerParameters();
     }
 
-    public V deserialize(String value, YAMLDeserializationContext ctx) {
-        return getDeserializer().deserialize(value, ctx, getParameters());
-    }
 }

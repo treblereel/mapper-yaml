@@ -19,10 +19,13 @@ package org.treblereel.gwt.yaml.api.ser.bean;
 import java.util.Map;
 import java.util.logging.Level;
 
+import com.amihaiemil.eoyaml.Yaml;
+import com.amihaiemil.eoyaml.YamlMappingBuilder;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
  * Base implementation of {@link YAMLSerializer} for beans.
@@ -125,7 +128,10 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T> im
             return;
         }
 
+
         serializeProperties(writer, value, ctx);
+
+
     }
 
     private String getSerializeObjectName() {
@@ -142,7 +148,13 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T> im
             if (propertySerializer.getValue(value, ctx) == null && !ctx.isSerializeNulls()) {
                 continue;
             }
-            propertySerializer.setParent(this).serialize(writer, value, ctx);
+            if(propertySerializer.isAbstractBeanYAMLSerializer(value)) {
+                DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
+                propertySerializer.setParent(this).serialize(childWriter, value, ctx);
+                writer.value(propertySerializer.getPropertyName(), childWriter.getWriter().build());
+            } else {
+                propertySerializer.setParent(this).serialize(writer, value, ctx);
+            }
         }
     }
 }

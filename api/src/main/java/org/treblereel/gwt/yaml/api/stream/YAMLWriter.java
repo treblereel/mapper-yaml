@@ -16,6 +16,9 @@
 
 package org.treblereel.gwt.yaml.api.stream;
 
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlMappingBuilder;
+
 import java.util.Collection;
 
 /**
@@ -27,9 +30,13 @@ public interface YAMLWriter {
 
     YAMLWriter value(String name, String value);
 
+    YAMLWriter value(String name, YamlMapping value);
+
     YAMLWriter value(String name, Collection<String> values);
 
     String getOutput();
 
     void nullValue(String propertyName);
+
+    YamlMappingBuilder getWriter();
 }

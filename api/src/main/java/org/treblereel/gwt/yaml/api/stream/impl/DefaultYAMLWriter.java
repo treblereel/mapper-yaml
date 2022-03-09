@@ -39,6 +39,12 @@ public class DefaultYAMLWriter implements YAMLWriter {
     }
 
     @Override
+    public YAMLWriter value(String name, YamlMapping value) {
+        writer = writer.add(name, value);
+        return this;
+    }
+
+    @Override
     public YAMLWriter value(String name, Collection<String> values) {
         YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
 
@@ -58,5 +64,10 @@ public class DefaultYAMLWriter implements YAMLWriter {
     @Override
     public void nullValue(String name) {
         writer = writer.add(name, "~");
+    }
+
+    @Override
+    public YamlMappingBuilder getWriter() {
+        return writer;
     }
 }

@@ -19,7 +19,6 @@ package org.treblereel.gwt.yaml.api.ser.array;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
-import org.treblereel.gwt.yaml.api.ser.BaseNumberYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ import java.util.Collection;
 public class PrimitiveDoubleArrayYAMLSerializer extends BasicArrayYAMLSerializer<double[]> {
 
     private static final PrimitiveDoubleArrayYAMLSerializer INSTANCE = new PrimitiveDoubleArrayYAMLSerializer();
-    private BaseNumberYAMLSerializer.DoubleYAMLSerializer serializer = BaseNumberYAMLSerializer.DoubleYAMLSerializer.getInstance();
 
     private PrimitiveDoubleArrayYAMLSerializer() {
     }

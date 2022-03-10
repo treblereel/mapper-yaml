@@ -47,8 +47,10 @@ public class PersonTest {
         assertEquals(YAML, mapper.write(test));
     }
 
-    //@Test
+    @Test
     public void testDeserializeValue() throws IOException {
-        assertEquals(test, mapper.read(YAML));
+        Person temp = mapper.read(YAML);
+        assertEquals(test, temp);
+        assertEquals(YAML, mapper.write(temp));
     }
 }

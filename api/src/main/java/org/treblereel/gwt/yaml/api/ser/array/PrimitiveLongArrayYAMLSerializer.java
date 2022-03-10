@@ -65,6 +65,6 @@ public class PrimitiveLongArrayYAMLSerializer extends BasicArrayYAMLSerializer<l
         for (long value : values) {
             temp.add(String.valueOf(value));
         }
-        writer.value(propertyName, temp);
+        writer.collectionOfString(propertyName, temp);
     }
 }

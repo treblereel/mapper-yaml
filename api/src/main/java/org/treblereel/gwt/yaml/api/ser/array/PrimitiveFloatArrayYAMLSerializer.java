@@ -64,6 +64,6 @@ public class PrimitiveFloatArrayYAMLSerializer extends BasicArrayYAMLSerializer<
         for (float value : values) {
             temp.add(String.valueOf(value));
         }
-        writer.value(propertyName, temp);
+        writer.collectionOfString(propertyName, temp);
     }
 }

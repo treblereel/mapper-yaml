@@ -65,6 +65,6 @@ public class PrimitiveIntegerArrayYAMLSerializer extends BasicArrayYAMLSerialize
         for (int value : values) {
             temp.add(String.valueOf(value));
         }
-        writer.value(propertyName, temp);
+        writer.collectionOfString(propertyName, temp);
     }
 }

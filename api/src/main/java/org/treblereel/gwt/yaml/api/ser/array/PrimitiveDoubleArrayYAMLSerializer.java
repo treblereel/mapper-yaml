@@ -65,6 +65,6 @@ public class PrimitiveDoubleArrayYAMLSerializer extends BasicArrayYAMLSerializer
         for (double value : values) {
             temp.add(String.valueOf(value));
         }
-        writer.value(propertyName, temp);
+        writer.collectionOfString(propertyName, temp);
     }
 }

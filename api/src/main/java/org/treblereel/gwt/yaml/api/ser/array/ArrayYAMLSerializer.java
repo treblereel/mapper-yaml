@@ -16,16 +16,20 @@
 
 package org.treblereel.gwt.yaml.api.ser.array;
 
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
+import org.treblereel.gwt.yaml.api.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Default {@link YAMLSerializer} implementation for array.
+ *
  * @param <T> Type of the elements inside the array
  * @author Nicolas Morel
  * @version $Id: $
@@ -38,6 +42,7 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
 
     /**
      * <p>Constructor for ArrayYAMLSerializer.</p>
+     *
      * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
      */
     protected ArrayYAMLSerializer(YAMLSerializer<T> serializer, String propertyName) {
@@ -53,8 +58,9 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
 
     /**
      * <p>newInstance</p>
+     *
      * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
-     * @param <T> Type of the elements inside the array
+     * @param <T>        Type of the elements inside the array
      * @return a new instance of {@link ArrayYAMLSerializer}
      */
     public static <T> ArrayYAMLSerializer<T> getInstance(YAMLSerializer<T> serializer, String propertyName) {
@@ -79,10 +85,20 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
             return;
         }
 
-        Collection<String> temp = new ArrayList<>();
-        for (T value : values) {
-            temp.add(String.valueOf(value));
+        if (serializer instanceof AbstractBeanYAMLSerializer) {
+            Collection<YamlNode> temp = new ArrayList<>();
+            for (T value : values) {
+                DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
+                serializer.setParent(this).serialize(childWriter, value, ctx);
+                temp.add(childWriter.getWriter().build());
+            }
+            writer.collectionOfYamlNode(propertyName, temp);
+        } else {
+            Collection<String> temp = new ArrayList<>();
+            for (T value : values) {
+                temp.add(value.toString());
+            }
+            writer.collectionOfString(propertyName, temp);
         }
-        writer.value(propertyName, temp);
     }
 }

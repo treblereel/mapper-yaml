@@ -24,6 +24,7 @@ import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
+import org.treblereel.gwt.yaml.api.deser.bean.AbstractBeanYAMLDeserializer;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for array.
@@ -61,8 +62,15 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
     protected <C> List<C> deserializeIntoList(YamlSequence sequence,  YAMLDeserializer<C> deserializer,
                                               YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         List<C> list = new ArrayList<>();
-        for (int i = 0; i < sequence.size(); i++) {
-            list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+
+        if(deserializer instanceof AbstractBeanYAMLDeserializer) {
+            for (int i = 0; i < sequence.size(); i++) {
+                list.add(((AbstractBeanYAMLDeserializer<C>)deserializer).doDeserialize(sequence.yamlMapping(i), ctx, params));
+            }
+        } else {
+            for (int i = 0; i < sequence.size(); i++) {
+                list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+            }
         }
         return list;
     }

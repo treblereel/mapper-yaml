@@ -14,17 +14,12 @@
 
 package org.treblereel.gwt.yaml.tests.beans;
 
-import com.amihaiemil.eoyaml.Yaml;
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlMappingBuilder;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Test;
-import org.treblereel.gwt.yaml.tests.primitive.StringTest;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 @J2clTestInput(PersonTest.class)
 public class PersonTest {

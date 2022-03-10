@@ -45,10 +45,22 @@ public class DefaultYAMLWriter implements YAMLWriter {
     }
 
     @Override
-    public YAMLWriter value(String name, Collection<String> values) {
+    public YAMLWriter collectionOfString(String name, Collection<String> values) {
         YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
 
         for (String val : values) {
+            builder = builder.add(val);
+        }
+
+        writer = writer.add(name, builder.build());
+        return this;
+    }
+
+    @Override
+    public YAMLWriter collectionOfYamlNode(String name, Collection<YamlNode> values) {
+        YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
+
+        for (YamlNode val : values) {
             builder = builder.add(val);
         }
 

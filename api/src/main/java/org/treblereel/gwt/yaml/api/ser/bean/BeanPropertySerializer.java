@@ -65,10 +65,14 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
      * @param ctx context of the serialization process
      */
     public void serialize(YAMLWriter writer, T bean, YAMLSerializationContext ctx) {
-        //writer.unescapeName(propertyName); //TODO
         getSerializer((V) bean.getClass()).setPropertyName(propertyName)
                 .setParent(parent)
                 .serialize(writer, getValue(bean, ctx), ctx, getParameters());
+    }
+
+
+    public boolean isAbstractBeanYAMLSerializer(T bean) {
+        return getSerializer((V) bean.getClass()) instanceof AbstractBeanYAMLSerializer;
     }
 
     /**

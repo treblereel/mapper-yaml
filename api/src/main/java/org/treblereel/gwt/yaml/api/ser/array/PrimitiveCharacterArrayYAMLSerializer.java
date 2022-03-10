@@ -19,7 +19,6 @@ package org.treblereel.gwt.yaml.api.ser.array;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
-import org.treblereel.gwt.yaml.api.ser.CharacterYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 import java.util.ArrayList;
@@ -33,8 +32,6 @@ import java.util.Collection;
 public class PrimitiveCharacterArrayYAMLSerializer extends BasicArrayYAMLSerializer<char[]> {
 
     private static final PrimitiveCharacterArrayYAMLSerializer INSTANCE = new PrimitiveCharacterArrayYAMLSerializer();
-    private CharacterYAMLSerializer serializer = CharacterYAMLSerializer.getInstance();
-
 
     private PrimitiveCharacterArrayYAMLSerializer() {
     }
@@ -68,6 +65,6 @@ public class PrimitiveCharacterArrayYAMLSerializer extends BasicArrayYAMLSeriali
         for (char value : values) {
             temp.add(String.valueOf(value));
         }
-        writer.value(propertyName, temp);
+        writer.collectionOfString(propertyName, temp);
     }
 }

@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
@@ -33,7 +34,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
 
     protected final InstanceBuilder<T> instanceBuilder;
     private final IdentityDeserializationInfo defaultIdentityInfo;
-    private MapLike<BeanPropertyDeserializer<T, ?>> deserializers;
+    private MapLike<BeanPropertyDeserializer<T, ?>> deserializers  = initDeserializers();
 
     /**
      * <p>Constructor for AbstractBeanYAMLDeserializer.</p>
@@ -63,7 +64,6 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
      * {@inheritDoc}
      */
     public T doDeserialize(YamlMapping yaml, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-        deserializers = initDeserializers();
         // Processing the parameters. We fallback to default if parameter is not present.
         return deserializeInline(yaml, ctx, params);
     }
@@ -109,10 +109,16 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
      */
     public final T deserializeInline(YamlMapping yaml, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
         T instance = instanceBuilder.newInstance(ctx, params).getInstance();
-        deserializers = initDeserializers();
-
         deserializers.keys().forEach(key -> {
-            getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);
+            if(getPropertyDeserializer(key, ctx).getDeserializer() instanceof AbstractBeanYAMLDeserializer) {
+                YamlMapping node = yaml.yamlMapping(key);
+                BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
+                Object value = ((AbstractBeanYAMLDeserializer)propertyDeserializer.getDeserializer()).doDeserialize(node, ctx, params);
+                propertyDeserializer.setValue(instance, value, ctx);
+            } else {
+                getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);
+            }
+
         });
         return instance;
     }

@@ -16,10 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.deser.bean;
 
-import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * <p>InstanceBuilder interface.</p>

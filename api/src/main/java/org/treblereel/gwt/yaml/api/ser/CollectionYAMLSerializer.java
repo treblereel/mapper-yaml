@@ -16,12 +16,16 @@
 
 package org.treblereel.gwt.yaml.api.ser;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
+import org.treblereel.gwt.yaml.api.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
  * Default {@link YAMLSerializer} implementation for {@link Collection}.
@@ -64,25 +68,26 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSe
      */
     @Override
     public void doSerialize(YAMLWriter writer, C values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-/*        if (values.isEmpty()) {
-            if (ctx.isWriteEmptyYAMLArrays()) {
-                writer.beginArray();
-                writer.endArray();
-            } else {
-                writer.nullValue();
-            }
+        if (!ctx.isWriteEmptyYAMLArrays() && values.size() == 0) {
+            writer.nullValue(propertyName);
             return;
         }
-        if (ctx.isWrapCollections()) {
-            writer.beginObject(propertyName);
-        }
 
-        for (T value : (Collection<T>)values) {
-            serializer.setParent(this).setPropertyName(propertyName).serialize(writer, value, ctx, params);
+        if (serializer instanceof AbstractBeanYAMLSerializer) {
+            Collection<YamlNode> temp = new ArrayList<>();
+            for (T value : values) {
+                DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
+                serializer.setParent(this).serialize(childWriter, value, ctx);
+                temp.add(childWriter.getWriter().build());
+            }
+            writer.collectionOfYamlNode(propertyName, temp);
+        } else {
+            Collection<String> temp = new ArrayList<>();
+            for (T value : values) {
+                temp.add(value.toString());
+            }
+            writer.collectionOfString(propertyName, temp);
         }
-        if (ctx.isWrapCollections()) {
-            writer.endObject();
-        }*/
     }
 
     /**

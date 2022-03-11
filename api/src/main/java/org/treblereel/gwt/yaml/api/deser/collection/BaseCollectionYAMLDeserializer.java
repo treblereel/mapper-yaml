@@ -25,6 +25,7 @@ import com.amihaiemil.eoyaml.YamlSequence;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
+import org.treblereel.gwt.yaml.api.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
@@ -55,8 +56,14 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
 
         YamlSequence sequence = yaml.yamlSequence(key);
 
-        for (int i = 0; i < sequence.size(); i++) {
-            list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+        if(deserializer instanceof AbstractBeanYAMLDeserializer) {
+            for (int i = 0; i < sequence.size(); i++) {
+                list.add(((AbstractBeanYAMLDeserializer<T>)deserializer).doDeserialize(sequence.yamlMapping(i), ctx, params));
+            }
+        } else {
+            for (int i = 0; i < sequence.size(); i++) {
+                list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+            }
         }
         return (C) list;
     }

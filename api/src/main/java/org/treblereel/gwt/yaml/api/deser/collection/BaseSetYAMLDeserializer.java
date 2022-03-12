@@ -16,9 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.deser.collection;
 
-import java.util.Set;
+import java.util.*;
 
+import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * Base {@link YAMLDeserializer} implementation for {@link java.util.Set}.
@@ -35,5 +38,15 @@ public abstract class BaseSetYAMLDeserializer<S extends Set<T>, T> extends BaseC
      */
     public BaseSetYAMLDeserializer(YAMLDeserializer<T> deserializer) {
         super(deserializer);
+    }
+
+    @Override
+    public S doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+        S result = (S) new HashSet<T>();
+        Collection<T> temp = super.doDeserialize(yaml, key, ctx, params);
+        for (T val: temp){
+            result.add(val);
+        }
+        return result;
     }
 }

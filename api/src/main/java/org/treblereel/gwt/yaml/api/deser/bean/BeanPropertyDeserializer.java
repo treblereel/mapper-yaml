@@ -19,7 +19,6 @@ package org.treblereel.gwt.yaml.api.deser.bean;
 import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
  * Deserializes a bean's property

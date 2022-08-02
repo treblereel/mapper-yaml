@@ -75,7 +75,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSe
 
         if (serializer instanceof AbstractBeanYAMLSerializer) {
             Collection<YamlNode> temp = new ArrayList<>();
-            for (T value : values) {
+            for (T value : (Collection<T>)values) {
                 DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
                 serializer.setParent(this).serialize(childWriter, value, ctx);
                 temp.add(childWriter.getWriter().build());
@@ -83,7 +83,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSe
             writer.collectionOfYamlNode(propertyName, temp);
         } else {
             Collection<String> temp = new ArrayList<>();
-            for (T value : values) {
+            for (T value : (Collection<T>) values) {
                 temp.add(value.toString());
             }
             writer.collectionOfString(propertyName, temp);

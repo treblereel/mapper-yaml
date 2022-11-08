@@ -16,106 +16,118 @@
 
 package org.treblereel.gwt.yaml.api;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.utils.Pair;
 
 /**
- * Base class for all the serializer. It handles null values and exceptions. The rest is delegated to implementations.
+ * Base class for all the serializer. It handles null values and exceptions. The rest is delegated
+ * to implementations.
+ *
  * @author Nicolas Morel
  * @version $Id: $Id
  */
 public abstract class YAMLSerializer<T> {
 
-    protected String propertyName;
+  protected String propertyName;
 
-    protected YAMLSerializer parent;
+  protected YAMLSerializer parent;
 
-    public YAMLSerializer<T> setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-        return this;
-    }
+  public YAMLSerializer<T> setPropertyName(String propertyName) {
+    this.propertyName = propertyName;
+    return this;
+  }
 
-    public YAMLSerializer setParent(YAMLSerializer parent) {
-        this.parent = parent;
-        return this;
-    }
+  public YAMLSerializer setParent(YAMLSerializer parent) {
+    this.parent = parent;
+    return this;
+  }
 
-    /**
-     * Serializes an object into YAML output.
-     * @param writer {@link YAMLWriter} used to write the serialized YAML
-     * @param value Object to serialize
-     * @param ctx Context for the full serialization process
-     * @throws YAMLSerializationException if an error occurs during the serialization
-     */
-    public void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) throws YAMLSerializationException {
-        serialize(writer, value, ctx, ctx.defaultParameters());
-    }
+  /**
+   * Serializes an object into YAML output.
+   *
+   * @param writer {@link YAMLWriter} used to write the serialized YAML
+   * @param value Object to serialize
+   * @param ctx Context for the full serialization process
+   * @throws YAMLSerializationException if an error occurs during the serialization
+   */
+  public void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx)
+      throws YAMLSerializationException {
+    serialize(writer, value, ctx, ctx.defaultParameters());
+  }
 
-    /**
-     * Serializes an object into YAML output.
-     * @param writer {@link YAMLWriter} used to write the serialized YAML
-     * @param value Object to serialize
-     * @param ctx Context for the full serialization process
-     * @param params Parameters for this serialization
-     * @throws YAMLSerializationException if an error occurs during the serialization
-     */
-    public void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx, YAMLSerializerParameters params) throws
-            YAMLSerializationException {
-        serialize(writer, value, ctx, params, false);
-    }
+  /**
+   * Serializes an object into YAML output.
+   *
+   * @param writer {@link YAMLWriter} used to write the serialized YAML
+   * @param value Object to serialize
+   * @param ctx Context for the full serialization process
+   * @param params Parameters for this serialization
+   * @throws YAMLSerializationException if an error occurs during the serialization
+   */
+  public void serialize(
+      YAMLWriter writer, T value, YAMLSerializationContext ctx, YAMLSerializerParameters params)
+      throws YAMLSerializationException {
+    serialize(writer, value, ctx, params, false);
+  }
 
-    /**
-     * Serializes an object into YAML output.
-     * @param writer {@link YAMLWriter} used to write the serialized YAML
-     * @param value Object to serialize
-     * @param ctx Context for the full serialization process
-     * @param params Parameters for this serialization
-     * @param isMapValue indicate if you're serializing a Map value
-     * @throws YAMLSerializationException if an error occurs during the serialization
-     */
-    public void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx, YAMLSerializerParameters params, boolean isMapValue) throws
-            YAMLSerializationException {
-        if (null == value) {
-            if (ctx.isSerializeNulls() || (isMapValue && ctx.isWriteNullMapValues())) {
-                serializeNullValue(writer, ctx, params);
-            } else {
-                writer.nullValue(propertyName);
-            }
-        } else {
-            doSerialize(writer, value, ctx, params);
-        }
-    }
-
-    /**
-     * Serialize the null value. This method allows children to override the default behaviour.
-     * @param writer {@link YAMLWriter} used to write the serialized YAML
-     * @param ctx Context for the full serialization process
-     * @param params Parameters for this serialization
-     */
-    protected void serializeNullValue(YAMLWriter writer, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+  /**
+   * Serializes an object into YAML output.
+   *
+   * @param writer {@link YAMLWriter} used to write the serialized YAML
+   * @param value Object to serialize
+   * @param ctx Context for the full serialization process
+   * @param params Parameters for this serialization
+   * @param isMapValue indicate if you're serializing a Map value
+   * @throws YAMLSerializationException if an error occurs during the serialization
+   */
+  public void serialize(
+      YAMLWriter writer,
+      T value,
+      YAMLSerializationContext ctx,
+      YAMLSerializerParameters params,
+      boolean isMapValue)
+      throws YAMLSerializationException {
+    if (null == value) {
+      if (ctx.isSerializeNulls() || (isMapValue && ctx.isWriteNullMapValues())) {
+        serializeNullValue(writer, ctx, params);
+      } else {
         writer.nullValue(propertyName);
+      }
+    } else {
+      doSerialize(writer, value, ctx, params);
     }
+  }
 
-    /**
-     * Serializes a non-null object into YAML output.
-     * @param writer {@link YAMLWriter} used to write the serialized YAML
-     * @param value Object to serialize
-     * @param ctx Context for the full serialization process
-     * @param params Parameters for this serialization
-     */
-    protected abstract void doSerialize(YAMLWriter writer, T value, YAMLSerializationContext ctx, YAMLSerializerParameters
-            params);
+  /**
+   * Serialize the null value. This method allows children to override the default behaviour.
+   *
+   * @param writer {@link YAMLWriter} used to write the serialized YAML
+   * @param ctx Context for the full serialization process
+   * @param params Parameters for this serialization
+   */
+  protected void serializeNullValue(
+      YAMLWriter writer, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+    writer.nullValue(propertyName);
+  }
 
-    /**
-     * <p>isEmpty.</p>
-     * @param value the value
-     * @return true if the value is empty
-     */
-    protected boolean isEmpty(T value) {
-        return null == value;
-    }
+  /**
+   * Serializes a non-null object into YAML output.
+   *
+   * @param writer {@link YAMLWriter} used to write the serialized YAML
+   * @param value Object to serialize
+   * @param ctx Context for the full serialization process
+   * @param params Parameters for this serialization
+   */
+  protected abstract void doSerialize(
+      YAMLWriter writer, T value, YAMLSerializationContext ctx, YAMLSerializerParameters params);
+
+  /**
+   * isEmpty.
+   *
+   * @param value the value
+   * @return true if the value is empty
+   */
+  protected boolean isEmpty(T value) {
+    return null == value;
+  }
 }

@@ -19,27 +19,27 @@ package org.treblereel.gwt.yaml.api.stream;
 import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlMappingBuilder;
 import com.amihaiemil.eoyaml.YamlNode;
-
 import java.util.Collection;
 
 /**
- * <p>YAMLWriter interface.</p>
+ * YAMLWriter interface.
+ *
  * @author nicolasmorel
  * @version $Id: $
  */
 public interface YAMLWriter {
 
-    YAMLWriter value(String name, String value);
+  YAMLWriter value(String name, String value);
 
-    YAMLWriter value(String name, YamlMapping value);
+  YAMLWriter value(String name, YamlMapping value);
 
-    YAMLWriter collectionOfString(String name, Collection<String> values);
+  YAMLWriter collectionOfString(String name, Collection<String> values);
 
-    YAMLWriter collectionOfYamlNode(String name, Collection<YamlNode> values);
+  YAMLWriter collectionOfYamlNode(String name, Collection<YamlNode> values);
 
-    String getOutput();
+  String getOutput();
 
-    void nullValue(String propertyName);
+  void nullValue(String propertyName);
 
-    YamlMappingBuilder getWriter();
+  YamlMappingBuilder getWriter();
 }

@@ -1,4 +1,3 @@
-//@formatter:off
 /*
  * Copyright (C) 2010 Google Inc.
  *
@@ -17,56 +16,55 @@
 
 package org.treblereel.gwt.yaml.api.stream.impl;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.amihaiemil.eoyaml.Yaml;
 import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlNode;
 import com.amihaiemil.eoyaml.YamlSequence;
+import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 public class DefaultYAMLReader implements YAMLReader {
 
-    private final YamlMapping reader;
-    private final String in;
+  private final YamlMapping reader;
+  private final String in;
 
-    public DefaultYAMLReader(String in) throws IOException {
-        if (in == null) {
-            throw new NullPointerException("in == null");
-        }
-        this.in = in;
-        reader = Yaml.createYamlInput(in).readYamlMapping();
+  public DefaultYAMLReader(String in) throws IOException {
+    if (in == null) {
+      throw new NullPointerException("in == null");
+    }
+    this.in = in;
+    reader = Yaml.createYamlInput(in).readYamlMapping();
+  }
+
+  @Override
+  public Set<String> getProperties() {
+    return reader.keys().stream().map(prop -> prop.toString()).collect(Collectors.toSet());
+  }
+
+  @Override
+  public String getInput() {
+    return in;
+  }
+
+  @Override
+  public String getValue(String key) {
+
+    String value = reader.string(key);
+    if (value.equals("~")) {
+      return null;
+    }
+    return value;
+  }
+
+  @Override
+  public String getArray(String key) {
+    YamlSequence sequence = reader.yamlSequence(key);
+    for (YamlNode yamlNode : sequence) {
+      System.out.println("YamlNode " + yamlNode);
     }
 
-    @Override
-    public Set<String> getProperties() {
-        return reader.keys().stream().map(prop -> prop.toString()).collect(Collectors.toSet());
-    }
-
-    @Override
-    public String getInput() {
-        return in;
-    }
-
-    @Override
-    public String getValue(String key) {
-
-        String value = reader.string(key);
-        if(value.equals("~")) {
-            return null;
-        }
-        return value;
-    }
-
-    @Override
-    public String getArray(String key) {
-        YamlSequence sequence = reader.yamlSequence(key);
-        for (YamlNode yamlNode : sequence) {
-            System.out.println("YamlNode " + yamlNode);
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

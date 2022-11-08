@@ -48,6 +48,12 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
+      <dependency>
+          <groupId>com.vertispan.j2cl</groupId>
+          <artifactId>junit-annotations</artifactId>
+          <version>0.10.0-3c97afeac</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
 </project>

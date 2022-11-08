@@ -20,7 +20,9 @@ import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 
 /**
  * Writes an object to YAML.
- * <p>Example : </p>
+ *
+ * <p>Example :
+ *
  * <pre>
  * public class Person {
  *     public String firstName, lastName;
@@ -37,32 +39,36 @@ import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
  *
  * json ==&gt; {"firstName":"Nicolas","lastName":"Morel"} //TODO
  * </pre>
+ *
  * @param <T> Type of the object to write
  * @author Nicolas Morel
  * @version $Id: $
  */
 public interface ObjectWriter<T> {
 
-    /**
-     * Writes an object to YAML.
-     * @param value Object to write
-     * @return the YAML output
-     * @throws YAMLSerializationException if an exception occurs while writing the output
-     */
-    String write(T value) throws YAMLSerializationException;
+  /**
+   * Writes an object to YAML.
+   *
+   * @param value Object to write
+   * @return the YAML output
+   * @throws YAMLSerializationException if an exception occurs while writing the output
+   */
+  String write(T value) throws YAMLSerializationException;
 
-    /**
-     * Writes an object to YAML.
-     * @param value Object to write
-     * @param ctx Context for the full writing process
-     * @return a {@link String} object.
-     * @throws YAMLSerializationException if an exception occurs while writing the output
-     */
-    String write(T value, YAMLSerializationContext ctx) throws YAMLSerializationException;
+  /**
+   * Writes an object to YAML.
+   *
+   * @param value Object to write
+   * @param ctx Context for the full writing process
+   * @return a {@link String} object.
+   * @throws YAMLSerializationException if an exception occurs while writing the output
+   */
+  String write(T value, YAMLSerializationContext ctx) throws YAMLSerializationException;
 
-    /**
-     * <p>getSerializer.</p>
-     * @return a {@link YAMLSerializer} object.
-     */
-    YAMLSerializer<T> getSerializer();
+  /**
+   * getSerializer.
+   *
+   * @return a {@link YAMLSerializer} object.
+   */
+  YAMLSerializer<T> getSerializer();
 }

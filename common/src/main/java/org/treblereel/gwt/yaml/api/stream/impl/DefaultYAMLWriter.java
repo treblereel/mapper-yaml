@@ -1,4 +1,3 @@
-//@formatter:off
 /*
  * Copyright 2014 Nicolas Morel
  *
@@ -18,68 +17,67 @@
 package org.treblereel.gwt.yaml.api.stream.impl;
 
 import com.amihaiemil.eoyaml.*;
+import java.util.Collection;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
-import java.util.Collection;
-
 /**
- * <p>DefaultYAMLWriter class.</p>
+ * DefaultYAMLWriter class.
  *
  * @author nicolasmorel
  * @version $Id: $
  */
 public class DefaultYAMLWriter implements YAMLWriter {
 
-    private YamlMappingBuilder writer = Yaml.createYamlMappingBuilder();
+  private YamlMappingBuilder writer = Yaml.createYamlMappingBuilder();
 
-    @Override
-    public YAMLWriter value(String name, String value) {
-        writer = writer.add(name, value);
-        return this;
+  @Override
+  public YAMLWriter value(String name, String value) {
+    writer = writer.add(name, value);
+    return this;
+  }
+
+  @Override
+  public YAMLWriter value(String name, YamlMapping value) {
+    writer = writer.add(name, value);
+    return this;
+  }
+
+  @Override
+  public YAMLWriter collectionOfString(String name, Collection<String> values) {
+    YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
+
+    for (String val : values) {
+      builder = builder.add(val);
     }
 
-    @Override
-    public YAMLWriter value(String name, YamlMapping value) {
-        writer = writer.add(name, value);
-        return this;
+    writer = writer.add(name, builder.build());
+    return this;
+  }
+
+  @Override
+  public YAMLWriter collectionOfYamlNode(String name, Collection<YamlNode> values) {
+    YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
+
+    for (YamlNode val : values) {
+      builder = builder.add(val);
     }
 
-    @Override
-    public YAMLWriter collectionOfString(String name, Collection<String> values) {
-        YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
+    writer = writer.add(name, builder.build());
+    return this;
+  }
 
-        for (String val : values) {
-            builder = builder.add(val);
-        }
+  @Override
+  public String getOutput() {
+    return writer.build().toString();
+  }
 
-        writer = writer.add(name, builder.build());
-        return this;
-    }
+  @Override
+  public void nullValue(String name) {
+    writer = writer.add(name, "~");
+  }
 
-    @Override
-    public YAMLWriter collectionOfYamlNode(String name, Collection<YamlNode> values) {
-        YamlSequenceBuilder builder = Yaml.createYamlSequenceBuilder();
-
-        for (YamlNode val : values) {
-            builder = builder.add(val);
-        }
-
-        writer = writer.add(name, builder.build());
-        return this;
-    }
-
-    @Override
-    public String getOutput() {
-        return writer.build().toString();
-    }
-
-    @Override
-    public void nullValue(String name) {
-        writer = writer.add(name, "~");
-    }
-
-    @Override
-    public YamlMappingBuilder getWriter() {
-        return writer;
-    }
+  @Override
+  public YamlMappingBuilder getWriter() {
+    return writer;
+  }
 }

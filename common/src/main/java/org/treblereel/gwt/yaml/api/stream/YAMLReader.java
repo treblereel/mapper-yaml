@@ -20,11 +20,11 @@ import java.util.Set;
 
 public interface YAMLReader {
 
-    Set<String> getProperties();
+  Set<String> getProperties();
 
-    String getInput();
+  String getInput();
 
-    String getValue(String key);
+  String getValue(String key);
 
-    String getArray(String key);
+  String getArray(String key);
 }

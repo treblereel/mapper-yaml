@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Nicolas Morel
+ * Copyright © 2022 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,45 +16,37 @@
 
 package org.treblereel.gwt.yaml.api.exception;
 
-/**
- * Base exception for mapping process
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
+/** Base exception for mapping process */
 public class YAMLMappingException extends RuntimeException {
 
-    /**
-     * <p>Constructor for YAMLMappingException.</p>
-     */
-    public YAMLMappingException() {
-    }
+  /** Constructor for YAMLMappingException. */
+  public YAMLMappingException() {}
 
-    /**
-     * <p>Constructor for YAMLMappingException.</p>
-     *
-     * @param message a {@link String} object.
-     */
-    public YAMLMappingException(String message) {
-        super(message);
-    }
+  /**
+   * Constructor for YAMLMappingException.
+   *
+   * @param message a {@link String} object.
+   */
+  public YAMLMappingException(String message) {
+    super(message);
+  }
 
-    /**
-     * <p>Constructor for YAMLMappingException.</p>
-     *
-     * @param message a {@link String} object.
-     * @param cause   a {@link Throwable} object.
-     */
-    public YAMLMappingException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Constructor for YAMLMappingException.
+   *
+   * @param message a {@link String} object.
+   * @param cause a {@link Throwable} object.
+   */
+  public YAMLMappingException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    /**
-     * <p>Constructor for YAMLMappingException.</p>
-     *
-     * @param cause a {@link Throwable} object.
-     */
-    public YAMLMappingException(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Constructor for YAMLMappingException.
+   *
+   * @param cause a {@link Throwable} object.
+   */
+  public YAMLMappingException(Throwable cause) {
+    super(cause);
+  }
 }

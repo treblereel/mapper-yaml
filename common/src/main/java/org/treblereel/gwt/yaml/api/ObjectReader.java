@@ -17,12 +17,13 @@
 package org.treblereel.gwt.yaml.api;
 
 import java.io.IOException;
-
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 
 /**
  * Reads a YAML input and return an object
- * <p>Example : </p>
+ *
+ * <p>Example :
+ *
  * <pre>
  * public class Person {
  *     public String firstName, lastName;
@@ -43,29 +44,30 @@ import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
  */
 public interface ObjectReader<T> {
 
-    /**
-     * Reads a YAML input into an object.
-     *
-     * @param input YAML input to read
-     * @return the read object
-     * @throws YAMLDeserializationException if an exception occurs while reading the input
-     */
-    T read(String input) throws YAMLDeserializationException, IOException;
+  /**
+   * Reads a YAML input into an object.
+   *
+   * @param input YAML input to read
+   * @return the read object
+   * @throws YAMLDeserializationException if an exception occurs while reading the input
+   */
+  T read(String input) throws YAMLDeserializationException, IOException;
 
-    /**
-     * Reads a YAML input into an object.
-     *
-     * @param input YAML input to read
-     * @param ctx   Context for the full reading process
-     * @return the read object
-     * @throws YAMLDeserializationException if an exception occurs while reading the input
-     */
-    T read(String input, YAMLDeserializationContext ctx) throws YAMLDeserializationException, IOException;
+  /**
+   * Reads a YAML input into an object.
+   *
+   * @param input YAML input to read
+   * @param ctx Context for the full reading process
+   * @return the read object
+   * @throws YAMLDeserializationException if an exception occurs while reading the input
+   */
+  T read(String input, YAMLDeserializationContext ctx)
+      throws YAMLDeserializationException, IOException;
 
-    /**
-     * <p>getDeserializer.</p>
-     *
-     * @return a {@link YAMLDeserializer} object.
-     */
-    YAMLDeserializer<T> getDeserializer();
+  /**
+   * getDeserializer.
+   *
+   * @return a {@link YAMLDeserializer} object.
+   */
+  YAMLDeserializer<T> getDeserializer();
 }

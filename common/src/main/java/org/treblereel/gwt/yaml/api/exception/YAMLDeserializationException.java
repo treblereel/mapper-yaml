@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Nicolas Morel
+ * Copyright © 2022 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,45 +16,37 @@
 
 package org.treblereel.gwt.yaml.api.exception;
 
-/**
- * Base exception for deserialization process
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
+/** Base exception for deserialization process */
 public class YAMLDeserializationException extends YAMLMappingException {
 
-    /**
-     * <p>Constructor for YAMLDeserializationException.</p>
-     */
-    public YAMLDeserializationException() {
-    }
+  /** Constructor for YAMLDeserializationException. */
+  public YAMLDeserializationException() {}
 
-    /**
-     * <p>Constructor for YAMLDeserializationException.</p>
-     *
-     * @param message a {@link String} object.
-     */
-    public YAMLDeserializationException(String message) {
-        super(message);
-    }
+  /**
+   * Constructor for YAMLDeserializationException.
+   *
+   * @param message a {@link String} object.
+   */
+  public YAMLDeserializationException(String message) {
+    super(message);
+  }
 
-    /**
-     * <p>Constructor for YAMLDeserializationException.</p>
-     *
-     * @param message a {@link String} object.
-     * @param cause   a {@link Throwable} object.
-     */
-    public YAMLDeserializationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Constructor for YAMLDeserializationException.
+   *
+   * @param message a {@link String} object.
+   * @param cause a {@link Throwable} object.
+   */
+  public YAMLDeserializationException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    /**
-     * <p>Constructor for YAMLDeserializationException.</p>
-     *
-     * @param cause a {@link Throwable} object.
-     */
-    public YAMLDeserializationException(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Constructor for YAMLDeserializationException.
+   *
+   * @param cause a {@link Throwable} object.
+   */
+  public YAMLDeserializationException(Throwable cause) {
+    super(cause);
+  }
 }

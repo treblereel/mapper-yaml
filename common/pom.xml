@@ -6,14 +6,13 @@
         <groupId>org.treblereel.gwt.yaml</groupId>
         <artifactId>yaml-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>api</artifactId>
+    <artifactId>common</artifactId>
     <packaging>jar</packaging>
 
-    <name>API</name>
-    <description></description>
+    <name>GWT/J2CL YAML Binding commons</name>
+    <description>GWT/J2CL YAML Binding commons</description>
     <url>https://github.com/treblereel</url>
 
     <developers>
@@ -41,22 +40,14 @@
         <dependency>
             <groupId>com.google.jsinterop</groupId>
             <artifactId>base</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-dom</artifactId>
-            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.treblereel.gwt.yaml</groupId>
             <artifactId>eo-yaml</artifactId>
-            <version>4.3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.treblereel.gwt.nio</groupId>
-            <artifactId>gwt-nio</artifactId>
-            <version>1.1</version>
         </dependency>
     </dependencies>
 

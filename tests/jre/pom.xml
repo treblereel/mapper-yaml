@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>org.treblereel.gwt.yaml</groupId>
-      <artifactId>api</artifactId>
+      <artifactId>common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

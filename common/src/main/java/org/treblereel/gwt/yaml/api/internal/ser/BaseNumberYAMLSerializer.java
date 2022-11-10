@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -33,8 +32,7 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> extends YAMLSer
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer, N value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+  public void doSerialize(YAMLWriter writer, N value, YAMLSerializationContext ctx) {
     writer.value(propertyName, String.valueOf(value));
   }
 
@@ -90,11 +88,7 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> extends YAMLSer
     }
 
     @Override
-    public void doSerialize(
-        YAMLWriter writer,
-        Double value,
-        YAMLSerializationContext ctx,
-        YAMLSerializerParameters params) {
+    public void doSerialize(YAMLWriter writer, Double value, YAMLSerializationContext ctx) {
       // writer has a special method to write double, let's use instead of default Number method.
       writer.value(propertyName, String.valueOf(value));
     }
@@ -139,11 +133,7 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> extends YAMLSer
     }
 
     @Override
-    public void doSerialize(
-        YAMLWriter writer,
-        Long value,
-        YAMLSerializationContext ctx,
-        YAMLSerializerParameters params) {
+    public void doSerialize(YAMLWriter writer, Long value, YAMLSerializationContext ctx) {
       // writer has a special method to write long, let's use instead of default Number method.
       writer.value(propertyName, String.valueOf(value));
     }

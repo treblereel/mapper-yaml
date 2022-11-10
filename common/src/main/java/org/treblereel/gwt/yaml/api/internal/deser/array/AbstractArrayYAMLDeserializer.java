@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 
 /**
@@ -35,12 +34,8 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
 
   /** {@inheritDoc} */
   @Override
-  public T doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
-    return doDeserializeArray(yaml, key, ctx, params);
+  public T doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return doDeserializeArray(yaml, key, ctx);
   }
 
   /**
@@ -48,14 +43,10 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
    *
    * @param yaml a {@link YamlMapping} object.
    * @param ctx a {@link YAMLDeserializationContext} object.
-   * @param params a {@link YAMLDeserializerParameters} object.
    * @return a T object.
    */
   protected abstract T doDeserializeArray(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params);
+      YamlMapping yaml, String key, YAMLDeserializationContext ctx);
 
   /**
    * Deserializes the array into a {@link java.util.List}. We need the length of the array before
@@ -64,34 +55,29 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
    * @param sequence YamlSequence
    * @param ctx context of the deserialization process
    * @param deserializer deserializer for element inside the array
-   * @param params Parameters for the deserializer
    * @param <C> type of the element inside the array
    * @return a list containing all the elements of the array
    */
   protected <C> List<C> deserializeIntoList(
-      YamlSequence sequence,
-      YAMLDeserializer<C> deserializer,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+      YamlSequence sequence, YAMLDeserializer<C> deserializer, YAMLDeserializationContext ctx) {
     List<C> list = new ArrayList<>();
 
     if (deserializer instanceof AbstractBeanYAMLDeserializer) {
       for (int i = 0; i < sequence.size(); i++) {
         list.add(
             ((AbstractBeanYAMLDeserializer<C>) deserializer)
-                .doDeserialize(sequence.yamlMapping(i), ctx, params));
+                .doDeserialize(sequence.yamlMapping(i), ctx));
       }
     } else {
       for (int i = 0; i < sequence.size(); i++) {
-        list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+        list.add(deserializer.doDeserialize(sequence.string(i), ctx));
       }
     }
     return list;
   }
 
   @Override
-  public final T doDeserialize(
-      String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+  public final T doDeserialize(String value, YAMLDeserializationContext ctx) {
     throw new Error("Unsupported operation");
   }
 }

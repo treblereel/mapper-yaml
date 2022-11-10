@@ -17,7 +17,6 @@
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -33,13 +32,6 @@ interface InternalSerializer<T> {
    * @param writer a {@link YAMLWriter} object.
    * @param value a T object.
    * @param ctx a {@link YAMLSerializationContext} object.
-   * @param params a {@link YAMLSerializerParameters} object.
-   * @param defaultTypeInfo a {@link TypeSerializationInfo} object.
    */
-  void serializeInternally(
-      YAMLWriter writer,
-      T value,
-      YAMLSerializationContext ctx,
-      YAMLSerializerParameters params,
-      TypeSerializationInfo<T> defaultTypeInfo);
+  void serializeInternally(YAMLWriter writer, T value, YAMLSerializationContext ctx);
 }

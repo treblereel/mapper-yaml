@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -53,11 +52,7 @@ public class PrimitiveCharacterArrayYAMLSerializer extends BasicArrayYAMLSeriali
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer,
-      char[] values,
-      YAMLSerializationContext ctx,
-      YAMLSerializerParameters params) {
+  public void doSerialize(YAMLWriter writer, char[] values, YAMLSerializationContext ctx) {
     if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
       writer.nullValue(propertyName);
       return;

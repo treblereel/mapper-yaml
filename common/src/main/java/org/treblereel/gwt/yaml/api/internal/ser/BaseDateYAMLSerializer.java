@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -51,11 +50,7 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     }
 
     @Override
-    protected void doSerialize(
-        YAMLWriter writer,
-        Date value,
-        YAMLSerializationContext ctx,
-        YAMLSerializerParameters params) {
+    protected void doSerialize(YAMLWriter writer, Date value, YAMLSerializationContext ctx) {
       if ((ctx.isWriteDatesAsTimestamps())) {
         writer.value(propertyName, String.valueOf(value.getTime()));
       } else {
@@ -79,10 +74,7 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
 
     @Override
     protected void doSerialize(
-        YAMLWriter writer,
-        java.sql.Date value,
-        YAMLSerializationContext ctx,
-        YAMLSerializerParameters params) {
+        YAMLWriter writer, java.sql.Date value, YAMLSerializationContext ctx) {
       writer.value(propertyName, value.toString());
     }
   }
@@ -100,11 +92,7 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     }
 
     @Override
-    protected void doSerialize(
-        YAMLWriter writer,
-        Time value,
-        YAMLSerializationContext ctx,
-        YAMLSerializerParameters params) {
+    protected void doSerialize(YAMLWriter writer, Time value, YAMLSerializationContext ctx) {
       writer.value(propertyName, value.toString());
     }
   }
@@ -122,11 +110,7 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     }
 
     @Override
-    protected void doSerialize(
-        YAMLWriter writer,
-        Timestamp value,
-        YAMLSerializationContext ctx,
-        YAMLSerializerParameters params) {
+    protected void doSerialize(YAMLWriter writer, Timestamp value, YAMLSerializationContext ctx) {
       if (ctx.isWriteDatesAsTimestamps()) {
         writer.value(propertyName, String.valueOf(value.getTime()));
       } else {

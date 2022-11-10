@@ -17,7 +17,6 @@
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * InstanceBuilder interface.
@@ -31,10 +30,9 @@ public interface InstanceBuilder<T> {
    * newInstance
    *
    * @param ctx a {@link YAMLDeserializationContext} object.
-   * @param params a {@link YAMLDeserializerParameters} object.
    * @return a {@link deser.bean.Instance} object.
    */
-  Instance<T> newInstance(YAMLDeserializationContext ctx, YAMLDeserializerParameters params);
+  Instance<T> newInstance(YAMLDeserializationContext ctx);
 
   /**
    * getParametersDeserializer

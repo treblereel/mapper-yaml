@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Nicolas Morel
+ * Copyright © 2022 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,16 @@
 
 package org.treblereel.gwt.yaml.api;
 
-import java.util.logging.Logger;
+import org.treblereel.gwt.jakarta.utils.GwtIncompatible;
+import org.treblereel.gwt.yaml.api.internal.deser.bean.DefaultMapLike;
 
-/**
- * Base interface for serialization and deserialization context
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
-public interface YAMLMappingContext {
+/** ServerYAMLContext class. */
+public class JREYAMLContext extends JsYAMLContext {
 
-  /**
-   * getLogger
-   *
-   * @return a {@link java.util.logging.Logger} object.
-   */
-  Logger getLogger();
+  /** {@inheritDoc} */
+  @GwtIncompatible
+  @Override
+  public MapLikeFactory mapLikeFactory() {
+    return DefaultMapLike::new;
+  }
 }

@@ -17,7 +17,6 @@
 package org.treblereel.gwt.yaml.api;
 
 import java.io.IOException;
-import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
@@ -26,28 +25,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
  * @author vegegoku
  * @version $Id: $Id
  */
-public interface YAMLDeserializationContext extends YAMLMappingContext {
-
-  /**
-   * isFailOnUnknownProperties.
-   *
-   * @return a boolean.
-   */
-  boolean isFailOnUnknownProperties();
-
-  /**
-   * isAcceptSingleValueAsArray.
-   *
-   * @return a boolean.
-   */
-  boolean isAcceptSingleValueAsArray();
-
-  /**
-   * isUseSafeEval.
-   *
-   * @return a boolean.
-   */
-  boolean isUseSafeEval();
+public interface YAMLDeserializationContext {
 
   /**
    * isReadUnknownEnumValuesAsNull.
@@ -61,7 +39,7 @@ public interface YAMLDeserializationContext extends YAMLMappingContext {
    *
    * @return a boolean.
    */
-  boolean isUseBrowserTimezone();
+  boolean isFailOnUnknownProperties();
 
   /**
    * newYAMLReader.
@@ -70,45 +48,4 @@ public interface YAMLDeserializationContext extends YAMLMappingContext {
    * @return a {@link YAMLReader} object.
    */
   YAMLReader newYAMLReader(String input) throws IOException;
-
-  /**
-   * traceError.
-   *
-   * @param message a {@link String} object.
-   * @return a {@link YAMLDeserializationException} object.
-   */
-  YAMLDeserializationException traceError(String message);
-
-  /**
-   * traceError.
-   *
-   * @param message a {@link String} object.
-   * @param reader a {@link YAMLReader} object.
-   * @return a {@link YAMLDeserializationException} object.
-   */
-  YAMLDeserializationException traceError(String message, YAMLReader reader);
-
-  /**
-   * traceError.
-   *
-   * @param cause a {@link RuntimeException} object.
-   * @return a {@link RuntimeException} object.
-   */
-  RuntimeException traceError(RuntimeException cause);
-
-  /**
-   * traceError.
-   *
-   * @param cause a {@link RuntimeException} object.
-   * @param reader a {@link YAMLReader} object.
-   * @return a {@link RuntimeException} object.
-   */
-  RuntimeException traceError(RuntimeException cause, YAMLReader reader);
-
-  /**
-   * defaultParameters.
-   *
-   * @return a {@link YAMLDeserializerParameters} object.
-   */
-  YAMLDeserializerParameters defaultParameters();
 }

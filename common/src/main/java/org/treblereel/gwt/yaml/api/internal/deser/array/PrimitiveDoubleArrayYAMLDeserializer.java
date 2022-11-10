@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 
 /**
@@ -47,17 +46,12 @@ public class PrimitiveDoubleArrayYAMLDeserializer extends AbstractArrayYAMLDeser
 
   /** {@inheritDoc} */
   @Override
-  public double[] doDeserializeArray(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public double[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Double> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
             BaseNumberYAMLDeserializer.DoubleYAMLDeserializer.getInstance(),
-            ctx,
-            params);
+            ctx);
 
     double[] result = new double[list.size()];
     int i = 0;

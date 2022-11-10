@@ -19,7 +19,6 @@ package org.treblereel.gwt.yaml.api.internal.deser;
 import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Enum}.
@@ -58,17 +57,12 @@ public class EnumYAMLDeserializer<E extends Enum<E>> extends YAMLDeserializer<E>
 
   /** {@inheritDoc} */
   @Override
-  public E doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
-    return doDeserialize(yaml.string(key), ctx, params);
+  public E doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return doDeserialize(yaml.string(key), ctx);
   }
 
   @Override
-  public E doDeserialize(
-      String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+  public E doDeserialize(String value, YAMLDeserializationContext ctx) {
     try {
       return getEnum(values, value);
     } catch (IllegalArgumentException ex) {

@@ -18,7 +18,6 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -45,8 +44,7 @@ public class EnumYAMLSerializer<E extends Enum<E>> extends YAMLSerializer<E> {
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer, E value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+  public void doSerialize(YAMLWriter writer, E value, YAMLSerializationContext ctx) {
     writer.value(propertyName, value.name());
   }
 }

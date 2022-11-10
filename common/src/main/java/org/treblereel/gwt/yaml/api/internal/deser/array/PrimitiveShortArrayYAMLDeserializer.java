@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 
 /**
@@ -47,17 +46,12 @@ public class PrimitiveShortArrayYAMLDeserializer extends AbstractArrayYAMLDeseri
 
   /** {@inheritDoc} */
   @Override
-  public short[] doDeserializeArray(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public short[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Short> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
             BaseNumberYAMLDeserializer.ShortYAMLDeserializer.getInstance(),
-            ctx,
-            params);
+            ctx);
 
     short[] result = new short[list.size()];
     int i = 0;

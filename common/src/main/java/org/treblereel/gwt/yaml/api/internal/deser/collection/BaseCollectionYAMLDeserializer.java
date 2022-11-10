@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 
 /**
@@ -51,11 +50,7 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
 
   /** {@inheritDoc} */
   @Override
-  public C doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public C doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<T> list = new ArrayList<>();
 
     YamlSequence sequence = yaml.yamlSequence(key);
@@ -64,11 +59,11 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
       for (int i = 0; i < sequence.size(); i++) {
         list.add(
             ((AbstractBeanYAMLDeserializer<T>) deserializer)
-                .doDeserialize(sequence.yamlMapping(i), ctx, params));
+                .doDeserialize(sequence.yamlMapping(i), ctx));
       }
     } else {
       for (int i = 0; i < sequence.size(); i++) {
-        list.add(deserializer.doDeserialize(sequence.string(i), ctx, params));
+        list.add(deserializer.doDeserialize(sequence.string(i), ctx));
       }
     }
     return (C) list;

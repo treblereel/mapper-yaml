@@ -42,7 +42,6 @@ import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.BeanPropertyDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.HasDeserializerAndParameters;
@@ -73,7 +72,6 @@ public class DeserializerGenerator extends AbstractGenerator {
     cu.addImport(YAMLContextProvider.class);
     cu.addImport(YAMLDeserializationContext.class);
     cu.addImport(YAMLDeserializer.class);
-    cu.addImport(YAMLDeserializerParameters.class);
     cu.addImport(AbstractBeanYAMLDeserializer.class);
     cu.addImport(BeanPropertyDeserializer.class);
     cu.addImport(HasDeserializerAndParameters.class);
@@ -304,7 +302,6 @@ public class DeserializerGenerator extends AbstractGenerator {
             .setName("Instance")
             .setTypeArguments(new ClassOrInterfaceType().setName(type.getSimpleName())));
     addParameter(method, "YAMLDeserializationContext", "ctx");
-    addParameter(method, "YAMLDeserializerParameters", "params");
 
     ObjectCreationExpr instanceBuilder = new ObjectCreationExpr();
     ClassOrInterfaceType instanceBuilderType =

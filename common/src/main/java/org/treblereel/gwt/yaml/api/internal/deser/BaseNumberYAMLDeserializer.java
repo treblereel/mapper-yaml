@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 
 /**
@@ -46,19 +45,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public BigDecimal doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public BigDecimal doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public BigDecimal doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public BigDecimal doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
@@ -80,19 +74,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public BigInteger doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public BigInteger doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public BigInteger doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public BigInteger doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
@@ -113,19 +102,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public Byte doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public Byte doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public Byte doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Byte doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return 0;
       }
@@ -146,19 +130,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public Double doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public Double doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public Double doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Double doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
@@ -179,19 +158,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public Float doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public Float doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public Float doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Float doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
@@ -212,19 +186,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public Integer doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public Integer doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public Integer doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Integer doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value == null || value.isEmpty()) {
         return null;
       }
@@ -245,19 +214,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public Long doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public Long doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public Long doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Long doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
@@ -278,19 +242,14 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLD
     }
 
     @Override
-    public Short doDeserialize(
-        YamlMapping yaml,
-        String key,
-        YAMLDeserializationContext ctx,
-        YAMLDeserializerParameters params)
+    public Short doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
       String value = yaml.string(key);
-      return doDeserialize(value, ctx, params);
+      return doDeserialize(value, ctx);
     }
 
     @Override
-    public Short doDeserialize(
-        String value, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Short doDeserialize(String value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }

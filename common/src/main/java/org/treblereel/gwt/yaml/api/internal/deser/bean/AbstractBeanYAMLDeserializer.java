@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
@@ -33,13 +32,11 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
     implements InternalDeserializer<T, AbstractBeanYAMLDeserializer<T>> {
 
   protected final InstanceBuilder<T> instanceBuilder;
-  private final IdentityDeserializationInfo defaultIdentityInfo;
   private MapLike<BeanPropertyDeserializer<T, ?>> deserializers = initDeserializers();
 
   /** Constructor for AbstractBeanYAMLDeserializer. */
   protected AbstractBeanYAMLDeserializer() {
     this.instanceBuilder = initInstanceBuilder();
-    this.defaultIdentityInfo = initIdentityInfo();
   }
 
   /**
@@ -51,20 +48,10 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
     return null;
   }
 
-  /**
-   * Initialize the {@link IdentityDeserializationInfo}.
-   *
-   * @return a {@link IdentityDeserializationInfo} object.
-   */
-  protected IdentityDeserializationInfo initIdentityInfo() {
-    return null;
-  }
-
   /** {@inheritDoc} */
-  public T doDeserialize(
-      YamlMapping yaml, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+  public T doDeserialize(YamlMapping yaml, YAMLDeserializationContext ctx) {
     // Processing the parameters. We fallback to default if parameter is not present.
-    return deserializeInline(yaml, ctx, params);
+    return deserializeInline(yaml, ctx);
   }
 
   /**
@@ -91,7 +78,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
       String propertyName, YAMLDeserializationContext ctx) {
     BeanPropertyDeserializer<T, ?> property = deserializers.get(propertyName);
     if (null == property) {
-      throw ctx.traceError(
+      throw new Error(
           "Unknown property '"
               + propertyName
               + "' in (de)serializer "
@@ -112,9 +99,8 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
    * <p>Deserializes all the properties of the bean. The {@link YAMLReader} must be in a json
    * object.
    */
-  public final T deserializeInline(
-      YamlMapping yaml, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
-    T instance = instanceBuilder.newInstance(ctx, params).getInstance();
+  public final T deserializeInline(YamlMapping yaml, YAMLDeserializationContext ctx) {
+    T instance = instanceBuilder.newInstance(ctx).getInstance();
     deserializers
         .keys()
         .forEach(
@@ -125,7 +111,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
                 BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
                 Object value =
                     ((AbstractBeanYAMLDeserializer) propertyDeserializer.getDeserializer())
-                        .doDeserialize(node, ctx, params);
+                        .doDeserialize(node, ctx);
                 propertyDeserializer.setValue(instance, value, ctx);
               } else {
                 getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);

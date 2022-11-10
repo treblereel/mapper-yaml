@@ -18,7 +18,6 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -44,19 +43,10 @@ public class VoidYAMLSerializer extends YAMLSerializer<Void> {
 
   /** {@inheritDoc} */
   @Override
-  protected void serializeNullValue(
-      YAMLWriter writer, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+  protected void serializeNullValue(YAMLWriter writer, YAMLSerializationContext ctx) {
     writer.nullValue(propertyName);
   }
 
-  /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer,
-      Void value,
-      YAMLSerializationContext ctx,
-      YAMLSerializerParameters params) {
-    // we should never be here, the null value is already handled and it's the only possible value
-    // for Void
-  }
+  protected void doSerialize(YAMLWriter writer, Void value, YAMLSerializationContext ctx) {}
 }

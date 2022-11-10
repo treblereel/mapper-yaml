@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 
 /**
@@ -48,17 +47,12 @@ public class PrimitiveIntegerArray2dYAMLDeserializer
 
   /** {@inheritDoc} */
   @Override
-  public int[][] doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public int[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Integer>> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
             ctx,
-            BaseNumberYAMLDeserializer.IntegerYAMLDeserializer.getInstance(),
-            params);
+            BaseNumberYAMLDeserializer.IntegerYAMLDeserializer.getInstance());
 
     if (list.isEmpty()) {
       return new int[0][0];

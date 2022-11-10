@@ -17,10 +17,8 @@
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
 import java.util.Map;
-import java.util.logging.Level;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
@@ -35,12 +33,9 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
 
   protected final BeanPropertySerializer[] serializers;
 
-  private final TypeSerializationInfo<T> defaultTypeInfo;
-
   /** Constructor for AbstractBeanYAMLSerializer. */
   protected AbstractBeanYAMLSerializer() {
     this.serializers = initSerializers();
-    this.defaultTypeInfo = initTypeInfo();
   }
 
   /**
@@ -53,35 +48,17 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
     return new BeanPropertySerializer[0];
   }
 
-  /**
-   * Initialize the {@link TypeSerializationInfo}. Returns null if there is no { YAMLTypeInfo}
-   * annotation on bean.
-   *
-   * @return a {@link TypeSerializationInfo} object.
-   */
-  protected TypeSerializationInfo<T> initTypeInfo() {
-    return null;
-  }
-
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer, T value, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-    getSerializer(value, ctx).serializeInternally(writer, value, ctx, params, defaultTypeInfo);
+  public void doSerialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
+    getSerializer(value, ctx).serializeInternally(writer, value, ctx);
   }
 
   private InternalSerializer<T> getSerializer(T value, YAMLSerializationContext ctx) {
     if (value.getClass() == getSerializedType()) {
       return this;
     }
-    if (ctx.getLogger().isLoggable(Level.FINE)) {
-      ctx.getLogger()
-          .fine(
-              "Cannot find serializer for class "
-                  + value.getClass()
-                  + ". Fallback to the serializer of "
-                  + getSerializedType());
-    }
+
     return this;
   }
 
@@ -97,17 +74,8 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
   }
 
   /** {@inheritDoc} */
-  public void serializeInternally(
-      YAMLWriter writer,
-      T value,
-      YAMLSerializationContext ctx,
-      YAMLSerializerParameters params,
-      TypeSerializationInfo<T> defaultTypeInfo) {
-    // Processing the parameters. We fallback to default if parameter is not present.
-    final TypeSerializationInfo typeInfo =
-        null == params.getTypeInfo() ? defaultTypeInfo : params.getTypeInfo();
-
-    serializeObject(writer, value, ctx, typeInfo);
+  public void serializeInternally(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
+    serializeObject(writer, value, ctx);
   }
 
   /**
@@ -117,9 +85,8 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
    * @param value bean to serialize
    * @param ctx context of the serialization process
    */
-  private void serializeObject(
-      YAMLWriter writer, T value, YAMLSerializationContext ctx, TypeSerializationInfo typeInfo) {
-    serializeObject(writer, value, ctx, getSerializeObjectName(), typeInfo);
+  private void serializeObject(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
+    serializeObject(writer, value, ctx, getSerializeObjectName());
   }
 
   /**
@@ -129,14 +96,9 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
    * @param value bean to serialize
    * @param ctx context of the serialization process
    * @param typeName in case of type info as property, the name of the property
-   * @param typeInformation in case of type info as property, the type information
    */
   protected void serializeObject(
-      YAMLWriter writer,
-      T value,
-      YAMLSerializationContext ctx,
-      String typeName,
-      TypeSerializationInfo typeInformation) {
+      YAMLWriter writer, T value, YAMLSerializationContext ctx, String typeName) {
     if (value == null && !ctx.isSerializeNulls()) {
       return;
     }

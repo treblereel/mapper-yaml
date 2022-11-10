@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 
 /**
@@ -48,17 +47,12 @@ public class PrimitiveLongArray2dYAMLDeserializer
 
   /** {@inheritDoc} */
   @Override
-  public long[][] doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public long[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Long>> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
             ctx,
-            BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance(),
-            params);
+            BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance());
 
     if (list.isEmpty()) {
       return new long[0][0];

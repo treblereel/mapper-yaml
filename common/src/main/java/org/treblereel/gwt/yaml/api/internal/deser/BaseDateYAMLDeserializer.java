@@ -22,7 +22,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for dates.
@@ -34,12 +33,8 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
 
   /** {@inheritDoc} */
   @Override
-  public D doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
-    return doDeserialize(yaml.string(key), ctx, params);
+  public D doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return doDeserialize(yaml.string(key), ctx);
   }
 
   /** Default implementation of {@link BaseDateYAMLDeserializer} for {@link Date} */
@@ -55,8 +50,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
     }
 
     @Override
-    public Date doDeserialize(
-        String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Date doDeserialize(String date, YAMLDeserializationContext ctx) {
       if (date == null) {
         return null;
       }
@@ -82,8 +76,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
     }
 
     @Override
-    public java.sql.Date doDeserialize(
-        String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public java.sql.Date doDeserialize(String date, YAMLDeserializationContext ctx) {
       if (date == null) {
         return null;
       }
@@ -107,8 +100,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
     }
 
     @Override
-    public Time doDeserialize(
-        String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Time doDeserialize(String date, YAMLDeserializationContext ctx) {
       return Time.valueOf(date);
     }
   }
@@ -127,8 +119,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
     }
 
     @Override
-    public Timestamp doDeserialize(
-        String date, YAMLDeserializationContext ctx, YAMLDeserializerParameters params) {
+    public Timestamp doDeserialize(String date, YAMLDeserializationContext ctx) {
       return Timestamp.valueOf(date);
     }
   }

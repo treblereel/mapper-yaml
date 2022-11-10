@@ -17,10 +17,8 @@
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
-import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 
 /**
  * Lazy initialize a {@link YAMLDeserializer}
@@ -31,8 +29,6 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 public abstract class HasDeserializerAndParameters<V, S extends YAMLDeserializer<V>>
     extends HasDeserializer<V, S> {
 
-  private YAMLDeserializerParameters parameters;
-
   /**
    * Deserializes the property defined for this instance.
    *
@@ -42,27 +38,6 @@ public abstract class HasDeserializerAndParameters<V, S extends YAMLDeserializer
    * @return a V object.
    */
   public V deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return getDeserializer().deserialize(yaml, key, ctx, getParameters());
-  }
-
-  /**
-   * Getter for the field <code>parameters</code>.
-   *
-   * @return a {@link YAMLDeserializerParameters} object.
-   */
-  protected YAMLDeserializerParameters getParameters() {
-    if (null == parameters) {
-      parameters = newParameters();
-    }
-    return parameters;
-  }
-
-  /**
-   * newParameters
-   *
-   * @return a {@link YAMLDeserializerParameters} object.
-   */
-  protected YAMLDeserializerParameters newParameters() {
-    return YAMLContextProvider.get().defaultDeserializerParameters();
+    return getDeserializer().deserialize(yaml, key, ctx);
   }
 }

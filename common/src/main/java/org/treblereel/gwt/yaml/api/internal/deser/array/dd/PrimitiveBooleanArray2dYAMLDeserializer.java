@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.BooleanYAMLDeserializer;
 
 /**
@@ -48,14 +47,9 @@ public class PrimitiveBooleanArray2dYAMLDeserializer
 
   /** {@inheritDoc} */
   @Override
-  public boolean[][] doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public boolean[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Boolean>> list =
-        deserializeIntoList(
-            yaml.yamlSequence(key), ctx, BooleanYAMLDeserializer.getInstance(), params);
+        deserializeIntoList(yaml.yamlSequence(key), ctx, BooleanYAMLDeserializer.getInstance());
 
     if (list.isEmpty()) {
       return new boolean[0][0];

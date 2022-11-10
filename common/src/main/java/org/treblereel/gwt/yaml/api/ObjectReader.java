@@ -22,22 +22,6 @@ import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 /**
  * Reads a YAML input and return an object
  *
- * <p>Example :
- *
- * <pre>
- * public class Person {
- *     public String firstName, lastName;
- * }
- *
- * public interface PersonReader extends ObjectReader&lt;Person&gt; {}
- *
- * PersonReader reader = new PersonReaderMapperImpl();
- * Person person = reader.read("{\"firstName\":\"Nicolas\",\"lastName\":\"Morel\"}"); //TODO
- *
- * person.firstName ==&gt; "Nicolas"
- * person.lastName  ==&gt; "Morel"
- * </pre>
- *
  * @param <T> Type of the read object
  * @author Nicolas Morel
  * @version $Id: $

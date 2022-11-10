@@ -33,34 +33,6 @@ public interface YAMLContext {
    */
   MapLikeFactory mapLikeFactory();
 
-  /**
-   * defaultSerializerParameters.
-   *
-   * @return a {@link YAMLSerializerParameters} object.
-   */
-  YAMLSerializerParameters defaultSerializerParameters();
-
-  /**
-   * newSerializerParameters
-   *
-   * @return a new instance of {@link YAMLSerializerParameters} object
-   */
-  YAMLSerializerParameters newSerializerParameters();
-
-  /**
-   * defaultDeserializerParameters.
-   *
-   * @return a {@link YAMLDeserializerParameters} object.
-   */
-  YAMLDeserializerParameters defaultDeserializerParameters();
-
-  /**
-   * newDeserializerParameters
-   *
-   * @return a new instance of {@link YAMLDeserializerParameters} object
-   */
-  YAMLDeserializerParameters newDeserializerParameters();
-
   interface MapLikeFactory {
 
     <T> MapLike<T> make();

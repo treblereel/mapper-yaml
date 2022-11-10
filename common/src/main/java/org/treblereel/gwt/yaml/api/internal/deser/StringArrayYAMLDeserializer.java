@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.array.AbstractArrayYAMLDeserializer;
 
 /**
@@ -50,11 +49,7 @@ public class StringArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<S
 
   /** {@inheritDoc} */
   @Override
-  public String[] doDeserializeArray(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public String[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<String> list = new ArrayList<>();
     YamlSequence yamlSequence = yaml.yamlSequence(key);
 

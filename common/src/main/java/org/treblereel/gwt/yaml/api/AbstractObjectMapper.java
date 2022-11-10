@@ -24,13 +24,6 @@ import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
-/**
- * Base implementation of {@link ObjectMapper}. It delegates the serialization/deserialization to a
- * serializer/deserializer.
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
 public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
 
   private final String rootName;
@@ -59,8 +52,7 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
   public T read(String in, YAMLDeserializationContext ctx)
       throws YAMLDeserializationException, IOException {
     YamlMapping reader = Yaml.createYamlInput(in).readYamlMapping();
-    return ((AbstractBeanYAMLDeserializer<T>) getDeserializer())
-        .deserializeInline(reader, ctx, null);
+    return ((AbstractBeanYAMLDeserializer<T>) getDeserializer()).deserializeInline(reader, ctx);
   }
 
   /**
@@ -98,10 +90,7 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
       getSerializer().serialize(writer, value, ctx);
       return writer.getOutput();
     } catch (YAMLSerializationException e) {
-      // already logged, we just throw it
       throw new Error(e);
-    } catch (RuntimeException e) {
-      throw ctx.traceError(value, e, writer);
     } catch (Exception e) {
       throw new Error(e);
     }

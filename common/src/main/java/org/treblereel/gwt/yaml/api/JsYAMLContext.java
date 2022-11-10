@@ -19,7 +19,7 @@ package org.treblereel.gwt.yaml.api;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.JsMapLike;
 
 /**
- * JsJacksonContext class.
+ * JsContext class.
  *
  * @author vegegoku
  * @version $Id: $Id
@@ -30,27 +30,5 @@ public class JsYAMLContext implements YAMLContext {
   @Override
   public MapLikeFactory mapLikeFactory() {
     return JsMapLike::new;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public YAMLSerializerParameters defaultSerializerParameters() {
-    return GwtYAMLSerializerParameters.DEFAULT;
-  }
-
-  @Override
-  public YAMLSerializerParameters newSerializerParameters() {
-    return new GwtYAMLSerializerParameters();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public YAMLDeserializerParameters defaultDeserializerParameters() {
-    return GwtYAMLDeserializerParameters.DEFAULT;
-  }
-
-  @Override
-  public YAMLDeserializerParameters newDeserializerParameters() {
-    return new GwtYAMLDeserializerParameters();
   }
 }

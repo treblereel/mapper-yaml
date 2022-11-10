@@ -19,7 +19,6 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import java.util.Iterator;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -67,8 +66,7 @@ public class IterableYAMLSerializer<I extends Iterable<T>, T> extends YAMLSerial
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer, I values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+  public void doSerialize(YAMLWriter writer, I values, YAMLSerializationContext ctx) {
     Iterator<T> iterator = values.iterator();
 
     /*        if (!iterator.hasNext()) {

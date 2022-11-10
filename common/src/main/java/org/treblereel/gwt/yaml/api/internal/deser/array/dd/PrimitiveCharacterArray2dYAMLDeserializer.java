@@ -20,7 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.YAMLDeserializerParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.CharacterYAMLDeserializer;
 
 /**
@@ -48,14 +47,9 @@ public class PrimitiveCharacterArray2dYAMLDeserializer
 
   /** {@inheritDoc} */
   @Override
-  public char[][] doDeserialize(
-      YamlMapping yaml,
-      String key,
-      YAMLDeserializationContext ctx,
-      YAMLDeserializerParameters params) {
+  public char[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Character>> list =
-        deserializeIntoList(
-            yaml.yamlSequence(key), ctx, CharacterYAMLDeserializer.getInstance(), params);
+        deserializeIntoList(yaml.yamlSequence(key), ctx, CharacterYAMLDeserializer.getInstance());
 
     if (list.isEmpty()) {
       return new char[0][0];

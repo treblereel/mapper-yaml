@@ -16,121 +16,14 @@
 
 package org.treblereel.gwt.yaml.api;
 
-import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
-/**
- * YAMLSerializationContext interface.
- *
- * @author vegegoku
- * @version $Id: $Id
- */
-public interface YAMLSerializationContext extends YAMLMappingContext {
-  /**
-   * isSerializeNulls.
-   *
-   * @return a boolean.
-   */
+public interface YAMLSerializationContext {
   boolean isSerializeNulls();
 
-  /**
-   * isWriteDatesAsTimestamps.
-   *
-   * @return a boolean.
-   */
   boolean isWriteDatesAsTimestamps();
 
-  /**
-   * isWriteDateKeysAsTimestamps.
-   *
-   * @return a boolean.
-   */
-  boolean isWriteDateKeysAsTimestamps();
-
-  /**
-   * isWriteNullMapValues.
-   *
-   * @return a boolean.
-   */
-  boolean isWriteNullMapValues();
-
-  /**
-   * isWriteEmptyYAMLArrays.
-   *
-   * @return a boolean.
-   */
   boolean isWriteEmptyYAMLArrays();
 
-  /**
-   * isOrderMapEntriesByKeys.
-   *
-   * @return a boolean.
-   */
-  boolean isOrderMapEntriesByKeys();
-
-  /**
-   * isMapKeyAndValueCanonical.
-   *
-   * @return a boolean.
-   */
-  boolean isMapKeyAndValueCanonical();
-
-  /**
-   * isWrapCollections.
-   *
-   * @return a boolean.
-   */
-  boolean isWrapCollections();
-
-  /**
-   * newYAMLWriter.
-   *
-   * @return a {@link YAMLWriter} object.
-   */
   YAMLWriter newYAMLWriter();
-
-  /**
-   * traceError.
-   *
-   * @param value a {@link java.lang.Object} object.
-   * @param message a {@link java.lang.String} object.
-   * @return a {@link YAMLSerializationException} object.
-   */
-  YAMLSerializationException traceError(Object value, String message);
-
-  /**
-   * traceError.
-   *
-   * @param value a {@link java.lang.Object} object.
-   * @param message a {@link java.lang.String} object.
-   * @param writer a {@link YAMLWriter} object.
-   * @return a {@link YAMLSerializationException} object.
-   */
-  YAMLSerializationException traceError(Object value, String message, YAMLWriter writer);
-
-  /**
-   * traceError.
-   *
-   * @param value a {@link java.lang.Object} object.
-   * @param cause a {@link java.lang.RuntimeException} object.
-   * @return a {@link java.lang.RuntimeException} object.
-   */
-  RuntimeException traceError(Object value, RuntimeException cause);
-
-  /**
-   * traceError.
-   *
-   * @param value a {@link java.lang.Object} object.
-   * @param cause a {@link java.lang.RuntimeException} object.
-   * @param writer a {@link YAMLWriter} object.
-   * @return a {@link java.lang.RuntimeException} object.
-   */
-  RuntimeException traceError(Object value, RuntimeException cause, YAMLWriter writer);
-
-  /**
-   * defaultParameters.
-   *
-   * @return a {@link YAMLSerializerParameters} object.
-   */
-  YAMLSerializerParameters defaultParameters();
 }

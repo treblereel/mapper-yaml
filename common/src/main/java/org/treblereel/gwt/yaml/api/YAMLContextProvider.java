@@ -19,7 +19,7 @@ package org.treblereel.gwt.yaml.api;
 import static java.util.Objects.isNull;
 
 /**
- * JacksonContextProvider class.
+ * YAMLContextProvider class.
  *
  * @author vegegoku
  * @version $Id: $Id
@@ -39,6 +39,6 @@ public class YAMLContextProvider {
   }
 
   private static void initContext() {
-    yamlContext = new ServerYAMLContext();
+    yamlContext = new JREYAMLContext();
   }
 }

@@ -18,7 +18,6 @@ package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -69,11 +68,7 @@ public class Array2dYAMLSerializer<T> extends YAMLSerializer<T[][]> {
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer,
-      T[][] values,
-      YAMLSerializationContext ctx,
-      YAMLSerializerParameters params) {
+  public void doSerialize(YAMLWriter writer, T[][] values, YAMLSerializationContext ctx) {
     if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
       writer.nullValue(propertyName);
       return;

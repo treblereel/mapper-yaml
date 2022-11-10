@@ -19,7 +19,6 @@ package org.treblereel.gwt.yaml.api.internal.ser.map;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -74,9 +73,8 @@ public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends YAMLSerializer
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(
-      YAMLWriter writer, M values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
-    serializeValues(writer, values, ctx, params);
+  public void doSerialize(YAMLWriter writer, M values, YAMLSerializationContext ctx) {
+    serializeValues(writer, values, ctx);
   }
 
   /** {@inheritDoc} */
@@ -91,10 +89,8 @@ public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends YAMLSerializer
    * @param writer a {@link YAMLWriter} object.
    * @param values a M object.
    * @param ctx a {@link YAMLSerializationContext} object.
-   * @param params a {@link YAMLSerializerParameters} object.
    */
-  public void serializeValues(
-      YAMLWriter writer, M values, YAMLSerializationContext ctx, YAMLSerializerParameters params) {
+  public void serializeValues(YAMLWriter writer, M values, YAMLSerializationContext ctx) {
     throw new UnsupportedOperationException();
     /*        if (!values.isEmpty()) {
         Map<K, V> map = values;
@@ -121,9 +117,9 @@ public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends YAMLSerializer
   }
 
   private String getNodeName(Class clazz, YAMLSerializationContext ctx) {
-    if (ctx.isMapKeyAndValueCanonical()) {
+    /*    if (ctx.isMapKeyAndValueCanonical()) {
       return clazz.getCanonicalName();
-    }
+    }*/
     return clazz.getSimpleName();
   }
 }

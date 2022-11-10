@@ -16,10 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
-import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.YAMLSerializerParameters;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -32,7 +30,6 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
 
   protected String propertyName;
 
-  private YAMLSerializerParameters parameters = newParameters();
   private YAMLSerializer parent;
 
   /**
@@ -42,15 +39,6 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
    */
   protected BeanPropertySerializer(String propertyName) {
     this.propertyName = propertyName;
-  }
-
-  /**
-   * newParameters
-   *
-   * @return a {@link YAMLSerializerParameters} object.
-   */
-  protected YAMLSerializerParameters newParameters() {
-    return YAMLContextProvider.get().defaultSerializerParameters();
   }
 
   /**
@@ -73,7 +61,7 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
     getSerializer((V) bean.getClass())
         .setPropertyName(propertyName)
         .setParent(parent)
-        .serialize(writer, getValue(bean, ctx), ctx, getParameters());
+        .serialize(writer, getValue(bean, ctx), ctx);
   }
 
   public boolean isAbstractBeanYAMLSerializer(T bean) {
@@ -88,15 +76,6 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
    * @return the property's value
    */
   public abstract V getValue(T bean, YAMLSerializationContext ctx);
-
-  /**
-   * Getter for the field <code>parameters</code>.
-   *
-   * @return a {@link YAMLSerializerParameters} object.
-   */
-  protected YAMLSerializerParameters getParameters() {
-    return parameters;
-  }
 
   BeanPropertySerializer<T, V> setParent(YAMLSerializer parent) {
     this.parent = parent;

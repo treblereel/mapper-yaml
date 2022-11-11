@@ -17,38 +17,18 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
-/**
- * Default {@link YAMLDeserializer} implementation for {@link java.lang.Boolean}.
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
 public class BooleanYAMLDeserializer extends YAMLDeserializer<Boolean> {
 
-  private static final BooleanYAMLDeserializer INSTANCE = new BooleanYAMLDeserializer();
+  public static final BooleanYAMLDeserializer INSTANCE = new BooleanYAMLDeserializer();
 
-  private BooleanYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link BooleanYAMLDeserializer}
-   */
-  public static BooleanYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
-
-  /** {@inheritDoc} */
   @Override
-  public Boolean doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return doDeserialize(yaml.string(key), ctx);
+  public Boolean deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return deserialize(yaml.string(key), ctx);
   }
 
   @Override
-  public Boolean doDeserialize(String value, YAMLDeserializationContext ctx) {
+  public Boolean deserialize(String value, YAMLDeserializationContext ctx) {
     return Boolean.valueOf(value);
   }
 }

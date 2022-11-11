@@ -21,10 +21,15 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.io.IOException;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
+import org.treblereel.gwt.yaml.api.internal.deser.DefaultYAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
-public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
+public abstract class AbstractObjectMapper<T> {
 
   private final String rootName;
 
@@ -42,7 +47,6 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
   }
 
   /** {@inheritDoc} */
-  @Override
   public T read(String in) throws YAMLDeserializationException, IOException {
     YAMLDeserializationContext context = DefaultYAMLDeserializationContext.builder().build();
     return read(in, context);
@@ -60,7 +64,6 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
    *
    * <p>Getter for the field <code>deserializer</code>.
    */
-  @Override
   public YAMLDeserializer<T> getDeserializer() {
     if (null == deserializer) {
       deserializer = newDeserializer();
@@ -76,7 +79,6 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
   protected abstract YAMLDeserializer<T> newDeserializer();
 
   /** {@inheritDoc} */
-  @Override
   public String write(T value) throws YAMLSerializationException {
     YAMLSerializationContext yamlSerializationContext =
         DefaultYAMLSerializationContext.builder().build();
@@ -101,7 +103,6 @@ public abstract class AbstractObjectMapper<T> implements ObjectMapper<T> {
    *
    * <p>Getter for the field <code>serializer</code>.
    */
-  @Override
   public YAMLSerializer<T> getSerializer() {
     if (null == serializer) {
       serializer = (YAMLSerializer<T>) newSerializer();

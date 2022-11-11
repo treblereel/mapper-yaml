@@ -16,8 +16,6 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -28,20 +26,8 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  */
 public class BooleanYAMLSerializer extends YAMLSerializer<Boolean> {
 
-  private static final BooleanYAMLSerializer INSTANCE = new BooleanYAMLSerializer();
+  public static final BooleanYAMLSerializer INSTANCE = new BooleanYAMLSerializer();
 
-  private BooleanYAMLSerializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link YAMLSerializer}
-   */
-  public static BooleanYAMLSerializer getInstance() {
-    return INSTANCE;
-  }
-
-  /** {@inheritDoc} */
   @Override
   public void doSerialize(YAMLWriter writer, Boolean value, YAMLSerializationContext ctx) {
     writer.value(propertyName, String.valueOf(value));

@@ -17,39 +17,19 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
-/**
- * Default {@link YAMLDeserializer} implementation for {@link java.lang.Character}.
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
 public class CharacterYAMLDeserializer extends YAMLDeserializer<Character> {
 
-  private static final CharacterYAMLDeserializer INSTANCE = new CharacterYAMLDeserializer();
+  public static final CharacterYAMLDeserializer INSTANCE = new CharacterYAMLDeserializer();
 
-  private CharacterYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link CharacterYAMLDeserializer}
-   */
-  public static CharacterYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
-
-  /** {@inheritDoc} */
   @Override
-  public Character doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public Character deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     String value = yaml.string(key);
-    return doDeserialize(value, ctx);
+    return deserialize(value, ctx);
   }
 
   @Override
-  public Character doDeserialize(String value, YAMLDeserializationContext ctx) {
+  public Character deserialize(String value, YAMLDeserializationContext ctx) {
     if (value == null || value.isEmpty()) {
       return '\u0000';
     }

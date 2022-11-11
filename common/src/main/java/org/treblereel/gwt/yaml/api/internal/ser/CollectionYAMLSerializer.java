@@ -19,8 +19,6 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import com.amihaiemil.eoyaml.YamlNode;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;

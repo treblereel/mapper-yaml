@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of long.
@@ -30,28 +30,15 @@ import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
  */
 public class PrimitiveLongArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<long[]> {
 
-  private static final PrimitiveLongArrayYAMLDeserializer INSTANCE =
+  public static final PrimitiveLongArrayYAMLDeserializer INSTANCE =
       new PrimitiveLongArrayYAMLDeserializer();
-
-  private PrimitiveLongArrayYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveLongArrayYAMLDeserializer}
-   */
-  public static PrimitiveLongArrayYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
   public long[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Long> list =
         deserializeIntoList(
-            yaml.yamlSequence(key),
-            BaseNumberYAMLDeserializer.LongYAMLDeserializer.getInstance(),
-            ctx);
+            yaml.yamlSequence(key), BaseNumberYAMLDeserializer.LongYAMLDeserializer.INSTANCE, ctx);
 
     long[] result = new long[list.size()];
     int i = 0;

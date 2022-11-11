@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of float.
@@ -30,28 +30,15 @@ import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
  */
 public class PrimitiveFloatArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<float[]> {
 
-  private static final PrimitiveFloatArrayYAMLDeserializer INSTANCE =
+  public static final PrimitiveFloatArrayYAMLDeserializer INSTANCE =
       new PrimitiveFloatArrayYAMLDeserializer();
-
-  private PrimitiveFloatArrayYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveFloatArrayYAMLDeserializer}
-   */
-  public static PrimitiveFloatArrayYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
   public float[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Float> list =
         deserializeIntoList(
-            yaml.yamlSequence(key),
-            BaseNumberYAMLDeserializer.FloatYAMLDeserializer.getInstance(),
-            ctx);
+            yaml.yamlSequence(key), BaseNumberYAMLDeserializer.FloatYAMLDeserializer.INSTANCE, ctx);
 
     float[] result = new float[list.size()];
     int i = 0;

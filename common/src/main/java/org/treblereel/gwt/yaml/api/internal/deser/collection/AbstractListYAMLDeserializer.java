@@ -18,7 +18,7 @@ package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.util.AbstractList}. The

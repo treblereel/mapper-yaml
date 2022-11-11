@@ -17,8 +17,8 @@
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Lazy initialize a {@link YAMLDeserializer}

@@ -19,9 +19,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.ArrayList;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
 
 /**
@@ -33,29 +33,17 @@ import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
 public class PrimitiveByteArray2dYAMLDeserializer
     extends AbstractArray2dYAMLDeserializer<byte[][]> {
 
-  private static final PrimitiveByteArray2dYAMLDeserializer INSTANCE =
+  public static final PrimitiveByteArray2dYAMLDeserializer INSTANCE =
       new PrimitiveByteArray2dYAMLDeserializer();
-
-  private PrimitiveByteArray2dYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveByteArray2dYAMLDeserializer}
-   */
-  public static PrimitiveByteArray2dYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
-  public byte[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public byte[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
 
     byte[][] result;
 
     List<String> strings =
-        doDeserializeInnerIntoList(
-            yaml.yamlSequence(key), ctx, StringYAMLDeserializer.getInstance());
+        doDeserializeInnerIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.INSTANCE);
 
     if (strings.isEmpty()) {
       result = new byte[0][0];

@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for 2D array of short.
@@ -31,28 +31,15 @@ import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 public class PrimitiveShortArray2dYAMLDeserializer
     extends AbstractArray2dYAMLDeserializer<short[][]> {
 
-  private static final PrimitiveShortArray2dYAMLDeserializer INSTANCE =
+  public static final PrimitiveShortArray2dYAMLDeserializer INSTANCE =
       new PrimitiveShortArray2dYAMLDeserializer();
-
-  private PrimitiveShortArray2dYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveShortArray2dYAMLDeserializer}
-   */
-  public static PrimitiveShortArray2dYAMLDeserializer newInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
-  public short[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public short[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Short>> list =
         deserializeIntoList(
-            yaml.yamlSequence(key),
-            ctx,
-            BaseNumberYAMLDeserializer.ShortYAMLDeserializer.getInstance());
+            yaml.yamlSequence(key), ctx, BaseNumberYAMLDeserializer.ShortYAMLDeserializer.INSTANCE);
 
     if (list.isEmpty()) {
       return new short[0][0];

@@ -16,7 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 
 /**
  * InstanceBuilder interface.

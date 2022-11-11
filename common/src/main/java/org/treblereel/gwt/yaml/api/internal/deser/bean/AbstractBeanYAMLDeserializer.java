@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.YAMLContextProvider;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
@@ -49,9 +49,18 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
   }
 
   /** {@inheritDoc} */
-  public T doDeserialize(YamlMapping yaml, YAMLDeserializationContext ctx) {
-    // Processing the parameters. We fallback to default if parameter is not present.
+  public T deserialize(YamlMapping yaml, YAMLDeserializationContext ctx) {
     return deserializeInline(yaml, ctx);
+  }
+
+  @Override
+  public T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return deserialize(yaml.yamlMapping(key), ctx);
+  }
+
+  @Override
+  public T deserialize(String value, YAMLDeserializationContext ctx) {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   /**
@@ -64,8 +73,6 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
     // Change by Ahmad Bawaneh, replace JSNI types with IsInterop types
     return YAMLContextProvider.get().mapLikeFactory().make();
   }
-
-  protected abstract String getRootElement();
 
   /**
    * getDeserializedType
@@ -111,7 +118,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
                 BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
                 Object value =
                     ((AbstractBeanYAMLDeserializer) propertyDeserializer.getDeserializer())
-                        .doDeserialize(node, ctx);
+                        .deserialize(node, ctx);
                 propertyDeserializer.setValue(instance, value, ctx);
               } else {
                 getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);

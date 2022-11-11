@@ -17,8 +17,8 @@
 package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
 import java.util.EnumSet;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.EnumYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.util.EnumSet}.

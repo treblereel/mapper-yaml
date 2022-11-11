@@ -17,7 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser.map;
 
 import java.util.LinkedHashMap;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.util.LinkedHashMap}.

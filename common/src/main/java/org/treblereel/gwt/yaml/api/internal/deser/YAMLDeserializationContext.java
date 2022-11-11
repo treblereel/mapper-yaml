@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.internal.deser;
 
 import java.io.IOException;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;

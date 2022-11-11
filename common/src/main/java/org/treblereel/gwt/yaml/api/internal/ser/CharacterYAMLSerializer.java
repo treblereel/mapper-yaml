@@ -16,8 +16,6 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -28,18 +26,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  */
 public class CharacterYAMLSerializer extends YAMLSerializer<Character> {
 
-  private static final CharacterYAMLSerializer INSTANCE = new CharacterYAMLSerializer();
-
-  private CharacterYAMLSerializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link CharacterYAMLSerializer}
-   */
-  public static CharacterYAMLSerializer getInstance() {
-    return INSTANCE;
-  }
+  public static final CharacterYAMLSerializer INSTANCE = new CharacterYAMLSerializer();
 
   /** {@inheritDoc} */
   @Override

@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of double.
@@ -30,19 +30,8 @@ import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
  */
 public class PrimitiveDoubleArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<double[]> {
 
-  private static final PrimitiveDoubleArrayYAMLDeserializer INSTANCE =
+  public static final PrimitiveDoubleArrayYAMLDeserializer INSTANCE =
       new PrimitiveDoubleArrayYAMLDeserializer();
-
-  private PrimitiveDoubleArrayYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveDoubleArrayYAMLDeserializer}
-   */
-  public static PrimitiveDoubleArrayYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
@@ -50,7 +39,7 @@ public class PrimitiveDoubleArrayYAMLDeserializer extends AbstractArrayYAMLDeser
     List<Double> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
-            BaseNumberYAMLDeserializer.DoubleYAMLDeserializer.getInstance(),
+            BaseNumberYAMLDeserializer.DoubleYAMLDeserializer.INSTANCE,
             ctx);
 
     double[] result = new double[list.size()];

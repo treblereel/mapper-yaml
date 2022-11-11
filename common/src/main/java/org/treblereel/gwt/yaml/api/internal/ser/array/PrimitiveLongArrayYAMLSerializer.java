@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -30,20 +30,9 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  */
 public class PrimitiveLongArrayYAMLSerializer extends BasicArrayYAMLSerializer<long[]> {
 
-  private static final PrimitiveLongArrayYAMLSerializer INSTANCE =
+  public static final PrimitiveLongArrayYAMLSerializer INSTANCE =
       new PrimitiveLongArrayYAMLSerializer();
 
-  private PrimitiveLongArrayYAMLSerializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveLongArrayYAMLSerializer}
-   */
-  public static BasicArrayYAMLSerializer getInstance(String propertyName) {
-    return INSTANCE.setPropertyName(propertyName);
-  }
-  /** {@inheritDoc} */
   @Override
   protected boolean isEmpty(long[] value) {
     return null == value || value.length == 0;

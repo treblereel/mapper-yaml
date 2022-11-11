@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of int.
@@ -30,19 +30,8 @@ import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
  */
 public class PrimitiveIntegerArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<int[]> {
 
-  private static final PrimitiveIntegerArrayYAMLDeserializer INSTANCE =
+  public static final PrimitiveIntegerArrayYAMLDeserializer INSTANCE =
       new PrimitiveIntegerArrayYAMLDeserializer();
-
-  private PrimitiveIntegerArrayYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveIntegerArrayYAMLDeserializer}
-   */
-  public static PrimitiveIntegerArrayYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
@@ -50,7 +39,7 @@ public class PrimitiveIntegerArrayYAMLDeserializer extends AbstractArrayYAMLDese
     List<Integer> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
-            BaseNumberYAMLDeserializer.IntegerYAMLDeserializer.getInstance(),
+            BaseNumberYAMLDeserializer.IntegerYAMLDeserializer.INSTANCE,
             ctx);
 
     int[] result = new int[list.size()];

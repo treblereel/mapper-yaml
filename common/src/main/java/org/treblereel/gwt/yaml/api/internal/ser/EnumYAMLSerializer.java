@@ -16,8 +16,6 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -28,19 +26,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  */
 public class EnumYAMLSerializer<E extends Enum<E>> extends YAMLSerializer<E> {
 
-  private static final EnumYAMLSerializer<?> INSTANCE = new EnumYAMLSerializer();
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link EnumYAMLSerializer}
-   */
-  @SuppressWarnings("unchecked")
-  public static YAMLSerializer getInstance() {
-    return INSTANCE;
-  }
-
-  private EnumYAMLSerializer() {}
+  public static final EnumYAMLSerializer<?> INSTANCE = new EnumYAMLSerializer();
 
   /** {@inheritDoc} */
   @Override

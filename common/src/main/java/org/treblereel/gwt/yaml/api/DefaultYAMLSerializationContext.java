@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.api;
 
 import java.util.Date;
 import java.util.Map;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 

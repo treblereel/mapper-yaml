@@ -16,7 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 
 /**
  * Lazy initialize a {@link YAMLSerializer}

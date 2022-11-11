@@ -20,8 +20,8 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 
 /**
@@ -33,8 +33,7 @@ import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeseriali
 public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<T> {
 
   /** {@inheritDoc} */
-  @Override
-  public T doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     return doDeserializeArray(yaml, key, ctx);
   }
 
@@ -66,18 +65,18 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
       for (int i = 0; i < sequence.size(); i++) {
         list.add(
             ((AbstractBeanYAMLDeserializer<C>) deserializer)
-                .doDeserialize(sequence.yamlMapping(i), ctx));
+                .deserialize(sequence.yamlMapping(i), ctx));
       }
     } else {
       for (int i = 0; i < sequence.size(); i++) {
-        list.add(deserializer.doDeserialize(sequence.string(i), ctx));
+        list.add(deserializer.deserialize(sequence.string(i), ctx));
       }
     }
     return list;
   }
 
   @Override
-  public final T doDeserialize(String value, YAMLDeserializationContext ctx) {
+  public final T deserialize(String value, YAMLDeserializationContext ctx) {
     throw new Error("Unsupported operation");
   }
 }

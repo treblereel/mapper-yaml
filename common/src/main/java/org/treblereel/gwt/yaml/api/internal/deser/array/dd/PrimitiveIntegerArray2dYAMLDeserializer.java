@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for 2D array of int.
@@ -31,28 +31,17 @@ import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 public class PrimitiveIntegerArray2dYAMLDeserializer
     extends AbstractArray2dYAMLDeserializer<int[][]> {
 
-  private static final PrimitiveIntegerArray2dYAMLDeserializer INSTANCE =
+  public static final PrimitiveIntegerArray2dYAMLDeserializer INSTANCE =
       new PrimitiveIntegerArray2dYAMLDeserializer();
-
-  private PrimitiveIntegerArray2dYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveIntegerArray2dYAMLDeserializer}
-   */
-  public static PrimitiveIntegerArray2dYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
-  public int[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public int[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Integer>> list =
         deserializeIntoList(
             yaml.yamlSequence(key),
             ctx,
-            BaseNumberYAMLDeserializer.IntegerYAMLDeserializer.getInstance());
+            BaseNumberYAMLDeserializer.IntegerYAMLDeserializer.INSTANCE);
 
     if (list.isEmpty()) {
       return new int[0][0];

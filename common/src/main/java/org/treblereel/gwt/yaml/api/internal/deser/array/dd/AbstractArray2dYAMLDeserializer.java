@@ -19,8 +19,8 @@ package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for array.
@@ -75,7 +75,7 @@ public abstract class AbstractArray2dYAMLDeserializer<T> extends YAMLDeserialize
   }
 
   @Override
-  public final T doDeserialize(String value, YAMLDeserializationContext ctx) {
+  public final T deserialize(String value, YAMLDeserializationContext ctx) {
     throw new Error("Unsupported operation");
   }
 }

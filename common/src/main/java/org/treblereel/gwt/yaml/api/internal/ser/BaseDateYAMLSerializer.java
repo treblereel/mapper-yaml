@@ -19,8 +19,6 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -40,14 +38,7 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
   /** Default implementation of {@link BaseDateYAMLSerializer} for {@link Date} */
   public static final class DateYAMLSerializer extends BaseDateYAMLSerializer<Date> {
 
-    private static final DateYAMLSerializer INSTANCE = new DateYAMLSerializer();
-
-    private DateYAMLSerializer() {}
-
-    /** @return an instance of {@link DateYAMLSerializer} */
-    public static DateYAMLSerializer getInstance() {
-      return INSTANCE;
-    }
+    public static final DateYAMLSerializer INSTANCE = new DateYAMLSerializer();
 
     @Override
     protected void doSerialize(YAMLWriter writer, Date value, YAMLSerializationContext ctx) {

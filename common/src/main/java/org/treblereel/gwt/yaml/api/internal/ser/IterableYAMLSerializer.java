@@ -17,8 +17,6 @@
 package org.treblereel.gwt.yaml.api.internal.ser;
 
 import java.util.Iterator;
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**

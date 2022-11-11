@@ -16,8 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
@@ -29,19 +29,8 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  */
 public class PrimitiveByteArrayYAMLSerializer extends BasicArrayYAMLSerializer<byte[]> {
 
-  private static final PrimitiveByteArrayYAMLSerializer INSTANCE =
+  public static final PrimitiveByteArrayYAMLSerializer INSTANCE =
       new PrimitiveByteArrayYAMLSerializer();
-
-  private PrimitiveByteArrayYAMLSerializer() {}
-
-  /**
-   * getInstance.
-   *
-   * @return an instance of {@link PrimitiveByteArrayYAMLSerializer}
-   */
-  public static BasicArrayYAMLSerializer getInstance(String propertyName) {
-    return INSTANCE.setPropertyName(propertyName);
-  }
 
   /** {@inheritDoc} */
   @Override

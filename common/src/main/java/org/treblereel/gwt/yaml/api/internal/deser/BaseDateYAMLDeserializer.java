@@ -20,8 +20,6 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for dates.
@@ -33,30 +31,21 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
 
   /** {@inheritDoc} */
   @Override
-  public D doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return doDeserialize(yaml.string(key), ctx);
+  public D deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return deserialize(yaml.string(key), ctx);
   }
 
   /** Default implementation of {@link BaseDateYAMLDeserializer} for {@link Date} */
   public static final class DateYAMLDeserializer extends BaseDateYAMLDeserializer<Date> {
 
-    private static final DateYAMLDeserializer INSTANCE = new DateYAMLDeserializer();
-
-    private DateYAMLDeserializer() {}
-
-    /** @return an instance of {@link DateYAMLDeserializer} */
-    public static DateYAMLDeserializer getInstance() {
-      return INSTANCE;
-    }
+    public static final DateYAMLDeserializer INSTANCE = new DateYAMLDeserializer();
 
     @Override
-    public Date doDeserialize(String date, YAMLDeserializationContext ctx) {
+    public Date deserialize(String date, YAMLDeserializationContext ctx) {
       if (date == null) {
         return null;
       }
       return new Date(Long.valueOf(date));
-      // return YamlContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(),
-      // params.getPattern(), null, date);
     }
   }
 
@@ -64,43 +53,26 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
   public static final class SqlDateYAMLDeserializer
       extends BaseDateYAMLDeserializer<java.sql.Date> {
 
-    private static final SqlDateYAMLDeserializer INSTANCE = new SqlDateYAMLDeserializer();
+    public static final SqlDateYAMLDeserializer INSTANCE = new SqlDateYAMLDeserializer();
 
     private static final String SQL_DATE_FORMAT = "yyyy-MM-dd";
 
-    private SqlDateYAMLDeserializer() {}
-
-    /** @return an instance of {@link SqlDateYAMLDeserializer} */
-    public static SqlDateYAMLDeserializer getInstance() {
-      return INSTANCE;
-    }
-
     @Override
-    public java.sql.Date doDeserialize(String date, YAMLDeserializationContext ctx) {
+    public java.sql.Date deserialize(String date, YAMLDeserializationContext ctx) {
       if (date == null) {
         return null;
       }
       return new java.sql.Date(Long.valueOf(date));
-      // return new
-      // java.sql.Date(YamlContextProvider.get().dateFormat().parse(ctx.isUseBrowserTimezone(),
-      // SQL_DATE_FORMAT, false, date).getTime());
     }
   }
 
   /** Default implementation of {@link BaseDateYAMLDeserializer} for {@link Time} */
   public static final class SqlTimeYAMLDeserializer extends BaseDateYAMLDeserializer<Time> {
 
-    private static final SqlTimeYAMLDeserializer INSTANCE = new SqlTimeYAMLDeserializer();
-
-    private SqlTimeYAMLDeserializer() {}
-
-    /** @return an instance of {@link SqlTimeYAMLDeserializer} */
-    public static SqlTimeYAMLDeserializer getInstance() {
-      return INSTANCE;
-    }
+    public static final SqlTimeYAMLDeserializer INSTANCE = new SqlTimeYAMLDeserializer();
 
     @Override
-    public Time doDeserialize(String date, YAMLDeserializationContext ctx) {
+    public Time deserialize(String date, YAMLDeserializationContext ctx) {
       return Time.valueOf(date);
     }
   }
@@ -109,17 +81,10 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeser
   public static final class SqlTimestampYAMLDeserializer
       extends BaseDateYAMLDeserializer<Timestamp> {
 
-    private static final SqlTimestampYAMLDeserializer INSTANCE = new SqlTimestampYAMLDeserializer();
-
-    private SqlTimestampYAMLDeserializer() {}
-
-    /** @return an instance of {@link SqlTimestampYAMLDeserializer} */
-    public static SqlTimestampYAMLDeserializer getInstance() {
-      return INSTANCE;
-    }
+    public static final SqlTimestampYAMLDeserializer INSTANCE = new SqlTimestampYAMLDeserializer();
 
     @Override
-    public Timestamp doDeserialize(String date, YAMLDeserializationContext ctx) {
+    public Timestamp deserialize(String date, YAMLDeserializationContext ctx) {
       return Timestamp.valueOf(date);
     }
   }

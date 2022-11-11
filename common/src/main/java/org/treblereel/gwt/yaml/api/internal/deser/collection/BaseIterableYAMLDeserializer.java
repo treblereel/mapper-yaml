@@ -16,8 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Base {@link YAMLDeserializer} implementation for {@link java.lang.Iterable}.
@@ -46,7 +46,7 @@ public abstract class BaseIterableYAMLDeserializer<I extends Iterable<T>, T>
   }
 
   @Override
-  public final I doDeserialize(String value, YAMLDeserializationContext ctx) {
+  public final I deserialize(String value, YAMLDeserializationContext ctx) {
     throw new Error("Unsupported operation");
   }
 }

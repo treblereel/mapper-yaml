@@ -16,7 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Lazy initialize a {@link YAMLDeserializer}

@@ -16,7 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 3/28/20 */
 public abstract class BasicArrayYAMLSerializer<T> extends YAMLSerializer<T> {

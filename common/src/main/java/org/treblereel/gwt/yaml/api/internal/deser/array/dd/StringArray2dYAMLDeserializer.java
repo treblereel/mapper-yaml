@@ -18,30 +18,19 @@ package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 3/28/20 */
 public class StringArray2dYAMLDeserializer extends AbstractArray2dYAMLDeserializer<String[][]> {
 
-  private static final StringArray2dYAMLDeserializer INSTANCE = new StringArray2dYAMLDeserializer();
-
-  private StringArray2dYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link StringArray2dYAMLDeserializer}
-   */
-  public static StringArray2dYAMLDeserializer newInstance() {
-    return INSTANCE;
-  }
+  public static final StringArray2dYAMLDeserializer INSTANCE = new StringArray2dYAMLDeserializer();
 
   /** {@inheritDoc} */
   @Override
-  public String[][] doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public String[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<String>> list =
-        deserializeIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.getInstance());
+        deserializeIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.INSTANCE);
 
     if (list.isEmpty()) {
       return new String[0][0];

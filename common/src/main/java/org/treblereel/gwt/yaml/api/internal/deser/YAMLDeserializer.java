@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.internal.deser;
+
+import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 
 /**
- * Interface combining {@link ObjectReader} and {@link ObjectWriter}
+ * Base class for all the deserializer. It handles null values and exceptions. The rest is delegated
+ * to implementations.
  *
- * @param <T> Type of the mapped object
  * @author Nicolas Morel
  * @version $Id: $
  */
-public interface ObjectMapper<T> extends ObjectReader<T>, ObjectWriter<T> {}
+public abstract class YAMLDeserializer<T> {
+
+  public abstract T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
+      throws YAMLDeserializationException;
+
+  public abstract T deserialize(String value, YAMLDeserializationContext ctx);
+}

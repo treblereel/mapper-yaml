@@ -16,10 +16,9 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.BasicArrayYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveIntegerArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -30,19 +29,8 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  */
 public class PrimitiveIntegerArray2dYAMLSerializer extends BasicArrayYAMLSerializer<int[][]> {
 
-  private static final PrimitiveIntegerArray2dYAMLSerializer INSTANCE =
+  public static final PrimitiveIntegerArray2dYAMLSerializer INSTANCE =
       new PrimitiveIntegerArray2dYAMLSerializer();
-
-  private PrimitiveIntegerArray2dYAMLSerializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveIntegerArray2dYAMLSerializer}
-   */
-  public static BasicArrayYAMLSerializer getInstance(String propertyName) {
-    return INSTANCE.setPropertyName(propertyName);
-  }
 
   /** {@inheritDoc} */
   @Override
@@ -58,10 +46,10 @@ public class PrimitiveIntegerArray2dYAMLSerializer extends BasicArrayYAMLSeriali
       return;
     }
 
-    BasicArrayYAMLSerializer serializer =
+    /* BasicArrayYAMLSerializer serializer =
         PrimitiveIntegerArrayYAMLSerializer.getInstance(propertyName);
 
-    /*        writer.beginObject(propertyName);
+            writer.beginObject(propertyName);
     for (int[] value : values) {
         serializer.serialize(writer, value, ctx, params);
     }

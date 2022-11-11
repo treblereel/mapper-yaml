@@ -18,9 +18,9 @@ package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.CharacterYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of char.
@@ -30,25 +30,14 @@ import org.treblereel.gwt.yaml.api.internal.deser.CharacterYAMLDeserializer;
  */
 public class PrimitiveCharacterArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<char[]> {
 
-  private static final PrimitiveCharacterArrayYAMLDeserializer INSTANCE =
+  public static final PrimitiveCharacterArrayYAMLDeserializer INSTANCE =
       new PrimitiveCharacterArrayYAMLDeserializer();
-
-  private PrimitiveCharacterArrayYAMLDeserializer() {}
-
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveCharacterArrayYAMLDeserializer}
-   */
-  public static PrimitiveCharacterArrayYAMLDeserializer getInstance() {
-    return INSTANCE;
-  }
 
   /** {@inheritDoc} */
   @Override
   public char[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Character> list =
-        deserializeIntoList(yaml.yamlSequence(key), CharacterYAMLDeserializer.getInstance(), ctx);
+        deserializeIntoList(yaml.yamlSequence(key), CharacterYAMLDeserializer.INSTANCE, ctx);
 
     char[] result = new char[list.size()];
     int i = 0;

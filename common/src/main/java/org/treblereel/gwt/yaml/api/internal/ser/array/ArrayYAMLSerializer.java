@@ -19,8 +19,8 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import com.amihaiemil.eoyaml.YamlNode;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
@@ -42,7 +42,7 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
    *
    * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
    */
-  protected ArrayYAMLSerializer(YAMLSerializer<T> serializer, String propertyName) {
+  public ArrayYAMLSerializer(YAMLSerializer<T> serializer, String propertyName) {
     if (null == serializer) {
       throw new IllegalArgumentException("serializer cannot be null");
     }
@@ -51,18 +51,6 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
     }
     this.serializer = serializer;
     this.propertyName = propertyName;
-  }
-
-  /**
-   * newInstance
-   *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
-   * @param <T> Type of the elements inside the array
-   * @return a new instance of {@link ArrayYAMLSerializer}
-   */
-  public static <T> ArrayYAMLSerializer<T> getInstance(
-      YAMLSerializer<T> serializer, String propertyName) {
-    return new ArrayYAMLSerializer<>(serializer, propertyName);
   }
 
   /** {@inheritDoc} */

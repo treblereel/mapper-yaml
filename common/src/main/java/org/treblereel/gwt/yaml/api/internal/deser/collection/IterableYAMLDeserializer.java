@@ -17,8 +17,8 @@
 package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
 import com.amihaiemil.eoyaml.YamlMapping;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Iterable}. The
@@ -52,7 +52,7 @@ public class IterableYAMLDeserializer<T> extends BaseIterableYAMLDeserializer<It
 
   /** {@inheritDoc} */
   @Override
-  public Iterable<T> doDeserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+  public Iterable<T> deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     throw new UnsupportedOperationException();
   }
 }

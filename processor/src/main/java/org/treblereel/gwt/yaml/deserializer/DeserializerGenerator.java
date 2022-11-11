@@ -40,8 +40,8 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.api.YAMLContextProvider;
-import org.treblereel.gwt.yaml.api.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.BeanPropertyDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.HasDeserializerAndParameters;
@@ -102,15 +102,6 @@ public class DeserializerGenerator extends AbstractGenerator {
                 body.addStatement(
                     new ReturnStmt(
                         new FieldAccessExpr(new NameExpr(type.getSimpleName()), "class"))));
-
-    declaration
-        .addMethod("getRootElement", Modifier.Keyword.PROTECTED)
-        .addAnnotation(Override.class)
-        .setType(String.class)
-        .getBody()
-        .ifPresent(
-            body ->
-                body.addStatement(new ReturnStmt(new StringLiteralExpr(type.getRootElement()))));
   }
 
   @Override

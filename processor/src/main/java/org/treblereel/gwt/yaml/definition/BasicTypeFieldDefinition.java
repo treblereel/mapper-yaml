@@ -18,10 +18,9 @@ package org.treblereel.gwt.yaml.definition;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
-import javax.lang.model.type.TypeKind;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
@@ -34,24 +33,20 @@ public class BasicTypeFieldDefinition extends FieldDefinition {
 
   @Override
   public Expression getFieldDeserializer(CompilationUnit cu) {
-    return new MethodCallExpr(
-        new NameExpr(context.getTypeRegistry().getDeserializer(bean).toString()), "getInstance");
+    return new FieldAccessExpr(
+        new NameExpr(context.getTypeRegistry().getDeserializer(bean).toString()), "INSTANCE");
   }
 
   @Override
   public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
-    MethodCallExpr method =
-        new MethodCallExpr(
-            new NameExpr(
+    ObjectCreationExpr expression =
+        new ObjectCreationExpr()
+            .setType(
                 context
                     .getTypeRegistry()
                     .getSerializer(context.getProcessingEnv().getTypeUtils().erasure(getBean()))
-                    .toString()),
-            "getInstance");
-    if (getBean().getKind().equals(TypeKind.ARRAY)) {
-      method.addArgument(new StringLiteralExpr(fieldName));
-    }
-    return method;
+                    .toString());
+    return expression;
   }
 
   @Override

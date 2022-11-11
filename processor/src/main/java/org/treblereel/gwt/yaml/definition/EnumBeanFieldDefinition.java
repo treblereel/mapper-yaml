@@ -18,6 +18,7 @@ package org.treblereel.gwt.yaml.definition;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.google.auto.common.MoreTypes;
@@ -56,8 +57,7 @@ public class EnumBeanFieldDefinition extends FieldDefinition {
   @Override
   public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
     cu.addImport(EnumYAMLSerializer.class);
-    return new MethodCallExpr(
-        new NameExpr(EnumYAMLSerializer.class.getSimpleName()), "getInstance");
+    return new FieldAccessExpr(new NameExpr(EnumYAMLSerializer.class.getSimpleName()), "INSTANCE");
   }
 
   @Override

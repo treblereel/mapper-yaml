@@ -21,6 +21,7 @@ import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import javax.lang.model.type.ArrayType;
@@ -128,7 +129,9 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
               .getFieldDefinition((array.getComponentType()))
               .getFieldSerializer(null, cu);
     }
-    return new MethodCallExpr(new NameExpr(serializer), "getInstance")
+
+    return new ObjectCreationExpr()
+        .setType(serializer)
         .addArgument(expression)
         .addArgument(new StringLiteralExpr(fieldName));
   }

@@ -44,8 +44,8 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.TypeUtils;
-import org.treblereel.gwt.yaml.api.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.BeanPropertySerializer;
 import org.treblereel.gwt.yaml.api.internal.utils.Pair;
@@ -89,7 +89,6 @@ public class SerializerGenerator extends AbstractGenerator {
   @Override
   protected void getType(BeanDefinition type) {
     getSerializedType(type);
-    getRootElement(type);
   }
 
   private void getSerializedType(BeanDefinition type) {
@@ -103,19 +102,6 @@ public class SerializerGenerator extends AbstractGenerator {
                 body.addStatement(
                     new ReturnStmt(
                         new FieldAccessExpr(new NameExpr(type.getSimpleName()), "class"))));
-  }
-
-  private void getRootElement(BeanDefinition type) {
-    if (type.getRootElement() != null) {
-      declaration
-          .addMethod("getRootElement", Modifier.Keyword.PROTECTED)
-          .addAnnotation(Override.class)
-          .setType(String.class)
-          .getBody()
-          .ifPresent(
-              body ->
-                  body.addStatement(new ReturnStmt(new StringLiteralExpr(type.getRootElement()))));
-    }
   }
 
   @Override

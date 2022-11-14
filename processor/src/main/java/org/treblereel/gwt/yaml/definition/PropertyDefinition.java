@@ -23,6 +23,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import org.treblereel.gwt.yaml.api.annotation.YamlProperty;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
@@ -68,6 +69,10 @@ public class PropertyDefinition extends Definition {
   }
 
   public String getPropertyName() {
+    if (property.getAnnotation(YamlProperty.class) != null
+        && !property.getAnnotation(YamlProperty.class).value().isEmpty()) {
+      return property.getAnnotation(YamlProperty.class).value();
+    }
     return property.getSimpleName().toString();
   }
 

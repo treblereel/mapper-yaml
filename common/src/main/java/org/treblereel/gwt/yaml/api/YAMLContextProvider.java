@@ -39,6 +39,6 @@ public class YAMLContextProvider {
   }
 
   private static void initContext() {
-    yamlContext = new JREYAMLContext();
+    yamlContext = new YAMLContext() {};
   }
 }

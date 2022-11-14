@@ -16,6 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
+import java.util.Map;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 
 /**
@@ -37,7 +38,7 @@ public interface InstanceBuilder<T> {
   /**
    * getParametersDeserializer
    *
-   * @return a {@link deser.bean.MapLike} object.
+   * @return a {@link Map} object.
    */
-  MapLike<HasDeserializerAndParameters> getParametersDeserializer();
+  Map<String, HasDeserializerAndParameters> getParametersDeserializer();
 }

@@ -17,7 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
-import org.treblereel.gwt.yaml.api.YAMLContextProvider;
+import java.util.Map;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
@@ -28,11 +28,10 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T>
-    implements InternalDeserializer<T, AbstractBeanYAMLDeserializer<T>> {
+public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T> {
 
   protected final InstanceBuilder<T> instanceBuilder;
-  private MapLike<BeanPropertyDeserializer<T, ?>> deserializers = initDeserializers();
+  private Map<String, BeanPropertyDeserializer<T, ?>> deserializers = initDeserializers();
 
   /** Constructor for AbstractBeanYAMLDeserializer. */
   protected AbstractBeanYAMLDeserializer() {
@@ -64,15 +63,12 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
   }
 
   /**
-   * Initialize the {@link MapLike} containing the property deserializers. Returns an empty map if
-   * there are no properties to deserialize.
+   * Initialize the {@link Map} containing the property deserializers. Returns an empty map if there
+   * are no properties to deserialize.
    *
-   * @return a {@link MapLike} object.
+   * @return a {@link Map} object.
    */
-  protected MapLike<BeanPropertyDeserializer<T, ?>> initDeserializers() {
-    // Change by Ahmad Bawaneh, replace JSNI types with IsInterop types
-    return YAMLContextProvider.get().mapLikeFactory().make();
-  }
+  protected abstract Map<String, BeanPropertyDeserializer<T, ?>> initDeserializers();
 
   /**
    * getDeserializedType
@@ -94,12 +90,6 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
     return property;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public AbstractBeanYAMLDeserializer<T> getDeserializer() {
-    return this;
-  }
-
   /**
    * {@inheritDoc}
    *
@@ -109,7 +99,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
   public final T deserializeInline(YamlMapping yaml, YAMLDeserializationContext ctx) {
     T instance = instanceBuilder.newInstance(ctx).getInstance();
     deserializers
-        .keys()
+        .keySet()
         .forEach(
             key -> {
               if (getPropertyDeserializer(key, ctx).getDeserializer()

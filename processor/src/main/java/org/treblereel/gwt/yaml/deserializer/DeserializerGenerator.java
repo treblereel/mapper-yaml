@@ -34,6 +34,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import java.util.HashMap;
 import java.util.Map;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -47,7 +48,6 @@ import org.treblereel.gwt.yaml.api.internal.deser.bean.BeanPropertyDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.HasDeserializerAndParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.Instance;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.InstanceBuilder;
-import org.treblereel.gwt.yaml.api.internal.deser.bean.MapLike;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.definition.BeanDefinition;
@@ -77,7 +77,7 @@ public class DeserializerGenerator extends AbstractGenerator {
     cu.addImport(HasDeserializerAndParameters.class);
     cu.addImport(Instance.class);
     cu.addImport(Map.class);
-    cu.addImport(MapLike.class);
+    cu.addImport(HashMap.class);
     cu.addImport(InstanceBuilder.class);
     cu.addImport(YAMLReader.class);
     cu.addImport(type.getQualifiedName());
@@ -121,8 +121,9 @@ public class DeserializerGenerator extends AbstractGenerator {
         .addAnnotation(Override.class)
         .setType(
             new ClassOrInterfaceType()
-                .setName(MapLike.class.getSimpleName())
+                .setName(Map.class.getSimpleName())
                 .setTypeArguments(
+                    new ClassOrInterfaceType().setName(String.class.getSimpleName()),
                     new ClassOrInterfaceType()
                         .setName(BeanPropertyDeserializer.class.getSimpleName())
                         .setTypeArguments(
@@ -131,8 +132,9 @@ public class DeserializerGenerator extends AbstractGenerator {
                             new ClassOrInterfaceType().setName("?"))));
     ClassOrInterfaceType varType =
         new ClassOrInterfaceType()
-            .setName("MapLike")
+            .setName("Map")
             .setTypeArguments(
+                new ClassOrInterfaceType().setName("String"),
                 new ClassOrInterfaceType()
                     .setName("BeanPropertyDeserializer")
                     .setTypeArguments(
@@ -143,7 +145,7 @@ public class DeserializerGenerator extends AbstractGenerator {
     VariableDeclarator map = new VariableDeclarator();
     map.setType(varType);
     map.setName("map");
-    map.setInitializer(new NameExpr("YAMLContextProvider.get().mapLikeFactory().make()"));
+    map.setInitializer(new NameExpr("new HashMap<>()"));
 
     ExpressionStmt expressionStmt = new ExpressionStmt();
     VariableDeclarationExpr variableDeclarationExpr = new VariableDeclarationExpr();
@@ -175,7 +177,7 @@ public class DeserializerGenerator extends AbstractGenerator {
                 .setName(InstanceBuilder.class.getSimpleName())
                 .setTypeArguments(new ClassOrInterfaceType().setName(type.getSimpleName())));
     VariableDeclarator deserializers = new VariableDeclarator();
-    deserializers.setType("MapLike<HasDeserializerAndParameters>");
+    deserializers.setType("Map<String, HasDeserializerAndParameters>");
     deserializers.setName("deserializers");
     deserializers.setInitializer("null");
 
@@ -317,8 +319,10 @@ public class DeserializerGenerator extends AbstractGenerator {
     method.setName("getParametersDeserializer");
     method.setType(
         new ClassOrInterfaceType()
-            .setName("MapLike")
-            .setTypeArguments(new ClassOrInterfaceType().setName("HasDeserializerAndParameters")));
+            .setName("Map")
+            .setTypeArguments(
+                new ClassOrInterfaceType().setName("String"),
+                new ClassOrInterfaceType().setName("HasDeserializerAndParameters")));
     method
         .getBody()
         .ifPresent(

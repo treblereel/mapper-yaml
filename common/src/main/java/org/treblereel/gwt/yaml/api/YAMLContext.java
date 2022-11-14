@@ -16,25 +16,10 @@
 
 package org.treblereel.gwt.yaml.api;
 
-import org.treblereel.gwt.yaml.api.internal.deser.bean.MapLike;
-
 /**
  * YAMLContext interface.
  *
  * @author vegegoku
  * @version $Id: $Id
  */
-public interface YAMLContext {
-
-  /**
-   * mapLikeFactory.
-   *
-   * @return a {@link YAMLContext.MapLikeFactory} object.
-   */
-  MapLikeFactory mapLikeFactory();
-
-  interface MapLikeFactory {
-
-    <T> MapLike<T> make();
-  }
-}
+public interface YAMLContext {}

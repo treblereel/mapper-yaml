@@ -31,6 +31,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import org.treblereel.gwt.yaml.TypeUtils;
+import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 import org.treblereel.gwt.yaml.generator.MapperGenerator;
@@ -109,9 +110,8 @@ public class BeanProcessor {
   private boolean checkField(VariableElement field) {
     if (field.getModifiers().contains(Modifier.STATIC)
         || field.getModifiers().contains(Modifier.TRANSIENT)
-        ||
-        // field.getAnnotation(XmlTransient.class) != null ||
-        field.getModifiers().contains(Modifier.FINAL)) {
+        || field.getAnnotation(YamlTransient.class) != null
+        || field.getModifiers().contains(Modifier.FINAL)) {
       return false;
     }
     if (!field.getModifiers().contains(Modifier.PRIVATE)

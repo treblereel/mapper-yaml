@@ -20,6 +20,7 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for dates.
@@ -27,7 +28,7 @@ import java.util.Date;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class BaseDateYAMLDeserializer<D extends Date> extends YAMLDeserializer<D> {
+public abstract class BaseDateYAMLDeserializer<D extends Date> implements YAMLDeserializer<D> {
 
   /** {@inheritDoc} */
   @Override

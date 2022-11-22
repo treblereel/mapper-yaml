@@ -19,68 +19,67 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import com.amihaiemil.eoyaml.YamlNode;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for {@link Collection}.
+ * Default {@link AbstractYAMLSerializer} implementation for {@link Collection}.
  *
  * @param <T> Type of the elements inside the {@link Collection}
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class CollectionYAMLSerializer<C extends Collection<T>, T> extends YAMLSerializer<C> {
+public class CollectionYAMLSerializer<C extends Collection<T>, T>
+    extends AbstractYAMLSerializer<C> {
 
-  protected final YAMLSerializer<T> serializer;
-  protected final String propertyName;
+  protected final AbstractYAMLSerializer<T> serializer;
 
   /**
    * Constructor for CollectionYAMLSerializer.
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the {@link
-   *     Collection}.
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     {@link Collection}.
    */
-  protected CollectionYAMLSerializer(YAMLSerializer<T> serializer, String propertyName) {
+  protected CollectionYAMLSerializer(AbstractYAMLSerializer<T> serializer) {
     if (null == serializer) {
       throw new IllegalArgumentException("serializer cannot be null");
     }
-    if (null == propertyName) {
-      throw new IllegalArgumentException("propertyName cannot be null");
-    }
     this.serializer = serializer;
-    this.propertyName = propertyName;
   }
 
   /**
    * newInstance
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the {@link
-   *     Collection}.
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     {@link Collection}.
    * @param <C> Type of the {@link Collection}
    * @return a new instance of {@link CollectionYAMLSerializer}
    */
   public static <C extends Collection<?>> CollectionYAMLSerializer<C, ?> newInstance(
-      YAMLSerializer<?> serializer, String propertyName) {
-    return new CollectionYAMLSerializer(serializer, propertyName);
+      AbstractYAMLSerializer<?> serializer) {
+    return new CollectionYAMLSerializer(serializer);
   }
 
-  /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, C values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.size() == 0) {
+  public void serialize(
+      YAMLWriter writer, String propertyName, C values, YAMLSerializationContext ctx)
+      throws YAMLSerializationException {
+    if (!ctx.isWriteEmptyYAMLArrays() && isEmpty(values)) {
       writer.nullValue(propertyName);
       return;
     }
 
     if (serializer instanceof AbstractBeanYAMLSerializer) {
-      Collection<YamlNode> temp = new ArrayList<>();
+      Collection<YamlNode> nodes = new ArrayList<>();
       for (T value : (Collection<T>) values) {
         DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
         serializer.setParent(this).serialize(childWriter, value, ctx);
-        temp.add(childWriter.getWriter().build());
+        nodes.add(childWriter.getWriter().build());
       }
-      writer.collectionOfYamlNode(propertyName, temp);
+      writer.collectionOfYamlNode(propertyName, nodes);
+
     } else {
       Collection<String> temp = new ArrayList<>();
       for (T value : (Collection<T>) values) {

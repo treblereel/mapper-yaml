@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api.internal.deser;
+package org.treblereel.gwt.yaml.api;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
+import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 
 /**
  * Base class for all the deserializer. It handles null values and exceptions. The rest is delegated
@@ -26,10 +27,12 @@ import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class YAMLDeserializer<T> {
+public interface YAMLDeserializer<T> {
 
-  public abstract T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
+  T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
       throws YAMLDeserializationException;
 
-  public abstract T deserialize(String value, YAMLDeserializationContext ctx);
+  default T deserialize(String value, YAMLDeserializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
+  }
 }

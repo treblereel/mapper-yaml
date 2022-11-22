@@ -19,12 +19,12 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for {@link String}.
+ * Default {@link AbstractYAMLSerializer} implementation for {@link String}.
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class StringYAMLSerializer extends YAMLSerializer<String> {
+public class StringYAMLSerializer extends AbstractYAMLSerializer<String> {
 
   public static final StringYAMLSerializer INSTANCE = new StringYAMLSerializer();
 
@@ -36,7 +36,8 @@ public class StringYAMLSerializer extends YAMLSerializer<String> {
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, String value, YAMLSerializationContext ctx) {
+  public void serialize(
+      YAMLWriter writer, String propertyName, String value, YAMLSerializationContext ctx) {
     if (value == null) {
       writer.nullValue(propertyName);
     }

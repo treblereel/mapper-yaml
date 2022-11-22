@@ -24,7 +24,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  *
  * @author Nicolas Morel.
  */
-interface InternalSerializer<T> {
+public interface InternalSerializer<T> {
 
   /**
    * serializeInternally

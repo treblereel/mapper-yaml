@@ -20,6 +20,7 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.List;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.AbstractArrayYAMLDeserializer;
 
 /**

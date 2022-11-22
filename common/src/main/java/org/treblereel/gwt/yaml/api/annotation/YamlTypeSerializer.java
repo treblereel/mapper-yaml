@@ -14,17 +14,27 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api.internal.ser.array;
+package org.treblereel.gwt.yaml.api.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/28/20 */
-public abstract class BasicArrayYAMLSerializer<T> extends AbstractYAMLSerializer<T> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({
+  ElementType.TYPE,
+  ElementType.FIELD,
+})
+public @interface YamlTypeSerializer {
 
-  protected String propertyName;
-
-  public BasicArrayYAMLSerializer<T> setPropertyName(String propertyName) {
-    this.propertyName = propertyName;
-    return this;
-  }
+  /**
+   * Custom {@link AbstractYAMLSerializer} which provides custom mapping for given field or JavaBean
+   * property.
+   *
+   * @return Deserializer to use.
+   */
+  Class<? extends YAMLSerializer> value();
 }

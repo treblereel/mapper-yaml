@@ -21,16 +21,17 @@ import java.math.BigInteger;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Base implementation of {@link YAMLSerializer} for {@link Number}.
+ * Base implementation of {@link AbstractYAMLSerializer} for {@link Number}.
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class BaseNumberYAMLSerializer<N extends Number> extends YAMLSerializer<N> {
+public abstract class BaseNumberYAMLSerializer<N extends Number> extends AbstractYAMLSerializer<N> {
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, N value, YAMLSerializationContext ctx) {
+  public void serialize(
+      YAMLWriter writer, String propertyName, N value, YAMLSerializationContext ctx) {
     writer.value(propertyName, String.valueOf(value));
   }
 
@@ -58,7 +59,8 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> extends YAMLSer
     public static final DoubleYAMLSerializer INSTANCE = new DoubleYAMLSerializer();
 
     @Override
-    public void doSerialize(YAMLWriter writer, Double value, YAMLSerializationContext ctx) {
+    public void serialize(
+        YAMLWriter writer, String propertyName, Double value, YAMLSerializationContext ctx) {
       // writer has a special method to write double, let's use instead of default Number method.
       writer.value(propertyName, String.valueOf(value));
     }
@@ -80,12 +82,6 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> extends YAMLSer
   public static final class LongYAMLSerializer extends BaseNumberYAMLSerializer<Long> {
 
     public static final LongYAMLSerializer INSTANCE = new LongYAMLSerializer();
-
-    @Override
-    public void doSerialize(YAMLWriter writer, Long value, YAMLSerializationContext ctx) {
-      // writer has a special method to write long, let's use instead of default Number method.
-      writer.value(propertyName, String.valueOf(value));
-    }
   }
 
   /** Default implementation of {@link BaseNumberYAMLSerializer} for {@link Short} */

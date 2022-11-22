@@ -20,23 +20,23 @@ import java.util.Iterator;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for {@link Iterable}.
+ * Default {@link AbstractYAMLSerializer} implementation for {@link Iterable}.
  *
  * @param <T> Type of the elements inside the {@link Iterable}
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class IterableYAMLSerializer<I extends Iterable<T>, T> extends YAMLSerializer<I> {
+public class IterableYAMLSerializer<I extends Iterable<T>, T> extends AbstractYAMLSerializer<I> {
 
-  protected final YAMLSerializer<T> serializer;
+  protected final AbstractYAMLSerializer<T> serializer;
 
   /**
    * Constructor for IterableYAMLSerializer.
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the {@link
-   *     Iterable}.
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     {@link Iterable}.
    */
-  protected IterableYAMLSerializer(YAMLSerializer<T> serializer) {
+  protected IterableYAMLSerializer(AbstractYAMLSerializer<T> serializer) {
     if (null == serializer) {
       throw new IllegalArgumentException("serializer cannot be null");
     }
@@ -46,13 +46,13 @@ public class IterableYAMLSerializer<I extends Iterable<T>, T> extends YAMLSerial
   /**
    * newInstance
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the {@link
-   *     Iterable}
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     {@link Iterable}
    * @param <I> Type of the {@link Iterable}
    * @return a new instance of {@link IterableYAMLSerializer}
    */
   public static <I extends Iterable<?>> IterableYAMLSerializer<I, ?> newInstance(
-      YAMLSerializer<?> serializer) {
+      AbstractYAMLSerializer<?> serializer) {
     return new IterableYAMLSerializer(serializer);
   }
 

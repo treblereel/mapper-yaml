@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Nicolas Morel
+ * Copyright © 2022 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api.internal.deser;
+package org.treblereel.gwt.yaml.api.annotation;
 
-import com.amihaiemil.eoyaml.YamlMapping;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
-public class BooleanYAMLDeserializer implements YAMLDeserializer<Boolean> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({
+  ElementType.TYPE,
+  ElementType.FIELD,
+})
+public @interface YamlTypeDeserializer {
 
-  public static final BooleanYAMLDeserializer INSTANCE = new BooleanYAMLDeserializer();
-
-  @Override
-  public Boolean deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return deserialize(yaml.string(key), ctx);
-  }
-
-  @Override
-  public Boolean deserialize(String value, YAMLDeserializationContext ctx) {
-    return Boolean.valueOf(value);
-  }
+  /**
+   * Custom {@link YAMLDeserializer} which provides custom mapping for given field or JavaBean
+   * property.
+   *
+   * @return Deserializer to use.
+   */
+  Class<? extends YAMLDeserializer> value();
 }

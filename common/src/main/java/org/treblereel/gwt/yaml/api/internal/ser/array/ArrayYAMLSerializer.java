@@ -19,30 +19,32 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import com.amihaiemil.eoyaml.YamlNode;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for array.
+ * Default {@link AbstractYAMLSerializer} implementation for array.
  *
  * @param <T> Type of the elements inside the array
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
+public class ArrayYAMLSerializer<T> extends AbstractYAMLSerializer<T[]> {
 
-  private final YAMLSerializer<T> serializer;
+  private final AbstractYAMLSerializer<T> serializer;
   protected final String propertyName;
 
   /**
    * Constructor for ArrayYAMLSerializer.
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     array.
    */
-  public ArrayYAMLSerializer(YAMLSerializer<T> serializer, String propertyName) {
+  public ArrayYAMLSerializer(AbstractYAMLSerializer<T> serializer, String propertyName) {
     if (null == serializer) {
       throw new IllegalArgumentException("serializer cannot be null");
     }
@@ -59,22 +61,30 @@ public class ArrayYAMLSerializer<T> extends YAMLSerializer<T[]> {
     return null == value || value.length == 0;
   }
 
+  @Override
+  public void serialize(YAMLWriter writer, T[] values, YAMLSerializationContext ctx)
+      throws YAMLSerializationException {
+    throw new RuntimeException("Not implemented");
+  }
+
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, T[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
+  public void serialize(
+      YAMLWriter writer, String propertyName, T[] values, YAMLSerializationContext ctx) {
+    if (!ctx.isWriteEmptyYAMLArrays() && isEmpty(values)) {
       writer.nullValue(propertyName);
       return;
     }
 
     if (serializer instanceof AbstractBeanYAMLSerializer) {
-      Collection<YamlNode> temp = new ArrayList<>();
+      Collection<YamlNode> nodes = new ArrayList<>();
       for (T value : (T[]) values) {
         DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
         serializer.setParent(this).serialize(childWriter, value, ctx);
-        temp.add(childWriter.getWriter().build());
+        nodes.add(childWriter.getWriter().build());
       }
-      writer.collectionOfYamlNode(propertyName, temp);
+      writer.collectionOfYamlNode(propertyName, nodes);
+
     } else {
       Collection<String> temp = new ArrayList<>();
       for (T value : (T[]) values) {

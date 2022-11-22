@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.String}.
@@ -24,7 +25,7 @@ import com.amihaiemil.eoyaml.YamlMapping;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class StringYAMLDeserializer extends YAMLDeserializer<String> {
+public class StringYAMLDeserializer implements YAMLDeserializer<String> {
 
   public static final StringYAMLDeserializer INSTANCE = new StringYAMLDeserializer();
 

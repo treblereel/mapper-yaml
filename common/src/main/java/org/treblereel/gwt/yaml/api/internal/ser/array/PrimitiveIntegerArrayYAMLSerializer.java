@@ -18,12 +18,12 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for array of int.
+ * Default {@link AbstractYAMLSerializer} implementation for array of int.
  *
  * @author Nicolas Morel
  * @version $Id: $
@@ -40,7 +40,8 @@ public class PrimitiveIntegerArrayYAMLSerializer extends BasicArrayYAMLSerialize
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, int[] values, YAMLSerializationContext ctx) {
+  public void serialize(
+      YAMLWriter writer, String propertyName, int[] values, YAMLSerializationContext ctx) {
     if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
       writer.nullValue(propertyName);
       return;

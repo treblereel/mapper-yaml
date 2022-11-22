@@ -17,18 +17,17 @@
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
 import java.util.Map;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
- * Base implementation of {@link YAMLSerializer} for beans.
+ * Base implementation of {@link AbstractYAMLSerializer} for beans.
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
+public abstract class AbstractBeanYAMLSerializer<T> extends AbstractYAMLSerializer<T>
     implements InternalSerializer<T> {
 
   protected final BeanPropertySerializer[] serializers;
@@ -51,15 +50,7 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
   /** {@inheritDoc} */
   @Override
   public void doSerialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
-    getSerializer(value, ctx).serializeInternally(writer, value, ctx);
-  }
-
-  private InternalSerializer<T> getSerializer(T value, YAMLSerializationContext ctx) {
-    if (value.getClass() == getSerializedType()) {
-      return this;
-    }
-
-    return this;
+    serializeInternally(writer, value, ctx);
   }
 
   /**
@@ -103,11 +94,7 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
   }
 
   private String getSerializeObjectName() {
-    if (propertyName != null) {
-      return propertyName;
-    } else {
-      return getSerializedType().getSimpleName();
-    }
+    return getSerializedType().getSimpleName();
   }
 
   private void serializeProperties(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
@@ -117,11 +104,9 @@ public abstract class AbstractBeanYAMLSerializer<T> extends YAMLSerializer<T>
         continue;
       }
       if (propertySerializer.isAbstractBeanYAMLSerializer(value)) {
-        DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
-        propertySerializer.setParent(this).serialize(childWriter, value, ctx);
-        writer.value(propertySerializer.getPropertyName(), childWriter.getWriter().build());
+        propertySerializer.serialize(writer, propertySerializer.getPropertyName(), value, ctx);
       } else {
-        propertySerializer.setParent(this).serialize(writer, value, ctx);
+        propertySerializer.serialize(writer, value, ctx);
       }
     }
   }

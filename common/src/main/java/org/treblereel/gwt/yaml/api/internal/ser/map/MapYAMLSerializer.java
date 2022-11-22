@@ -17,12 +17,12 @@
 package org.treblereel.gwt.yaml.api.internal.ser.map;
 
 import java.util.Map;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for {@link Map}.
+ * Default {@link AbstractYAMLSerializer} implementation for {@link Map}.
  *
  * @param <M> Type of the {@link Map}
  * @param <K> Type of the keys inside the {@link Map}
@@ -30,20 +30,22 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends YAMLSerializer<M> {
+public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends AbstractYAMLSerializer<M> {
 
-  protected final YAMLSerializer<K> keySerializer;
-  protected final YAMLSerializer<V> valueSerializer;
+  protected final AbstractYAMLSerializer<K> keySerializer;
+  protected final AbstractYAMLSerializer<V> valueSerializer;
   protected final String propertyName;
 
   /**
    * Constructor for MapYAMLSerializer.
    *
-   * @param keySerializer {@link YAMLSerializer} used to serialize the keys.
-   * @param valueSerializer {@link YAMLSerializer} used to serialize the values.
+   * @param keySerializer {@link AbstractYAMLSerializer} used to serialize the keys.
+   * @param valueSerializer {@link AbstractYAMLSerializer} used to serialize the values.
    */
   protected MapYAMLSerializer(
-      YAMLSerializer<K> keySerializer, YAMLSerializer<V> valueSerializer, String propertyName) {
+      AbstractYAMLSerializer<K> keySerializer,
+      AbstractYAMLSerializer<V> valueSerializer,
+      String propertyName) {
     if (null == keySerializer) {
       throw new IllegalArgumentException("keySerializer cannot be null");
     }
@@ -61,13 +63,15 @@ public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends YAMLSerializer
   /**
    * newInstance
    *
-   * @param keySerializer {@link YAMLSerializer} used to serialize the keys.
-   * @param valueSerializer {@link YAMLSerializer} used to serialize the values.
+   * @param keySerializer {@link AbstractYAMLSerializer} used to serialize the keys.
+   * @param valueSerializer {@link AbstractYAMLSerializer} used to serialize the values.
    * @param <M> Type of the {@link Map}
    * @return a new instance of {@link MapYAMLSerializer}
    */
   public static <M extends Map<?, ?>> MapYAMLSerializer<M, ?, ?> newInstance(
-      YAMLSerializer<?> keySerializer, YAMLSerializer<?> valueSerializer, String propertyName) {
+      AbstractYAMLSerializer<?> keySerializer,
+      AbstractYAMLSerializer<?> valueSerializer,
+      String propertyName) {
     return new MapYAMLSerializer(keySerializer, valueSerializer, propertyName);
   }
 

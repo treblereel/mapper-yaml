@@ -17,9 +17,9 @@
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
 
 /**

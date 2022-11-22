@@ -16,13 +16,13 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.BasicArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for 2D array of double.
+ * Default {@link AbstractYAMLSerializer} implementation for 2D array of double.
  *
  * @author Nicolas Morel
  * @version $Id: $

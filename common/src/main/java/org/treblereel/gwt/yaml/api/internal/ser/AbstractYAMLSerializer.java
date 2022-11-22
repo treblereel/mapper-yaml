@@ -16,8 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
  * Base class for all the serializer. It handles null values and exceptions. The rest is delegated
@@ -26,18 +28,11 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $Id
  */
-public abstract class YAMLSerializer<T> {
+public abstract class AbstractYAMLSerializer<T> implements YAMLSerializer<T> {
 
-  protected String propertyName;
+  protected AbstractYAMLSerializer parent;
 
-  protected YAMLSerializer parent;
-
-  public YAMLSerializer<T> setPropertyName(String propertyName) {
-    this.propertyName = propertyName;
-    return this;
-  }
-
-  public YAMLSerializer setParent(YAMLSerializer parent) {
+  public AbstractYAMLSerializer setParent(AbstractYAMLSerializer parent) {
     this.parent = parent;
     return this;
   }
@@ -55,12 +50,18 @@ public abstract class YAMLSerializer<T> {
     if (null == value) {
       if (ctx.isSerializeNulls()) {
         serializeNullValue(writer, ctx);
-      } else {
-        writer.nullValue(propertyName);
       }
     } else {
       doSerialize(writer, value, ctx);
     }
+  }
+
+  @Override
+  public void serialize(
+      YAMLWriter writer, String propertyName, T value, YAMLSerializationContext ctx) {
+    DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
+    serialize(childWriter, value, ctx);
+    writer.value(propertyName, childWriter.getWriter().build());
   }
 
   /**
@@ -70,7 +71,7 @@ public abstract class YAMLSerializer<T> {
    * @param ctx Context for the full serialization process
    */
   protected void serializeNullValue(YAMLWriter writer, YAMLSerializationContext ctx) {
-    writer.nullValue(propertyName);
+    // writer.nullValue(propertyName); //TODO
   }
 
   /**
@@ -80,7 +81,9 @@ public abstract class YAMLSerializer<T> {
    * @param value Object to serialize
    * @param ctx Context for the full serialization process
    */
-  protected abstract void doSerialize(YAMLWriter writer, T value, YAMLSerializationContext ctx);
+  protected void doSerialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
+    throw new RuntimeException("Not implemented");
+  }
 
   /**
    * isEmpty.

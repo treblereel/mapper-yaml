@@ -17,8 +17,9 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
-public class CharacterYAMLDeserializer extends YAMLDeserializer<Character> {
+public class CharacterYAMLDeserializer implements YAMLDeserializer<Character> {
 
   public static final CharacterYAMLDeserializer INSTANCE = new CharacterYAMLDeserializer();
 

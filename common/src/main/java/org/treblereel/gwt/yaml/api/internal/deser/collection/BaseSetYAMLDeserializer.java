@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.*;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 
 /**
  * Base {@link YAMLDeserializer} implementation for {@link java.util.Set}.

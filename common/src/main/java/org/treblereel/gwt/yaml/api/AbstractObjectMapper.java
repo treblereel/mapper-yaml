@@ -23,28 +23,17 @@ import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.DefaultYAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 public abstract class AbstractObjectMapper<T> {
 
-  private final String rootName;
-
   private YAMLDeserializer<T> deserializer;
 
-  private YAMLSerializer<T> serializer;
-
-  /**
-   * Constructor for AbstractObjectMapper.
-   *
-   * @param rootName a {@link java.lang.String} object.
-   */
-  protected AbstractObjectMapper(String rootName) {
-    this.rootName = rootName;
-  }
+  private AbstractYAMLSerializer<T> serializer;
 
   /** {@inheritDoc} */
   public T read(String in) throws YAMLDeserializationException, IOException {
@@ -89,7 +78,7 @@ public abstract class AbstractObjectMapper<T> {
   public String write(T value, YAMLSerializationContext ctx) throws YAMLSerializationException {
     YAMLWriter writer = ctx.newYAMLWriter();
     try {
-      getSerializer().serialize(writer, value, ctx);
+      ((AbstractBeanYAMLSerializer) getSerializer()).serializeInternally(writer, value, ctx);
       return writer.getOutput();
     } catch (YAMLSerializationException e) {
       throw new Error(e);
@@ -103,9 +92,9 @@ public abstract class AbstractObjectMapper<T> {
    *
    * <p>Getter for the field <code>serializer</code>.
    */
-  public YAMLSerializer<T> getSerializer() {
+  public AbstractYAMLSerializer<T> getSerializer() {
     if (null == serializer) {
-      serializer = (YAMLSerializer<T>) newSerializer();
+      serializer = (AbstractYAMLSerializer<T>) newSerializer();
     }
     return serializer;
   }
@@ -115,5 +104,5 @@ public abstract class AbstractObjectMapper<T> {
    *
    * @return a new serializer
    */
-  protected abstract YAMLSerializer<?> newSerializer();
+  protected abstract AbstractYAMLSerializer<?> newSerializer();
 }

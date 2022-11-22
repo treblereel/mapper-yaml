@@ -44,8 +44,8 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.TypeUtils;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.BeanPropertySerializer;
 import org.treblereel.gwt.yaml.api.internal.utils.Pair;
@@ -70,12 +70,12 @@ public class SerializerGenerator extends AbstractGenerator {
   @Override
   protected void configureClassType(BeanDefinition type) {
     cu.addImport(YAMLSerializationContext.class);
-    cu.addImport(YAMLSerializer.class);
+    cu.addImport(AbstractYAMLSerializer.class);
     cu.addImport(AbstractBeanYAMLSerializer.class);
     cu.addImport(Pair.class);
     cu.addImport(List.class);
     cu.addImport(BeanPropertySerializer.class);
-    cu.addImport(YAMLSerializer.class);
+    cu.addImport(AbstractYAMLSerializer.class);
     cu.addImport(type.getQualifiedName());
 
     declaration
@@ -218,7 +218,7 @@ public class SerializerGenerator extends AbstractGenerator {
     method.addAnnotation(Override.class);
     method.setName("newSerializer");
 
-    method.setType(new ClassOrInterfaceType().setName("YAMLSerializer<?>"));
+    method.setType(new ClassOrInterfaceType().setName("AbstractYAMLSerializer<?>"));
 
     method
         .getBody()

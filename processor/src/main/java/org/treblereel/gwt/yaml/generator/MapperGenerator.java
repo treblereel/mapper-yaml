@@ -20,10 +20,8 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -33,8 +31,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.api.AbstractObjectMapper;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.definition.BeanDefinition;
 import org.treblereel.gwt.yaml.deserializer.DeserializerGenerator;
@@ -59,7 +57,7 @@ public class MapperGenerator extends AbstractGenerator {
   protected void configureClassType(BeanDefinition type) {
     cu.addImport(AbstractObjectMapper.class);
     cu.addImport(YAMLDeserializer.class);
-    cu.addImport(YAMLSerializer.class);
+    cu.addImport(AbstractYAMLSerializer.class);
 
     if (!type.getBean().getKind().equals(TypeKind.PACKAGE)) {
       cu.addImport(type.getQualifiedName());
@@ -96,16 +94,9 @@ public class MapperGenerator extends AbstractGenerator {
         "INSTANCE",
         new ObjectCreationExpr()
             .setType(new ClassOrInterfaceType().setName(getMapperName(type.getElement()))),
-        Modifier.Keyword.FINAL,
         Modifier.Keyword.PUBLIC,
-        Modifier.Keyword.STATIC);
-    declaration
-        .addConstructor()
-        .setModifiers(Modifier.Keyword.PUBLIC)
-        .getBody()
-        .addStatement(
-            new MethodCallExpr("super").addArgument(new StringLiteralExpr(type.getRootElement())));
-
+        Modifier.Keyword.STATIC,
+        Modifier.Keyword.FINAL);
     addDeserializer(type);
     newSerializer(type);
   }
@@ -113,7 +104,7 @@ public class MapperGenerator extends AbstractGenerator {
   private void newSerializer(BeanDefinition type) {
     ClassOrInterfaceType returnType =
         new ClassOrInterfaceType()
-            .setName(YAMLSerializer.class.getSimpleName())
+            .setName(AbstractYAMLSerializer.class.getSimpleName())
             .setTypeArguments(new ClassOrInterfaceType().setName(getTypeMapperName(type)));
 
     declaration

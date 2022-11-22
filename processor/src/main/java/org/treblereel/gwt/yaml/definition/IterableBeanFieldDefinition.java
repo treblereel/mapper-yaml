@@ -20,7 +20,6 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.google.auto.common.MoreTypes;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
@@ -66,7 +65,6 @@ public class IterableBeanFieldDefinition extends FieldDefinition {
       method.addArgument(
           propertyDefinitionFactory.getFieldDefinition(param).getFieldSerializer(null, cu));
     }
-    method.addArgument(new StringLiteralExpr(fieldName));
     return method;
   }
 

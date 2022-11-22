@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.Map;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
 
 /**
@@ -28,7 +28,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLReader;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T> {
+public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserializer<T> {
 
   protected final InstanceBuilder<T> instanceBuilder;
   private Map<String, BeanPropertyDeserializer<T, ?>> deserializers = initDeserializers();
@@ -55,11 +55,6 @@ public abstract class AbstractBeanYAMLDeserializer<T> extends YAMLDeserializer<T
   @Override
   public T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     return deserialize(yaml.yamlMapping(key), ctx);
-  }
-
-  @Override
-  public T deserialize(String value, YAMLDeserializationContext ctx) {
-    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   /**

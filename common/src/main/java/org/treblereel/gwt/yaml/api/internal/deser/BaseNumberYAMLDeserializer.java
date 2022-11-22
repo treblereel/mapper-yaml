@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.deser;
 import com.amihaiemil.eoyaml.YamlMapping;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 
 /**
@@ -27,7 +28,7 @@ import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class BaseNumberYAMLDeserializer<N extends Number> extends YAMLDeserializer<N> {
+public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YAMLDeserializer<N> {
 
   /** Default implementation of {@link BaseNumberYAMLDeserializer} for {@link BigDecimal} */
   public static final class BigDecimalYAMLDeserializer

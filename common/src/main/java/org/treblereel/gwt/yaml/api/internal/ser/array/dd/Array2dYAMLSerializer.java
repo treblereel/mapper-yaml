@@ -16,28 +16,29 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for 2D array.
+ * Default {@link AbstractYAMLSerializer} implementation for 2D array.
  *
  * @param <T> Type of the elements inside the array
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class Array2dYAMLSerializer<T> extends YAMLSerializer<T[][]> {
+public class Array2dYAMLSerializer<T> extends AbstractYAMLSerializer<T[][]> {
 
   protected final String propertyName;
-  private final YAMLSerializer<T> serializer;
+  private final AbstractYAMLSerializer<T> serializer;
 
   /**
    * Constructor for Array2dYAMLSerializer.
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     array.
    */
-  protected Array2dYAMLSerializer(YAMLSerializer<T> serializer, String propertyName) {
+  protected Array2dYAMLSerializer(AbstractYAMLSerializer<T> serializer, String propertyName) {
     if (null == serializer) {
       throw new IllegalArgumentException("serializer cannot be null");
     }
@@ -51,12 +52,13 @@ public class Array2dYAMLSerializer<T> extends YAMLSerializer<T[][]> {
   /**
    * newInstance
    *
-   * @param serializer {@link YAMLSerializer} used to serialize the objects inside the array.
+   * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
+   *     array.
    * @param <T> Type of the elements inside the array
    * @return a new instance of {@link Array2dYAMLSerializer}
    */
   public static <T> Array2dYAMLSerializer<T> getInstance(
-      YAMLSerializer<T> serializer, String propertyName) {
+      AbstractYAMLSerializer<T> serializer, String propertyName) {
     return new Array2dYAMLSerializer<>(serializer, propertyName);
   }
 

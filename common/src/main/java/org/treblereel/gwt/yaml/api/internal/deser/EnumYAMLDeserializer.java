@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.lang.Enum}.
@@ -25,7 +26,7 @@ import com.amihaiemil.eoyaml.YamlMapping;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class EnumYAMLDeserializer<E extends Enum<E>> extends YAMLDeserializer<E> {
+public class EnumYAMLDeserializer<E extends Enum<E>> implements YAMLDeserializer<E> {
 
   private final Class<E> enumClass;
   private final E[] values;

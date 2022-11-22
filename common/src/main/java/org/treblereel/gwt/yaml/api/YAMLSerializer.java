@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api.internal.ser;
+package org.treblereel.gwt.yaml.api;
 
+import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
-/**
- * Default {@link AbstractYAMLSerializer} implementation for {@link Enum}.
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
-public class EnumYAMLSerializer<E extends Enum<E>> extends AbstractYAMLSerializer<E> {
+public interface YAMLSerializer<T> {
 
-  public static final EnumYAMLSerializer<?> INSTANCE = new EnumYAMLSerializer();
+  void serialize(YAMLWriter writer, String propertyName, T value, YAMLSerializationContext ctx);
 
-  /** {@inheritDoc} */
-  @Override
-  public void serialize(
-      YAMLWriter writer, String propertyName, E value, YAMLSerializationContext ctx) {
-    writer.value(propertyName, value.name());
+  default void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
   }
+
 }

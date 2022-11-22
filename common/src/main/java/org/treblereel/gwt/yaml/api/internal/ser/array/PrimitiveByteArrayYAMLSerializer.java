@@ -16,13 +16,13 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array;
 
+import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Default {@link YAMLSerializer} implementation for array of byte.
+ * Default {@link AbstractYAMLSerializer} implementation for array of byte.
  *
  * @author Nicolas Morel
  * @version $Id: $Id
@@ -40,7 +40,8 @@ public class PrimitiveByteArrayYAMLSerializer extends BasicArrayYAMLSerializer<b
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, byte[] values, YAMLSerializationContext ctx) {
+  public void serialize(
+      YAMLWriter writer, String propertyName, byte[] values, YAMLSerializationContext ctx) {
     if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
       writer.nullValue(propertyName);
       return;

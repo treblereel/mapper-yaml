@@ -20,8 +20,8 @@ import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.List;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 
 /**
@@ -30,7 +30,7 @@ import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeseriali
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<T> {
+public abstract class AbstractArrayYAMLDeserializer<T> implements YAMLDeserializer<T> {
 
   /** {@inheritDoc} */
   public T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
@@ -73,10 +73,5 @@ public abstract class AbstractArrayYAMLDeserializer<T> extends YAMLDeserializer<
       }
     }
     return list;
-  }
-
-  @Override
-  public final T deserialize(String value, YAMLDeserializationContext ctx) {
-    throw new Error("Unsupported operation");
   }
 }

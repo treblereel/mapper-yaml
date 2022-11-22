@@ -18,7 +18,7 @@ package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
  * Default {@link YAMLDeserializer} implementation for {@link java.util.Set}. The deserialization

@@ -22,12 +22,12 @@ import java.util.Date;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
- * Base implementation of {@link YAMLSerializer} for dates.
+ * Base implementation of {@link AbstractYAMLSerializer} for dates.
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSerializer<D> {
+public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAMLSerializer<D> {
 
   /** {@inheritDoc} */
   @Override
@@ -41,7 +41,8 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     public static final DateYAMLSerializer INSTANCE = new DateYAMLSerializer();
 
     @Override
-    protected void doSerialize(YAMLWriter writer, Date value, YAMLSerializationContext ctx) {
+    public void serialize(
+        YAMLWriter writer, String propertyName, Date value, YAMLSerializationContext ctx) {
       if ((ctx.isWriteDatesAsTimestamps())) {
         writer.value(propertyName, String.valueOf(value.getTime()));
       } else {
@@ -64,8 +65,8 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     }
 
     @Override
-    protected void doSerialize(
-        YAMLWriter writer, java.sql.Date value, YAMLSerializationContext ctx) {
+    public void serialize(
+        YAMLWriter writer, String propertyName, java.sql.Date value, YAMLSerializationContext ctx) {
       writer.value(propertyName, value.toString());
     }
   }
@@ -83,7 +84,8 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     }
 
     @Override
-    protected void doSerialize(YAMLWriter writer, Time value, YAMLSerializationContext ctx) {
+    public void serialize(
+        YAMLWriter writer, String propertyName, Time value, YAMLSerializationContext ctx) {
       writer.value(propertyName, value.toString());
     }
   }
@@ -101,7 +103,8 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends YAMLSeriali
     }
 
     @Override
-    protected void doSerialize(YAMLWriter writer, Timestamp value, YAMLSerializationContext ctx) {
+    public void serialize(
+        YAMLWriter writer, String propertyName, Timestamp value, YAMLSerializationContext ctx) {
       if (ctx.isWriteDatesAsTimestamps()) {
         writer.value(propertyName, String.valueOf(value.getTime()));
       } else {

@@ -26,5 +26,4 @@ public interface YAMLSerializer<T> {
   default void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
     throw new UnsupportedOperationException("Not implemented");
   }
-
 }

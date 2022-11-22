@@ -32,6 +32,8 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 import org.treblereel.gwt.yaml.generator.MapperGenerator;
@@ -63,7 +65,7 @@ public class BeanProcessor {
   }
 
   private void processBean(TypeElement bean) {
-    if (!beans.contains(bean)) {
+    if (!(beans.contains(bean) || typeUtils.isObject(bean.asType()))) {
       beans.add(checkBean(bean));
       context.getTypeUtils().getAllFieldsIn(bean).forEach(this::processField);
     }
@@ -114,6 +116,20 @@ public class BeanProcessor {
         || field.getModifiers().contains(Modifier.FINAL)) {
       return false;
     }
+
+    if (context
+        .getProcessingEnv()
+        .getTypeUtils()
+        .isSameType(field.asType(), typeUtils.getObject())) {
+      if (field.getAnnotation(YamlTypeSerializer.class) == null
+          && field.getAnnotation(YamlTypeDeserializer.class) == null) {
+        throw new GenerationException(
+            String.format(
+                "Field of type Object must be annotated with @YamlTypeSerializer && @YamlTypeDeserializer at [%s.%s]",
+                field.getEnclosingElement(), field.toString()));
+      }
+    }
+
     if (!field.getModifiers().contains(Modifier.PRIVATE)
         || typeUtils.hasGetter(field) && typeUtils.hasSetter(field)) {
       return true;

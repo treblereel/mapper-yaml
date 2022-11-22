@@ -16,15 +16,15 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
-import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
 
 /**
- * Lazy initialize a {@link AbstractYAMLSerializer}
+ * Lazy initialize a {@link YAMLSerializer}
  *
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class HasSerializer<V, S extends AbstractYAMLSerializer<V>> {
+public abstract class HasSerializer<V, S extends YAMLSerializer<V>> {
 
   private S serializer;
 
@@ -43,7 +43,7 @@ public abstract class HasSerializer<V, S extends AbstractYAMLSerializer<V>> {
   /**
    * newSerializer
    *
-   * @return a {@link AbstractYAMLSerializer} object.
+   * @return a {@link YAMLSerializer} object.
    */
-  protected abstract AbstractYAMLSerializer<?> newSerializer();
+  protected abstract YAMLSerializer<?> newSerializer();
 }

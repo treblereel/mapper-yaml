@@ -24,7 +24,6 @@ import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.DefaultYAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
@@ -33,7 +32,7 @@ public abstract class AbstractObjectMapper<T> {
 
   private YAMLDeserializer<T> deserializer;
 
-  private AbstractYAMLSerializer<T> serializer;
+  private YAMLSerializer<T> serializer;
 
   /** {@inheritDoc} */
   public T read(String in) throws YAMLDeserializationException, IOException {
@@ -92,9 +91,9 @@ public abstract class AbstractObjectMapper<T> {
    *
    * <p>Getter for the field <code>serializer</code>.
    */
-  public AbstractYAMLSerializer<T> getSerializer() {
+  public YAMLSerializer<T> getSerializer() {
     if (null == serializer) {
-      serializer = (AbstractYAMLSerializer<T>) newSerializer();
+      serializer = (YAMLSerializer<T>) newSerializer();
     }
     return serializer;
   }
@@ -104,5 +103,5 @@ public abstract class AbstractObjectMapper<T> {
    *
    * @return a new serializer
    */
-  protected abstract AbstractYAMLSerializer<?> newSerializer();
+  protected abstract YAMLSerializer<?> newSerializer();
 }

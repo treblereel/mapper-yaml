@@ -16,7 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
-import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
@@ -26,8 +26,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class BeanPropertySerializer<T, V>
-    extends HasSerializer<V, AbstractYAMLSerializer<V>> {
+public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAMLSerializer<V>> {
 
   protected String propertyName;
 

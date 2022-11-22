@@ -914,4 +914,17 @@ public class TypeUtils {
   public TypeElement toTypeElement(TypeMirror type) {
     return ((TypeElement) types.asElement(type));
   }
+
+  private TypeMirror objectType = null;
+
+  public TypeMirror getObject() {
+    if (objectType == null) {
+      objectType = elements.getTypeElement(Object.class.getCanonicalName()).asType();
+    }
+    return objectType;
+  }
+
+  public boolean isObject(TypeMirror type) {
+    return types.isSameType(type, getObject());
+  }
 }

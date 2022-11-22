@@ -32,7 +32,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.api.AbstractObjectMapper;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.definition.BeanDefinition;
 import org.treblereel.gwt.yaml.deserializer.DeserializerGenerator;
@@ -57,7 +57,7 @@ public class MapperGenerator extends AbstractGenerator {
   protected void configureClassType(BeanDefinition type) {
     cu.addImport(AbstractObjectMapper.class);
     cu.addImport(YAMLDeserializer.class);
-    cu.addImport(AbstractYAMLSerializer.class);
+    cu.addImport(YAMLSerializer.class);
 
     if (!type.getBean().getKind().equals(TypeKind.PACKAGE)) {
       cu.addImport(type.getQualifiedName());
@@ -104,7 +104,7 @@ public class MapperGenerator extends AbstractGenerator {
   private void newSerializer(BeanDefinition type) {
     ClassOrInterfaceType returnType =
         new ClassOrInterfaceType()
-            .setName(AbstractYAMLSerializer.class.getSimpleName())
+            .setName(YAMLSerializer.class.getSimpleName())
             .setTypeArguments(new ClassOrInterfaceType().setName(getTypeMapperName(type)));
 
     declaration

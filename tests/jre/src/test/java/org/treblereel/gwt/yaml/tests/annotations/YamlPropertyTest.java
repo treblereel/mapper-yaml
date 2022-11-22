@@ -33,14 +33,22 @@ public class YamlPropertyTest {
   YamlPropertyTest_Tested_YAMLMapperImpl mapper = YamlPropertyTest_Tested_YAMLMapperImpl.INSTANCE;
 
   private static final String YAML =
-      "_name: zzz\n"
-          + "_array:\n"
-          + "  - aaa\n"
-          + "  - bbb\n"
-          + "  - ccc\n"
-          + "_list:\n"
-          + "  - aaa\n"
-          + "  - bbb\n"
+      "_name: zzz"
+          + System.lineSeparator()
+          + "_array:"
+          + System.lineSeparator()
+          + "  - aaa"
+          + System.lineSeparator()
+          + "  - bbb"
+          + System.lineSeparator()
+          + "  - ccc"
+          + System.lineSeparator()
+          + "_list:"
+          + System.lineSeparator()
+          + "  - aaa"
+          + System.lineSeparator()
+          + "  - bbb"
+          + System.lineSeparator()
           + "  - ccc";
 
   @Test

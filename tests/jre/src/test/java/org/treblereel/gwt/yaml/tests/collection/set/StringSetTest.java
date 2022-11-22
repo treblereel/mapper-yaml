@@ -32,12 +32,18 @@ public class StringSetTest {
   private static final StringSetTest_StringSetBeanTest_YAMLMapperImpl mapper =
       StringSetTest_StringSetBeanTest_YAMLMapperImpl.INSTANCE;
   private static final String YAML =
-      "id: \"-1\"\n"
-          + "values:\n"
-          + "  - AAA\n"
-          + "  - AAA1\n"
-          + "  - AAA2\n"
-          + "  - AAA3\n"
+      "id: \"-1\""
+          + System.lineSeparator()
+          + "values:"
+          + System.lineSeparator()
+          + "  - AAA"
+          + System.lineSeparator()
+          + "  - AAA1"
+          + System.lineSeparator()
+          + "  - AAA2"
+          + System.lineSeparator()
+          + "  - AAA3"
+          + System.lineSeparator()
           + "  - AAA4";
 
   @Test

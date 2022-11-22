@@ -39,7 +39,16 @@ public class FloatArrayTest {
     String yaml = mapper.write(array);
 
     assertEquals(
-        "values:\n" + "  - 17222.0\n" + "  - 2111.34\n" + "  - 32223.34\n" + "  - 6226.37", yaml);
+        "values:"
+            + System.lineSeparator()
+            + "  - 17222.0"
+            + System.lineSeparator()
+            + "  - 2111.34"
+            + System.lineSeparator()
+            + "  - 32223.34"
+            + System.lineSeparator()
+            + "  - 6226.37",
+        yaml);
   }
 
   @Test

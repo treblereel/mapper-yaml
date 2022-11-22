@@ -36,7 +36,17 @@ public class CharArrayTest {
     CharArrayTest.CharArray array = new CharArrayTest.CharArray();
     array.setValues(values);
     String yaml = mapper.write(array);
-    assertEquals("values:\n" + "  - a\n" + "  - z\n" + "  - F\n" + "  - !", yaml);
+    assertEquals(
+        "values:"
+            + System.lineSeparator()
+            + "  - a"
+            + System.lineSeparator()
+            + "  - z"
+            + System.lineSeparator()
+            + "  - F"
+            + System.lineSeparator()
+            + "  - !",
+        yaml);
   }
 
   @Test

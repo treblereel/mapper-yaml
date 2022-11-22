@@ -36,7 +36,17 @@ public class BooleanArrayTest {
     booleanArray.setValues(new boolean[] {true, false, true, false});
     String yaml = mapper.write(booleanArray);
 
-    assertEquals("values:\n" + "  - true\n" + "  - false\n" + "  - true\n" + "  - false", yaml);
+    assertEquals(
+        "values:"
+            + System.lineSeparator()
+            + "  - true"
+            + System.lineSeparator()
+            + "  - false"
+            + System.lineSeparator()
+            + "  - true"
+            + System.lineSeparator()
+            + "  - false",
+        yaml);
   }
 
   @Test

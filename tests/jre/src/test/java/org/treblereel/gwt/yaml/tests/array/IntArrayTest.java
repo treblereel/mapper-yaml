@@ -38,7 +38,16 @@ public class IntArrayTest {
     array.setValues(values);
     String yaml = mapper.write(array);
     assertEquals(
-        "values:\n" + "  - 17222\n" + "  - 2111\n" + "  - 32223\n" + "  - \"-6226\"", yaml);
+        "values:"
+            + System.lineSeparator()
+            + "  - 17222"
+            + System.lineSeparator()
+            + "  - 2111"
+            + System.lineSeparator()
+            + "  - 32223"
+            + System.lineSeparator()
+            + "  - \"-6226\"",
+        yaml);
   }
 
   @Test

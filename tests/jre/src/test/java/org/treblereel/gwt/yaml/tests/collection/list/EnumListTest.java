@@ -33,12 +33,18 @@ public class EnumListTest {
   private static final EnumListTest_EnumListBeanTest_YAMLMapperImpl mapper =
       EnumListTest_EnumListBeanTest_YAMLMapperImpl.INSTANCE;
   private static final String YAML =
-      "id: \"-1\"\n"
-          + "values:\n"
-          + "  - ONE\n"
-          + "  - TWO\n"
-          + "  - THREE\n"
-          + "  - FOUR\n"
+      "id: \"-1\""
+          + System.lineSeparator()
+          + "values:"
+          + System.lineSeparator()
+          + "  - ONE"
+          + System.lineSeparator()
+          + "  - TWO"
+          + System.lineSeparator()
+          + "  - THREE"
+          + System.lineSeparator()
+          + "  - FOUR"
+          + System.lineSeparator()
           + "  - FIVE";
 
   @Test

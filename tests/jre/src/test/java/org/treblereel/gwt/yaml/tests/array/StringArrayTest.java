@@ -38,7 +38,17 @@ public class StringArrayTest {
     array.setValues(values);
     String yaml = mapper.write(array);
 
-    assertEquals("values:\n" + "  - aaa\n" + "  - bbb\n" + "  - ccc\n" + "  - ddd", yaml);
+    assertEquals(
+        "values:"
+            + System.lineSeparator()
+            + "  - aaa"
+            + System.lineSeparator()
+            + "  - bbb"
+            + System.lineSeparator()
+            + "  - ccc"
+            + System.lineSeparator()
+            + "  - ddd",
+        yaml);
   }
 
   @Test

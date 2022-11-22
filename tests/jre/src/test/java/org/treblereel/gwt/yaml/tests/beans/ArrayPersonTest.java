@@ -28,38 +28,70 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 public class ArrayPersonTest {
 
   private static final String YAML =
-      "values:\n"
-          + "  -\n"
-          + "    firstName: AAA\n"
-          + "    secondName: BBB\n"
-          + "    age: 99\n"
-          + "    address:\n"
-          + "      country: CCC\n"
-          + "      city: DDD\n"
-          + "      street: EEE\n"
-          + "  -\n"
-          + "    firstName: AAA2\n"
-          + "    secondName: BBB2\n"
-          + "    age: 992\n"
-          + "    address:\n"
-          + "      country: CCC2\n"
-          + "      city: DDD2\n"
-          + "      street: EEE2\n"
-          + "  -\n"
-          + "    firstName: AAA3\n"
-          + "    secondName: BBB3\n"
-          + "    age: 993\n"
-          + "    address:\n"
-          + "      country: CCC3\n"
-          + "      city: DDD3\n"
-          + "      street: EEE3\n"
-          + "  -\n"
-          + "    firstName: AAA4\n"
-          + "    secondName: BBB4\n"
-          + "    age: 994\n"
-          + "    address:\n"
-          + "      country: CCC4\n"
-          + "      city: DDD4\n"
+      "values:"
+          + System.lineSeparator()
+          + "  -"
+          + System.lineSeparator()
+          + "    firstName: AAA"
+          + System.lineSeparator()
+          + "    secondName: BBB"
+          + System.lineSeparator()
+          + "    age: 99"
+          + System.lineSeparator()
+          + "    address:"
+          + System.lineSeparator()
+          + "      country: CCC"
+          + System.lineSeparator()
+          + "      city: DDD"
+          + System.lineSeparator()
+          + "      street: EEE"
+          + System.lineSeparator()
+          + "  -"
+          + System.lineSeparator()
+          + "    firstName: AAA2"
+          + System.lineSeparator()
+          + "    secondName: BBB2"
+          + System.lineSeparator()
+          + "    age: 992"
+          + System.lineSeparator()
+          + "    address:"
+          + System.lineSeparator()
+          + "      country: CCC2"
+          + System.lineSeparator()
+          + "      city: DDD2"
+          + System.lineSeparator()
+          + "      street: EEE2"
+          + System.lineSeparator()
+          + "  -"
+          + System.lineSeparator()
+          + "    firstName: AAA3"
+          + System.lineSeparator()
+          + "    secondName: BBB3"
+          + System.lineSeparator()
+          + "    age: 993"
+          + System.lineSeparator()
+          + "    address:"
+          + System.lineSeparator()
+          + "      country: CCC3"
+          + System.lineSeparator()
+          + "      city: DDD3"
+          + System.lineSeparator()
+          + "      street: EEE3"
+          + System.lineSeparator()
+          + "  -"
+          + System.lineSeparator()
+          + "    firstName: AAA4"
+          + System.lineSeparator()
+          + "    secondName: BBB4"
+          + System.lineSeparator()
+          + "    age: 994"
+          + System.lineSeparator()
+          + "    address:"
+          + System.lineSeparator()
+          + "      country: CCC4"
+          + System.lineSeparator()
+          + "      city: DDD4"
+          + System.lineSeparator()
           + "      street: EEE4";
 
   private static final ArrayPersonTest_ArrayPersonBean_YAMLMapperImpl mapper =

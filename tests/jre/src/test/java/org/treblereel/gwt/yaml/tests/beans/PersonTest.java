@@ -26,12 +26,18 @@ import org.junit.Test;
 public class PersonTest {
 
   private static final String YAML =
-      "firstName: AAA\n"
-          + "secondName: BBB\n"
-          + "age: 99\n"
-          + "address:\n"
-          + "  country: CCC\n"
-          + "  city: DDD\n"
+      "firstName: AAA"
+          + System.lineSeparator()
+          + "secondName: BBB"
+          + System.lineSeparator()
+          + "age: 99"
+          + System.lineSeparator()
+          + "address:"
+          + System.lineSeparator()
+          + "  country: CCC"
+          + System.lineSeparator()
+          + "  city: DDD"
+          + System.lineSeparator()
           + "  street: EEE";
 
   private static final Person_YAMLMapperImpl mapper = Person_YAMLMapperImpl.INSTANCE;

@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2022 Treblereel
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,56 +16,60 @@
 
 package org.treblereel.gwt.yaml.tests.array;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-import org.junit.Test;
-import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
-
-import java.io.IOException;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+
+import com.google.j2cl.junit.apt.J2clTestInput;
+import java.io.IOException;
+import org.junit.Test;
+import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 
 @J2clTestInput(StringArrayTest.class)
 public class StringArrayTest {
 
-    private static final StringArrayTest_StringArray_YAMLMapperImpl mapper = StringArrayTest_StringArray_YAMLMapperImpl.INSTANCE;
+  private static final StringArrayTest_StringArray_YAMLMapperImpl mapper =
+      StringArrayTest_StringArray_YAMLMapperImpl.INSTANCE;
 
-    private static final String[] values = new String[] {"aaa", "bbb", "ccc", "ddd"};
+  private static final String[] values = new String[] {"aaa", "bbb", "ccc", "ddd"};
 
-    @Test
-    public void testSerializeValue() throws IOException {
-        StringArrayTest.StringArray array = new StringArrayTest.StringArray();
-        array.setValues(values);
-        String yaml = mapper.write(array);
+  @Test
+  public void testSerializeValue() throws IOException {
+    StringArrayTest.StringArray array = new StringArrayTest.StringArray();
+    array.setValues(values);
+    String yaml = mapper.write(array);
 
-        assertEquals("values:\n" +
-                "  - aaa\n" +
-                "  - bbb\n" +
-                "  - ccc\n" +
-                "  - ddd", yaml);
+    assertEquals(
+        "values:"
+            + System.lineSeparator()
+            + "  - aaa"
+            + System.lineSeparator()
+            + "  - bbb"
+            + System.lineSeparator()
+            + "  - ccc"
+            + System.lineSeparator()
+            + "  - ddd",
+        yaml);
+  }
 
+  @Test
+  public void tesDeSerializeValue() throws IOException {
+    StringArrayTest.StringArray array = new StringArrayTest.StringArray();
+    array.setValues(values);
+    String yaml = mapper.write(array);
+    assertArrayEquals(values, mapper.read(yaml).getValues());
+  }
+
+  @YAMLMapper
+  public static class StringArray {
+
+    private String[] values;
+
+    public String[] getValues() {
+      return values;
     }
 
-    @Test
-    public void tesDeSerializeValue() throws IOException {
-        StringArrayTest.StringArray array = new StringArrayTest.StringArray();
-        array.setValues(values);
-        String yaml = mapper.write(array);
-        assertArrayEquals(values, mapper.read(yaml).getValues());
+    public void setValues(String[] values) {
+      this.values = values;
     }
-
-
-    @YAMLMapper
-    public static class StringArray {
-
-        private String[] values;
-
-        public String[] getValues() {
-            return values;
-        }
-
-        public void setValues(String[] values) {
-            this.values = values;
-        }
-    }
+  }
 }

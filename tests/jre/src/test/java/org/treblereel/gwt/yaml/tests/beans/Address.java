@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2022 Treblereel
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,54 +20,54 @@ import java.util.Objects;
 
 public class Address {
 
-    private String country;
-    private String city;
-    private String street;
+  private String country;
+  private String city;
+  private String street;
 
-    public Address() {
+  public Address() {}
 
-    }
+  public Address(String country, String city, String street) {
+    this.country = country;
+    this.city = city;
+    this.street = street;
+  }
 
-    public Address(String country, String city, String street) {
-        this.country = country;
-        this.city = city;
-        this.street = street;
-    }
+  public String getCity() {
+    return city;
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public String getStreet() {
+    return street;
+  }
 
-    public String getStreet() {
-        return street;
-    }
+  public void setStreet(String street) {
+    this.street = street;
+  }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+  public String getCountry() {
+    return country;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Address address = (Address) o;
+    return Objects.equals(country, address.country)
+        && Objects.equals(city, address.city)
+        && Objects.equals(street, address.street);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(country, address.country) && Objects.equals(city, address.city) && Objects.equals(street, address.street);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(country, city, street);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(country, city, street);
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public void setCountry(String country) {
+    this.country = country;
+  }
 }

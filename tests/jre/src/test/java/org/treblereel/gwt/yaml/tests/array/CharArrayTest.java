@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2022 Treblereel
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,56 +16,58 @@
 
 package org.treblereel.gwt.yaml.tests.array;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-import org.junit.Test;
-import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
-
-import java.io.IOException;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+import java.io.IOException;
+import org.junit.Test;
+import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
+
 @J2clTestInput(CharArrayTest.class)
 public class CharArrayTest {
-    private static final CharArrayTest_CharArray_YAMLMapperImpl mapper = CharArrayTest_CharArray_YAMLMapperImpl.INSTANCE;
+  private static final CharArrayTest_CharArray_YAMLMapperImpl mapper =
+      CharArrayTest_CharArray_YAMLMapperImpl.INSTANCE;
 
-    private static final char[] values = new char[] {'a', 'z', 'F', '!'};
+  private static final char[] values = new char[] {'a', 'z', 'F', '!'};
 
+  @Test
+  public void testSerializeValue() throws IOException {
+    CharArrayTest.CharArray array = new CharArrayTest.CharArray();
+    array.setValues(values);
+    String yaml = mapper.write(array);
+    assertEquals(
+        "values:"
+            + System.lineSeparator()
+            + "  - a"
+            + System.lineSeparator()
+            + "  - z"
+            + System.lineSeparator()
+            + "  - F"
+            + System.lineSeparator()
+            + "  - !",
+        yaml);
+  }
 
-    @Test
-    public void testSerializeValue() throws IOException {
-        CharArrayTest.CharArray array = new CharArrayTest.CharArray();
-        array.setValues(values);
-        String yaml = mapper.write(array);
-        assertEquals("values:\n" +
-                "  - a\n" +
-                "  - z\n" +
-                "  - F\n" +
-                "  - !", yaml);
+  @Test
+  public void tesDeSerializeValue() throws IOException {
+    CharArrayTest.CharArray array = new CharArrayTest.CharArray();
+    array.setValues(values);
+    String yaml = mapper.write(array);
+    assertArrayEquals(values, mapper.read(yaml).getValues());
+  }
 
+  @YAMLMapper
+  public static class CharArray {
+
+    private char[] values;
+
+    public char[] getValues() {
+      return values;
     }
 
-    @Test
-    public void tesDeSerializeValue() throws IOException {
-        CharArrayTest.CharArray array = new CharArrayTest.CharArray();
-        array.setValues(values);
-        String yaml = mapper.write(array);
-        assertArrayEquals(values, mapper.read(yaml).getValues());
+    public void setValues(char[] values) {
+      this.values = values;
     }
-
-
-    @YAMLMapper
-    public static class CharArray {
-
-        private char[] values;
-
-        public char[] getValues() {
-            return values;
-        }
-
-        public void setValues(char[] values) {
-            this.values = values;
-        }
-    }
+  }
 }
-

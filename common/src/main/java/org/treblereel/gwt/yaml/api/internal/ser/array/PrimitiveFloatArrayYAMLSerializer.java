@@ -16,11 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.BaseNumberYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for array of float.
@@ -32,6 +33,9 @@ public class PrimitiveFloatArrayYAMLSerializer extends BasicArrayYAMLSerializer<
 
   public static final PrimitiveFloatArrayYAMLSerializer INSTANCE =
       new PrimitiveFloatArrayYAMLSerializer();
+
+  private final BaseNumberYAMLSerializer.FloatYAMLSerializer serializer =
+      BaseNumberYAMLSerializer.FloatYAMLSerializer.INSTANCE;
 
   @Override
   protected boolean isEmpty(float[] value) {
@@ -46,10 +50,17 @@ public class PrimitiveFloatArrayYAMLSerializer extends BasicArrayYAMLSerializer<
       writer.nullValue(propertyName);
       return;
     }
-    Collection<String> temp = new ArrayList<>();
+    YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
     for (float value : values) {
-      temp.add(String.valueOf(value));
+      serializer.serialize(yamlSequenceWriter, value, ctx);
     }
-    writer.collectionOfString(propertyName, temp);
+    writer.value(propertyName, yamlSequenceWriter.getWriter());
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, float[] value, YAMLSerializationContext ctx) {
+    for (float o : value) {
+      serializer.serialize(writer, o, ctx);
+    }
   }
 }

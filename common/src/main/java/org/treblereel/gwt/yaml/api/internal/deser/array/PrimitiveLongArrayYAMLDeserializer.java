@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
@@ -39,6 +40,23 @@ public class PrimitiveLongArrayYAMLDeserializer extends AbstractArrayYAMLDeseria
     List<Long> list =
         deserializeIntoList(
             yaml.yamlSequence(key), BaseNumberYAMLDeserializer.LongYAMLDeserializer.INSTANCE, ctx);
+
+    long[] result = new long[list.size()];
+    int i = 0;
+    for (Long value : list) {
+      if (null != value) {
+        result[i] = value;
+      }
+      i++;
+    }
+    return result;
+  }
+
+  @Override
+  public long[] deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    List<Long> list =
+        deserializeIntoList(
+            node.asSequence(), BaseNumberYAMLDeserializer.LongYAMLDeserializer.INSTANCE, ctx);
 
     long[] result = new long[list.size()];
     int i = 0;

@@ -18,10 +18,10 @@ package org.treblereel.gwt.yaml.definition;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import javax.lang.model.type.TypeMirror;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
@@ -32,20 +32,33 @@ public class BasicTypeFieldDefinition extends FieldDefinition {
   }
 
   @Override
-  public Expression getFieldDeserializer(CompilationUnit cu) {
-    return new FieldAccessExpr(
-        new NameExpr(context.getTypeRegistry().getDeserializer(bean).toString()), "INSTANCE");
+  public Expression getFieldDeserializer(PropertyDefinition field, CompilationUnit cu) {
+    ObjectCreationExpr expression =
+        new ObjectCreationExpr()
+            .setType(context.getTypeRegistry().getDeserializer(bean).toString());
+    if (field.hasYamlTypeDeserializer()) {
+      expression.addArgument(
+          field.getFieldYamlTypeDeserializerCreationExpr(
+              field.getProperty().getAnnotation(YamlTypeDeserializer.class)));
+    }
+    return expression;
   }
 
   @Override
-  public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
+  public Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu) {
     ObjectCreationExpr expression =
         new ObjectCreationExpr()
             .setType(
                 context
                     .getTypeRegistry()
-                    .getSerializer(context.getProcessingEnv().getTypeUtils().erasure(getBean()))
+                    .getSerializer(context.getProcessingEnv().getTypeUtils().erasure(bean))
                     .toString());
+
+    if (field.hasYamlTypeSerializer()) {
+      expression.addArgument(
+          field.getFieldYamlTypeSerializerCreationExpr(
+              field.getProperty().getAnnotation(YamlTypeSerializer.class)));
+    }
     return expression;
   }
 

@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -33,7 +34,7 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> implements YAMLDe
   /** {@inheritDoc} */
   @Override
   public D deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return deserialize(yaml.string(key), ctx);
+    return deserialize(yaml.value(key), ctx);
   }
 
   /** Default implementation of {@link BaseDateYAMLDeserializer} for {@link Date} */
@@ -42,11 +43,11 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> implements YAMLDe
     public static final DateYAMLDeserializer INSTANCE = new DateYAMLDeserializer();
 
     @Override
-    public Date deserialize(String date, YAMLDeserializationContext ctx) {
+    public Date deserialize(YamlNode date, YAMLDeserializationContext ctx) {
       if (date == null) {
         return null;
       }
-      return new Date(Long.valueOf(date));
+      return new Date(Long.valueOf(date.asScalar().value()));
     }
   }
 
@@ -59,11 +60,11 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> implements YAMLDe
     private static final String SQL_DATE_FORMAT = "yyyy-MM-dd";
 
     @Override
-    public java.sql.Date deserialize(String date, YAMLDeserializationContext ctx) {
+    public java.sql.Date deserialize(YamlNode date, YAMLDeserializationContext ctx) {
       if (date == null) {
         return null;
       }
-      return new java.sql.Date(Long.valueOf(date));
+      return new java.sql.Date(Long.valueOf(date.asScalar().value()));
     }
   }
 
@@ -73,8 +74,8 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> implements YAMLDe
     public static final SqlTimeYAMLDeserializer INSTANCE = new SqlTimeYAMLDeserializer();
 
     @Override
-    public Time deserialize(String date, YAMLDeserializationContext ctx) {
-      return Time.valueOf(date);
+    public Time deserialize(YamlNode date, YAMLDeserializationContext ctx) {
+      return Time.valueOf(date.asScalar().value());
     }
   }
 
@@ -85,8 +86,8 @@ public abstract class BaseDateYAMLDeserializer<D extends Date> implements YAMLDe
     public static final SqlTimestampYAMLDeserializer INSTANCE = new SqlTimestampYAMLDeserializer();
 
     @Override
-    public Timestamp deserialize(String date, YAMLDeserializationContext ctx) {
-      return Timestamp.valueOf(date);
+    public Timestamp deserialize(YamlNode date, YAMLDeserializationContext ctx) {
+      return Timestamp.valueOf(date.asScalar().value());
     }
   }
 }

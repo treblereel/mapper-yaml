@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
@@ -57,11 +58,11 @@ public class EnumYAMLDeserializer<E extends Enum<E>> implements YAMLDeserializer
   /** {@inheritDoc} */
   @Override
   public E deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return deserialize(yaml.string(key), ctx);
+    return deserialize(yaml.value(key), ctx);
   }
 
   @Override
-  public E deserialize(String value, YAMLDeserializationContext ctx) {
+  public E deserialize(YamlNode value, YAMLDeserializationContext ctx) {
     try {
       return getEnum(values, value);
     } catch (IllegalArgumentException ex) {
@@ -72,9 +73,9 @@ public class EnumYAMLDeserializer<E extends Enum<E>> implements YAMLDeserializer
     }
   }
 
-  private <E extends Enum<E>> E getEnum(E[] values, String name) {
+  private <E extends Enum<E>> E getEnum(E[] values, YamlNode name) {
     for (int i = 0; i < values.length; i++) {
-      if (values[i].name().equals(name)) {
+      if (values[i].name().equals(name.asScalar().value())) {
         return values[i];
       }
     }

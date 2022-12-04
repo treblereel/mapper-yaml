@@ -18,6 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -26,13 +28,24 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public abstract class BaseNumberYAMLSerializer<N extends Number> extends AbstractYAMLSerializer<N> {
+public abstract class BaseNumberYAMLSerializer<N extends Number> implements YAMLSerializer<N> {
 
   /** {@inheritDoc} */
   @Override
   public void serialize(
       YAMLWriter writer, String propertyName, N value, YAMLSerializationContext ctx) {
     writer.value(propertyName, String.valueOf(value));
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, N value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.value("~");
+      }
+    } else {
+      writer.value(value.toString());
+    }
   }
 
   /** Default implementation of {@link BaseNumberYAMLSerializer} for {@link BigDecimal} */

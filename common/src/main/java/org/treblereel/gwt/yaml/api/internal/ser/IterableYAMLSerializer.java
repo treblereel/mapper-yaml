@@ -16,7 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
-import java.util.Iterator;
+import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -65,22 +66,11 @@ public class IterableYAMLSerializer<I extends Iterable<T>, T> extends AbstractYA
   /** {@inheritDoc} */
   @Override
   public void doSerialize(YAMLWriter writer, I values, YAMLSerializationContext ctx) {
-    Iterator<T> iterator = values.iterator();
+    throw new YAMLSerializationException("Not implemented");
+  }
 
-    /*        if (!iterator.hasNext()) {
-        if (ctx.isWriteEmptyYAMLArrays()) {
-            writer.beginArray();
-            writer.endArray();
-        } else {
-            writer.nullValue();
-        }
-        return;
-    }
-
-    writer.beginArray();
-    while (iterator.hasNext()) {
-        serializer.serialize(writer, iterator.next(), ctx, params);
-    }
-    writer.endArray();*/
+  @Override
+  public void serialize(YAMLSequenceWriter writer, I value, YAMLSerializationContext ctx) {
+    throw new YAMLSerializationException("Not implemented");
   }
 }

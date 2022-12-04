@@ -16,13 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
-import com.amihaiemil.eoyaml.YamlNode;
-import java.util.ArrayList;
 import java.util.Collection;
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
-import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for {@link Collection}.
@@ -34,7 +33,7 @@ import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 public class CollectionYAMLSerializer<C extends Collection<T>, T>
     extends AbstractYAMLSerializer<C> {
 
-  protected final AbstractYAMLSerializer<T> serializer;
+  protected final YAMLSerializer<T> serializer;
 
   /**
    * Constructor for CollectionYAMLSerializer.
@@ -42,7 +41,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T>
    * @param serializer {@link AbstractYAMLSerializer} used to serialize the objects inside the
    *     {@link Collection}.
    */
-  protected CollectionYAMLSerializer(AbstractYAMLSerializer<T> serializer) {
+  public CollectionYAMLSerializer(YAMLSerializer<T> serializer) {
     if (null == serializer) {
       throw new IllegalArgumentException("serializer cannot be null");
     }
@@ -58,7 +57,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T>
    * @return a new instance of {@link CollectionYAMLSerializer}
    */
   public static <C extends Collection<?>> CollectionYAMLSerializer<C, ?> newInstance(
-      AbstractYAMLSerializer<?> serializer) {
+      YAMLSerializer<?> serializer) {
     return new CollectionYAMLSerializer(serializer);
   }
 
@@ -71,22 +70,16 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T>
       return;
     }
 
-    if (serializer instanceof AbstractBeanYAMLSerializer) {
-      Collection<YamlNode> nodes = new ArrayList<>();
-      for (T value : (Collection<T>) values) {
-        DefaultYAMLWriter childWriter = new DefaultYAMLWriter();
-        serializer.setParent(this).serialize(childWriter, value, ctx);
-        nodes.add(childWriter.getWriter().build());
-      }
-      writer.collectionOfYamlNode(propertyName, nodes);
-
-    } else {
-      Collection<String> temp = new ArrayList<>();
-      for (T value : (Collection<T>) values) {
-        temp.add(value.toString());
-      }
-      writer.collectionOfString(propertyName, temp);
+    YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
+    for (T value : values) {
+      serializer.serialize(yamlSequenceWriter, value, ctx);
     }
+    writer.value(propertyName, yamlSequenceWriter.getWriter());
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, C value, YAMLSerializationContext ctx) {
+    throw new UnsupportedOperationException();
   }
 
   /** {@inheritDoc} */

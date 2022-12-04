@@ -35,15 +35,15 @@ public class DefaultBeanFieldDefinition extends FieldDefinition {
   }
 
   @Override
-  public Expression getFieldDeserializer(CompilationUnit cu) {
+  public Expression getFieldDeserializer(PropertyDefinition field, CompilationUnit cu) {
     return new ObjectCreationExpr()
         .setType(new ClassOrInterfaceType().setName(typeUtils.canonicalDeserializerName(bean)));
   }
 
   @Override
-  public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
+  public Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu) {
     return new ObjectCreationExpr()
-        .setType(new ClassOrInterfaceType().setName(typeUtils.canonicalSerializerName(getBean())));
+        .setType(new ClassOrInterfaceType().setName(typeUtils.canonicalSerializerName(bean)));
   }
 
   @Override

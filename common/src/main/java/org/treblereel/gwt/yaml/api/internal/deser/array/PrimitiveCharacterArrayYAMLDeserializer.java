@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.CharacterYAMLDeserializer;
@@ -38,6 +39,22 @@ public class PrimitiveCharacterArrayYAMLDeserializer extends AbstractArrayYAMLDe
   public char[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Character> list =
         deserializeIntoList(yaml.yamlSequence(key), CharacterYAMLDeserializer.INSTANCE, ctx);
+
+    char[] result = new char[list.size()];
+    int i = 0;
+    for (Character value : list) {
+      if (null != value) {
+        result[i] = value;
+      }
+      i++;
+    }
+    return result;
+  }
+
+  @Override
+  public char[] deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    List<Character> list =
+        deserializeIntoList(node.asSequence(), CharacterYAMLDeserializer.INSTANCE, ctx);
 
     char[] result = new char[list.size()];
     int i = 0;

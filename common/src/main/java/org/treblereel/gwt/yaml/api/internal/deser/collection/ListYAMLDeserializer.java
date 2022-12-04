@@ -34,7 +34,7 @@ public final class ListYAMLDeserializer<T> extends BaseListYAMLDeserializer<List
    * @param deserializer {@link YAMLDeserializer} used to deserialize the objects inside the {@link
    *     List}.
    */
-  private ListYAMLDeserializer(YAMLDeserializer<T> deserializer) {
+  public ListYAMLDeserializer(YAMLDeserializer<T> deserializer) {
     super(deserializer);
   }
 

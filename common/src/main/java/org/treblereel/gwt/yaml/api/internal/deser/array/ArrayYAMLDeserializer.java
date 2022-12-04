@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
@@ -65,10 +66,10 @@ public class ArrayYAMLDeserializer<T> extends AbstractArrayYAMLDeserializer<T[]>
   /** {@inheritDoc} */
   @Override
   public T[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    List<T> list = deserializeIntoList(yaml.yamlSequence(key), deserializer, ctx);
-    if (list == null) {
+    if (yaml.yamlSequence(key) == null) {
       return null;
     }
+    List<T> list = deserializeIntoList(yaml.yamlSequence(key), deserializer, ctx);
     return list.toArray(arrayCreator.create(list.size()));
   }
 
@@ -76,5 +77,14 @@ public class ArrayYAMLDeserializer<T> extends AbstractArrayYAMLDeserializer<T[]>
   public interface ArrayCreator<T> {
 
     T[] create(int length);
+  }
+
+  @Override
+  public T[] deserialize(YamlNode value, YAMLDeserializationContext ctx) {
+    if (value == null || value.isEmpty()) {
+      return null;
+    }
+    List<T> list = deserializeIntoList(value.asSequence(), deserializer, ctx);
+    return list.toArray(arrayCreator.create(list.size()));
   }
 }

@@ -30,21 +30,6 @@ import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
  */
 public abstract class AbstractYAMLSerializer<T> implements YAMLSerializer<T> {
 
-  protected AbstractYAMLSerializer parent;
-
-  public AbstractYAMLSerializer setParent(AbstractYAMLSerializer parent) {
-    this.parent = parent;
-    return this;
-  }
-
-  /**
-   * Serializes an object into YAML output.
-   *
-   * @param writer {@link YAMLWriter} used to write the serialized YAML
-   * @param value Object to serialize
-   * @param ctx Context for the full serialization process
-   * @throws YAMLSerializationException if an error occurs during the serialization
-   */
   public void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx)
       throws YAMLSerializationException {
     if (null == value) {

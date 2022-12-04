@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
@@ -110,5 +111,10 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
               }
             });
     return instance;
+  }
+
+  @Override
+  public T deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 }

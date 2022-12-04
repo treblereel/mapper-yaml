@@ -29,6 +29,7 @@ import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.api.annotation.YamlProperty;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YamlTypeSerializerWrapper;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
@@ -57,14 +58,14 @@ public class PropertyDefinition extends Definition {
       }
 
       if (deserializer != null) {
-        return getFieldDeserializerCreationExpr(deserializer);
+        return getFieldYamlTypeDeserializerCreationExpr(deserializer);
       }
     }
 
     TypeMirror asInterface = maybeInterface();
     FieldDefinition fieldDefinition =
         propertyDefinitionFactory.getFieldDefinition(asInterface != null ? asInterface : bean);
-    Expression result = fieldDefinition.getFieldDeserializer(cu);
+    Expression result = fieldDefinition.getFieldDeserializer(this, cu);
     return result;
   }
 
@@ -99,14 +100,14 @@ public class PropertyDefinition extends Definition {
       }
 
       if (serializer != null) {
-        return getFieldSerializerCreationExpr(serializer);
+        return getFieldYamlTypeSerializerCreationExpr(serializer);
       }
     }
 
     TypeMirror bean = maybeInterface();
     FieldDefinition fieldDefinition =
         propertyDefinitionFactory.getFieldDefinition(bean != null ? bean : getBean());
-    return fieldDefinition.getFieldSerializer(getPropertyName(), cu);
+    return fieldDefinition.getFieldSerializer(this, cu);
   }
 
   public String getPropertyName() {
@@ -121,7 +122,15 @@ public class PropertyDefinition extends Definition {
     return property;
   }
 
-  public Expression getFieldDeserializerCreationExpr(YamlTypeDeserializer deserializer) {
+  public boolean hasYamlTypeSerializer() {
+    return property.getAnnotation(YamlTypeSerializer.class) != null;
+  }
+
+  public boolean hasYamlTypeDeserializer() {
+    return property.getAnnotation(YamlTypeDeserializer.class) != null;
+  }
+
+  public Expression getFieldYamlTypeDeserializerCreationExpr(YamlTypeDeserializer deserializer) {
     try {
       deserializer.value();
     } catch (MirroredTypeException e) {
@@ -132,13 +141,15 @@ public class PropertyDefinition extends Definition {
     return null;
   }
 
-  private Expression getFieldSerializerCreationExpr(YamlTypeSerializer serializer) {
+  public Expression getFieldYamlTypeSerializerCreationExpr(YamlTypeSerializer serializer) {
     try {
       serializer.value();
     } catch (MirroredTypeException e) {
       ClassOrInterfaceType type = new ClassOrInterfaceType();
       type.setName(e.getTypeMirror().toString());
-      return new ObjectCreationExpr().setType(type);
+      return new ObjectCreationExpr()
+          .setType(YamlTypeSerializerWrapper.class)
+          .addArgument(new ObjectCreationExpr().setType(type));
     }
     return null;
   }

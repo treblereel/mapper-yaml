@@ -17,13 +17,12 @@
 package org.treblereel.gwt.yaml.api;
 
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 public interface YAMLSerializer<T> {
 
   void serialize(YAMLWriter writer, String propertyName, T value, YAMLSerializationContext ctx);
 
-  default void serialize(YAMLWriter writer, T value, YAMLSerializationContext ctx) {
-    throw new UnsupportedOperationException("Not implemented");
-  }
+  void serialize(YAMLSequenceWriter writer, T value, YAMLSerializationContext ctx);
 }

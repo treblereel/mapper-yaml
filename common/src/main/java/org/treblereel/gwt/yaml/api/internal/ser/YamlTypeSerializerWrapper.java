@@ -17,34 +17,31 @@
 package org.treblereel.gwt.yaml.api.internal.ser;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
-/**
- * Default {@link AbstractYAMLSerializer} implementation for {@link Enum}.
- *
- * @author Nicolas Morel
- * @version $Id: $
- */
-public class EnumYAMLSerializer<E extends Enum<E>> implements YAMLSerializer<E> {
+public class YamlTypeSerializerWrapper<T> extends AbstractBeanYAMLSerializer<T> {
 
-  public static final EnumYAMLSerializer<?> INSTANCE = new EnumYAMLSerializer();
+  private YAMLSerializer<T> serializer;
 
-  /** {@inheritDoc} */
-  @Override
-  public void serialize(
-      YAMLWriter writer, String propertyName, E value, YAMLSerializationContext ctx) {
-    writer.value(propertyName, value.name());
+  public YamlTypeSerializerWrapper(YAMLSerializer<T> serializer) {
+    this.serializer = serializer;
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, E value, YAMLSerializationContext ctx) {
-    if (null == value) {
-      if (ctx.isSerializeNulls()) {
-        writer.value("~");
-      }
-    } else {
-      writer.value(value.name());
-    }
+  public void serialize(
+      YAMLWriter writer, String propertyName, T value, YAMLSerializationContext ctx) {
+    serializer.serialize(writer, propertyName, value, ctx);
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, T value, YAMLSerializationContext ctx) {
+    serializer.serialize(writer, value, ctx);
+  }
+
+  @Override
+  public Class getSerializedType() {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

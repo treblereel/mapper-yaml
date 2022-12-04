@@ -37,7 +37,7 @@ public class EnumBeanFieldDefinition extends FieldDefinition {
   }
 
   @Override
-  public Expression getFieldDeserializer(CompilationUnit cu) {
+  public Expression getFieldDeserializer(PropertyDefinition field, CompilationUnit cu) {
     cu.addImport(EnumYAMLDeserializer.class);
     cu.addImport(MoreTypes.asTypeElement(bean).getQualifiedName().toString());
 
@@ -55,7 +55,7 @@ public class EnumBeanFieldDefinition extends FieldDefinition {
   }
 
   @Override
-  public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
+  public Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu) {
     cu.addImport(EnumYAMLSerializer.class);
     return new FieldAccessExpr(new NameExpr(EnumYAMLSerializer.class.getSimpleName()), "INSTANCE");
   }

@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 
@@ -32,7 +33,5 @@ public interface YAMLDeserializer<T> {
   T deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
       throws YAMLDeserializationException;
 
-  default T deserialize(String value, YAMLDeserializationContext ctx) {
-    throw new UnsupportedOperationException("Not implemented");
-  }
+  T deserialize(YamlNode node, YAMLDeserializationContext ctx);
 }

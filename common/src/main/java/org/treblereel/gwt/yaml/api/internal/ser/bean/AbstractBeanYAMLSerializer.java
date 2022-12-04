@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.bean;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -109,5 +110,12 @@ public abstract class AbstractBeanYAMLSerializer<T> extends AbstractYAMLSerializ
         propertySerializer.serialize(writer, value, ctx);
       }
     }
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, T value, YAMLSerializationContext ctx) {
+    YAMLWriter objWriter = ctx.newYAMLWriter();
+    serializeObject(objWriter, value, ctx);
+    writer.value(objWriter.getWriter().build());
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Nicolas Morel
+ * Copyright 2022 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.stream;
 
-import java.util.Set;
-
 public interface YAMLReader {
 
-  Set<String> getProperties();
-
-  String getInput();
-
   String getValue(String key);
-
-  String getArray(String key);
 }

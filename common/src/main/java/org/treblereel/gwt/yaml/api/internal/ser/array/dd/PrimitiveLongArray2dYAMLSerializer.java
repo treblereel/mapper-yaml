@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.array.BasicArrayYAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -34,15 +35,6 @@ public class PrimitiveLongArray2dYAMLSerializer extends BasicArrayYAMLSerializer
 
   private PrimitiveLongArray2dYAMLSerializer() {}
 
-  /**
-   * getInstance
-   *
-   * @return an instance of {@link PrimitiveLongArray2dYAMLSerializer}
-   */
-  public static BasicArrayYAMLSerializer getInstance(String propertyName) {
-    return INSTANCE.setPropertyName(propertyName);
-  }
-
   /** {@inheritDoc} */
   @Override
   protected boolean isEmpty(long[][] value) {
@@ -52,18 +44,11 @@ public class PrimitiveLongArray2dYAMLSerializer extends BasicArrayYAMLSerializer
   /** {@inheritDoc} */
   @Override
   public void doSerialize(YAMLWriter writer, long[][] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.nullValue(propertyName);
-      return;
-    }
+    throw new UnsupportedOperationException("Not implemented");
+  }
 
-    /* BasicArrayYAMLSerializer serializer =
-        PrimitiveLongArrayYAMLSerializer.getInstance(propertyName);
-
-            writer.beginObject(propertyName);
-    for (long[] value : values) {
-        serializer.serialize(writer, value, ctx, params);
-    }
-    writer.endObject();*/
+  @Override
+  public void serialize(YAMLSequenceWriter writer, long[][] value, YAMLSerializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -47,5 +48,10 @@ public class PrimitiveByteArrayYAMLSerializer extends BasicArrayYAMLSerializer<b
       return;
     }
     writer.value(propertyName, Base64Utils.toBase64(values));
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, byte[] value, YAMLSerializationContext ctx) {
+    writer.value(Base64Utils.toBase64(value));
   }
 }

@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.array.BasicArrayYAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -41,26 +42,11 @@ public class PrimitiveByteArray2dYAMLSerializer extends BasicArrayYAMLSerializer
   /** {@inheritDoc} */
   @Override
   public void doSerialize(YAMLWriter writer, byte[][] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.nullValue(propertyName);
-      return;
-    }
+    throw new UnsupportedOperationException("Not implemented");
+  }
 
-    /*        if (values.length == 0) {
-        if (ctx.isWriteEmptyYAMLArrays()) {
-            writer.beginObject(propertyName);
-            writer.endObject();
-        } else {
-            writer.unescapeName(propertyName);
-            writer.nullValue();
-        }
-        return;
-    }
-    BasicArrayYAMLSerializer serializer = PrimitiveByteArrayYAMLSerializer.getInstance(propertyName);
-    writer.beginObject(propertyName);
-    for (byte[] value : values) {
-        serializer.serialize(writer, value, ctx, params);
-    }
-    writer.endObject();*/
+  @Override
+  public void serialize(YAMLSequenceWriter writer, byte[][] value, YAMLSerializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

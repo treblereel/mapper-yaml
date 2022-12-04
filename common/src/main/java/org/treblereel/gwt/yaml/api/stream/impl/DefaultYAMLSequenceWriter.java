@@ -17,30 +17,29 @@
 package org.treblereel.gwt.yaml.api.stream.impl;
 
 import com.amihaiemil.eoyaml.Yaml;
-import com.amihaiemil.eoyaml.YamlMapping;
-import java.io.IOException;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
+import com.amihaiemil.eoyaml.YamlNode;
+import com.amihaiemil.eoyaml.YamlSequence;
+import com.amihaiemil.eoyaml.YamlSequenceBuilder;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 
-public class DefaultYAMLReader implements YAMLReader {
+public class DefaultYAMLSequenceWriter implements YAMLSequenceWriter {
 
-  private final YamlMapping reader;
-  private final String in;
+  private YamlSequenceBuilder writer = Yaml.createYamlSequenceBuilder();
 
-  public DefaultYAMLReader(String in) throws IOException {
-    if (in == null) {
-      throw new NullPointerException("in == null");
-    }
-    this.in = in;
-    reader = Yaml.createYamlInput(in).readYamlMapping();
+  @Override
+  public YAMLSequenceWriter value(String value) {
+    writer = writer.add(value);
+    return this;
   }
 
   @Override
-  public String getValue(String key) {
+  public YAMLSequenceWriter value(YamlNode value) {
+    writer = writer.add(value);
+    return this;
+  }
 
-    String value = reader.string(key);
-    if (value.equals("~")) {
-      return null;
-    }
-    return value;
+  @Override
+  public YamlSequence getWriter() {
+    return writer.build();
   }
 }

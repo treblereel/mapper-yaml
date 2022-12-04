@@ -16,11 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser.array;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.BaseNumberYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for array of long.
@@ -32,6 +33,9 @@ public class PrimitiveLongArrayYAMLSerializer extends BasicArrayYAMLSerializer<l
 
   public static final PrimitiveLongArrayYAMLSerializer INSTANCE =
       new PrimitiveLongArrayYAMLSerializer();
+
+  private final BaseNumberYAMLSerializer.LongYAMLSerializer serializer =
+      BaseNumberYAMLSerializer.LongYAMLSerializer.INSTANCE;
 
   @Override
   protected boolean isEmpty(long[] value) {
@@ -47,10 +51,16 @@ public class PrimitiveLongArrayYAMLSerializer extends BasicArrayYAMLSerializer<l
       return;
     }
 
-    Collection<String> temp = new ArrayList<>();
+    YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
     for (long value : values) {
-      temp.add(String.valueOf(value));
+      serializer.serialize(yamlSequenceWriter, value, ctx);
     }
-    writer.collectionOfString(propertyName, temp);
+    writer.value(propertyName, yamlSequenceWriter.getWriter());
+  }
+
+  public void serialize(YAMLSequenceWriter writer, long[] value, YAMLSerializationContext ctx) {
+    for (long o : value) {
+      writer.value(String.valueOf(o));
+    }
   }
 }

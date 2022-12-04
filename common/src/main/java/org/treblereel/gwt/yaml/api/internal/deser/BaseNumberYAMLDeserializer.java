@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
@@ -39,16 +40,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public BigDecimal deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public BigDecimal deserialize(String value, YAMLDeserializationContext ctx) {
+    public BigDecimal deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
-      return new BigDecimal(value);
+      return new BigDecimal(value.asScalar().value());
     }
   }
 
@@ -61,16 +62,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public BigInteger deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public BigInteger deserialize(String value, YAMLDeserializationContext ctx) {
+    public BigInteger deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
-      return new BigInteger(value);
+      return new BigInteger(value.asScalar().value());
     }
   }
 
@@ -82,16 +83,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public Byte deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public Byte deserialize(String value, YAMLDeserializationContext ctx) {
+    public Byte deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return 0;
       }
-      return Byte.valueOf(value);
+      return Byte.valueOf(value.asScalar().value());
     }
   }
 
@@ -103,16 +104,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public Double deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public Double deserialize(String value, YAMLDeserializationContext ctx) {
+    public Double deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
-      return Double.valueOf(value);
+      return Double.valueOf(value.asScalar().value());
     }
   }
 
@@ -124,16 +125,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public Float deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public Float deserialize(String value, YAMLDeserializationContext ctx) {
+    public Float deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
-      return Float.parseFloat(value);
+      return Float.parseFloat(value.asScalar().value());
     }
   }
 
@@ -145,16 +146,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public Integer deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public Integer deserialize(String value, YAMLDeserializationContext ctx) {
+    public Integer deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value == null || value.isEmpty()) {
         return null;
       }
-      return Integer.valueOf(value);
+      return Integer.valueOf(value.asScalar().value());
     }
   }
 
@@ -166,16 +167,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public Long deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public Long deserialize(String value, YAMLDeserializationContext ctx) {
+    public Long deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
-      return Long.valueOf(value);
+      return Long.valueOf(value.asScalar().value());
     }
   }
 
@@ -187,16 +188,16 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
     @Override
     public Short deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      String value = yaml.string(key);
+      YamlNode value = yaml.value(key);
       return deserialize(value, ctx);
     }
 
     @Override
-    public Short deserialize(String value, YAMLDeserializationContext ctx) {
+    public Short deserialize(YamlNode value, YAMLDeserializationContext ctx) {
       if (value.isEmpty()) {
         return null;
       }
-      return Short.valueOf(value);
+      return Short.valueOf(value.asScalar().value());
     }
   }
 }

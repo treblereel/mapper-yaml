@@ -44,7 +44,7 @@ public abstract class BaseSetYAMLDeserializer<S extends Set<T>, T>
 
   @Override
   public S deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    S result = (S) new HashSet<T>();
+    S result = newCollection();
     Collection<T> temp = super.deserialize(yaml, key, ctx);
     for (T val : temp) {
       result.add(val);

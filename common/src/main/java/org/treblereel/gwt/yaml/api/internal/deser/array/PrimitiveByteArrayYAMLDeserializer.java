@@ -37,7 +37,7 @@ public class PrimitiveByteArrayYAMLDeserializer extends AbstractArrayYAMLDeseria
   @Override
   public byte[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
 
-    String result = StringYAMLDeserializer.INSTANCE.deserialize(yaml.string(key), ctx);
+    String result = StringYAMLDeserializer.INSTANCE.deserialize(yaml.value(key), ctx);
     if (result != null) {
       return Base64Utils.fromBase64(result);
     }

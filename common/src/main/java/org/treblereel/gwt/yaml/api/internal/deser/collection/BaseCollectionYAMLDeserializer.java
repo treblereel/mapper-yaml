@@ -17,9 +17,11 @@
 package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
@@ -36,8 +38,6 @@ import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeseriali
 public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
     extends BaseIterableYAMLDeserializer<C, T> {
 
-  C collection = newCollection();
-
   /**
    * Constructor for BaseCollectionYAMLDeserializer.
    *
@@ -51,10 +51,14 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
   /** {@inheritDoc} */
   @Override
   public C deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
+    return deserialize(yaml.yamlSequence(key), ctx);
+  }
+
+  protected C deserialize(YamlSequence sequence, YAMLDeserializationContext ctx) {
+    if (sequence == null) {
+      return null;
+    }
     List<T> list = new ArrayList<>();
-
-    YamlSequence sequence = yaml.yamlSequence(key);
-
     if (deserializer instanceof AbstractBeanYAMLDeserializer) {
       for (int i = 0; i < sequence.size(); i++) {
         list.add(
@@ -62,11 +66,22 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
                 .deserialize(sequence.yamlMapping(i), ctx));
       }
     } else {
-      for (int i = 0; i < sequence.size(); i++) {
-        list.add(deserializer.deserialize(sequence.string(i), ctx));
+      Iterator<YamlNode> iterator = sequence.iterator();
+      while (iterator.hasNext()) {
+        list.add(deserializer.deserialize(iterator.next(), ctx));
       }
     }
     return (C) list;
+  }
+
+  @Override
+  public C deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    C result = newCollection();
+    Collection<T> temp = deserialize(node.asSequence(), ctx);
+    for (T val : temp) {
+      result.add(val);
+    }
+    return result;
   }
 
   /**

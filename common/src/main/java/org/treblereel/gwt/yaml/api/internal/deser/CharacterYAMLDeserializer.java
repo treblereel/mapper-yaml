@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 public class CharacterYAMLDeserializer implements YAMLDeserializer<Character> {
@@ -25,15 +26,15 @@ public class CharacterYAMLDeserializer implements YAMLDeserializer<Character> {
 
   @Override
   public Character deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    String value = yaml.string(key);
+    YamlNode value = yaml.value(key);
     return deserialize(value, ctx);
   }
 
   @Override
-  public Character deserialize(String value, YAMLDeserializationContext ctx) {
+  public Character deserialize(YamlNode value, YAMLDeserializationContext ctx) {
     if (value == null || value.isEmpty()) {
       return '\u0000';
     }
-    return value.charAt(0);
+    return value.asScalar().value().charAt(0);
   }
 }

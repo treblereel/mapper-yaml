@@ -17,8 +17,10 @@
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
@@ -68,10 +70,16 @@ public abstract class AbstractArrayYAMLDeserializer<T> implements YAMLDeserializ
                 .deserialize(sequence.yamlMapping(i), ctx));
       }
     } else {
-      for (int i = 0; i < sequence.size(); i++) {
-        list.add(deserializer.deserialize(sequence.string(i), ctx));
+      Iterator<com.amihaiemil.eoyaml.YamlNode> iterator = sequence.iterator();
+      while (iterator.hasNext()) {
+        list.add(deserializer.deserialize(iterator.next(), ctx));
       }
     }
     return list;
+  }
+
+  @Override
+  public T deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

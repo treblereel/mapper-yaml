@@ -16,6 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -24,7 +26,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class BooleanYAMLSerializer extends AbstractYAMLSerializer<Boolean> {
+public class BooleanYAMLSerializer implements YAMLSerializer<Boolean> {
 
   public static final BooleanYAMLSerializer INSTANCE = new BooleanYAMLSerializer();
 
@@ -32,5 +34,16 @@ public class BooleanYAMLSerializer extends AbstractYAMLSerializer<Boolean> {
   public void serialize(
       YAMLWriter writer, String propertyName, Boolean value, YAMLSerializationContext ctx) {
     writer.value(propertyName, String.valueOf(value));
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, Boolean value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.value("~");
+      }
+    } else {
+      writer.value(String.valueOf(value));
+    }
   }
 }

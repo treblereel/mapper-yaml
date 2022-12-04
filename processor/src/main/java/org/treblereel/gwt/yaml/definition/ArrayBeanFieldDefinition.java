@@ -28,8 +28,11 @@ import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.ArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.dd.Array2dYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YamlTypeSerializerWrapper;
 import org.treblereel.gwt.yaml.api.internal.ser.array.ArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.dd.Array2dYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
@@ -42,7 +45,7 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
   }
 
   @Override
-  public Expression getFieldDeserializer(CompilationUnit cu) {
+  public Expression getFieldDeserializer(PropertyDefinition field, CompilationUnit cu) {
     cu.addImport(ArrayYAMLDeserializer.ArrayCreator.class);
     cu.addImport(ArrayYAMLDeserializer.class);
 
@@ -82,7 +85,7 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
             .addArgument(
                 propertyDefinitionFactory
                     .getFieldDefinition(array2d.getComponentType())
-                    .getFieldDeserializer(cu))
+                    .getFieldDeserializer(field, cu))
             .addArgument(
                 new CastExpr()
                     .setType(typeOf)
@@ -96,18 +99,26 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
             .setName(ArrayYAMLDeserializer.ArrayCreator.class.getSimpleName())
             .setTypeArguments(new ClassOrInterfaceType().setName(arrayType));
 
+    Expression deserializerCreationExpr;
+    if (field.hasYamlTypeDeserializer()) {
+      deserializerCreationExpr =
+          field.getFieldYamlTypeDeserializerCreationExpr(
+              field.getProperty().getAnnotation(YamlTypeDeserializer.class));
+    } else {
+      deserializerCreationExpr =
+          propertyDefinitionFactory
+              .getFieldDefinition(array.getComponentType())
+              .getFieldDeserializer(field, cu);
+    }
     return new MethodCallExpr(
             new NameExpr(ArrayYAMLDeserializer.class.getSimpleName()), "newInstance")
-        .addArgument(
-            propertyDefinitionFactory
-                .getFieldDefinition(array.getComponentType())
-                .getFieldDeserializer(cu))
+        .addArgument(deserializerCreationExpr)
         .addArgument(
             new CastExpr().setType(typeOf).setExpression(new NameExpr(arrayType + "[]::new")));
   }
 
   @Override
-  public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
+  public Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu) {
     cu.addImport(ArrayYAMLSerializer.class);
     cu.addImport(Array2dYAMLSerializer.class);
 
@@ -121,19 +132,26 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
       expression =
           propertyDefinitionFactory
               .getFieldDefinition(array2d.getComponentType())
-              .getFieldSerializer(null, cu);
+              .getFieldSerializer(field, cu);
     } else {
       serializer = ArrayYAMLSerializer.class.getSimpleName();
       expression =
           propertyDefinitionFactory
               .getFieldDefinition((array.getComponentType()))
-              .getFieldSerializer(null, cu);
+              .getFieldSerializer(field, cu);
+    }
+
+    if (field.hasYamlTypeSerializer()) {
+      cu.addImport(YamlTypeSerializerWrapper.class);
+      expression =
+          field.getFieldYamlTypeSerializerCreationExpr(
+              field.getProperty().getAnnotation(YamlTypeSerializer.class));
     }
 
     return new ObjectCreationExpr()
         .setType(serializer)
         .addArgument(expression)
-        .addArgument(new StringLiteralExpr(fieldName));
+        .addArgument(new StringLiteralExpr(field.getPropertyName()));
   }
 
   @Override

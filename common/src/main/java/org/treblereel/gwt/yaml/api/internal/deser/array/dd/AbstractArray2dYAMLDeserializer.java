@@ -16,6 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
+import com.amihaiemil.eoyaml.YamlNode;
 import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,11 @@ public abstract class AbstractArray2dYAMLDeserializer<T> implements YAMLDeserial
         return null;
     }, ctx, params);
     return innerList;*/
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Not implemented");
+  }
+
+  @Override
+  public T deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

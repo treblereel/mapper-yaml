@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.map;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -125,5 +126,10 @@ public class MapYAMLSerializer<M extends Map<K, V>, K, V> extends AbstractYAMLSe
       return clazz.getCanonicalName();
     }*/
     return clazz.getSimpleName();
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter writer, M value, YAMLSerializationContext ctx) {
+    throw new UnsupportedOperationException();
   }
 }

@@ -19,12 +19,4 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 3/28/20 */
-public abstract class BasicArrayYAMLSerializer<T> extends AbstractYAMLSerializer<T> {
-
-  protected String propertyName;
-
-  public BasicArrayYAMLSerializer<T> setPropertyName(String propertyName) {
-    this.propertyName = propertyName;
-    return this;
-  }
-}
+public abstract class BasicArrayYAMLSerializer<T> extends AbstractYAMLSerializer<T> {}

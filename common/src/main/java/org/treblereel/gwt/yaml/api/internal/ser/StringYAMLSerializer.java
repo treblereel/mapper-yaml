@@ -16,6 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.ser;
 
+import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -24,12 +26,11 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class StringYAMLSerializer extends AbstractYAMLSerializer<String> {
+public class StringYAMLSerializer implements YAMLSerializer<String> {
 
   public static final StringYAMLSerializer INSTANCE = new StringYAMLSerializer();
 
   /** {@inheritDoc} */
-  @Override
   protected boolean isEmpty(String value) {
     return null == value || value.length() == 0;
   }
@@ -38,9 +39,20 @@ public class StringYAMLSerializer extends AbstractYAMLSerializer<String> {
   @Override
   public void serialize(
       YAMLWriter writer, String propertyName, String value, YAMLSerializationContext ctx) {
-    if (value == null) {
+    if (isEmpty(value)) {
       writer.nullValue(propertyName);
     }
     writer.value(propertyName, value);
+  }
+
+  @Override
+  public void serialize(YAMLSequenceWriter builder, String value, YAMLSerializationContext ctx) {
+    if (isEmpty(value)) {
+      if (ctx.isSerializeNulls()) {
+        builder.value("~");
+      }
+    } else {
+      builder.value(value);
+    }
   }
 }

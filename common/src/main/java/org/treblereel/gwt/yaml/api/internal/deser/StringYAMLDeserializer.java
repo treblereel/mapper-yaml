@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.deser;
 
 import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 
 /**
@@ -31,14 +32,19 @@ public class StringYAMLDeserializer implements YAMLDeserializer<String> {
 
   @Override
   public String deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return deserialize(yaml.string(key), ctx);
+    return deserialize(yaml.value(key), ctx);
   }
 
   @Override
-  public String deserialize(String value, YAMLDeserializationContext ctx) {
-    if (value == null || value.equals("~")) {
+  public String deserialize(YamlNode value, YAMLDeserializationContext ctx) {
+    if (value == null || value.isEmpty()) {
       return null;
     }
-    return value;
+
+    String result = value.asScalar().value();
+    if (result.equals("~")) {
+      return null;
+    }
+    return result;
   }
 }

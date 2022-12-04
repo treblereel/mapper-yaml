@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -50,6 +51,11 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
         writer.value(propertyName, date);
       }
     }
+
+    @Override
+    public void serialize(YAMLSequenceWriter writer, Date value, YAMLSerializationContext ctx) {
+      writer.value(String.valueOf(value.getTime()));
+    }
   }
 
   /** Default implementation of {@link BaseDateYAMLSerializer} for {@link java.sql.Date} */
@@ -69,6 +75,12 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
         YAMLWriter writer, String propertyName, java.sql.Date value, YAMLSerializationContext ctx) {
       writer.value(propertyName, value.toString());
     }
+
+    @Override
+    public void serialize(
+        YAMLSequenceWriter writer, java.sql.Date value, YAMLSerializationContext ctx) {
+      writer.value(value.toString());
+    }
   }
 
   /** Default implementation of {@link BaseDateYAMLSerializer} for {@link Date} */
@@ -87,6 +99,11 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
     public void serialize(
         YAMLWriter writer, String propertyName, Time value, YAMLSerializationContext ctx) {
       writer.value(propertyName, value.toString());
+    }
+
+    @Override
+    public void serialize(YAMLSequenceWriter writer, Time value, YAMLSerializationContext ctx) {
+      writer.value(value.toString());
     }
   }
 
@@ -111,6 +128,12 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
         String date = value.toString(); // TODO use a better format
         writer.value(propertyName, date);
       }
+    }
+
+    @Override
+    public void serialize(
+        YAMLSequenceWriter writer, Timestamp value, YAMLSerializationContext ctx) {
+      writer.value(String.valueOf(value.getTime()));
     }
   }
 }

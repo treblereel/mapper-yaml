@@ -28,7 +28,7 @@ public abstract class FieldDefinition extends Definition {
     super(property, context);
   }
 
-  public abstract Expression getFieldDeserializer(CompilationUnit cu);
+  public abstract Expression getFieldDeserializer(PropertyDefinition field, CompilationUnit cu);
 
-  public abstract Expression getFieldSerializer(String fieldName, CompilationUnit cu);
+  public abstract Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu);
 }

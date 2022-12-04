@@ -16,21 +16,14 @@
 
 package org.treblereel.gwt.yaml.api.stream;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlMappingBuilder;
+import com.amihaiemil.eoyaml.YamlNode;
 import com.amihaiemil.eoyaml.YamlSequence;
 
-public interface YAMLWriter {
+public interface YAMLSequenceWriter {
 
-  YAMLWriter value(String name, String value);
+  YAMLSequenceWriter value(String value);
 
-  YAMLWriter value(String name, YamlMapping value);
+  YAMLSequenceWriter value(YamlNode value);
 
-  YAMLWriter value(String name, YamlSequence value);
-
-  String getOutput();
-
-  void nullValue(String propertyName);
-
-  YamlMappingBuilder getWriter();
+  YamlSequence getWriter();
 }

@@ -37,7 +37,7 @@ public class MapBeanFieldDefinition extends FieldDefinition {
   }
 
   @Override
-  public Expression getFieldDeserializer(CompilationUnit cu) {
+  public Expression getFieldDeserializer(PropertyDefinition field, CompilationUnit cu) {
     DeclaredType declaredType = MoreTypes.asDeclared(bean);
     if (declaredType.getTypeArguments().size() != 2) {
       throw new GenerationException(
@@ -48,19 +48,22 @@ public class MapBeanFieldDefinition extends FieldDefinition {
         .addArgument(
             propertyDefinitionFactory
                 .getFieldDefinition(declaredType.getTypeArguments().get(0))
-                .getFieldDeserializer(cu))
+                .getFieldDeserializer(field, cu))
         .addArgument(
             propertyDefinitionFactory
                 .getFieldDefinition(declaredType.getTypeArguments().get(1))
-                .getFieldDeserializer(cu));
+                .getFieldDeserializer(field, cu));
   }
 
   @Override
-  public Expression getFieldSerializer(String fieldName, CompilationUnit cu) {
+  public Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu) {
     DeclaredType declaredType = MoreTypes.asDeclared(getBean());
     if (declaredType.getTypeArguments().size() != 2) {
       throw new GenerationException(
-          declaredType.toString() + " must have type args [" + fieldName + "]");
+          declaredType.toString()
+              + " must have type args ["
+              + field.getProperty().toString()
+              + "]");
     }
     return new MethodCallExpr(
             new NameExpr(MapYAMLSerializer.class.getCanonicalName()), "newInstance")
@@ -72,7 +75,7 @@ public class MapBeanFieldDefinition extends FieldDefinition {
             propertyDefinitionFactory
                 .getFieldDefinition(declaredType.getTypeArguments().get(1))
                 .getFieldSerializer(null, cu))
-        .addArgument(new StringLiteralExpr(fieldName));
+        .addArgument(new StringLiteralExpr(field.getPropertyName()));
   }
 
   @Override

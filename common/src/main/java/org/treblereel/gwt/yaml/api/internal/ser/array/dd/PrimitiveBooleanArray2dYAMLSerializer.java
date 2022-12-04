@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.array.BasicArrayYAMLSerializer;
+import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**
@@ -41,17 +42,12 @@ public class PrimitiveBooleanArray2dYAMLSerializer extends BasicArrayYAMLSeriali
   /** {@inheritDoc} */
   @Override
   public void doSerialize(YAMLWriter writer, boolean[][] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.nullValue(propertyName);
-      return;
-    }
+    throw new UnsupportedOperationException("Not implemented");
+  }
 
-    /*        BasicArrayYAMLSerializer serializer = PrimitiveBooleanArrayYAMLSerializer.getInstance(propertyName);
-
-    writer.beginObject(propertyName);
-    for (boolean[] value : values) {
-        serializer.serialize(writer, value, ctx, params);
-    }
-    writer.endObject();*/
+  @Override
+  public void serialize(
+      YAMLSequenceWriter writer, boolean[][] value, YAMLSerializationContext ctx) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

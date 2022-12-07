@@ -31,7 +31,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 public abstract class AbstractBeanYAMLSerializer<T> extends AbstractYAMLSerializer<T>
     implements InternalSerializer<T> {
 
-  protected final BeanPropertySerializer[] serializers;
+  protected BeanPropertySerializer[] serializers;
 
   /** Constructor for AbstractBeanYAMLSerializer. */
   protected AbstractBeanYAMLSerializer() {

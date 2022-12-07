@@ -27,12 +27,15 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import org.treblereel.gwt.yaml.TypeUtils;
+import org.treblereel.gwt.yaml.api.annotation.YamlSubtype;
 import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeInfo;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
@@ -61,7 +64,10 @@ public class BeanProcessor {
   public void process() {
     annotatedBeans.forEach(this::processBean);
     beans.forEach(context::addBeanDefinition);
-    context.getBeans().forEach(mapperGenerator::generate);
+    context.getBeans().stream()
+        .filter(
+            beanDefinition -> beanDefinition.getElement().getAnnotation(YamlTypeInfo.class) == null)
+        .forEach(mapperGenerator::generate);
   }
 
   private void processBean(TypeElement bean) {
@@ -91,6 +97,7 @@ public class BeanProcessor {
             processBean(typeUtils.toTypeElement(arrayType.getComponentType()));
           }
         }
+        return;
       } else if (MoreTypes.isType(type)) {
         if (!MoreTypes.asElement(type).getKind().equals(ElementKind.ENUM)) {
           processBean(typeUtils.toTypeElement(type));
@@ -106,6 +113,21 @@ public class BeanProcessor {
     if (context.getTypeUtils().isMap(type)) {
       DeclaredType collection = (DeclaredType) type;
       collection.getTypeArguments().forEach(this::checkTypeAndAdd);
+    }
+    if (type.getKind().isPrimitive() || type.getKind().equals(TypeKind.ARRAY)) {
+      return;
+    }
+
+    if (MoreTypes.asElement(type).getAnnotation(YamlTypeInfo.class) != null) {
+
+      YamlTypeInfo yamlTypeInfo = MoreTypes.asElement(type).getAnnotation(YamlTypeInfo.class);
+      for (YamlSubtype yamlSubtype : yamlTypeInfo.value()) {
+        try {
+          yamlSubtype.type();
+        } catch (MirroredTypeException e) {
+          checkTypeAndAdd(e.getTypeMirror());
+        }
+      }
     }
   }
 
@@ -135,23 +157,20 @@ public class BeanProcessor {
       return true;
     }
 
-    if (typeUtils.hasGetter(field)) {
+    if (!typeUtils.hasGetter(field)) {
       throw new GenerationException(
           String.format(
               "Unable to find suitable getter for [%s] in [%s]",
               field.getSimpleName(), field.getEnclosingElement()));
     }
 
-    if (typeUtils.hasSetter(field)) {
+    if (!typeUtils.hasSetter(field)) {
       throw new GenerationException(
           String.format(
               "Unable to find suitable setter for [%s] in [%s]",
               field.getSimpleName(), field.getEnclosingElement()));
     }
-
-    throw new GenerationException(
-        String.format(
-            "Unable to process [%s] in [%s]", field.getSimpleName(), field.getEnclosingElement()));
+    return true;
   }
 
   private TypeElement checkBean(TypeElement type) {

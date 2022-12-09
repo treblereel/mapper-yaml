@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.TypeUtils;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeInfo;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
@@ -51,6 +52,8 @@ public class FieldDefinitionFactory {
       result = new ArrayBeanFieldDefinition(property, context);
     } else if (MoreTypes.asElement(property).getKind().equals(ElementKind.ENUM)) {
       result = new EnumBeanFieldDefinition(property, context);
+    } else if (MoreTypes.asTypeElement(property).getAnnotation(YamlTypeInfo.class) != null) {
+      result = new YamlTypeInfoFieldDefinition(property, context);
     } else {
       result = new DefaultBeanFieldDefinition(property, context);
     }

@@ -36,9 +36,7 @@ public class SetTest {
           + System.lineSeparator()
           + "values:"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    firstName: AAA2"
+          + "  - firstName: AAA2"
           + System.lineSeparator()
           + "    secondName: BBB2"
           + System.lineSeparator()
@@ -52,9 +50,7 @@ public class SetTest {
           + System.lineSeparator()
           + "      street: EEE2"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    firstName: AAA3"
+          + "  - firstName: AAA3"
           + System.lineSeparator()
           + "    secondName: BBB3"
           + System.lineSeparator()
@@ -68,9 +64,7 @@ public class SetTest {
           + System.lineSeparator()
           + "      street: EEE3"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    firstName: AAA4"
+          + "  - firstName: AAA4"
           + System.lineSeparator()
           + "    secondName: BBB4"
           + System.lineSeparator()
@@ -84,9 +78,7 @@ public class SetTest {
           + System.lineSeparator()
           + "      street: EEE4"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    firstName: AAA"
+          + "  - firstName: AAA"
           + System.lineSeparator()
           + "    secondName: BBB"
           + System.lineSeparator()

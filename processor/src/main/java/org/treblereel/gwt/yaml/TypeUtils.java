@@ -16,7 +16,6 @@
 package org.treblereel.gwt.yaml;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
@@ -39,7 +38,6 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
@@ -53,8 +51,8 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import org.apache.commons.lang3.StringUtils;
-import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.context.GenerationContext;
+import org.treblereel.gwt.yaml.exception.GenerationException;
 
 /**
  * Type class.
@@ -723,17 +721,6 @@ public class TypeUtils {
   }
 
   /**
-   * Stringify given TypeMirror including generic arguments. Package of the TypeMirror is not
-   * prepended to the result.
-   *
-   * @param type a {@link TypeMirror} object
-   * @return a {@link String} containing string representation of given TypeMirror
-   */
-  public String stringifyType(TypeMirror type) {
-    return stringifyType(type, false);
-  }
-
-  /**
    * Returns deserializer name for given typeMirror. Package name for corresponding deserializer is
    * prepended to the result.
    *
@@ -754,82 +741,6 @@ public class TypeUtils {
             : MoreElements.asType(type.getEnclosingElement()).getSimpleName().toString() + "_")
         + type.getSimpleName()
         + BEAN_YAML_DESERIALIZER_IMPL;
-  }
-
-  /**
-   * Create TypeMirror for given generic type, with type parameters replaced by actual type
-   * arguments, specified in parametersToArgumentsMap
-   *
-   * @param type TypeMirror to be processed
-   * @param parametersToArgumentsMap mapping type parameter elements to types
-   * @return TypeMirror having type parameters replaced by actual type arguments
-   */
-  public TypeMirror getDeclaredType(
-      TypeMirror type,
-      Map<? extends TypeParameterElement, ? extends TypeMirror> parametersToArgumentsMap) {
-    return type.accept(
-        new SimpleTypeVisitor8<TypeMirror, Void>() {
-          @Override
-          public TypeMirror visitPrimitive(PrimitiveType t, Void p) {
-            return t;
-          }
-
-          @Override
-          public TypeMirror visitArray(ArrayType t, Void p) {
-            return types.getArrayType(visit(t.getComponentType(), p));
-          }
-
-          @Override
-          public TypeMirror visitDeclared(DeclaredType t, Void p) {
-            return types.getDeclaredType(
-                (TypeElement) t.asElement(),
-                t.getTypeArguments().stream().map(arg -> visit(arg, p)).toArray(TypeMirror[]::new));
-          }
-
-          @Override
-          public TypeMirror visitTypeVariable(TypeVariable t, Void p) {
-            return parametersToArgumentsMap.get(types.asElement(t));
-          }
-
-          @Override
-          public TypeMirror visitWildcard(WildcardType t, Void p) {
-            return types.getWildcardType(
-                (t.getExtendsBound() != null) ? visit(t.getExtendsBound(), p) : null,
-                (t.getSuperBound() != null) ? visit(t.getSuperBound(), p) : null);
-          }
-        },
-        null);
-  }
-
-  public boolean isXMLMapper(TypeMirror typeMirror) {
-    return nonNull(types.asElement(typeMirror).getAnnotation(YAMLMapper.class));
-  }
-
-  public <A extends Annotation> A findClassAnnotation(Element classElement, Class<A> annotation) {
-    A result = classElement.getAnnotation(annotation);
-    if (nonNull(result)) {
-      return result;
-    }
-    TypeMirror superclass = ((TypeElement) classElement).getSuperclass();
-    if (superclass.getKind().equals(TypeKind.NONE)) {
-      return null;
-    } else {
-      return findClassAnnotation(types.asElement(superclass), annotation);
-    }
-  }
-
-  public Optional<TypeMirror> findClassValueFromClassAnnotation(
-      Element classElement, Class<? extends Annotation> annotation, String paramName) {
-    Optional<TypeMirror> result = getClassValueFromAnnotation(classElement, annotation, paramName);
-    if (result.isPresent()) {
-      return result;
-    }
-    TypeMirror superclass = ((TypeElement) classElement).getSuperclass();
-    if (superclass.getKind().equals(TypeKind.NONE)) {
-      return Optional.empty();
-    } else {
-      return findClassValueFromClassAnnotation(types.asElement(superclass), annotation, paramName);
-    }
   }
 
   public Optional<TypeMirror> getClassValueFromAnnotation(
@@ -855,22 +766,33 @@ public class TypeUtils {
   }
 
   public ExecutableElement getGetter(VariableElement variable) {
-    String method = compileGetterMethodName(variable);
+    List<String> method = compileGetterMethodName(variable);
     return MoreElements.asType(variable.getEnclosingElement()).getEnclosedElements().stream()
         .filter(e -> e.getKind().equals(ElementKind.METHOD))
-        .filter(e -> e.toString().equals(method))
+        .filter(e -> method.contains(e.toString()))
         .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
         .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
         .map(MoreElements::asExecutable)
         .filter(elm -> elm.getParameters().isEmpty())
         .filter(elm -> types.isSameType(elm.getReturnType(), variable.asType()))
         .findFirst()
-        .orElse(null);
+        .orElseThrow(
+            () ->
+                new GenerationException(
+                    String.format(
+                        "Unable to find suitable getter for %s.%s",
+                        variable.getEnclosingElement(), variable.getSimpleName())));
   }
 
-  public String compileGetterMethodName(VariableElement variable) {
+  public List<String> compileGetterMethodName(VariableElement variable) {
     String varName = variable.getSimpleName().toString();
-    return (isBoolean(variable) ? "is" : "get") + StringUtils.capitalize(varName) + "()";
+    boolean isBoolean = isBoolean(variable);
+    List<String> result = new ArrayList<>();
+    result.add("get" + StringUtils.capitalize(varName) + "()");
+    if (isBoolean) {
+      result.add("is" + StringUtils.capitalize(varName) + "()");
+    }
+    return result;
   }
 
   public boolean isBoolean(VariableElement variable) {
@@ -884,16 +806,19 @@ public class TypeUtils {
 
   public ExecutableElement getSetter(VariableElement variable) {
     String method = compileSetterMethodName(variable);
-    return MoreElements.asType(variable.getEnclosingElement()).getEnclosedElements().stream()
-        .filter(e -> e.getKind().equals(ElementKind.METHOD))
-        .filter(e -> e.toString().equals(method))
+    return ElementFilter.methodsIn(variable.getEnclosingElement().getEnclosedElements()).stream()
         .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
         .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
-        .map(MoreElements::asExecutable)
+        .filter(e -> method.startsWith(e.getSimpleName().toString()))
         .filter(elm -> elm.getParameters().size() == 1)
         .filter(elm -> types.isSameType(elm.getParameters().get(0).asType(), variable.asType()))
         .findFirst()
-        .orElse(null);
+        .orElseThrow(
+            () ->
+                new GenerationException(
+                    String.format(
+                        "Unable to find suitable setter for %s.%s",
+                        variable.getEnclosingElement(), variable.getSimpleName())));
   }
 
   private String compileSetterMethodName(VariableElement variable) {

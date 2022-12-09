@@ -32,21 +32,15 @@ public class PetShopArrayTest {
   private static final String YAML =
       "animals:"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    _type: cat"
+          + "  - _type: cat"
           + System.lineSeparator()
           + "    isCat: true"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    _type: rat"
+          + "  - _type: rat"
           + System.lineSeparator()
           + "    isRat: true"
           + System.lineSeparator()
-          + "  -"
-          + System.lineSeparator()
-          + "    _type: dog"
+          + "  - _type: dog"
           + System.lineSeparator()
           + "    isDog: false"
           + System.lineSeparator()

@@ -5,11 +5,7 @@
     <parent>
         <groupId>org.treblereel.gwt.yaml</groupId>
         <artifactId>yaml-parent</artifactId>
-<<<<<<< HEAD:common/pom.xml
         <version>0.1</version>
-=======
-        <version>0.1-SNAPSHOT</version>
->>>>>>> 86fee99 (added gwt module definitions):api/pom.xml
     </parent>
 
     <artifactId>common</artifactId>

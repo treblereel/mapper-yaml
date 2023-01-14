@@ -34,13 +34,13 @@
     <dependency>
       <groupId>org.treblereel.gwt.yaml</groupId>
       <artifactId>common</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>0.1</version>
     </dependency>
 
     <dependency>
       <groupId>org.treblereel.gwt.yaml</groupId>
       <artifactId>processor</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>0.1</version>
       <scope>provided</scope>
     </dependency>
 

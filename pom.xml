@@ -58,7 +58,7 @@
         <auto.common.version>0.11</auto.common.version>
         <auto.service.version>1.0-rc6</auto.service.version>
 
-        <eo-yaml.version>6.1.1</eo-yaml.version>
+        <eo-yaml.version>6.1.1.1</eo-yaml.version>
         <apache.commons.lang3.version>3.9</apache.commons.lang3.version>
 
         <!-- J2CL deps -->
@@ -219,6 +219,7 @@
                         <exclude>**/*.html</exclude>
                         <exclude>**/*.css</exclude>
                         <exclude>**/*.xml</exclude>
+                        <exclude>samples/</exclude>
                     </excludes>
                     <properties>
                         <year>${project.inceptionYear}</year>

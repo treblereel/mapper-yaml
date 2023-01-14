@@ -71,7 +71,7 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T>
     }
 
     YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
-    for (T value : values) {
+    for (T value : (Collection<T>) values) {
       serializer.serialize(yamlSequenceWriter, value, ctx);
     }
     writer.value(propertyName, yamlSequenceWriter.getWriter());

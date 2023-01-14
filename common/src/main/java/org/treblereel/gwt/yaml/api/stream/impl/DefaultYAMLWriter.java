@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Iterator;
-import org.treblereel.gwt.jakarta.utils.GwtIncompatible;
+import org.treblereel.gwt.utils.GwtIncompatible;
 import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 
 /**

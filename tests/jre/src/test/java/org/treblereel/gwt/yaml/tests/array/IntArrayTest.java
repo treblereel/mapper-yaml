@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(IntArrayTest.class)
 public class IntArrayTest {
 
-  private static final IntArrayTest_IntArray_YAMLMapperImpl mapper =
-      IntArrayTest_IntArray_YAMLMapperImpl.INSTANCE;
+  private static final IntArrayTest_IntArray_YamlMapperImpl mapper =
+      IntArrayTest_IntArray_YamlMapperImpl.INSTANCE;
 
   private static final int[] values = new int[] {17222, 2111, 32223, -6226};
 

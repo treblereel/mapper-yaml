@@ -30,8 +30,8 @@ public class StringTest {
   private static final String YAML_0 = "value: ~";
   private static final String YAML_1 = "value: testSerializeValue";
 
-  private StringTest_StringType_YAMLMapperImpl mapper =
-      StringTest_StringType_YAMLMapperImpl.INSTANCE;
+  private StringTest_StringType_YamlMapperImpl mapper =
+      StringTest_StringType_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

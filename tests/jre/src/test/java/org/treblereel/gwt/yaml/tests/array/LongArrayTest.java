@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(LongArrayTest.class)
 public class LongArrayTest {
 
-  private static final LongArrayTest_LongArray_YAMLMapperImpl mapper =
-      LongArrayTest_LongArray_YAMLMapperImpl.INSTANCE;
+  private static final LongArrayTest_LongArray_YamlMapperImpl mapper =
+      LongArrayTest_LongArray_YamlMapperImpl.INSTANCE;
 
   private static final long[] values = new long[] {17222, 2111, 32223, -6226};
 

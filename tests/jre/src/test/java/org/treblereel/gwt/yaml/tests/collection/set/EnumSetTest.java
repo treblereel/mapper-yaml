@@ -30,8 +30,8 @@ import org.treblereel.gwt.yaml.tests.enums.SimpleEnum;
 @J2clTestInput(EnumSetTest.class)
 public class EnumSetTest {
 
-  private static final EnumSetTest_EnumSetBeanTest_YAMLMapperImpl mapper =
-      EnumSetTest_EnumSetBeanTest_YAMLMapperImpl.INSTANCE;
+  private static final EnumSetTest_EnumSetBeanTest_YamlMapperImpl mapper =
+      EnumSetTest_EnumSetBeanTest_YamlMapperImpl.INSTANCE;
 
   private EnumSetBeanTest getSetBeanTest() {
 

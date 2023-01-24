@@ -29,8 +29,8 @@ import org.treblereel.gwt.yaml.tests.enums.SimpleEnum;
 @J2clTestInput(EnumArrayTest.class)
 public class EnumArrayTest {
 
-  private static final EnumArrayTest_EnumArrayBeanTest_YAMLMapperImpl mapper =
-      EnumArrayTest_EnumArrayBeanTest_YAMLMapperImpl.INSTANCE;
+  private static final EnumArrayTest_EnumArrayBeanTest_YamlMapperImpl mapper =
+      EnumArrayTest_EnumArrayBeanTest_YamlMapperImpl.INSTANCE;
   private static final String YAML =
       "id: \"-1\""
           + System.lineSeparator()

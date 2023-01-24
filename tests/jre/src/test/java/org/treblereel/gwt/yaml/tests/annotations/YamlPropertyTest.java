@@ -30,7 +30,7 @@ import org.treblereel.gwt.yaml.api.annotation.YamlProperty;
 @J2clTestInput(YamlPropertyTest.class)
 public class YamlPropertyTest {
 
-  YamlPropertyTest_Tested_YAMLMapperImpl mapper = YamlPropertyTest_Tested_YAMLMapperImpl.INSTANCE;
+  YamlPropertyTest_Tested_YamlMapperImpl mapper = YamlPropertyTest_Tested_YamlMapperImpl.INSTANCE;
 
   private static final String YAML =
       "_name: zzz"

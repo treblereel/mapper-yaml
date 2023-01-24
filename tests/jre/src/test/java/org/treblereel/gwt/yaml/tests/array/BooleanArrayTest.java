@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(BooleanArrayTest.class)
 public class BooleanArrayTest {
 
-  private static final BooleanArrayTest_BooleanArray_YAMLMapperImpl mapper =
-      BooleanArrayTest_BooleanArray_YAMLMapperImpl.INSTANCE;
+  private static final BooleanArrayTest_BooleanArray_YamlMapperImpl mapper =
+      BooleanArrayTest_BooleanArray_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

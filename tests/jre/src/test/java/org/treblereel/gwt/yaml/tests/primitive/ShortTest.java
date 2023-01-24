@@ -32,7 +32,7 @@ public class ShortTest {
   private static final String YAML_17222 = "check: 17222";
   private static final String YAML__17222 = "check: \"-17222\"";
 
-  private ShortTest_ShortType_YAMLMapperImpl mapper = ShortTest_ShortType_YAMLMapperImpl.INSTANCE;
+  private ShortTest_ShortType_YamlMapperImpl mapper = ShortTest_ShortType_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

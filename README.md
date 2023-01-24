@@ -3,7 +3,7 @@
 ![Gitter](https://img.shields.io/gitter/room/vertispan/j2cl)
 [![Java CI with Maven](https://github.com/treblereel/mapper-yaml/actions/workflows/maven.yml/badge.svg)](https://github.com/treblereel/mapper-yaml/actions/workflows/maven.yml)
 
-# mapper-json
+# mapper-yaml
 mapper-yaml is an annotation-processor-based mapper that works both on the client side - GWT and J2CL - and on the JVM side with "Code-first" approach.
 
 ## Get started
@@ -34,7 +34,7 @@ mapper-yaml is an annotation-processor-based mapper that works both on the clien
 3. Annotate POJOs with the @JSONMapper annotation:
 
 ```xml
-import org.treblereel.gwt.json.mapper.annotation.YAMLMapper;
+import org.treblereel.gwt.yaml.mapper.annotation.YAMLMapper;
     
 @YAMLMapper
 public class Person {
@@ -82,11 +82,11 @@ The annotation processor will generate the JSON mapper for the `Person` class.
 Example of serializing `Person` to `YAML`:
 
 ```java
-Person_JsonMapperImpl mapper = new Person_YAMLMapperImpl();
+Person_JsonMapperImpl mapper = new Person_YamlMapperImpl();
 
 Person test = new Person("AAA", "BBB", 99, new Address("CCC", "DDD", "EEE"));
 
-String json = mapper.write(person);
+String yaml = mapper.write(person);
 
         firstName: AAA
         secondName: BBB
@@ -101,7 +101,7 @@ String json = mapper.write(person);
 Example of deserializing to POJO:
 
 ```java
-Person_JsonMapperImpl mapper = new Person_JsonMapperImpl();
+Person_JsonMapperImpl mapper = new Person_YamlMapperImpl();
 
         String YAML =
         "firstName: AAA"

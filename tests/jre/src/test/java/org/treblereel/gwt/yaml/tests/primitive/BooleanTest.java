@@ -24,7 +24,7 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import java.io.IOException;
 import org.junit.Test;
 import org.treblereel.gwt.yaml.tests.beans.BooleanBean;
-import org.treblereel.gwt.yaml.tests.beans.BooleanBean_YAMLMapperImpl;
+import org.treblereel.gwt.yaml.tests.beans.BooleanBean_YamlMapperImpl;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/22/20 */
 @J2clTestInput(BooleanTest.class)
@@ -33,7 +33,7 @@ public class BooleanTest {
   private static final String YAML_TRUE = "check: true";
   private static final String YAML_FALSE = "check: false";
 
-  private BooleanBean_YAMLMapperImpl mapper = BooleanBean_YAMLMapperImpl.INSTANCE;
+  private BooleanBean_YamlMapperImpl mapper = BooleanBean_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

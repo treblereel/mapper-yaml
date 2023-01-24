@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(FloatArrayTest.class)
 public class FloatArrayTest {
 
-  private static final FloatArrayTest_FloatArray_YAMLMapperImpl mapper =
-      FloatArrayTest_FloatArray_YAMLMapperImpl.INSTANCE;
+  private static final FloatArrayTest_FloatArray_YamlMapperImpl mapper =
+      FloatArrayTest_FloatArray_YamlMapperImpl.INSTANCE;
 
   private static final float[] values = new float[] {17222f, 2111.34f, 32223.34f, 6226.37f};
 

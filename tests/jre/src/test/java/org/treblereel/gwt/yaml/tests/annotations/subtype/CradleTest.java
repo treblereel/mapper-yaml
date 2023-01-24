@@ -25,7 +25,7 @@ import org.junit.Test;
 @J2clTestInput(CradleTest.class)
 public class CradleTest {
 
-  private final Cradle_YAMLMapperImpl mapper = Cradle_YAMLMapperImpl.INSTANCE;
+  private final Cradle_YamlMapperImpl mapper = Cradle_YamlMapperImpl.INSTANCE;
 
   private static final String YAML =
       "animal:"

@@ -63,9 +63,9 @@ import org.treblereel.gwt.yaml.exception.GenerationException;
 public class TypeUtils {
 
   /** Constant <code>BEAN_JSON_SERIALIZER_IMPL="BeanXMLSerializerImpl"</code> */
-  public static final String BEAN_YAML_SERIALIZER_IMPL = "BeanYAMLSerializerImpl";
+  public static final String BEAN_YAML_SERIALIZER_IMPL = "_YamlSerializerImpl";
   /** Constant <code>BEAN_JSON_DESERIALIZER_IMPL="BeanJsonDeserializerImpl"</code> */
-  public static final String BEAN_YAML_DESERIALIZER_IMPL = "BeanYAMLDeserializerImpl";
+  public static final String BEAN_YAML_DESERIALIZER_IMPL = "_YamlDeserializerImpl";
 
   private static final int FIRST_ARGUMENT = 0;
   private static final int SECOND_ARGUMENT = 1;

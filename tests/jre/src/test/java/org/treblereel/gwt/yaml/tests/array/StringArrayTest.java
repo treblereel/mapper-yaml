@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(StringArrayTest.class)
 public class StringArrayTest {
 
-  private static final StringArrayTest_StringArray_YAMLMapperImpl mapper =
-      StringArrayTest_StringArray_YAMLMapperImpl.INSTANCE;
+  private static final StringArrayTest_StringArray_YamlMapperImpl mapper =
+      StringArrayTest_StringArray_YamlMapperImpl.INSTANCE;
 
   private static final String[] values = new String[] {"aaa", "bbb", "ccc", "ddd"};
 

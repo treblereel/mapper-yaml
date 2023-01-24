@@ -148,7 +148,7 @@ public class PropertyDefinition extends Definition {
       ClassOrInterfaceType type = new ClassOrInterfaceType();
       type.setName(e.getTypeMirror().toString());
       return new ObjectCreationExpr()
-          .setType(YamlTypeSerializerWrapper.class)
+          .setType(YamlTypeSerializerWrapper.class.getCanonicalName())
           .addArgument(new ObjectCreationExpr().setType(type));
     }
     return null;

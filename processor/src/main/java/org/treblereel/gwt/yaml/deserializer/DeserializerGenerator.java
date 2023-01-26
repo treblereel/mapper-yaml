@@ -59,7 +59,7 @@ import org.treblereel.gwt.yaml.logger.TreeLogger;
 public class DeserializerGenerator extends AbstractGenerator {
 
   public DeserializerGenerator(GenerationContext context, TreeLogger logger) {
-    super(context, logger.branch(TreeLogger.INFO, "Deserializers generation started"));
+    super(context, logger.branch(TreeLogger.DEBUG, "Deserializers generation started"));
   }
 
   @Override
@@ -107,7 +107,7 @@ public class DeserializerGenerator extends AbstractGenerator {
   @Override
   protected void init(BeanDefinition beanDefinition) {
     logger.log(
-        TreeLogger.INFO,
+        TreeLogger.DEBUG,
         "Generating " + context.getTypeUtils().deserializerName(beanDefinition.getBean()));
     initDeserializers(beanDefinition);
     initInstanceBuilder(beanDefinition);

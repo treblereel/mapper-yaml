@@ -39,7 +39,7 @@ import org.treblereel.gwt.yaml.processor.BeanProcessor;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ApplicationProcessor extends AbstractProcessor {
 
-  private final TreeLogger logger = new PrintWriterTreeLogger();
+  private final PrintWriterTreeLogger logger = new PrintWriterTreeLogger();
   private final Set<TypeElement> beans = new HashSet<>();
 
   @Override
@@ -55,7 +55,12 @@ public class ApplicationProcessor extends AbstractProcessor {
       roundEnvironment.getElementsAnnotatedWith(YAMLMapper.class).stream()
           .map(MoreElements::asType)
           .forEach(beans::add);
+      logger.setMaxDetail(TreeLogger.Type.INFO);
+      long started = System.currentTimeMillis();
       new BeanProcessor(context, logger, beans).process();
+      logger.log(
+          TreeLogger.Type.INFO,
+          "YAML ser/deser generated in " + (System.currentTimeMillis() - started) + " ms");
     }
     return false;
   }

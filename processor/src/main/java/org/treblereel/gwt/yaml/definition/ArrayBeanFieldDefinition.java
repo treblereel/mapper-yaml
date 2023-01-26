@@ -22,7 +22,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.PrimitiveType;
@@ -148,10 +147,7 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
               field.getProperty().getAnnotation(YamlTypeSerializer.class));
     }
 
-    return new ObjectCreationExpr()
-        .setType(serializer)
-        .addArgument(expression)
-        .addArgument(new StringLiteralExpr(field.getPropertyName()));
+    return new ObjectCreationExpr().setType(serializer).addArgument(expression);
   }
 
   @Override

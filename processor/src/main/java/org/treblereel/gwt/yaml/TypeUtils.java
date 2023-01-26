@@ -50,7 +50,6 @@ import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
-import org.apache.commons.lang3.StringUtils;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 
@@ -788,9 +787,9 @@ public class TypeUtils {
     String varName = variable.getSimpleName().toString();
     boolean isBoolean = isBoolean(variable);
     List<String> result = new ArrayList<>();
-    result.add("get" + StringUtils.capitalize(varName));
+    result.add("get" + capitalize(varName));
     if (isBoolean) {
-      result.add("is" + StringUtils.capitalize(varName));
+      result.add("is" + capitalize(varName));
     }
     return result;
   }
@@ -825,7 +824,7 @@ public class TypeUtils {
     String varName = variable.getSimpleName().toString();
     StringBuffer sb = new StringBuffer();
     sb.append("set");
-    sb.append(StringUtils.capitalize(varName));
+    sb.append(capitalize(varName));
     return sb.toString();
   }
 
@@ -848,5 +847,9 @@ public class TypeUtils {
 
   public boolean isObject(TypeMirror type) {
     return types.isSameType(type, getObject());
+  }
+
+  private String capitalize(String name) {
+    return name.substring(0, 1).toUpperCase() + name.substring(1);
   }
 }

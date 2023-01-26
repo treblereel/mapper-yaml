@@ -49,12 +49,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.treblereel.gwt.yaml</groupId>
+      <groupId>org.treblereel.gwt.yaml.mapper</groupId>
       <artifactId>common</artifactId>
       <version>0.1</version>
     </dependency>
     <dependency>
-      <groupId>org.treblereel.gwt.yaml</groupId>
+      <groupId>org.treblereel.gwt.yaml.mapper</groupId>
       <artifactId>processor</artifactId>
       <version>0.1</version>
       <scope>provided</scope>

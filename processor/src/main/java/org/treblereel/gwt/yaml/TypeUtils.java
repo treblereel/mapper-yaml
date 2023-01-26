@@ -50,7 +50,6 @@ import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
-import org.apache.commons.lang3.StringUtils;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 
@@ -63,9 +62,9 @@ import org.treblereel.gwt.yaml.exception.GenerationException;
 public class TypeUtils {
 
   /** Constant <code>BEAN_JSON_SERIALIZER_IMPL="BeanXMLSerializerImpl"</code> */
-  public static final String BEAN_YAML_SERIALIZER_IMPL = "BeanYAMLSerializerImpl";
+  public static final String BEAN_YAML_SERIALIZER_IMPL = "_YamlSerializerImpl";
   /** Constant <code>BEAN_JSON_DESERIALIZER_IMPL="BeanJsonDeserializerImpl"</code> */
-  public static final String BEAN_YAML_DESERIALIZER_IMPL = "BeanYAMLDeserializerImpl";
+  public static final String BEAN_YAML_DESERIALIZER_IMPL = "_YamlDeserializerImpl";
 
   private static final int FIRST_ARGUMENT = 0;
   private static final int SECOND_ARGUMENT = 1;
@@ -769,7 +768,7 @@ public class TypeUtils {
     List<String> method = compileGetterMethodName(variable);
     return MoreElements.asType(variable.getEnclosingElement()).getEnclosedElements().stream()
         .filter(e -> e.getKind().equals(ElementKind.METHOD))
-        .filter(e -> method.contains(e.toString()))
+        .filter(e -> method.contains(e.getSimpleName().toString()))
         .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
         .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
         .map(MoreElements::asExecutable)
@@ -788,9 +787,9 @@ public class TypeUtils {
     String varName = variable.getSimpleName().toString();
     boolean isBoolean = isBoolean(variable);
     List<String> result = new ArrayList<>();
-    result.add("get" + StringUtils.capitalize(varName) + "()");
+    result.add("get" + capitalize(varName));
     if (isBoolean) {
-      result.add("is" + StringUtils.capitalize(varName) + "()");
+      result.add("is" + capitalize(varName));
     }
     return result;
   }
@@ -809,7 +808,7 @@ public class TypeUtils {
     return ElementFilter.methodsIn(variable.getEnclosingElement().getEnclosedElements()).stream()
         .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
         .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
-        .filter(e -> method.startsWith(e.getSimpleName().toString()))
+        .filter(e -> method.equals(e.getSimpleName().toString()))
         .filter(elm -> elm.getParameters().size() == 1)
         .filter(elm -> types.isSameType(elm.getParameters().get(0).asType(), variable.asType()))
         .findFirst()
@@ -825,10 +824,7 @@ public class TypeUtils {
     String varName = variable.getSimpleName().toString();
     StringBuffer sb = new StringBuffer();
     sb.append("set");
-    sb.append(StringUtils.capitalize(varName));
-    sb.append("(");
-    sb.append(variable.asType());
-    sb.append(")");
+    sb.append(capitalize(varName));
     return sb.toString();
   }
 
@@ -851,5 +847,9 @@ public class TypeUtils {
 
   public boolean isObject(TypeMirror type) {
     return types.isSameType(type, getObject());
+  }
+
+  private String capitalize(String name) {
+    return name.substring(0, 1).toUpperCase() + name.substring(1);
   }
 }

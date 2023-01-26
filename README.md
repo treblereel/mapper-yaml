@@ -3,7 +3,7 @@
 ![Gitter](https://img.shields.io/gitter/room/vertispan/j2cl)
 [![Java CI with Maven](https://github.com/treblereel/mapper-yaml/actions/workflows/maven.yml/badge.svg)](https://github.com/treblereel/mapper-yaml/actions/workflows/maven.yml)
 
-# mapper-json
+# mapper-yaml
 mapper-yaml is an annotation-processor-based mapper that works both on the client side - GWT and J2CL - and on the JVM side with "Code-first" approach.
 
 ## Get started
@@ -34,7 +34,7 @@ mapper-yaml is an annotation-processor-based mapper that works both on the clien
 3. Annotate POJOs with the @JSONMapper annotation:
 
 ```xml
-import org.treblereel.gwt.json.mapper.annotation.YAMLMapper;
+import org.treblereel.gwt.yaml.mapper.annotation.YAMLMapper;
     
 @YAMLMapper
 public class Person {
@@ -82,11 +82,11 @@ The annotation processor will generate the JSON mapper for the `Person` class.
 Example of serializing `Person` to `YAML`:
 
 ```java
-Person_JsonMapperImpl mapper = new Person_YAMLMapperImpl();
+Person_JsonMapperImpl mapper = new Person_YamlMapperImpl();
 
 Person test = new Person("AAA", "BBB", 99, new Address("CCC", "DDD", "EEE"));
 
-String json = mapper.write(person);
+String yaml = mapper.write(person);
 
         firstName: AAA
         secondName: BBB
@@ -101,7 +101,7 @@ String json = mapper.write(person);
 Example of deserializing to POJO:
 
 ```java
-Person_JsonMapperImpl mapper = new Person_JsonMapperImpl();
+Person_JsonMapperImpl mapper = new Person_YamlMapperImpl();
 
         String YAML =
         "firstName: AAA"
@@ -131,6 +131,7 @@ Supported annotations:
 * [@JsonbTypeDeserializer](###@JsonbTypeDeserializer)
 * [@JsonbTransient](###@JsonbTransient)
 * [@YamlTypeInfo](###@YamlTypeInfo)
+* [@YamlPropertyOrder](###@YamlPropertyOrder)
 
 ### @YamlProperty
 In this example, the @YamlProperty annotation is applied to the name field. This tells the library to use "_name" as the name of the property when serializing and deserializing the object to and from YAML. When the object is serialized to YAML, the "name" field will be written as "_name". When the object is deserialized from YAML, the YAML property "_name" will be mapped to the "name" field.
@@ -222,6 +223,7 @@ Here is an example of using the @YamlTypeInfo annotation in a Java class to spec
 
 In this example, the @YamlTypeInfo annotation is applied to Animal class. It specifies that the type of the data field should be handled using the YamlTypeInfo.DEFAULT_KEY_NAME value which means that the type of the data field is represented by a YamlSubtype.alias that specifies the alias of the class.
 
+```java
 @YAMLMapper
 public class PetShop {
 
@@ -238,3 +240,14 @@ public interface Animal {}
 
 ```
 
+### @YamlPropertyOrder
+The @YamlPropertyOrder annotation is used to specify the order in which the properties of a Java object should be serialized to YAML. When this annotation is applied to a class, the properties listed within it will be serialized in the order they are listed. For example, if you have a class Person with properties name, age, and address, and you want the YAML representation to have the properties listed in the order name, address, age, you would use the annotation like this:
+```java
+@YamlPropertyOrder({"name", "address", "age"})
+public class Person {
+    private String name;
+    private int age;
+    private String address;
+    // getters and setters
+}
+```

@@ -32,7 +32,7 @@ public class FloatTest {
   private static final String YAML_17222 = "value: 17222.01";
   private static final String YAML__17222 = "value: \"-17222.01\"";
 
-  private FloatTest_FloatType_YAMLMapperImpl mapper = FloatTest_FloatType_YAMLMapperImpl.INSTANCE;
+  private FloatTest_FloatType_YamlMapperImpl mapper = FloatTest_FloatType_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

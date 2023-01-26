@@ -86,8 +86,8 @@ public class ArrayPersonTest {
           + System.lineSeparator()
           + "      street: EEE4";
 
-  private static final ArrayPersonTest_ArrayPersonBean_YAMLMapperImpl mapper =
-      ArrayPersonTest_ArrayPersonBean_YAMLMapperImpl.INSTANCE;
+  private static final ArrayPersonTest_ArrayPersonBean_YamlMapperImpl mapper =
+      ArrayPersonTest_ArrayPersonBean_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

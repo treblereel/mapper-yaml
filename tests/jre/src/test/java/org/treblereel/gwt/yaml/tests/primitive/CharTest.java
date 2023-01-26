@@ -29,7 +29,7 @@ public class CharTest {
   private static final String YAML_0 = "value: \u0000";
   private static final String YAML_C = "value: c";
 
-  private CharTest_CharType_YAMLMapperImpl mapper = CharTest_CharType_YAMLMapperImpl.INSTANCE;
+  private CharTest_CharType_YamlMapperImpl mapper = CharTest_CharType_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

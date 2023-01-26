@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(ShortArrayTest.class)
 public class ShortArrayTest {
 
-  private static final ShortArrayTest_ShortArray_YAMLMapperImpl mapper =
-      ShortArrayTest_ShortArray_YAMLMapperImpl.INSTANCE;
+  private static final ShortArrayTest_ShortArray_YamlMapperImpl mapper =
+      ShortArrayTest_ShortArray_YamlMapperImpl.INSTANCE;
 
   private static final short[] values = new short[] {17222, 2111, 32223, -6226};
 

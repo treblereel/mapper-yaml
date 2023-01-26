@@ -40,7 +40,7 @@ public class PersonTest {
           + System.lineSeparator()
           + "  street: EEE";
 
-  private static final Person_YAMLMapperImpl mapper = Person_YAMLMapperImpl.INSTANCE;
+  private static final Person_YamlMapperImpl mapper = Person_YamlMapperImpl.INSTANCE;
 
   private static final Person test = new Person("AAA", "BBB", 99, new Address("CCC", "DDD", "EEE"));
 

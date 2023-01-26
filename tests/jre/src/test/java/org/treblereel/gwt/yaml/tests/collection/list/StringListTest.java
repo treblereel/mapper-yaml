@@ -29,8 +29,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(StringListTest.class)
 public class StringListTest {
 
-  private static final StringListTest_StringListBeanTest_YAMLMapperImpl mapper =
-      StringListTest_StringListBeanTest_YAMLMapperImpl.INSTANCE;
+  private static final StringListTest_StringListBeanTest_YamlMapperImpl mapper =
+      StringListTest_StringListBeanTest_YamlMapperImpl.INSTANCE;
   private static final String YAML =
       "id: \"-1\""
           + System.lineSeparator()

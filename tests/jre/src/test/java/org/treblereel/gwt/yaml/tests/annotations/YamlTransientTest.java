@@ -26,8 +26,8 @@ import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 @J2clTestInput(YamlTransientTest.class)
 public class YamlTransientTest {
 
-  private static final YamlTransientTest_Tested_YAMLMapperImpl mapper =
-      YamlTransientTest_Tested_YAMLMapperImpl.INSTANCE;
+  private static final YamlTransientTest_Tested_YamlMapperImpl mapper =
+      YamlTransientTest_Tested_YamlMapperImpl.INSTANCE;
 
   @Test
   public void test() {

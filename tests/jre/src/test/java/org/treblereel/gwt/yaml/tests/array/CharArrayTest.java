@@ -26,8 +26,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 
 @J2clTestInput(CharArrayTest.class)
 public class CharArrayTest {
-  private static final CharArrayTest_CharArray_YAMLMapperImpl mapper =
-      CharArrayTest_CharArray_YAMLMapperImpl.INSTANCE;
+  private static final CharArrayTest_CharArray_YamlMapperImpl mapper =
+      CharArrayTest_CharArray_YamlMapperImpl.INSTANCE;
 
   private static final char[] values = new char[] {'a', 'z', 'F', '!'};
 

@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(DoubleArrayTest.class)
 public class DoubleArrayTest {
 
-  private static final DoubleArrayTest_DoubleArray_YAMLMapperImpl mapper =
-      DoubleArrayTest_DoubleArray_YAMLMapperImpl.INSTANCE;
+  private static final DoubleArrayTest_DoubleArray_YamlMapperImpl mapper =
+      DoubleArrayTest_DoubleArray_YamlMapperImpl.INSTANCE;
 
   private static final double[] values = new double[] {17222.01, 2111.34, 32223.34, 6226.37};
 

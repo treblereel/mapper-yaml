@@ -26,8 +26,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 
 @J2clTestInput(ByteArrayTest.class)
 public class ByteArrayTest {
-  private static final ByteArrayTest_ByteArray_YAMLMapperImpl mapper =
-      ByteArrayTest_ByteArray_YAMLMapperImpl.INSTANCE;
+  private static final ByteArrayTest_ByteArray_YamlMapperImpl mapper =
+      ByteArrayTest_ByteArray_YamlMapperImpl.INSTANCE;
 
   private static final byte[] values = new byte[] {17, 2, 33, 66};
 

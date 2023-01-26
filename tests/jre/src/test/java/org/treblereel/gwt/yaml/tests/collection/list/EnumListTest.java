@@ -30,8 +30,8 @@ import org.treblereel.gwt.yaml.tests.enums.SimpleEnum;
 @J2clTestInput(EnumListTest.class)
 public class EnumListTest {
 
-  private static final EnumListTest_EnumListBeanTest_YAMLMapperImpl mapper =
-      EnumListTest_EnumListBeanTest_YAMLMapperImpl.INSTANCE;
+  private static final EnumListTest_EnumListBeanTest_YamlMapperImpl mapper =
+      EnumListTest_EnumListBeanTest_YamlMapperImpl.INSTANCE;
   private static final String YAML =
       "id: \"-1\""
           + System.lineSeparator()

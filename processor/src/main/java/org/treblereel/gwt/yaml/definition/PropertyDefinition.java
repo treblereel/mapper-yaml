@@ -21,6 +21,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.google.auto.common.MoreTypes;
+import java.util.Objects;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.MirroredTypeException;
@@ -148,9 +149,22 @@ public class PropertyDefinition extends Definition {
       ClassOrInterfaceType type = new ClassOrInterfaceType();
       type.setName(e.getTypeMirror().toString());
       return new ObjectCreationExpr()
-          .setType(YamlTypeSerializerWrapper.class)
+          .setType(YamlTypeSerializerWrapper.class.getCanonicalName())
           .addArgument(new ObjectCreationExpr().setType(type));
     }
     return null;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    PropertyDefinition that = (PropertyDefinition) o;
+    return Objects.equals(property, that.property);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(property);
   }
 }

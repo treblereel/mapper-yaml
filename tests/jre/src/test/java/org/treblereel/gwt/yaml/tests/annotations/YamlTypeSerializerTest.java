@@ -41,8 +41,8 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
 @J2clTestInput(YamlTransientTest.class)
 public class YamlTypeSerializerTest {
 
-  private static final YamlTypeSerializerTest_TestHolder_YAMLMapperImpl mapper =
-      YamlTypeSerializerTest_TestHolder_YAMLMapperImpl.INSTANCE;
+  private static final YamlTypeSerializerTest_TestHolder_YamlMapperImpl mapper =
+      YamlTypeSerializerTest_TestHolder_YamlMapperImpl.INSTANCE;
 
   @Test
   public void test() throws IOException {

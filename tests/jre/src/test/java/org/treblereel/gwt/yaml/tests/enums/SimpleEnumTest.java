@@ -27,8 +27,8 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 @J2clTestInput(SimpleEnumTest.class)
 public class SimpleEnumTest {
 
-  private static final SimpleEnumTest_SimpleEnumTestBean_YAMLMapperImpl mapper =
-      SimpleEnumTest_SimpleEnumTestBean_YAMLMapperImpl.INSTANCE;
+  private static final SimpleEnumTest_SimpleEnumTestBean_YamlMapperImpl mapper =
+      SimpleEnumTest_SimpleEnumTestBean_YamlMapperImpl.INSTANCE;
   private static final String YAML = "value: FIVE";
 
   @Test

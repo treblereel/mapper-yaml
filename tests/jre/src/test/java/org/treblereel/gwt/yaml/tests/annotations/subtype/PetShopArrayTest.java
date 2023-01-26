@@ -27,7 +27,7 @@ import org.junit.Test;
 @J2clTestInput(PetShopArrayTest.class)
 public class PetShopArrayTest {
 
-  private final PetShopArray_YAMLMapperImpl mapper = PetShopArray_YAMLMapperImpl.INSTANCE;
+  private final PetShopArray_YamlMapperImpl mapper = PetShopArray_YamlMapperImpl.INSTANCE;
 
   private static final String YAML =
       "animals:"

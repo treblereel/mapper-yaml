@@ -22,17 +22,17 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import java.io.IOException;
 import org.junit.Test;
 import org.treblereel.gwt.yaml.tests.beans.CharacterBean;
-import org.treblereel.gwt.yaml.tests.beans.CharacterBean_YAMLMapperImpl;
+import org.treblereel.gwt.yaml.tests.beans.CharacterBean_YamlMapperImpl;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 3/26/20 */
 @J2clTestInput(CharacterTest.class)
 public class CharacterTest {
 
-  CharacterBean_YAMLMapperImpl mapper = CharacterBean_YAMLMapperImpl.INSTANCE;
+  CharacterBean_YamlMapperImpl mapper = CharacterBean_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testDeserializeValue() throws IOException {
-    assertEquals('e', CharacterBean_YAMLMapperImpl.INSTANCE.read("charVal: e").getCharVal());
+    assertEquals('e', CharacterBean_YamlMapperImpl.INSTANCE.read("charVal: e").getCharVal());
   }
 
   @Test

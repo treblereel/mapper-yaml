@@ -32,7 +32,7 @@ public class ByteTest {
   private static final String YAML_123 = "check: 123";
   private static final String YAML_22 = "check: -22";
 
-  private ByteTest_ByteType_YAMLMapperImpl mapper = ByteTest_ByteType_YAMLMapperImpl.INSTANCE;
+  private ByteTest_ByteType_YamlMapperImpl mapper = ByteTest_ByteType_YamlMapperImpl.INSTANCE;
 
   @Test
   public void testSerializeValue() throws IOException {

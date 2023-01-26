@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.treblereel.gwt.yaml</groupId>
+    <groupId>org.treblereel.gwt.yaml.mapper</groupId>
     <artifactId>yaml-parent</artifactId>
     <version>0.1</version>
     <packaging>pom</packaging>
@@ -32,6 +32,13 @@
         <url>https://github.com/treblereel</url>
     </organization>
 
+    <scm>
+        <url>https://github.com/treblereel/mapper-yaml</url>
+        <developerConnection>scm:git:git@github.com:treblereel/mapper-yaml.git</developerConnection>
+        <connection>scm:git:git://github.com/treblereel/mapper-yaml.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -59,8 +66,6 @@
         <auto.service.version>1.0-rc6</auto.service.version>
 
         <eo-yaml.version>6.1.1.1</eo-yaml.version>
-        <apache.commons.lang3.version>3.9</apache.commons.lang3.version>
-
         <!-- J2CL deps -->
         <com.google.jsinterop.base.version>1.0.0</com.google.jsinterop.base.version>
         <elemental2.version>1.1.0</elemental2.version>
@@ -106,11 +111,6 @@
                 <groupId>com.google.auto.service</groupId>
                 <artifactId>auto-service</artifactId>
                 <version>${auto.service.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${apache.commons.lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.javaparser</groupId>
@@ -288,6 +288,60 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <!-- Specify that we will push snapshots and releases to sonatype's repos -->
     <distributionManagement>

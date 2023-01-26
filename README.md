@@ -131,6 +131,7 @@ Supported annotations:
 * [@JsonbTypeDeserializer](###@JsonbTypeDeserializer)
 * [@JsonbTransient](###@JsonbTransient)
 * [@YamlTypeInfo](###@YamlTypeInfo)
+* [@YamlPropertyOrder](###@YamlPropertyOrder)
 
 ### @YamlProperty
 In this example, the @YamlProperty annotation is applied to the name field. This tells the library to use "_name" as the name of the property when serializing and deserializing the object to and from YAML. When the object is serialized to YAML, the "name" field will be written as "_name". When the object is deserialized from YAML, the YAML property "_name" will be mapped to the "name" field.
@@ -222,6 +223,7 @@ Here is an example of using the @YamlTypeInfo annotation in a Java class to spec
 
 In this example, the @YamlTypeInfo annotation is applied to Animal class. It specifies that the type of the data field should be handled using the YamlTypeInfo.DEFAULT_KEY_NAME value which means that the type of the data field is represented by a YamlSubtype.alias that specifies the alias of the class.
 
+```java
 @YAMLMapper
 public class PetShop {
 
@@ -238,3 +240,14 @@ public interface Animal {}
 
 ```
 
+### @YamlPropertyOrder
+The @YamlPropertyOrder annotation is used to specify the order in which the properties of a Java object should be serialized to YAML. When this annotation is applied to a class, the properties listed within it will be serialized in the order they are listed. For example, if you have a class Person with properties name, age, and address, and you want the YAML representation to have the properties listed in the order name, address, age, you would use the annotation like this:
+```java
+@YamlPropertyOrder({"name", "address", "age"})
+public class Person {
+    private String name;
+    private int age;
+    private String address;
+    // getters and setters
+}
+```

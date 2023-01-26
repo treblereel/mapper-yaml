@@ -769,7 +769,7 @@ public class TypeUtils {
     List<String> method = compileGetterMethodName(variable);
     return MoreElements.asType(variable.getEnclosingElement()).getEnclosedElements().stream()
         .filter(e -> e.getKind().equals(ElementKind.METHOD))
-        .filter(e -> method.contains(e.toString()))
+        .filter(e -> method.contains(e.getSimpleName().toString()))
         .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
         .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
         .map(MoreElements::asExecutable)
@@ -788,9 +788,9 @@ public class TypeUtils {
     String varName = variable.getSimpleName().toString();
     boolean isBoolean = isBoolean(variable);
     List<String> result = new ArrayList<>();
-    result.add("get" + StringUtils.capitalize(varName) + "()");
+    result.add("get" + StringUtils.capitalize(varName));
     if (isBoolean) {
-      result.add("is" + StringUtils.capitalize(varName) + "()");
+      result.add("is" + StringUtils.capitalize(varName));
     }
     return result;
   }
@@ -809,7 +809,7 @@ public class TypeUtils {
     return ElementFilter.methodsIn(variable.getEnclosingElement().getEnclosedElements()).stream()
         .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
         .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
-        .filter(e -> method.startsWith(e.getSimpleName().toString()))
+        .filter(e -> method.equals(e.getSimpleName().toString()))
         .filter(elm -> elm.getParameters().size() == 1)
         .filter(elm -> types.isSameType(elm.getParameters().get(0).asType(), variable.asType()))
         .findFirst()
@@ -826,9 +826,6 @@ public class TypeUtils {
     StringBuffer sb = new StringBuffer();
     sb.append("set");
     sb.append(StringUtils.capitalize(varName));
-    sb.append("(");
-    sb.append(variable.asType());
-    sb.append(")");
     return sb.toString();
   }
 

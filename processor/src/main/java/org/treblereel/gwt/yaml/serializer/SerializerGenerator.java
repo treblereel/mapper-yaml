@@ -45,6 +45,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.BeanPropertySerializer;
@@ -259,5 +260,12 @@ public class SerializerGenerator extends AbstractGenerator {
       return new FieldAccessExpr(
           new NameExpr("bean"), field.getProperty().getSimpleName().toString());
     }
+  }
+
+  protected void write(TypeElement type) {
+    if (type.getAnnotation(YamlTypeSerializer.class) != null) {
+      return;
+    }
+    super.write(type);
   }
 }

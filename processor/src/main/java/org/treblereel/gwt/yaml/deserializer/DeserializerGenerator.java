@@ -42,6 +42,7 @@ import javax.lang.model.type.DeclaredType;
 import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.BeanPropertyDeserializer;
@@ -367,5 +368,12 @@ public class DeserializerGenerator extends AbstractGenerator {
 
   private void addParameter(MethodDeclaration method, String type, String name) {
     method.addParameter(new ClassOrInterfaceType().setName(type), name);
+  }
+
+  protected void write(TypeElement type) {
+    if (type.getAnnotation(YamlTypeDeserializer.class) != null) {
+      return;
+    }
+    super.write(type);
   }
 }

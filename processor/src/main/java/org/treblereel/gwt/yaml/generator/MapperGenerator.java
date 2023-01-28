@@ -26,6 +26,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.google.auto.common.MoreElements;
+import java.util.function.Supplier;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
@@ -33,6 +34,8 @@ import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.api.AbstractObjectMapper;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
+import org.treblereel.gwt.yaml.api.internal.ser.YamlTypeSerializerWrapper;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.definition.BeanDefinition;
 import org.treblereel.gwt.yaml.deserializer.DeserializerGenerator;
@@ -107,21 +110,27 @@ public class MapperGenerator extends AbstractGenerator {
             .setName(YAMLSerializer.class.getSimpleName())
             .setTypeArguments(new ClassOrInterfaceType().setName(getTypeMapperName(type)));
 
+    Supplier<Expression> supplier =
+        () -> {
+          Expression ser =
+              addObjectCreationExpr(
+                  type,
+                  returnType,
+                  new ObjectCreationExpr()
+                      .setType(context.getTypeUtils().serializerName(getTypeName(type))));
+          if (type.getElement().getAnnotation(YamlTypeSerializer.class) != null) {
+            return new ObjectCreationExpr()
+                .setType(YamlTypeSerializerWrapper.class.getCanonicalName())
+                .addArgument(ser);
+          }
+          return ser;
+        };
     declaration
         .addMethod("newSerializer", Modifier.Keyword.PROTECTED)
         .addAnnotation(Override.class)
         .setType(returnType)
         .getBody()
-        .ifPresent(
-            body ->
-                body.addStatement(
-                    new ReturnStmt(
-                        addObjectCreationExpr(
-                            type,
-                            returnType,
-                            new ObjectCreationExpr()
-                                .setType(
-                                    context.getTypeUtils().serializerName(getTypeName(type)))))));
+        .ifPresent(body -> body.addStatement(new ReturnStmt(supplier.get())));
   }
 
   private void addDeserializer(BeanDefinition type) {

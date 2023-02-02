@@ -16,9 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
+import com.amihaiemil.eoyaml.Node;
 import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlNode;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.stream.YAMLReader;
@@ -93,28 +96,39 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
    * object.
    */
   public final T deserializeInline(YamlMapping yaml, YAMLDeserializationContext ctx) {
+    if (yaml == null) {
+      return null;
+    }
+
+    Set<String> props =
+        yaml.keys().stream().map(node -> node.asScalar().value()).collect(Collectors.toSet());
+    props.retainAll(deserializers.keySet());
+    if (props.isEmpty()) {
+      return null;
+    }
     T instance = instanceBuilder.newInstance(ctx).getInstance();
-    deserializers
-        .keySet()
-        .forEach(
-            key -> {
-              if (getPropertyDeserializer(key, ctx).getDeserializer()
-                  instanceof AbstractBeanYAMLDeserializer) {
-                YamlMapping node = yaml.yamlMapping(key);
-                BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
-                Object value =
-                    ((AbstractBeanYAMLDeserializer) propertyDeserializer.getDeserializer())
-                        .deserialize(node, ctx);
-                propertyDeserializer.setValue(instance, value, ctx);
-              } else {
-                getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);
-              }
-            });
+    props.forEach(
+        key -> {
+          if (getPropertyDeserializer(key, ctx).getDeserializer()
+              instanceof AbstractBeanYAMLDeserializer) {
+            YamlMapping node = yaml.yamlMapping(key);
+            BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
+            Object value =
+                ((AbstractBeanYAMLDeserializer) propertyDeserializer.getDeserializer())
+                    .deserialize(node, ctx);
+            propertyDeserializer.setValue(instance, value, ctx);
+          } else {
+            getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);
+          }
+        });
     return instance;
   }
 
   @Override
   public T deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    if (node.type() == Node.MAPPING) {
+      return deserialize(node.asMapping(), ctx);
+    }
     throw new UnsupportedOperationException("Not supported yet.");
   }
 }

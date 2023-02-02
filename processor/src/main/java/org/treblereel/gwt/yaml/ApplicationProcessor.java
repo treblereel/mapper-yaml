@@ -83,8 +83,7 @@ public class ApplicationProcessor extends AbstractProcessor {
     return false;
   }
 
-  private static void addCustomDeserializers(
-      Stream<TypeElement> elements, GenerationContext context) {
+  private void addCustomDeserializers(Stream<TypeElement> elements, GenerationContext context) {
     elements.forEach(
         type ->
             context
@@ -99,8 +98,7 @@ public class ApplicationProcessor extends AbstractProcessor {
                                 MoreTypes.asTypeElement(serializer))));
   }
 
-  private static void addCustomSerializers(
-      Stream<TypeElement> elements, GenerationContext context) {
+  private void addCustomSerializers(Stream<TypeElement> elements, GenerationContext context) {
     elements.forEach(
         type ->
             context

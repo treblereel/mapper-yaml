@@ -91,10 +91,6 @@ public class YamlTypeSerializerHierarchyTest {
             + "    - ccc";
 
     assertEquals(expected, result);
-
-    System.out.println(
-        "result: " + mapper.read(expected).nested.value.getClass().getCanonicalName());
-
     assertArrayEquals(array, (String[]) mapper.read(expected).nested.value);
   }
 

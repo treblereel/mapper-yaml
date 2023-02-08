@@ -19,6 +19,8 @@ package org.treblereel.gwt.yaml.tests.annotations;
 import static org.junit.Assert.assertEquals;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import elemental2.core.JsObject;
+import jsinterop.annotations.JsType;
 import org.junit.Test;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
@@ -69,5 +71,26 @@ public class YamlTransientTest {
     public void setAddress(String address) {
       this.address = address;
     }
+  }
+
+  @YAMLMapper
+  public static class Tested2 extends Tested3 {
+
+    private String id;
+    private transient String name;
+
+    public String getId() {
+      return id;
+    }
+
+    public void setId(String id) {
+      this.id = id;
+    }
+  }
+
+  @JsType
+  public static class Tested3 {
+
+    @YamlTransient private JsObject obj;
   }
 }

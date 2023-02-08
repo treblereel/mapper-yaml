@@ -73,7 +73,11 @@ public class BeanProcessor {
   private void processBean(TypeElement bean) {
     if (!(beans.contains(bean) || typeUtils.isObject(bean.asType()))) {
       beans.add(checkBean(bean));
-      context.getTypeUtils().getAllFieldsIn(bean).forEach(this::processField);
+      context.getTypeUtils().getAllFieldsIn(bean).stream()
+          .filter(field -> field.getAnnotation(YamlTransient.class) == null)
+          .filter(field -> !field.getModifiers().contains(Modifier.STATIC))
+          .filter(field -> !field.getModifiers().contains(Modifier.TRANSIENT))
+          .forEach(this::processField);
     }
   }
 

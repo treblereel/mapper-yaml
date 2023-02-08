@@ -96,7 +96,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
    * object.
    */
   public final T deserializeInline(YamlMapping yaml, YAMLDeserializationContext ctx) {
-    if (yaml == null) {
+    if (yaml == null || yaml.isEmpty()) {
       return null;
     }
 

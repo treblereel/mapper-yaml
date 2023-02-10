@@ -6,14 +6,14 @@
 <!--  <parent>
     <groupId>org.treblereel.gwt.yaml</groupId>
     <artifactId>tests</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <relativePath>..</relativePath>
   </parent>-->
 
   <groupId>org.treblereel.gwt.jackson</groupId>
   <artifactId>j2cl-tests</artifactId>
   <description>j2cl tests</description>
-  <version>0.1</version>
+  <version>0.2</version>
   <packaging>jar</packaging>
 
   <developers>

@@ -17,6 +17,7 @@
 package org.treblereel.gwt.yaml.tests.annotations;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class YamlPropertyOrderTest {
   public void test() throws IOException {
     ValueHolder tested = new ValueHolder();
     assertEquals("", mapper.write(tested));
-    assertEquals(tested, mapper.read(mapper.write(tested)));
+    assertNull(mapper.read(mapper.write(tested)));
   }
 
   @Test

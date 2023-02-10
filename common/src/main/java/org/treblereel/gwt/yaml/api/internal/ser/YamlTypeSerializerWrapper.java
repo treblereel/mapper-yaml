@@ -42,6 +42,6 @@ public class YamlTypeSerializerWrapper<T> extends AbstractBeanYAMLSerializer<T> 
 
   @Override
   public Class getSerializedType() {
-    throw new UnsupportedOperationException("Not implemented");
+    return serializer.getClass();
   }
 }

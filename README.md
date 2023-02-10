@@ -155,6 +155,7 @@ Annotation provides way how to set custom JsonbSerializer/JsonbDeserializer to f
 In this example, the @YamlTypeSerializer annotation is applied to the value field. It specifies that the HolderSerializer class should be used to serialize the data field. The HolderSerializer class implements the YAMLSerializer interface and provides a serialize method that is used to convert the data field to a Node in YAML. Pretty much the same is about @YamlTypeDeserializer.
 
 * field
+* type
 
 ```java
     @YamlTypeSerializer(HolderSerializer.class)

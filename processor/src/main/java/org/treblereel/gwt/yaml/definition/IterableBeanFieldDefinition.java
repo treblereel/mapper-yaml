@@ -23,6 +23,8 @@ import com.github.javaparser.ast.expr.NameExpr;
 import com.google.auto.common.MoreTypes;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
@@ -43,14 +45,20 @@ public class IterableBeanFieldDefinition extends FieldDefinition {
 
     MethodCallExpr method =
         new MethodCallExpr(new NameExpr(serializer.getSimpleName().toString()), "newInstance");
-    MoreTypes.asDeclared(bean)
-        .getTypeArguments()
-        .forEach(
-            param ->
-                method.addArgument(
-                    propertyDefinitionFactory
-                        .getFieldDefinition(param)
-                        .getFieldDeserializer(field, cu)));
+    if (field.hasYamlTypeSerializer()) {
+      method.addArgument(
+          field.getFieldYamlTypeDeserializerCreationExpr(
+              field.getProperty().getAnnotation(YamlTypeDeserializer.class)));
+    } else {
+      MoreTypes.asDeclared(bean)
+          .getTypeArguments()
+          .forEach(
+              param ->
+                  method.addArgument(
+                      propertyDefinitionFactory
+                          .getFieldDefinition(param)
+                          .getFieldDeserializer(field, cu)));
+    }
     return method;
   }
 
@@ -63,9 +71,15 @@ public class IterableBeanFieldDefinition extends FieldDefinition {
 
     MethodCallExpr method =
         new MethodCallExpr(new NameExpr(serializer.getQualifiedName().toString()), "newInstance");
-    for (TypeMirror param : MoreTypes.asDeclared(getBean()).getTypeArguments()) {
+    if (field.hasYamlTypeSerializer()) {
       method.addArgument(
-          propertyDefinitionFactory.getFieldDefinition(param).getFieldSerializer(field, cu));
+          field.getFieldYamlTypeSerializerCreationExpr(
+              field.getProperty().getAnnotation(YamlTypeSerializer.class)));
+    } else {
+      for (TypeMirror param : MoreTypes.asDeclared(getBean()).getTypeArguments()) {
+        method.addArgument(
+            propertyDefinitionFactory.getFieldDefinition(param).getFieldSerializer(field, cu));
+      }
     }
     return method;
   }

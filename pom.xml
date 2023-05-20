@@ -65,7 +65,7 @@
         <auto.common.version>0.11</auto.common.version>
         <auto.service.version>1.0-rc6</auto.service.version>
 
-        <eo-yaml.version>7.0.5</eo-yaml.version>
+        <eo-yaml.version>7.0.8</eo-yaml.version>
         <!-- J2CL deps -->
         <com.google.jsinterop.base.version>1.0.0</com.google.jsinterop.base.version>
         <elemental2.version>1.1.0</elemental2.version>

@@ -13,7 +13,7 @@ import elemental2.dom.HTMLTextAreaElement;
 
 public class App {
 
-    Company_YAMLMapperImpl mapper = Company_YAMLMapperImpl.INSTANCE;
+    Company_YamlMapperImpl mapper = Company_YamlMapperImpl.INSTANCE;
     private HTMLTextAreaElement generatedYAML = (HTMLTextAreaElement) DomGlobal.document.createElement("textarea");
     private HTMLDivElement generatedPOJO = (HTMLDivElement) DomGlobal.document.createElement("div");
 

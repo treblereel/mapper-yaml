@@ -5,5 +5,5 @@
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.amihaiemil.EOYaml"/>
   <inherits name='elemental2.dom.Dom'/>
-  <source path="common" />
+  <source path="api" />
 </module>

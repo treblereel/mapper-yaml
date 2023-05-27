@@ -82,11 +82,21 @@ public class StandardRepresenter extends BaseRepresenter {
     representers.put(boolean[].class, primitiveArray);
 
     this.parentClassRepresenters.put(Number.class, new RepresentNumber());
+
+    this.parentClassRepresenters.put(Integer.class, new RepresentNumber());
+    this.parentClassRepresenters.put(Short.class, new RepresentNumber());
+    this.parentClassRepresenters.put(Byte.class, new RepresentNumber());
+    this.parentClassRepresenters.put(Long.class, new RepresentNumber());
+    this.parentClassRepresenters.put(Float.class, new RepresentNumber());
+    this.parentClassRepresenters.put(Double.class, new RepresentNumber());
+    this.parentClassRepresenters.put(BigInteger.class, new RepresentNumber());
+
     this.parentClassRepresenters.put(List.class, new RepresentList());
     this.parentClassRepresenters.put(ArrayList.class, new RepresentList());
     this.parentClassRepresenters.put(LinkedList.class, new RepresentList());
     this.parentClassRepresenters.put(Map.class, new RepresentMap());
     this.parentClassRepresenters.put(HashMap.class, new RepresentMap());
+    this.parentClassRepresenters.put(LinkedHashMap.class, new RepresentMap());
     this.parentClassRepresenters.put(Set.class, new RepresentSet());
     this.parentClassRepresenters.put(HashSet.class, new RepresentSet());
     this.parentClassRepresenters.put(Iterator.class, new RepresentIterator());

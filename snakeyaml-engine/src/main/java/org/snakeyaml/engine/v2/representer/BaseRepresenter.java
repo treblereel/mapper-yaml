@@ -13,7 +13,6 @@
  */
 package org.snakeyaml.engine.v2.representer;
 
-import elemental2.dom.DomGlobal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
@@ -89,15 +88,6 @@ public abstract class BaseRepresenter {
       // check the parents
       for (Map.Entry<Class<?>, RepresentToNode> parentRepresenterEntry :
           parentClassRepresenters.entrySet()) {
-
-        DomGlobal.console.log(
-            "KEY "
-                + parentRepresenterEntry.getKey()
-                + " "
-                + data.getClass().getCanonicalName()
-                + " "
-                + parentRepresenterEntry.getKey().equals(data.getClass()));
-
         if (parentRepresenterEntry.getKey().equals(data.getClass())) {
           return Optional.of(parentRepresenterEntry.getValue());
         }

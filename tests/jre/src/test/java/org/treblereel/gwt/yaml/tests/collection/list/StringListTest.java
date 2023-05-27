@@ -32,7 +32,7 @@ public class StringListTest {
   private static final StringListTest_StringListBeanTest_YamlMapperImpl mapper =
       StringListTest_StringListBeanTest_YamlMapperImpl.INSTANCE;
   private static final String YAML =
-      "id: \"-1\""
+      "id: -1"
           + System.lineSeparator()
           + "values:"
           + System.lineSeparator()

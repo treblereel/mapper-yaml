@@ -16,11 +16,11 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
-import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /**
  * Default {@link YAMLDeserializer} implementation for 2D array of float.
@@ -39,7 +39,9 @@ public class PrimitiveFloatArray2dYAMLDeserializer
   public float[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Float>> list =
         deserializeIntoList(
-            yaml.yamlSequence(key), ctx, BaseNumberYAMLDeserializer.FloatYAMLDeserializer.INSTANCE);
+            yaml.getSequenceNode(key),
+            ctx,
+            BaseNumberYAMLDeserializer.FloatYAMLDeserializer.INSTANCE);
 
     if (list.isEmpty()) {
       return new float[0][0];

@@ -32,7 +32,7 @@ public class SetTest {
   private static final SetTest_SetBeanTest_YamlMapperImpl mapper =
       SetTest_SetBeanTest_YamlMapperImpl.INSTANCE;
   private static final String YAML =
-      "id: \"-1\""
+      "id: -1"
           + System.lineSeparator()
           + "values:"
           + System.lineSeparator()

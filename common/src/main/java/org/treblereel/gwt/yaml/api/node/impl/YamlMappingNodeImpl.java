@@ -14,28 +14,29 @@
  * limitations under the License.
  */
 
-package org.treblereel.yaml.snake.impl;
+package org.treblereel.gwt.yaml.api.node.impl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.snakeyaml.engine.v2.api.Dump;
 import org.snakeyaml.engine.v2.api.DumpSettings;
-import org.treblereel.gwt.yaml.api.NodeType;
-import org.treblereel.gwt.yaml.api.YamlMappingNode;
-import org.treblereel.gwt.yaml.api.YamlNode;
-import org.treblereel.gwt.yaml.api.YamlScalarNode;
-import org.treblereel.gwt.yaml.api.YamlSequenceNode;
-import org.treblereel.gwt.yaml.api.exception.YamlReadingException;
+import org.treblereel.gwt.yaml.api.exception.YAMLReadingException;
+import org.treblereel.gwt.yaml.api.node.NodeType;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlScalar;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
-class YamlMappingNodeImpl implements YamlMappingNode, Wrappable<Map<String, Object>> {
+class YamlMappingNodeImpl implements YamlMapping, Wrappable<Map<String, Object>> {
 
   private final DumpSettings settings;
 
-  private final Map<String, YamlNode> holder = new HashMap<>();
+  private final Map<String, YamlNode> holder = new LinkedHashMap<>();
 
   YamlMappingNodeImpl() {
     this(DumpSettings.builder().build());
@@ -52,22 +53,24 @@ class YamlMappingNodeImpl implements YamlMappingNode, Wrappable<Map<String, Obje
   @SuppressWarnings("unchecked")
   YamlMappingNodeImpl(DumpSettings settings, Map<String, Object> map) {
     this(settings);
-    for (Entry<String, Object> entry : map.entrySet()) {
-      String k = entry.getKey();
-      Object v = entry.getValue();
-      if (v instanceof Map) {
-        holder.put(k, new YamlMappingNodeImpl(settings, (Map<String, Object>) v));
-      } else if (v instanceof Iterable) {
-        holder.put(k, new YamlSequenceNodeImpl(settings, (List<Object>) v));
-      } else {
-        holder.put(k, new YamlScalarNodeImpl(v.toString()));
+    if (map != null) {
+      for (Entry<String, Object> entry : map.entrySet()) {
+        String k = entry.getKey();
+        Object v = entry.getValue();
+        if (v instanceof Map) {
+          holder.put(k, new YamlMappingNodeImpl(settings, (Map<String, Object>) v));
+        } else if (v instanceof Iterable) {
+          holder.put(k, new YamlSequenceNodeImpl(settings, (List<Object>) v));
+        } else {
+          holder.put(k, new YamlScalarNodeImpl(v));
+        }
       }
     }
   }
 
   @Override
   public Collection<String> keys() {
-    return Collections.unmodifiableCollection(holder.keySet());
+    return new HashSet<>(holder.keySet());
   }
 
   @Override
@@ -76,35 +79,36 @@ class YamlMappingNodeImpl implements YamlMappingNode, Wrappable<Map<String, Obje
   }
 
   @Override
-  public YamlMappingNode mapping(String key) {
+  public YamlMapping getMappingNode(String key) {
     if (holder.containsKey(key)) {
       return holder.get(key).asMapping();
     }
-    throw new YamlReadingException("Key " + key + " not found");
+    throw new YAMLReadingException("Key " + key + " not found");
   }
 
   @Override
-  public YamlSequenceNode sequence(String key) {
+  public YamlSequence getSequenceNode(String key) {
     if (holder.containsKey(key)) {
       return holder.get(key).asSequence();
     }
-    throw new YamlReadingException("Key " + key + " not found");
+    throw new YAMLReadingException("Key " + key + " not found");
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public String string(String key) {
+  public <T> YamlScalar<T> getScalarNode(String key) {
     if (holder.containsKey(key)) {
-      return holder.get(key).asScalar().value();
+      return (YamlScalar<T>) holder.get(key).asScalar();
     }
-    throw new YamlReadingException("Key " + key + " not found");
+    throw new YAMLReadingException("Key " + key + " not found");
   }
 
   @Override
-  public YamlNode value(String key) {
+  public YamlNode getNode(String key) {
     if (holder.containsKey(key)) {
       return holder.get(key);
     }
-    throw new YamlReadingException("Key " + key + " not found");
+    throw new YAMLReadingException("Key " + key + " not found");
   }
 
   @Override
@@ -114,21 +118,21 @@ class YamlMappingNodeImpl implements YamlMappingNode, Wrappable<Map<String, Obje
   }
 
   @Override
-  public YamlScalarNode addScalarNode(String key, String value) {
-    YamlScalarNodeImpl node = new YamlScalarNodeImpl(value);
+  public <T> YamlScalar<T> addScalarNode(String key, T value) {
+    YamlScalarNodeImpl<T> node = new YamlScalarNodeImpl<>(value);
     holder.put(key, node);
     return node;
   }
 
   @Override
-  public YamlSequenceNode addSequenceNode(String key) {
+  public YamlSequence addSequenceNode(String key) {
     YamlSequenceNodeImpl node = new YamlSequenceNodeImpl(settings);
     holder.put(key, node);
     return node;
   }
 
   @Override
-  public YamlMappingNode addMappingNode(String key) {
+  public YamlMapping addMappingNode(String key) {
     YamlMappingNodeImpl node = new YamlMappingNodeImpl(settings);
     holder.put(key, node);
     return node;
@@ -145,29 +149,32 @@ class YamlMappingNodeImpl implements YamlMappingNode, Wrappable<Map<String, Obje
   }
 
   @Override
-  public YamlScalarNode asScalar() throws YamlReadingException {
-    throw new YamlReadingException("Node is not scalar");
+  public <T> YamlScalar<T> asScalar() throws YAMLReadingException {
+    throw new YAMLReadingException("Node is not scalar");
   }
 
   @Override
-  public YamlMappingNode asMapping() throws YamlReadingException {
+  public YamlMapping asMapping() throws YAMLReadingException {
     return this;
   }
 
   @Override
-  public YamlSequenceNode asSequence() throws YamlReadingException {
-    throw new YamlReadingException("Node is not sequence");
+  public YamlSequence asSequence() throws YAMLReadingException {
+    throw new YAMLReadingException("Node is not sequence");
   }
 
   @Override
   public String toString() {
-    return new Dump(settings).dumpToString(unwrap());
+    if (holder.isEmpty()) {
+      return "";
+    }
+    return new Dump(settings).dumpToString(unwrap()).trim();
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public Map<String, Object> unwrap() {
-    Map<String, Object> unwapped = new HashMap<>();
+    Map<String, Object> unwapped = new LinkedHashMap<>();
     for (Entry<String, YamlNode> entry : holder.entrySet()) {
       unwapped.put(entry.getKey(), ((Wrappable<Object>) entry.getValue()).unwrap());
     }

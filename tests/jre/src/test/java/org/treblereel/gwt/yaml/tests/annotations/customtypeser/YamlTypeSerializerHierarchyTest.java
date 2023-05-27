@@ -18,10 +18,6 @@ package org.treblereel.gwt.yaml.tests.annotations.customtypeser;
 
 import static org.junit.Assert.*;
 
-import com.amihaiemil.eoyaml.Node;
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
-import com.amihaiemil.eoyaml.YamlSequence;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,8 +36,10 @@ import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.StringYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.array.ArrayYAMLSerializer;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.NodeType;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 @J2clTestInput(YamlTypeSerializerHierarchyTest.class)
 public class YamlTypeSerializerHierarchyTest {
@@ -278,8 +276,8 @@ public class YamlTypeSerializerHierarchyTest {
     @Override
     public Object deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      if (yaml != null && yaml.value(key) != null) {
-        return deserialize(yaml.value(key), ctx);
+      if (yaml != null && yaml.getNode(key) != null) {
+        return deserialize(yaml.getNode(key), ctx);
       }
       return null;
     }
@@ -287,9 +285,9 @@ public class YamlTypeSerializerHierarchyTest {
     @Override
     public Object deserialize(YamlNode node, YAMLDeserializationContext ctx) {
       if (node != null) {
-        if (node.type() == Node.SCALAR) {
+        if (node.type() == NodeType.SCALAR) {
           return stringYAMLDeserializer.deserialize(node, ctx);
-        } else if (node.type() == Node.SEQUENCE) {
+        } else if (node.type() == NodeType.SEQUENCE) {
           List<String> result1 = new ArrayList<>();
           List<User> result2 = new ArrayList<>();
           YamlSequence sequence = node.asSequence();
@@ -297,7 +295,7 @@ public class YamlTypeSerializerHierarchyTest {
             sequence.values().stream()
                 .forEach(
                     n -> {
-                      if (n.type() == Node.SCALAR) {
+                      if (n.type() == NodeType.SCALAR) {
                         result1.add(stringYAMLDeserializer.deserialize(n, ctx));
                       } else {
                         result2.add(mapper.getDeserializer().deserialize(n, ctx));
@@ -308,7 +306,7 @@ public class YamlTypeSerializerHierarchyTest {
             return result1.toArray(new String[result1.size()]);
           }
           return result2.toArray(new User[result2.size()]);
-        } else if (node.type() == Node.MAPPING) {
+        } else if (node.type() == NodeType.MAPPING) {
           return mapper.getDeserializer().deserialize(node, ctx);
         }
       }
@@ -317,7 +315,7 @@ public class YamlTypeSerializerHierarchyTest {
 
     @Override
     public void serialize(
-        YAMLWriter writer, String propertyName, Object value, YAMLSerializationContext ctx) {
+        YamlMapping writer, String propertyName, Object value, YAMLSerializationContext ctx) {
       if (value instanceof String) {
         stringYAMLSerializer.serialize(writer, propertyName, (String) value, ctx);
       } else if (value instanceof User) {
@@ -332,7 +330,7 @@ public class YamlTypeSerializerHierarchyTest {
     }
 
     @Override
-    public void serialize(YAMLSequenceWriter writer, Object value, YAMLSerializationContext ctx) {
+    public void serialize(YamlSequence writer, Object value, YAMLSerializationContext ctx) {
       if (value instanceof String) {
         stringYAMLSerializer.serialize(writer, (String) value, ctx);
       } else if (value instanceof User) {

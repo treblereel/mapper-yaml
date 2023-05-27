@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Treblereel
+ * Copyright © 2023 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,10 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.node;
 
-import static java.util.Objects.isNull;
-
-/**
- * YAMLContextProvider class.
- *
- * @author vegegoku
- * @version $Id: $Id
- */
-public class YAMLContextProvider {
-
-  static YAMLContext yamlContext;
-
-  /**
-   * get.
-   *
-   * @return a {@link YAMLContext} object.
-   */
-  public static YAMLContext get() {
-    if (isNull(yamlContext)) initContext();
-    return yamlContext;
-  }
-
-  private static void initContext() {
-    yamlContext = new YAMLContext() {};
-  }
+public enum NodeType {
+  SCALAR,
+  MAPPING,
+  SEQUENCE
 }

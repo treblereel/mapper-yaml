@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.node;
 
-public enum NodeType {
-  SCALAR,
-  MAPPING,
-  SEQUENCE
+public interface YamlScalar<T> extends YamlNode {
+
+  T value();
 }

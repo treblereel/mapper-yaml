@@ -30,7 +30,7 @@ public class IntTest {
 
   private static final String YAML_0 = "value: 0";
   private static final String YAML_17222 = "value: 17222";
-  private static final String YAML__17222 = "value: \"-17222\"";
+  private static final String YAML__17222 = "value: -17222";
 
   private IntTest_IntType_YamlMapperImpl mapper = IntTest_IntType_YamlMapperImpl.INSTANCE;
 

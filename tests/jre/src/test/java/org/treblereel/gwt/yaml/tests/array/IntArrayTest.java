@@ -46,7 +46,7 @@ public class IntArrayTest {
             + System.lineSeparator()
             + "  - 32223"
             + System.lineSeparator()
-            + "  - \"-6226\"",
+            + "  - -6226",
         yaml);
   }
 

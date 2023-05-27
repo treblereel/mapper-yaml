@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.treblereel.yaml.snake.impl;
+package org.treblereel.gwt.yaml.api.node.impl;
 
-import org.treblereel.gwt.yaml.api.NodeType;
-import org.treblereel.gwt.yaml.api.YamlMappingNode;
-import org.treblereel.gwt.yaml.api.YamlScalarNode;
-import org.treblereel.gwt.yaml.api.YamlSequenceNode;
-import org.treblereel.gwt.yaml.api.exception.YamlReadingException;
+import org.treblereel.gwt.yaml.api.exception.YAMLReadingException;
+import org.treblereel.gwt.yaml.api.node.NodeType;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlScalar;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
-class YamlScalarNodeImpl implements YamlScalarNode, Wrappable<String> {
+class YamlScalarNodeImpl<T> implements YamlScalar<T>, Wrappable<T> {
 
-  private final String value;
+  private final T value;
 
-  YamlScalarNodeImpl(String value) {
+  YamlScalarNodeImpl(T value) {
     this.value = value;
   }
 
@@ -41,27 +41,27 @@ class YamlScalarNodeImpl implements YamlScalarNode, Wrappable<String> {
   }
 
   @Override
-  public YamlScalarNode asScalar() throws YamlReadingException {
+  public YamlScalar<T> asScalar() throws YAMLReadingException {
     return this;
   }
 
   @Override
-  public YamlMappingNode asMapping() throws YamlReadingException {
-    throw new YamlReadingException("Can't convert scalar to mapping");
+  public YamlMapping asMapping() throws YAMLReadingException {
+    throw new YAMLReadingException("Can't convert scalar to mapping");
   }
 
   @Override
-  public YamlSequenceNode asSequence() throws YamlReadingException {
-    throw new YamlReadingException("Can't convert scalar to sequence");
+  public YamlSequence asSequence() throws YAMLReadingException {
+    throw new YAMLReadingException("Can't convert scalar to sequence");
   }
 
   @Override
-  public String value() {
+  public T value() {
     return value;
   }
 
   @Override
-  public String unwrap() {
+  public T unwrap() {
     return value;
   }
 }

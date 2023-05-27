@@ -14,9 +14,29 @@
  * limitations under the License.
  */
 
-package org.treblereel.yaml.snake.impl;
+package org.treblereel.gwt.yaml.api.node;
 
-public interface Wrappable<T> {
+import java.util.Collection;
 
-  T unwrap();
+public interface YamlMapping extends YamlNode {
+
+  Collection<String> keys();
+
+  Collection<YamlNode> values();
+
+  YamlMapping getMappingNode(String key);
+
+  YamlSequence getSequenceNode(String key);
+
+  <T> YamlScalar<T> getScalarNode(String key);
+
+  YamlNode getNode(String key);
+
+  YamlNode addNode(String key, YamlNode node);
+
+  <T> YamlScalar<T> addScalarNode(String key, T value);
+
+  YamlSequence addSequenceNode(String key);
+
+  YamlMapping addMappingNode(String key);
 }

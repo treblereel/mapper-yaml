@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.treblereel.yaml.snake.impl;
+package org.treblereel.gwt.yaml.api.node.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,14 +24,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.snakeyaml.engine.v2.api.DumpSettings;
-import org.treblereel.gwt.yaml.api.NodeType;
-import org.treblereel.gwt.yaml.api.YamlMappingNode;
-import org.treblereel.gwt.yaml.api.YamlNode;
-import org.treblereel.gwt.yaml.api.YamlScalarNode;
-import org.treblereel.gwt.yaml.api.YamlSequenceNode;
-import org.treblereel.gwt.yaml.api.exception.YamlReadingException;
+import org.treblereel.gwt.yaml.api.exception.YAMLReadingException;
+import org.treblereel.gwt.yaml.api.node.NodeType;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlScalar;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
-class YamlSequenceNodeImpl implements YamlSequenceNode, Wrappable<List<Object>> {
+class YamlSequenceNodeImpl implements YamlSequence, Wrappable<List<Object>> {
 
   private final List<YamlNode> nodes = new ArrayList<>();
 
@@ -50,7 +50,7 @@ class YamlSequenceNodeImpl implements YamlSequenceNode, Wrappable<List<Object>> 
       } else if (l instanceof Iterable) {
         nodes.add(new YamlSequenceNodeImpl(settings, (List<Object>) l));
       } else {
-        nodes.add(new YamlScalarNodeImpl(l.toString()));
+        nodes.add(new YamlScalarNodeImpl(l));
       }
     }
   }
@@ -66,17 +66,17 @@ class YamlSequenceNodeImpl implements YamlSequenceNode, Wrappable<List<Object>> 
   }
 
   @Override
-  public YamlScalarNode asScalar() throws YamlReadingException {
-    throw new YamlReadingException("Can't convert sequence to scalar");
+  public YamlScalar asScalar() throws YAMLReadingException {
+    throw new YAMLReadingException("Can't convert sequence to scalar");
   }
 
   @Override
-  public YamlMappingNode asMapping() throws YamlReadingException {
-    throw new YamlReadingException("Can't convert sequence to mapping");
+  public YamlMapping asMapping() throws YAMLReadingException {
+    throw new YAMLReadingException("Can't convert sequence to mapping");
   }
 
   @Override
-  public YamlSequenceNode asSequence() throws YamlReadingException {
+  public YamlSequence asSequence() throws YAMLReadingException {
     return this;
   }
 
@@ -96,27 +96,28 @@ class YamlSequenceNodeImpl implements YamlSequenceNode, Wrappable<List<Object>> 
   }
 
   @Override
-  public YamlMappingNode mapping(int index) {
+  public YamlMapping mapping(int index) {
     if (index < nodes.size() && nodes.get(index).type() == NodeType.MAPPING) {
       return nodes.get(index).asMapping();
     }
-    throw new YamlReadingException("Can't convert sequence to mapping");
+    throw new YAMLReadingException("Can't convert sequence to mapping");
   }
 
   @Override
-  public YamlSequenceNode sequence(int index) {
+  public YamlSequence sequence(int index) {
     if (index < nodes.size() && nodes.get(index).type() == NodeType.SEQUENCE) {
       return nodes.get(index).asSequence();
     }
-    throw new YamlReadingException("Can't convert sequence to sequence");
+    throw new YAMLReadingException("Can't convert sequence to sequence");
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public String string(int index) {
+  public <T> T scalar(int index) {
     if (index < nodes.size() && nodes.get(index).type() == NodeType.SCALAR) {
-      return nodes.get(index).asScalar().value();
+      return (T) nodes.get(index).asScalar().value();
     }
-    throw new YamlReadingException("Can't convert sequence to string");
+    throw new YAMLReadingException("Can't convert sequence to string");
   }
 
   @Override
@@ -126,14 +127,14 @@ class YamlSequenceNodeImpl implements YamlSequenceNode, Wrappable<List<Object>> 
   }
 
   @Override
-  public YamlScalarNode addScalarNode(String value) {
-    YamlScalarNodeImpl node = new YamlScalarNodeImpl(value);
+  public <T> YamlScalar addScalarNode(T value) {
+    YamlScalarNodeImpl<T> node = new YamlScalarNodeImpl<>(value);
     nodes.add(node);
     return node;
   }
 
   @Override
-  public YamlMappingNode addMappingNode(String key) {
+  public YamlMapping addMappingNode() {
     YamlMappingNodeImpl node = new YamlMappingNodeImpl(settings);
     nodes.add(node);
     return node;

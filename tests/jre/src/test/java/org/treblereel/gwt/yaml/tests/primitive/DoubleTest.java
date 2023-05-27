@@ -30,7 +30,7 @@ public class DoubleTest {
 
   private static final String YAML_0 = "value: 0";
   private static final String YAML_17222 = "value: 17222.0";
-  private static final String YAML__17222 = "value: \"-17222.0\"";
+  private static final String YAML__17222 = "value: -17222.0";
 
   private DoubleTest_DoubleType_YamlMapperImpl mapper =
       DoubleTest_DoubleType_YamlMapperImpl.INSTANCE;

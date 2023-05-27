@@ -14,19 +14,9 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.node.impl;
 
-import org.treblereel.gwt.yaml.api.exception.YamlReadingException;
+public interface Wrappable<T> {
 
-public interface YamlNode {
-
-  boolean isEmpty();
-
-  NodeType type();
-
-  YamlScalarNode asScalar() throws YamlReadingException;
-
-  YamlMappingNode asMapping() throws YamlReadingException;
-
-  YamlSequenceNode asSequence() throws YamlReadingException;
+  T unwrap();
 }

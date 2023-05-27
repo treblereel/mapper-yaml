@@ -65,7 +65,8 @@
         <auto.common.version>0.11</auto.common.version>
         <auto.service.version>1.0-rc6</auto.service.version>
 
-        <eo-yaml.version>7.0.8.1</eo-yaml.version>
+        <gwt.nio.version>1.1</gwt.nio.version>
+        <gwt.jakarta.version>0.3</gwt.jakarta.version>
         <!-- J2CL deps -->
         <com.google.jsinterop.base.version>1.0.0</com.google.jsinterop.base.version>
         <elemental2.version>1.1.0</elemental2.version>
@@ -75,11 +76,10 @@
     </properties>
 
     <modules>
+        <module>snakeyaml-engine</module>
         <module>common</module>
         <module>processor</module>
         <module>tests</module>
-        <module>api</module>
-        <module>snakeyaml-engine</module>
     </modules>
 
     <dependencyManagement>
@@ -100,11 +100,6 @@
                 <version>${com.google.jsinterop.base.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.treblereel.gwt.yaml</groupId>
-                <artifactId>eo-yaml</artifactId>
-                <version>${eo-yaml.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.auto</groupId>
                 <artifactId>auto-common</artifactId>
                 <version>${auto.common.version}</version>
@@ -113,6 +108,18 @@
                 <groupId>com.google.auto.service</groupId>
                 <artifactId>auto-service</artifactId>
                 <version>${auto.service.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.treblereel.gwt.jakarta</groupId>
+                <artifactId>bom</artifactId>
+                <version>${gwt.jakarta.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.treblereel.gwt.nio</groupId>
+                <artifactId>gwt-nio</artifactId>
+                <version>${gwt.nio.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.javaparser</groupId>

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 import java.io.IOException;
+import java.util.Arrays;
 import org.junit.Test;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 
@@ -31,22 +32,24 @@ public class CharArrayTest {
 
   private static final char[] values = new char[] {'a', 'z', 'F', '!'};
 
+  private static final String YAML =
+      "values:"
+          + System.lineSeparator()
+          + "  - a"
+          + System.lineSeparator()
+          + "  - z"
+          + System.lineSeparator()
+          + "  - F"
+          + System.lineSeparator()
+          + "  - '!'";
+
   @Test
   public void testSerializeValue() throws IOException {
     CharArrayTest.CharArray array = new CharArrayTest.CharArray();
     array.setValues(values);
     String yaml = mapper.write(array);
-    assertEquals(
-        "values:"
-            + System.lineSeparator()
-            + "  - a"
-            + System.lineSeparator()
-            + "  - z"
-            + System.lineSeparator()
-            + "  - F"
-            + System.lineSeparator()
-            + "  - !",
-        yaml);
+    assertEquals(YAML, yaml);
+    assertEquals(array, mapper.read(yaml));
   }
 
   @Test
@@ -68,6 +71,19 @@ public class CharArrayTest {
 
     public void setValues(char[] values) {
       this.values = values;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      CharArray charArray = (CharArray) o;
+      return Arrays.equals(values, charArray.values);
+    }
+
+    @Override
+    public int hashCode() {
+      return Arrays.hashCode(values);
     }
   }
 }

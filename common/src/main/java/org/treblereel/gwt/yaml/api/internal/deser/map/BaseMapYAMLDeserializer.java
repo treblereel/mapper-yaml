@@ -16,11 +16,11 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.map;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
 
 /**
  * Base {@link YAMLDeserializer} implementation for {@link java.util.Map}.

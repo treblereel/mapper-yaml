@@ -58,9 +58,6 @@ public class WhenThenRuleTest {
     tested.setOff(off);
 
     String result = mapper.write(tested);
-
-    System.out.println(result);
-
     assertEquals(yaml, result);
     assertEquals(tested, mapper.read(result));
   }

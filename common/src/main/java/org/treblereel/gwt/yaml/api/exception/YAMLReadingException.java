@@ -14,29 +14,24 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.exception;
 
-import java.util.Collection;
+public class YAMLReadingException extends RuntimeException {
 
-public interface YamlMappingNode extends YamlNode {
+  public YAMLReadingException(String message) {
+    super(message);
+  }
 
-  Collection<String> keys();
+  public YAMLReadingException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-  Collection<YamlNode> values();
+  public YAMLReadingException(Throwable cause) {
+    super(cause);
+  }
 
-  YamlMappingNode mapping(String key);
-
-  YamlSequenceNode sequence(String key);
-
-  String string(String key);
-
-  YamlNode value(String key);
-
-  YamlNode addNode(String key, YamlNode node);
-
-  YamlScalarNode addScalarNode(String key, String value);
-
-  YamlSequenceNode addSequenceNode(String key);
-
-  YamlMappingNode addMappingNode(String key);
+  public YAMLReadingException(
+      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

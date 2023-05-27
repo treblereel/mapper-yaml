@@ -18,8 +18,6 @@ package org.treblereel.gwt.yaml.tests.annotations;
 
 import static org.junit.Assert.assertEquals;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import java.io.IOException;
 import java.util.Locale;
@@ -32,8 +30,9 @@ import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 @J2clTestInput(YamlTypeSerializerWithAnnotatedTypeTest.class)
 public class YamlTypeSerializerWithAnnotatedTypeTest {
@@ -94,20 +93,19 @@ public class YamlTypeSerializerWithAnnotatedTypeTest {
 
     @Override
     public void serialize(
-        YAMLWriter writer, String propertyName, ValueHolder value, YAMLSerializationContext ctx) {
-      writer.value(propertyName, value.value.toUpperCase(Locale.ROOT));
+        YamlMapping writer, String propertyName, ValueHolder value, YAMLSerializationContext ctx) {
+      writer.addScalarNode(propertyName, value.value.toUpperCase(Locale.ROOT));
     }
 
     @Override
-    public void serialize(
-        YAMLSequenceWriter writer, ValueHolder value, YAMLSerializationContext ctx) {
-      writer.value(value.value.toUpperCase(Locale.ROOT));
+    public void serialize(YamlSequence writer, ValueHolder value, YAMLSerializationContext ctx) {
+      writer.addScalarNode(value.value.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public ValueHolder deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
         throws YAMLDeserializationException {
-      return deserialize(yaml.value(key), ctx);
+      return deserialize(yaml.getNode(key), ctx);
     }
 
     @Override
@@ -116,7 +114,7 @@ public class YamlTypeSerializerWithAnnotatedTypeTest {
         return null;
       }
       ValueHolder holder = new ValueHolder();
-      holder.value = value.asScalar().value().toLowerCase(Locale.ROOT);
+      holder.value = value.<String>asScalar().value().toLowerCase(Locale.ROOT);
       return holder;
     }
   }

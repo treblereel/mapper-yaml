@@ -30,7 +30,7 @@ public class LongTest {
 
   private static final String YAML_0 = "value: 0";
   private static final String YAML_17222 = "value: 17222";
-  private static final String YAML__17222 = "value: \"-17222\"";
+  private static final String YAML__17222 = "value: -17222";
 
   private LongTest_LongType_YamlMapperImpl mapper = LongTest_LongType_YamlMapperImpl.INSTANCE;
 

@@ -16,9 +16,6 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
-import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -26,6 +23,9 @@ import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Base {@link YAMLDeserializer} implementation for {@link java.util.Collection}.
@@ -51,7 +51,7 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
   /** {@inheritDoc} */
   @Override
   public C deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    return deserialize(yaml.yamlSequence(key), ctx);
+    return deserialize(yaml.getSequenceNode(key), ctx);
   }
 
   protected C deserialize(YamlSequence sequence, YAMLDeserializationContext ctx) {
@@ -62,8 +62,7 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
     if (deserializer instanceof AbstractBeanYAMLDeserializer) {
       for (int i = 0; i < sequence.size(); i++) {
         list.add(
-            ((AbstractBeanYAMLDeserializer<T>) deserializer)
-                .deserialize(sequence.yamlMapping(i), ctx));
+            ((AbstractBeanYAMLDeserializer<T>) deserializer).deserialize(sequence.mapping(i), ctx));
       }
     } else {
       Iterator<YamlNode> iterator = sequence.iterator();

@@ -14,33 +14,33 @@
  * limitations under the License.
  */
 
-package org.treblereel.yaml.snake.impl;
+package org.treblereel.gwt.yaml.api.node.impl;
 
 import java.util.Map;
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.api.Load;
 import org.snakeyaml.engine.v2.api.LoadSettings;
-import org.treblereel.gwt.yaml.api.YamlMappingNode;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 public class Yaml {
 
   private Yaml() {}
 
-  public static YamlMappingNode create() {
+  public static YamlMapping create() {
     return new YamlMappingNodeImpl();
   }
 
-  public static YamlMappingNode create(DumpSettings settings) {
+  public static YamlMapping create(DumpSettings settings) {
     return new YamlMappingNodeImpl(settings);
   }
 
-  public static YamlMappingNode fromString(String yaml) {
+  public static YamlMapping fromString(String yaml) {
     LoadSettings settings = LoadSettings.builder().build();
     return fromString(settings, yaml);
   }
 
   @SuppressWarnings("unchecked")
-  public static YamlMappingNode fromString(LoadSettings settings, String yaml) {
+  public static YamlMapping fromString(LoadSettings settings, String yaml) {
     Load load = new Load(settings);
     Map<String, Object> map = (Map<String, Object>) load.loadFromString(yaml);
     return new YamlMappingNodeImpl(map);

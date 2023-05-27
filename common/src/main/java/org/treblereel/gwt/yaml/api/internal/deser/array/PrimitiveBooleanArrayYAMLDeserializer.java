@@ -16,12 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BooleanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of boolean.
@@ -40,7 +40,7 @@ public class PrimitiveBooleanArrayYAMLDeserializer
   public boolean[] doDeserializeArray(
       YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Boolean> list =
-        deserializeIntoList(yaml.yamlSequence(key), BooleanYAMLDeserializer.INSTANCE, ctx);
+        deserializeIntoList(yaml.getSequenceNode(key), BooleanYAMLDeserializer.INSTANCE, ctx);
 
     boolean[] result = new boolean[list.size()];
     int i = 0;

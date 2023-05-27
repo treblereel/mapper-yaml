@@ -30,7 +30,7 @@ public class FloatArrayTest {
   private static final FloatArrayTest_FloatArray_YamlMapperImpl mapper =
       FloatArrayTest_FloatArray_YamlMapperImpl.INSTANCE;
 
-  private static final float[] values = new float[] {17222f, 2111.34f, 32223.34f, 6226.37f};
+  private static final float[] values = new float[] {17222f, 2111.34f, 32223.34f, -6226.37f};
 
   @Test
   public void testSerializeValue() throws IOException {
@@ -47,7 +47,7 @@ public class FloatArrayTest {
             + System.lineSeparator()
             + "  - 32223.34"
             + System.lineSeparator()
-            + "  - 6226.37",
+            + "  - -6226.37",
         yaml);
   }
 

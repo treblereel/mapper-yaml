@@ -33,7 +33,7 @@ public class EnumListTest {
   private static final EnumListTest_EnumListBeanTest_YamlMapperImpl mapper =
       EnumListTest_EnumListBeanTest_YamlMapperImpl.INSTANCE;
   private static final String YAML =
-      "id: \"-1\""
+      "id: -1"
           + System.lineSeparator()
           + "values:"
           + System.lineSeparator()

@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api;
+package org.treblereel.gwt.yaml.api.node;
 
-import java.util.Collection;
-import java.util.Iterator;
+import org.treblereel.gwt.yaml.api.exception.YAMLReadingException;
 
-public interface YamlSequenceNode extends YamlNode, Iterable<YamlNode> {
+public interface YamlNode {
 
-  int size();
+  boolean isEmpty();
 
-  Collection<YamlNode> values();
+  NodeType type();
 
-  Iterator<YamlNode> iterator();
+  <T> YamlScalar<T> asScalar() throws YAMLReadingException;
 
-  YamlMappingNode mapping(int index);
+  YamlMapping asMapping() throws YAMLReadingException;
 
-  YamlSequenceNode sequence(int index);
-
-  String string(int index);
-
-  YamlNode addNode(YamlNode node);
-
-  YamlScalarNode addScalarNode(String value);
-
-  YamlMappingNode addMappingNode(String key);
+  YamlSequence asSequence() throws YAMLReadingException;
 }

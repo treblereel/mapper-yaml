@@ -16,36 +16,34 @@
 
 package org.treblereel.gwt.yaml.tests.annotations.customtypeser;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import java.util.Locale;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 public class HolderSerializer
     implements YAMLSerializer<ValueHolder>, YAMLDeserializer<ValueHolder> {
 
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, ValueHolder value, YAMLSerializationContext ctx) {
-    writer.value(propertyName, value.getValue().toUpperCase(Locale.ROOT));
+      YamlMapping writer, String propertyName, ValueHolder value, YAMLSerializationContext ctx) {
+    writer.addScalarNode(propertyName, value.getValue().toUpperCase(Locale.ROOT));
   }
 
   @Override
-  public void serialize(
-      YAMLSequenceWriter writer, ValueHolder value, YAMLSerializationContext ctx) {
-    writer.value(value.getValue().toUpperCase(Locale.ROOT));
+  public void serialize(YamlSequence writer, ValueHolder value, YAMLSerializationContext ctx) {
+    writer.addScalarNode(value.getValue().toUpperCase(Locale.ROOT));
   }
 
   @Override
   public ValueHolder deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx)
       throws YAMLDeserializationException {
-    return deserialize(yaml.value(key), ctx);
+    return deserialize(yaml.getNode(key), ctx);
   }
 
   @Override
@@ -54,7 +52,7 @@ public class HolderSerializer
       return null;
     }
     ValueHolder holder = new ValueHolder();
-    holder.setValue(value.asScalar().value().toLowerCase(Locale.ROOT));
+    holder.setValue(value.<String>asScalar().value().toLowerCase(Locale.ROOT));
     return holder;
   }
 }

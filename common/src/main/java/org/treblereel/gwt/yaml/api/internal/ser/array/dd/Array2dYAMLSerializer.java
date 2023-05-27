@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.ser.array.dd;
 
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for 2D array.
@@ -71,12 +71,12 @@ public class Array2dYAMLSerializer<T> extends AbstractYAMLSerializer<T[][]> {
 
   /** {@inheritDoc} */
   @Override
-  public void doSerialize(YAMLWriter writer, T[][] values, YAMLSerializationContext ctx) {
+  public void doSerialize(YamlMapping writer, T[][] values, YAMLSerializationContext ctx) {
     throw new UnsupportedOperationException("Not implemented");
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, T[][] value, YAMLSerializationContext ctx) {
+  public void serialize(YamlSequence writer, T[][] value, YAMLSerializationContext ctx) {
     throw new UnsupportedOperationException("Not implemented");
   }
 }

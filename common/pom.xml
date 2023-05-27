@@ -46,8 +46,9 @@
             <artifactId>elemental2-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.treblereel.gwt.yaml</groupId>
-            <artifactId>eo-yaml</artifactId>
+            <groupId>org.treblereel.gwt.yaml.mapper</groupId>
+            <artifactId>snakeyaml-engine</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

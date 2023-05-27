@@ -16,9 +16,9 @@
 
 package org.treblereel.gwt.yaml.api;
 
-import com.amihaiemil.eoyaml.Yaml;
-import com.amihaiemil.eoyaml.YamlMapping;
 import java.io.IOException;
+import org.snakeyaml.engine.v2.api.DumpSettings;
+import org.snakeyaml.engine.v2.common.FlowStyle;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.DefaultYAMLDeserializationContext;
@@ -26,7 +26,8 @@ import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.impl.Yaml;
 
 public abstract class AbstractObjectMapper<T> {
 
@@ -34,24 +35,17 @@ public abstract class AbstractObjectMapper<T> {
 
   private YAMLSerializer<T> serializer;
 
-  /** {@inheritDoc} */
   public T read(String in) throws YAMLDeserializationException, IOException {
     YAMLDeserializationContext context = DefaultYAMLDeserializationContext.builder().build();
     return read(in, context);
   }
 
-  /** {@inheritDoc} */
   public T read(String in, YAMLDeserializationContext ctx)
       throws YAMLDeserializationException, IOException {
-    YamlMapping reader = Yaml.createYamlInput(in).readYamlMapping();
+    YamlMapping reader = Yaml.fromString(in);
     return ((AbstractBeanYAMLDeserializer<T>) getDeserializer()).deserializeInline(reader, ctx);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * <p>Getter for the field <code>deserializer</code>.
-   */
   public YAMLDeserializer<T> getDeserializer() {
     if (null == deserializer) {
       deserializer = newDeserializer();
@@ -59,38 +53,28 @@ public abstract class AbstractObjectMapper<T> {
     return deserializer;
   }
 
-  /**
-   * Instantiates a new deserializer
-   *
-   * @return a new deserializer
-   */
   protected abstract YAMLDeserializer<T> newDeserializer();
 
-  /** {@inheritDoc} */
   public String write(T value) throws YAMLSerializationException {
     YAMLSerializationContext yamlSerializationContext =
         DefaultYAMLSerializationContext.builder().build();
     return write(value, yamlSerializationContext);
   }
 
-  /** {@inheritDoc} */
   public String write(T value, YAMLSerializationContext ctx) throws YAMLSerializationException {
-    YAMLWriter writer = ctx.newYAMLWriter();
-    try {
-      ((AbstractBeanYAMLSerializer) getSerializer()).serializeInternally(writer, value, ctx);
-      return writer.getOutput();
-    } catch (YAMLSerializationException e) {
-      throw new Error(e);
-    } catch (Exception e) {
-      throw new Error(e);
-    }
+    DumpSettings settings =
+        DumpSettings.builder()
+            .setDefaultFlowStyle(FlowStyle.BLOCK)
+            .setIndent(2)
+            .setIndicatorIndent(2)
+            .setIndentWithIndicator(true)
+            .build();
+    YamlMapping writer = Yaml.create(settings);
+    ((AbstractBeanYAMLSerializer<T>) getSerializer()).serializeInternally(writer, value, ctx);
+    return writer.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * <p>Getter for the field <code>serializer</code>.
-   */
+  @SuppressWarnings("unchecked")
   public YAMLSerializer<T> getSerializer() {
     if (null == serializer) {
       serializer = (YAMLSerializer<T>) newSerializer();
@@ -98,10 +82,5 @@ public abstract class AbstractObjectMapper<T> {
     return serializer;
   }
 
-  /**
-   * Instantiates a new serializer
-   *
-   * @return a new serializer
-   */
   protected abstract YAMLSerializer<?> newSerializer();
 }

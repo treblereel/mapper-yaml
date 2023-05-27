@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.bean.AbstractBeanYAMLSerializer;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 public class YamlTypeSerializerWrapper<T> extends AbstractBeanYAMLSerializer<T> {
 
@@ -31,17 +31,17 @@ public class YamlTypeSerializerWrapper<T> extends AbstractBeanYAMLSerializer<T> 
 
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, T value, YAMLSerializationContext ctx) {
+      YamlMapping writer, String propertyName, T value, YAMLSerializationContext ctx) {
     serializer.serialize(writer, propertyName, value, ctx);
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, T value, YAMLSerializationContext ctx) {
+  public void serialize(YamlSequence writer, T value, YAMLSerializationContext ctx) {
     serializer.serialize(writer, value, ctx);
   }
 
   @Override
-  public Class getSerializedType() {
+  public Class<?> getSerializedType() {
     return serializer.getClass();
   }
 }

@@ -3,7 +3,8 @@
     "http://gwtproject.org/doctype/2.8.2/gwt-module.dtd">
 <module>
   <inherits name="com.google.gwt.user.User"/>
-  <inherits name="java.nio.Nio"/>
   <inherits name="elemental2.dom.Dom"/>
+  <inherits name="org.treblereel.gwt.emul.Stdlib"/>
+  <inherits name="org.gwtproject.nio.Nio"/>
   <source path="engine" />
 </module>

@@ -227,6 +227,7 @@
                         <exclude>**/gwt-unitcache</exclude>
                         <exclude>**/*.html</exclude>
                         <exclude>**/*.css</exclude>
+                        <exclude>**/*.txt</exclude>
                         <exclude>**/*.xml</exclude>
                         <exclude>samples/</exclude>
                     </excludes>

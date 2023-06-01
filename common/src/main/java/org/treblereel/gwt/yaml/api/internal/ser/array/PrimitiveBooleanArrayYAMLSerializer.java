@@ -28,7 +28,7 @@ import org.treblereel.gwt.yaml.api.node.YamlSequence;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class PrimitiveBooleanArrayYAMLSerializer extends BasicArrayYAMLSerializer<boolean[]> {
+public class PrimitiveBooleanArrayYAMLSerializer extends AbstractYAMLSerializer<boolean[]> {
 
   public static final PrimitiveBooleanArrayYAMLSerializer INSTANCE =
       new PrimitiveBooleanArrayYAMLSerializer();
@@ -45,14 +45,14 @@ public class PrimitiveBooleanArrayYAMLSerializer extends BasicArrayYAMLSerialize
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, boolean[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.addScalarNode(propertyName, null);
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new boolean[] {});
+      }
       return;
     }
-    YamlSequence YamlSequence = writer.addSequenceNode(propertyName);
-    for (boolean value : values) {
-      serializer.serialize(YamlSequence, value, ctx);
-    }
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
+    serialize(yamlSequence, values, ctx);
   }
 
   @Override

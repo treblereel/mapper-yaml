@@ -33,6 +33,8 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
 
   <T> T scalar(int index);
 
+  YamlNode node(int index);
+
   YamlNode addNode(YamlNode node);
 
   <T> YamlScalar<T> addScalarNode(T value);

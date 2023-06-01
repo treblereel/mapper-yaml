@@ -28,7 +28,7 @@ import org.treblereel.gwt.yaml.api.node.YamlSequence;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class PrimitiveFloatArrayYAMLSerializer extends BasicArrayYAMLSerializer<float[]> {
+public class PrimitiveFloatArrayYAMLSerializer extends AbstractYAMLSerializer<float[]> {
 
   public static final PrimitiveFloatArrayYAMLSerializer INSTANCE =
       new PrimitiveFloatArrayYAMLSerializer();
@@ -45,20 +45,20 @@ public class PrimitiveFloatArrayYAMLSerializer extends BasicArrayYAMLSerializer<
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, float[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.addScalarNode(propertyName, null);
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new float[] {});
+      }
       return;
     }
     YamlSequence YamlSequence = writer.addSequenceNode(propertyName);
-    for (float value : values) {
-      serializer.serialize(YamlSequence, value, ctx);
-    }
+    serialize(YamlSequence, values, ctx);
   }
 
   @Override
   public void serialize(YamlSequence writer, float[] value, YAMLSerializationContext ctx) {
     for (float o : value) {
-      serializer.serialize(writer, o, ctx);
+      writer.addScalarNode(o);
     }
   }
 }

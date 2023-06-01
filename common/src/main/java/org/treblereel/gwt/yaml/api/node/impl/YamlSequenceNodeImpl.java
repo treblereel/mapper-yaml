@@ -117,7 +117,15 @@ class YamlSequenceNodeImpl implements YamlSequence, Wrappable<List<Object>> {
     if (index < nodes.size() && nodes.get(index).type() == NodeType.SCALAR) {
       return (T) nodes.get(index).asScalar().value();
     }
-    throw new YAMLReadingException("Can't convert sequence to string");
+    throw new YAMLReadingException("Can't convert sequence to scalar");
+  }
+
+  @Override
+  public YamlNode node(int index) {
+    if (index < nodes.size()) {
+      return nodes.get(index);
+    }
+    throw new YAMLReadingException("Index out of bound");
   }
 
   @Override

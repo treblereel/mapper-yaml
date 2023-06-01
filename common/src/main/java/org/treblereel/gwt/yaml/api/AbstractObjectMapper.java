@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api;
 import java.io.IOException;
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.common.FlowStyle;
+import org.snakeyaml.engine.v2.common.ScalarStyle;
 import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.DefaultYAMLDeserializationContext;
@@ -65,6 +66,7 @@ public abstract class AbstractObjectMapper<T> {
     DumpSettings settings =
         DumpSettings.builder()
             .setDefaultFlowStyle(FlowStyle.BLOCK)
+            .setDefaultScalarStyle(ScalarStyle.PLAIN)
             .setIndent(2)
             .setIndicatorIndent(2)
             .setIndentWithIndicator(true)

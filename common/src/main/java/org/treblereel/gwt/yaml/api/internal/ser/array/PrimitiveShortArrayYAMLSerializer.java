@@ -28,7 +28,7 @@ import org.treblereel.gwt.yaml.api.node.YamlSequence;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class PrimitiveShortArrayYAMLSerializer extends BasicArrayYAMLSerializer<short[]> {
+public class PrimitiveShortArrayYAMLSerializer extends AbstractYAMLSerializer<short[]> {
 
   public static final PrimitiveShortArrayYAMLSerializer INSTANCE =
       new PrimitiveShortArrayYAMLSerializer();
@@ -46,15 +46,14 @@ public class PrimitiveShortArrayYAMLSerializer extends BasicArrayYAMLSerializer<
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, short[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.addScalarNode(propertyName, null);
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new short[] {});
+      }
       return;
     }
-
-    YamlSequence YamlSequence = writer.addSequenceNode(propertyName);
-    for (short value : values) {
-      serializer.serialize(YamlSequence, value, ctx);
-    }
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
+    serialize(yamlSequence, values, ctx);
   }
 
   @Override

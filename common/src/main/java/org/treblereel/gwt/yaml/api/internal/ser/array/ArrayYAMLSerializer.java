@@ -62,19 +62,20 @@ public class ArrayYAMLSerializer<T> extends AbstractYAMLSerializer<T[]> {
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, T[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && isEmpty(values)) {
-      writer.addScalarNode(propertyName, null);
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new boolean[] {});
+      }
       return;
     }
-    YamlSequence YamlSequence = writer.addSequenceNode(propertyName);
-
-    for (T value : values) {
-      serializer.serialize(YamlSequence, value, ctx);
-    }
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
+    serialize(yamlSequence, values, ctx);
   }
 
   @Override
-  public void serialize(YamlSequence writer, T[] value, YAMLSerializationContext ctx) {
-    throw new RuntimeException("Not implemented");
+  public void serialize(YamlSequence writer, T[] values, YAMLSerializationContext ctx) {
+    for (T value : values) {
+      serializer.serialize(writer, value, ctx);
+    }
   }
 }

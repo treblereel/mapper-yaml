@@ -15,6 +15,7 @@ package org.snakeyaml.engine.v2.representer;
 
 import elemental2.core.JsString;
 import elemental2.core.Uint8Array;
+import elemental2.dom.DomGlobal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -454,7 +455,7 @@ public class StandardRepresenter extends BaseRepresenter {
         sb.append(JsString.fromCharCode(bytes.getAt(i).intValue()));
       }
 
-      return JsWindow.btoa(sb.toString());
+      return DomGlobal.btoa(sb.toString());
     }
   }
 }

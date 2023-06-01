@@ -81,7 +81,6 @@ import javax.lang.model.util.Types;
 import org.treblereel.gwt.yaml.api.internal.deser.BooleanYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.CharacterYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.EnumYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.StringArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.PrimitiveBooleanArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.PrimitiveByteArrayYAMLDeserializer;
@@ -91,15 +90,6 @@ import org.treblereel.gwt.yaml.api.internal.deser.array.PrimitiveFloatArrayYAMLD
 import org.treblereel.gwt.yaml.api.internal.deser.array.PrimitiveIntegerArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.PrimitiveLongArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.PrimitiveShortArrayYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.Array2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveBooleanArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveByteArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveCharacterArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveDoubleArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveFloatArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveIntegerArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveLongArray2dYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.array.dd.PrimitiveShortArray2dYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.collection.AbstractCollectionYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.collection.AbstractListYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.collection.AbstractQueueYAMLDeserializer;
@@ -134,7 +124,6 @@ import org.treblereel.gwt.yaml.api.internal.ser.CollectionYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.EnumYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.IterableYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.StringYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.ArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveBooleanArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveByteArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveCharacterArrayYAMLSerializer;
@@ -143,15 +132,6 @@ import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveFloatArrayYAMLSer
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveIntegerArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveLongArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveShortArrayYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.Array2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveBooleanArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveByteArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveCharacterArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveDoubleArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveFloatArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveIntegerArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveLongArray2dYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.PrimitiveShortArray2dYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.map.MapYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
@@ -187,7 +167,6 @@ public final class TypeRegistry {
     initIterableMappers();
     initMapMappers();
     initPrimitiveArraysMappers();
-    initPrimitive2DArraysMappers();
     initCollectionsDeserializersMappers();
     initMapsDeserializersMappers();
   }
@@ -562,67 +541,6 @@ public final class TypeRegistry {
         .forType(short[].class)
         .serializer(PrimitiveShortArrayYAMLSerializer.class)
         .deserializer(PrimitiveShortArrayYAMLDeserializer.class)
-        .register(simpleTypes);
-  }
-
-  private void initPrimitive2DArraysMappers() {
-    MAPPER
-        .forType(boolean[][].class)
-        .serializer(PrimitiveBooleanArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveBooleanArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(byte[][].class)
-        .serializer(PrimitiveByteArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveByteArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(char[][].class)
-        .serializer(PrimitiveCharacterArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveCharacterArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(double[][].class)
-        .serializer(PrimitiveDoubleArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveDoubleArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(float[][].class)
-        .serializer(PrimitiveFloatArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveFloatArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(int[][].class)
-        .serializer(PrimitiveIntegerArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveIntegerArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(long[][].class)
-        .serializer(PrimitiveLongArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveLongArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(short[][].class)
-        .serializer(PrimitiveShortArray2dYAMLSerializer.class)
-        .deserializer(PrimitiveShortArray2dYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
-        .forType(String[].class)
-        .serializer(ArrayYAMLSerializer.class)
-        .deserializer(StringArrayYAMLDeserializer.class)
-        .register(simpleTypes);
-    MAPPER
-        .forType(String[][].class)
-        .serializer(Array2dYAMLSerializer.class)
-        .deserializer(Array2dYAMLDeserializer.class)
         .register(simpleTypes);
   }
 

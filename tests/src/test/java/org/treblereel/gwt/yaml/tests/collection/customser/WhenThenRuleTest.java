@@ -31,19 +31,8 @@ public class WhenThenRuleTest extends AbstractYamlTest<WhenThenRule> {
   private static final WhenThenRule_YamlMapperImpl mapper = WhenThenRule_YamlMapperImpl.INSTANCE;
 
   private final String yaml =
-      "when:"
-          + lineSeparator()
-          + "  - a"
-          + lineSeparator()
-          + "  - b"
-          + lineSeparator()
-          + "then: c"
-          + lineSeparator()
-          + "off:"
-          + lineSeparator()
-          + "  - a"
-          + lineSeparator()
-          + "  - b";
+      "when:" + "\n" + "  - a" + "\n" + "  - b" + "\n" + "then: c" + "\n" + "off:" + "\n" + "  - a"
+          + "\n" + "  - b";
 
   public WhenThenRuleTest() {
     super(mapper);

@@ -35,17 +35,17 @@ public class StringListTest extends AbstractYamlTest<StringListBeanTest> {
       StringListTest_StringListBeanTest_YamlMapperImpl.INSTANCE;
   private final String YAML =
       "id: -1"
-          + lineSeparator()
+          + "\n"
           + "values:"
-          + lineSeparator()
+          + "\n"
           + "  - AAA"
-          + lineSeparator()
+          + "\n"
           + "  - AAA1"
-          + lineSeparator()
+          + "\n"
           + "  - AAA2"
-          + lineSeparator()
+          + "\n"
           + "  - AAA3"
-          + lineSeparator()
+          + "\n"
           + "  - AAA4";
 
   public StringListTest() {

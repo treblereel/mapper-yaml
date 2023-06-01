@@ -50,13 +50,13 @@ public class UnknownPropertyTest extends AbstractYamlTest<UnknownPropertyTest.Te
   public void testUnknownProperty2() throws IOException {
     String expected =
         "foo: bar"
-            + lineSeparator()
+            + "\n"
             + "pleh: help"
-            + lineSeparator()
+            + "\n"
             + "stuff:"
-            + lineSeparator()
+            + "\n"
             + "  foo: bar"
-            + lineSeparator()
+            + "\n"
             + "  bar: foo";
 
     assertNull(mapper.read(expected));

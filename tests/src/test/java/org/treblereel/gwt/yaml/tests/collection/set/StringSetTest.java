@@ -42,17 +42,17 @@ public class StringSetTest extends AbstractYamlTest<StringSetBeanTest> {
 
   private final String YAML =
       "id: -1"
-          + lineSeparator()
+          + "\n"
           + "values:"
-          + lineSeparator()
+          + "\n"
           + "  - AAA"
-          + lineSeparator()
+          + "\n"
           + "  - AAA1"
-          + lineSeparator()
+          + "\n"
           + "  - AAA2"
-          + lineSeparator()
+          + "\n"
           + "  - AAA3"
-          + lineSeparator()
+          + "\n"
           + "  - AAA4";
 
   @Test

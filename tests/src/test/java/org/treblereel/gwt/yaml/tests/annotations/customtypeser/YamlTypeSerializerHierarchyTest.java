@@ -68,7 +68,7 @@ public class YamlTypeSerializerHierarchyTest
     nested.setValue("zzz");
     tested.setNested(nested);
     String result = mapper.write(tested);
-    String expected = "nested:" + lineSeparator() + "  value: zzz";
+    String expected = "nested:" + "\n" + "  value: zzz";
     assertEquals(expected, result);
     assertEquals(tested, mapper.read(expected));
   }
@@ -83,15 +83,15 @@ public class YamlTypeSerializerHierarchyTest
     String result = mapper.write(tested);
     String expected =
         "nested:"
-            + lineSeparator()
+            + "\n"
             + "  value:"
-            + lineSeparator()
+            + "\n"
             + "    - zzz"
-            + lineSeparator()
+            + "\n"
             + "    - aaa"
-            + lineSeparator()
+            + "\n"
             + "    - bbb"
-            + lineSeparator()
+            + "\n"
             + "    - ccc";
 
     assertEquals(expected, result);
@@ -107,13 +107,7 @@ public class YamlTypeSerializerHierarchyTest
     tested.setNested(nested);
     String result = mapper.write(tested);
     String expected =
-        "nested:"
-            + lineSeparator()
-            + "  value:"
-            + lineSeparator()
-            + "    name: user1"
-            + lineSeparator()
-            + "    email: email";
+        "nested:" + "\n" + "  value:" + "\n" + "    name: user1" + "\n" + "    email: email";
     assertEquals(expected, result);
     assertEquals(user, (User) mapper.read(expected).nested.value);
   }
@@ -130,15 +124,15 @@ public class YamlTypeSerializerHierarchyTest
     String result = mapper.write(tested);
     String expected =
         "nested:"
-            + lineSeparator()
+            + "\n"
             + "  value:"
-            + lineSeparator()
+            + "\n"
             + "    - name: user1"
-            + lineSeparator()
+            + "\n"
             + "      email: email"
-            + lineSeparator()
+            + "\n"
             + "    - name: user2"
-            + lineSeparator()
+            + "\n"
             + "      email: email2";
     assertEquals(expected, result);
   }

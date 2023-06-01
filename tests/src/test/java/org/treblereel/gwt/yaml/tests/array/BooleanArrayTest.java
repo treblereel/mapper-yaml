@@ -45,15 +45,7 @@ public class BooleanArrayTest extends AbstractYamlTest<BooleanArray> {
     String yaml = mapper.write(booleanArray);
 
     assertEquals(
-        "values:"
-            + lineSeparator()
-            + "  - true"
-            + lineSeparator()
-            + "  - false"
-            + lineSeparator()
-            + "  - true"
-            + lineSeparator()
-            + "  - false",
+        "values:" + "\n" + "  - true" + "\n" + "  - false" + "\n" + "  - true" + "\n" + "  - false",
         yaml);
   }
 

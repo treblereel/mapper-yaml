@@ -37,21 +37,21 @@ public class YamlPropertyTest extends AbstractYamlTest<Tested> {
 
   private final String YAML =
       "_name: zzz"
-          + lineSeparator()
+          + "\n"
           + "_array:"
-          + lineSeparator()
+          + "\n"
           + "  - aaa"
-          + lineSeparator()
+          + "\n"
           + "  - bbb"
-          + lineSeparator()
+          + "\n"
           + "  - ccc"
-          + lineSeparator()
+          + "\n"
           + "_list:"
-          + lineSeparator()
+          + "\n"
           + "  - aaa"
-          + lineSeparator()
+          + "\n"
           + "  - bbb"
-          + lineSeparator()
+          + "\n"
           + "  - ccc";
 
   public YamlPropertyTest() {

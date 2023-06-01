@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-import org.snakeyaml.engine.v2.GwtIncompatible;
 import org.treblereel.gwt.yaml.api.AbstractObjectMapper;
 import org.treblereel.gwt.yaml.api.DefaultYAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
@@ -36,8 +35,6 @@ public abstract class AbstractYamlTest<T> {
 
   protected final AbstractObjectMapper<T> mapper;
 
-  private final JRE jre = new JRE();
-
   protected static final YAMLSerializationContext doNotWriteEmptyArrays =
       DefaultYAMLSerializationContext.builder().writeEmptyYAMLArrays(false).build();
 
@@ -48,10 +45,6 @@ public abstract class AbstractYamlTest<T> {
   protected void assertMarshallingAndUnmarshalling(T value) throws IOException {
     String yaml = mapper.write(value);
     assertEquals(value, mapper.read(yaml));
-  }
-
-  protected String lineSeparator() {
-    return jre.lineSeparator();
   }
 
   protected void assertYamlsAreEqual(String yaml1, String yaml2) {
@@ -158,21 +151,6 @@ public abstract class AbstractYamlTest<T> {
       if (expecteds[i].equals(actuals[i])) {
         throw new AssertionError("Arrays differ at index " + i);
       }
-    }
-  }
-
-  private static class JRE extends GWT {
-
-    @GwtIncompatible
-    public String lineSeparator() {
-      return System.lineSeparator();
-    }
-  }
-
-  private static class GWT {
-
-    public String lineSeparator() {
-      return "\n";
     }
   }
 }

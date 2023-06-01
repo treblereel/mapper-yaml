@@ -48,25 +48,25 @@ public class BeanWithSeveralPropsTest extends AbstractYamlTest<BeanWithSeveralPr
     String yaml = mapper.write(tested);
     String expected =
         "holders:"
-            + lineSeparator()
+            + "\n"
             + "  - array:"
-            + lineSeparator()
+            + "\n"
             + "      - arr1"
-            + lineSeparator()
+            + "\n"
             + "      - arr2"
-            + lineSeparator()
+            + "\n"
             + "      - arr3"
-            + lineSeparator()
+            + "\n"
             + "    value: test1"
-            + lineSeparator()
+            + "\n"
             + "  - array:"
-            + lineSeparator()
+            + "\n"
             + "      - arr1"
-            + lineSeparator()
+            + "\n"
             + "      - arr2"
-            + lineSeparator()
+            + "\n"
             + "      - arr3"
-            + lineSeparator()
+            + "\n"
             + "    value: test1";
 
     assertEquals(expected, yaml);

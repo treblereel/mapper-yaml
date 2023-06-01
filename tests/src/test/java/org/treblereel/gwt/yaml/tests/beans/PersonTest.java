@@ -29,17 +29,17 @@ public class PersonTest extends AbstractYamlTest<Person> {
 
   private final String YAML =
       "firstName: AAA"
-          + lineSeparator()
+          + "\n"
           + "secondName: BBB"
-          + lineSeparator()
+          + "\n"
           + "age: 99"
-          + lineSeparator()
+          + "\n"
           + "address:"
-          + lineSeparator()
+          + "\n"
           + "  country: CCC"
-          + lineSeparator()
+          + "\n"
           + "  city: DDD"
-          + lineSeparator()
+          + "\n"
           + "  street: EEE";
 
   private static final Person_YamlMapperImpl mapper = Person_YamlMapperImpl.INSTANCE;

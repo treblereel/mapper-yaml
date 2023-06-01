@@ -32,8 +32,7 @@ public class CradleTest extends AbstractYamlTest<Cradle> {
     super(mapper);
   }
 
-  private final String YAML =
-      "animal:" + lineSeparator() + "  _type: cat" + lineSeparator() + "  isCat: true";
+  private final String YAML = "animal:" + "\n" + "  _type: cat" + "\n" + "  isCat: true";
 
   @Test
   public void test() throws IOException {

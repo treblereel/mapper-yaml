@@ -47,13 +47,13 @@ public class DoubleArrayTest extends AbstractYamlTest<DoubleArrayTest.DoubleArra
 
     assertEquals(
         "values:"
-            + lineSeparator()
+            + "\n"
             + "  - 17222.01"
-            + lineSeparator()
+            + "\n"
             + "  - 2111.34"
-            + lineSeparator()
+            + "\n"
             + "  - 32223.34"
-            + lineSeparator()
+            + "\n"
             + "  - 6226.37",
         yaml);
   }

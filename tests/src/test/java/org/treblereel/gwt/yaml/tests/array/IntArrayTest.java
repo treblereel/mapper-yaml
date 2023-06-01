@@ -46,13 +46,13 @@ public class IntArrayTest extends AbstractYamlTest<IntArray> {
     String yaml = mapper.write(array);
     assertEquals(
         "values:"
-            + lineSeparator()
+            + "\n"
             + "  - 17222"
-            + lineSeparator()
+            + "\n"
             + "  - 2111"
-            + lineSeparator()
+            + "\n"
             + "  - 32223"
-            + lineSeparator()
+            + "\n"
             + "  - -6226",
         yaml);
   }

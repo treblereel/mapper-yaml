@@ -36,63 +36,63 @@ public class SetTest extends AbstractYamlTest<SetBeanTest> {
       SetTest_SetBeanTest_YamlMapperImpl.INSTANCE;
   private final String YAML =
       "id: -1"
-          + lineSeparator()
+          + "\n"
           + "values:"
-          + lineSeparator()
+          + "\n"
           + "  - firstName: AAA2"
-          + lineSeparator()
+          + "\n"
           + "    secondName: BBB2"
-          + lineSeparator()
+          + "\n"
           + "    age: 992"
-          + lineSeparator()
+          + "\n"
           + "    address:"
-          + lineSeparator()
+          + "\n"
           + "      country: CCC2"
-          + lineSeparator()
+          + "\n"
           + "      city: DDD2"
-          + lineSeparator()
+          + "\n"
           + "      street: EEE2"
-          + lineSeparator()
+          + "\n"
           + "  - firstName: AAA3"
-          + lineSeparator()
+          + "\n"
           + "    secondName: BBB3"
-          + lineSeparator()
+          + "\n"
           + "    age: 993"
-          + lineSeparator()
+          + "\n"
           + "    address:"
-          + lineSeparator()
+          + "\n"
           + "      country: CCC3"
-          + lineSeparator()
+          + "\n"
           + "      city: DDD3"
-          + lineSeparator()
+          + "\n"
           + "      street: EEE3"
-          + lineSeparator()
+          + "\n"
           + "  - firstName: AAA4"
-          + lineSeparator()
+          + "\n"
           + "    secondName: BBB4"
-          + lineSeparator()
+          + "\n"
           + "    age: 994"
-          + lineSeparator()
+          + "\n"
           + "    address:"
-          + lineSeparator()
+          + "\n"
           + "      country: CCC4"
-          + lineSeparator()
+          + "\n"
           + "      city: DDD4"
-          + lineSeparator()
+          + "\n"
           + "      street: EEE4"
-          + lineSeparator()
+          + "\n"
           + "  - firstName: AAA"
-          + lineSeparator()
+          + "\n"
           + "    secondName: BBB"
-          + lineSeparator()
+          + "\n"
           + "    age: 99"
-          + lineSeparator()
+          + "\n"
           + "    address:"
-          + lineSeparator()
+          + "\n"
           + "      country: CCC"
-          + lineSeparator()
+          + "\n"
           + "      city: DDD"
-          + lineSeparator()
+          + "\n"
           + "      street: EEE";
 
   public SetTest() {

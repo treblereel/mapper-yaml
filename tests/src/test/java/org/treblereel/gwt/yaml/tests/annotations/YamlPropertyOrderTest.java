@@ -52,17 +52,17 @@ public class YamlPropertyOrderTest extends AbstractYamlTest<ValueHolder> {
 
     String expected =
         "value3: c"
-            + lineSeparator()
+            + "\n"
             + "value2: b"
-            + lineSeparator()
+            + "\n"
             + "value: a"
-            + lineSeparator()
+            + "\n"
             + "value4: d"
-            + lineSeparator()
+            + "\n"
             + "value5: e"
-            + lineSeparator()
+            + "\n"
             + "value6: f"
-            + lineSeparator()
+            + "\n"
             + "value7: g";
 
     assertEquals(expected, mapper.write(tested));

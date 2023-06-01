@@ -40,15 +40,7 @@ public class CharArrayTest extends AbstractYamlTest<CharArray> {
   private static final char[] values = new char[] {'a', 'z', 'F', '!'};
 
   private final String YAML =
-      "values:"
-          + lineSeparator()
-          + "  - a"
-          + lineSeparator()
-          + "  - z"
-          + lineSeparator()
-          + "  - F"
-          + lineSeparator()
-          + "  - '!'";
+      "values:" + "\n" + "  - a" + "\n" + "  - z" + "\n" + "  - F" + "\n" + "  - '!'";
 
   @Test
   public void testSerializeValue() throws IOException {

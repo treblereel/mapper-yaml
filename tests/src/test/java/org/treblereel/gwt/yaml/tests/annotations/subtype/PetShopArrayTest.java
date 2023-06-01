@@ -36,23 +36,23 @@ public class PetShopArrayTest extends AbstractYamlTest<PetShopArray> {
 
   private final String YAML =
       "animals:"
-          + lineSeparator()
+          + "\n"
           + "  - _type: cat"
-          + lineSeparator()
+          + "\n"
           + "    isCat: true"
-          + lineSeparator()
+          + "\n"
           + "  - _type: rat"
-          + lineSeparator()
+          + "\n"
           + "    isRat: true"
-          + lineSeparator()
+          + "\n"
           + "  - _type: dog"
-          + lineSeparator()
+          + "\n"
           + "    isDog: false"
-          + lineSeparator()
+          + "\n"
           + "animal:"
-          + lineSeparator()
+          + "\n"
           + "  _type: rat"
-          + lineSeparator()
+          + "\n"
           + "  isRat: true";
 
   @Test

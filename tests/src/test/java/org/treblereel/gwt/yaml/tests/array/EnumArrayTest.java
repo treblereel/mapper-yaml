@@ -41,17 +41,17 @@ public class EnumArrayTest extends AbstractYamlTest<EnumArrayBeanTest> {
 
   private final String YAML =
       "id: -1"
-          + lineSeparator()
+          + "\n"
           + "values:"
-          + lineSeparator()
+          + "\n"
           + "  - ONE"
-          + lineSeparator()
+          + "\n"
           + "  - TWO"
-          + lineSeparator()
+          + "\n"
           + "  - THREE"
-          + lineSeparator()
+          + "\n"
           + "  - FOUR"
-          + lineSeparator()
+          + "\n"
           + "  - FIVE";
 
   @Test

@@ -36,17 +36,17 @@ public class EnumListTest extends AbstractYamlTest<EnumListBeanTest> {
       EnumListTest_EnumListBeanTest_YamlMapperImpl.INSTANCE;
   private final String YAML =
       "id: -1"
-          + lineSeparator()
+          + "\n"
           + "values:"
-          + lineSeparator()
+          + "\n"
           + "  - ONE"
-          + lineSeparator()
+          + "\n"
           + "  - TWO"
-          + lineSeparator()
+          + "\n"
           + "  - THREE"
-          + lineSeparator()
+          + "\n"
           + "  - FOUR"
-          + lineSeparator()
+          + "\n"
           + "  - FIVE";
 
   public EnumListTest() {

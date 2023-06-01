@@ -16,13 +16,13 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
-import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.ArrayList;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /**
  * Default {@link YAMLDeserializer} implementation for 2D array of byte.
@@ -43,7 +43,7 @@ public class PrimitiveByteArray2dYAMLDeserializer
     byte[][] result;
 
     List<String> strings =
-        doDeserializeInnerIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.INSTANCE);
+        doDeserializeInnerIntoList(yaml.getSequenceNode(key), ctx, StringYAMLDeserializer.INSTANCE);
 
     if (strings.isEmpty()) {
       result = new byte[0][0];

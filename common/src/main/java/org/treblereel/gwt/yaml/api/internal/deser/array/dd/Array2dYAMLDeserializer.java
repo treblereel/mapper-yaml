@@ -16,10 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
-import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /**
  * Default {@link YAMLDeserializer} implementation for 2D array.
@@ -72,7 +72,7 @@ public class Array2dYAMLDeserializer<T> extends AbstractArray2dYAMLDeserializer<
   /** {@inheritDoc} */
   @Override
   public T[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
-    List<List<T>> list = deserializeIntoList(yaml.yamlSequence(key), ctx, deserializer);
+    List<List<T>> list = deserializeIntoList(yaml.getSequenceNode(key), ctx, deserializer);
 
     if (list.isEmpty()) {
       return array2dCreator.create(0, 0);

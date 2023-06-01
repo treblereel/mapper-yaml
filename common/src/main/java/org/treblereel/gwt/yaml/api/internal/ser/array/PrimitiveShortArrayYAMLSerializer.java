@@ -19,9 +19,8 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.BaseNumberYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for array of short.
@@ -29,7 +28,7 @@ import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class PrimitiveShortArrayYAMLSerializer extends BasicArrayYAMLSerializer<short[]> {
+public class PrimitiveShortArrayYAMLSerializer extends AbstractYAMLSerializer<short[]> {
 
   public static final PrimitiveShortArrayYAMLSerializer INSTANCE =
       new PrimitiveShortArrayYAMLSerializer();
@@ -46,21 +45,19 @@ public class PrimitiveShortArrayYAMLSerializer extends BasicArrayYAMLSerializer<
   /** {@inheritDoc} */
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, short[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.nullValue(propertyName);
+      YamlMapping writer, String propertyName, short[] values, YAMLSerializationContext ctx) {
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new short[] {});
+      }
       return;
     }
-
-    YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
-    for (short value : values) {
-      serializer.serialize(yamlSequenceWriter, value, ctx);
-    }
-    writer.value(propertyName, yamlSequenceWriter.getWriter());
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
+    serialize(yamlSequence, values, ctx);
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, short[] value, YAMLSerializationContext ctx) {
+  public void serialize(YamlSequence writer, short[] value, YAMLSerializationContext ctx) {
     for (short val : value) {
       serializer.serialize(writer, val, ctx);
     }

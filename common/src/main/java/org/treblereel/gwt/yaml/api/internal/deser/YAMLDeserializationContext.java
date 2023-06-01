@@ -16,36 +16,9 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser;
 
-import java.io.IOException;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
-
-/**
- * YAMLDeserializationContext interface.
- *
- * @author vegegoku
- * @version $Id: $Id
- */
 public interface YAMLDeserializationContext {
 
-  /**
-   * isReadUnknownEnumValuesAsNull.
-   *
-   * @return a boolean.
-   */
   boolean isReadUnknownEnumValuesAsNull();
 
-  /**
-   * isUseBrowserTimezone.
-   *
-   * @return a boolean.
-   */
   boolean isFailOnUnknownProperties();
-
-  /**
-   * newYAMLReader.
-   *
-   * @param input a {@link String} object.
-   * @return a {@link YAMLReader} object.
-   */
-  YAMLReader newYAMLReader(String input) throws IOException;
 }

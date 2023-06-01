@@ -40,7 +40,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import org.treblereel.gwt.yaml.TypeUtils;
-import org.treblereel.gwt.yaml.api.YAMLContextProvider;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
@@ -49,7 +48,7 @@ import org.treblereel.gwt.yaml.api.internal.deser.bean.BeanPropertyDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.HasDeserializerAndParameters;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.Instance;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.InstanceBuilder;
-import org.treblereel.gwt.yaml.api.stream.YAMLReader;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.definition.BeanDefinition;
 import org.treblereel.gwt.yaml.definition.PropertyDefinition;
@@ -70,7 +69,6 @@ public class DeserializerGenerator extends AbstractGenerator {
 
   @Override
   protected void configureClassType(BeanDefinition type) {
-    cu.addImport(YAMLContextProvider.class);
     cu.addImport(YAMLDeserializationContext.class);
     cu.addImport(YAMLDeserializer.class);
     cu.addImport(AbstractBeanYAMLDeserializer.class);
@@ -80,7 +78,7 @@ public class DeserializerGenerator extends AbstractGenerator {
     cu.addImport(Map.class);
     cu.addImport(HashMap.class);
     cu.addImport(InstanceBuilder.class);
-    cu.addImport(YAMLReader.class);
+    cu.addImport(YamlMapping.class);
     cu.addImport(type.getQualifiedName());
 
     declaration

@@ -16,12 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.AbstractArrayYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of {@link java.lang.String}.
@@ -50,10 +50,10 @@ public class StringArrayYAMLDeserializer extends AbstractArrayYAMLDeserializer<S
   @Override
   public String[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<String> list = new ArrayList<>();
-    YamlSequence yamlSequence = yaml.yamlSequence(key);
+    YamlSequence yamlSequence = yaml.getSequenceNode(key);
 
     for (int i = 0; i < yamlSequence.size(); i++) {
-      list.add(yamlSequence.string(i));
+      list.add(yamlSequence.scalar(i));
     }
     return list.toArray(new String[list.size()]);
   }

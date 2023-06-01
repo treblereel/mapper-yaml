@@ -16,10 +16,10 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
-import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 3/28/20 */
 public class StringArray2dYAMLDeserializer extends AbstractArray2dYAMLDeserializer<String[][]> {
@@ -30,7 +30,7 @@ public class StringArray2dYAMLDeserializer extends AbstractArray2dYAMLDeserializ
   @Override
   public String[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<String>> list =
-        deserializeIntoList(yaml.yamlSequence(key), ctx, StringYAMLDeserializer.INSTANCE);
+        deserializeIntoList(yaml.getSequenceNode(key), ctx, StringYAMLDeserializer.INSTANCE);
 
     if (list.isEmpty()) {
       return new String[0][0];

@@ -18,7 +18,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /**
  * Serializes a bean's property
@@ -55,12 +55,12 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
    * @param bean bean containing the property to serialize
    * @param ctx context of the serialization process
    */
-  public void serialize(YAMLWriter writer, T bean, YAMLSerializationContext ctx) {
+  public void serialize(YamlMapping writer, T bean, YAMLSerializationContext ctx) {
     getSerializer((V) bean.getClass()).serialize(writer, propertyName, getValue(bean, ctx), ctx);
   }
 
   public void serialize(
-      YAMLWriter writer, String propertyName, T value, YAMLSerializationContext ctx) {
+      YamlMapping writer, String propertyName, T value, YAMLSerializationContext ctx) {
     getSerializer((V) value.getClass()).serialize(writer, propertyName, getValue(value, ctx), ctx);
   }
 

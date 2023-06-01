@@ -16,11 +16,11 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array.dd;
 
-import com.amihaiemil.eoyaml.YamlMapping;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.CharacterYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /**
  * Default {@link YAMLDeserializer} implementation for 2D array of char.
@@ -38,7 +38,7 @@ public class PrimitiveCharacterArray2dYAMLDeserializer
   @Override
   public char[][] deserialize(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<List<Character>> list =
-        deserializeIntoList(yaml.yamlSequence(key), ctx, CharacterYAMLDeserializer.INSTANCE);
+        deserializeIntoList(yaml.getSequenceNode(key), ctx, CharacterYAMLDeserializer.INSTANCE);
 
     if (list.isEmpty()) {
       return new char[0][0];

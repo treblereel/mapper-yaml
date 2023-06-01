@@ -19,9 +19,8 @@ package org.treblereel.gwt.yaml.api.internal.ser;
 import java.util.Collection;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
 import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for {@link Collection}.
@@ -63,22 +62,21 @@ public class CollectionYAMLSerializer<C extends Collection<T>, T>
 
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, C values, YAMLSerializationContext ctx)
+      YamlMapping writer, String propertyName, C values, YAMLSerializationContext ctx)
       throws YAMLSerializationException {
     if (!ctx.isWriteEmptyYAMLArrays() && isEmpty(values)) {
-      writer.nullValue(propertyName);
+      writer.addScalarNode(propertyName, "~");
       return;
     }
 
-    YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
     for (T value : (Collection<T>) values) {
-      serializer.serialize(yamlSequenceWriter, value, ctx);
+      serializer.serialize(yamlSequence, value, ctx);
     }
-    writer.value(propertyName, yamlSequenceWriter.getWriter());
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, C value, YAMLSerializationContext ctx) {
+  public void serialize(YamlSequence writer, C value, YAMLSerializationContext ctx) {
     throw new UnsupportedOperationException();
   }
 

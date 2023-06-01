@@ -19,8 +19,6 @@ package org.treblereel.gwt.yaml.api;
 import java.util.Date;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLWriter;
 
 /**
  * Context for the serialization process.
@@ -84,17 +82,6 @@ public class DefaultYAMLSerializationContext implements YAMLSerializationContext
   @Override
   public boolean isWriteEmptyYAMLArrays() {
     return writeEmptyYAMLArrays;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * <p>newYAMLWriter
-   */
-  @Override
-  public YAMLWriter newYAMLWriter() {
-    YAMLWriter writer = new DefaultYAMLWriter();
-    return writer;
   }
 
   public static class Builder {

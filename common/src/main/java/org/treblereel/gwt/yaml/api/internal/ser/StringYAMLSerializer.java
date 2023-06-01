@@ -17,8 +17,8 @@
 package org.treblereel.gwt.yaml.api.internal.ser;
 
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for {@link String}.
@@ -38,21 +38,20 @@ public class StringYAMLSerializer implements YAMLSerializer<String> {
   /** {@inheritDoc} */
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, String value, YAMLSerializationContext ctx) {
-    if (isEmpty(value)) {
-      writer.nullValue(propertyName);
+      YamlMapping writer, String propertyName, String value, YAMLSerializationContext ctx) {
+    if (isEmpty(value) && ctx.isSerializeNulls()) {
+      writer.addScalarNode(propertyName, "~");
+    } else {
+      writer.addScalarNode(propertyName, value);
     }
-    writer.value(propertyName, value);
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter builder, String value, YAMLSerializationContext ctx) {
-    if (isEmpty(value)) {
-      if (ctx.isSerializeNulls()) {
-        builder.value("~");
-      }
+  public void serialize(YamlSequence builder, String value, YAMLSerializationContext ctx) {
+    if (isEmpty(value) && ctx.isSerializeNulls()) {
+      builder.addScalarNode("~");
     } else {
-      builder.value(value);
+      builder.addScalarNode(value);
     }
   }
 }

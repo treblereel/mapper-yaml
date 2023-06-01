@@ -16,12 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.BaseNumberYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
 
 /**
  * Default {@link YAMLDeserializer} implementation for array of double.
@@ -39,7 +39,7 @@ public class PrimitiveDoubleArrayYAMLDeserializer extends AbstractArrayYAMLDeser
   public double[] doDeserializeArray(YamlMapping yaml, String key, YAMLDeserializationContext ctx) {
     List<Double> list =
         deserializeIntoList(
-            yaml.yamlSequence(key),
+            yaml.getSequenceNode(key),
             BaseNumberYAMLDeserializer.DoubleYAMLDeserializer.INSTANCE,
             ctx);
 

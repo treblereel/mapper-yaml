@@ -19,9 +19,8 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.BooleanYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
-import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for array of boolean.
@@ -29,7 +28,7 @@ import org.treblereel.gwt.yaml.api.stream.impl.DefaultYAMLSequenceWriter;
  * @author Nicolas Morel
  * @version $Id: $
  */
-public class PrimitiveBooleanArrayYAMLSerializer extends BasicArrayYAMLSerializer<boolean[]> {
+public class PrimitiveBooleanArrayYAMLSerializer extends AbstractYAMLSerializer<boolean[]> {
 
   public static final PrimitiveBooleanArrayYAMLSerializer INSTANCE =
       new PrimitiveBooleanArrayYAMLSerializer();
@@ -45,20 +44,19 @@ public class PrimitiveBooleanArrayYAMLSerializer extends BasicArrayYAMLSerialize
   /** {@inheritDoc} */
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, boolean[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.nullValue(propertyName);
+      YamlMapping writer, String propertyName, boolean[] values, YAMLSerializationContext ctx) {
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new boolean[] {});
+      }
       return;
     }
-    YAMLSequenceWriter yamlSequenceWriter = new DefaultYAMLSequenceWriter();
-    for (boolean value : values) {
-      serializer.serialize(yamlSequenceWriter, value, ctx);
-    }
-    writer.value(propertyName, yamlSequenceWriter.getWriter());
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
+    serialize(yamlSequence, values, ctx);
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, boolean[] value, YAMLSerializationContext ctx) {
+  public void serialize(YamlSequence writer, boolean[] value, YAMLSerializationContext ctx) {
     for (boolean o : value) {
       serializer.serialize(writer, o, ctx);
     }

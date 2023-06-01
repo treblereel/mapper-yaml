@@ -17,7 +17,7 @@
 package org.treblereel.gwt.yaml.api.internal.ser.bean;
 
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 /**
  * Interface hiding the actual implementation doing the bean serialization.
@@ -29,9 +29,9 @@ public interface InternalSerializer<T> {
   /**
    * serializeInternally
    *
-   * @param writer a {@link YAMLWriter} object.
+   * @param writer a {@link YamlMapping} object.
    * @param value a T object.
    * @param ctx a {@link YAMLSerializationContext} object.
    */
-  void serializeInternally(YAMLWriter writer, T value, YAMLSerializationContext ctx);
+  void serializeInternally(YamlMapping writer, T value, YAMLSerializationContext ctx);
 }

@@ -19,8 +19,8 @@ package org.treblereel.gwt.yaml.api.internal.ser.array;
 import org.treblereel.gwt.yaml.api.internal.ser.AbstractYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.internal.utils.Base64Utils;
-import org.treblereel.gwt.yaml.api.stream.YAMLSequenceWriter;
-import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Default {@link AbstractYAMLSerializer} implementation for array of byte.
@@ -28,7 +28,7 @@ import org.treblereel.gwt.yaml.api.stream.YAMLWriter;
  * @author Nicolas Morel
  * @version $Id: $Id
  */
-public class PrimitiveByteArrayYAMLSerializer extends BasicArrayYAMLSerializer<byte[]> {
+public class PrimitiveByteArrayYAMLSerializer extends AbstractYAMLSerializer<byte[]> {
 
   public static final PrimitiveByteArrayYAMLSerializer INSTANCE =
       new PrimitiveByteArrayYAMLSerializer();
@@ -42,16 +42,18 @@ public class PrimitiveByteArrayYAMLSerializer extends BasicArrayYAMLSerializer<b
   /** {@inheritDoc} */
   @Override
   public void serialize(
-      YAMLWriter writer, String propertyName, byte[] values, YAMLSerializationContext ctx) {
-    if (!ctx.isWriteEmptyYAMLArrays() && values.length == 0) {
-      writer.nullValue(propertyName);
+      YamlMapping writer, String propertyName, byte[] values, YAMLSerializationContext ctx) {
+    if (isEmpty(values)) {
+      if (ctx.isWriteEmptyYAMLArrays()) {
+        writer.addScalarNode(propertyName, new byte[] {});
+      }
       return;
     }
-    writer.value(propertyName, Base64Utils.toBase64(values));
+    writer.addScalarNode(propertyName, Base64Utils.toBase64(values));
   }
 
   @Override
-  public void serialize(YAMLSequenceWriter writer, byte[] value, YAMLSerializationContext ctx) {
-    writer.value(Base64Utils.toBase64(value));
+  public void serialize(YamlSequence writer, byte[] value, YAMLSerializationContext ctx) {
+    writer.addScalarNode(Base64Utils.toBase64(value));
   }
 }

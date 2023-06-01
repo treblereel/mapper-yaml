@@ -34,7 +34,7 @@ public class App implements EntryPoint {
 
     public static final String HELLO_WORLD = "Hello J2CL world!";
 
-    Company_YAMLMapperImpl mapper = Company_YAMLMapperImpl.INSTANCE;
+    Company_YamlMapperImpl mapper = Company_YamlMapperImpl.INSTANCE;
 
     private HTMLTextAreaElement generatedYAML = (HTMLTextAreaElement) DomGlobal.document.createElement("textarea");
 

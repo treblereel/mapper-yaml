@@ -33,8 +33,8 @@ import org.treblereel.gwt.yaml.api.internal.deser.array.ArrayYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.array.dd.Array2dYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YamlTypeSerializerWrapper;
 import org.treblereel.gwt.yaml.api.internal.ser.array.ArrayYAMLSerializer;
-import org.treblereel.gwt.yaml.api.internal.ser.array.dd.Array2dYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
+import org.treblereel.gwt.yaml.exception.GenerationException;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
 public class ArrayBeanFieldDefinition extends FieldDefinition {
@@ -119,19 +119,12 @@ public class ArrayBeanFieldDefinition extends FieldDefinition {
   @Override
   public Expression getFieldSerializer(PropertyDefinition field, CompilationUnit cu) {
     cu.addImport(ArrayYAMLSerializer.class);
-    cu.addImport(Array2dYAMLSerializer.class);
 
     ArrayType array = (ArrayType) getBean();
     String serializer;
     Expression expression;
     if (array.getComponentType().getKind().equals(TypeKind.ARRAY)) {
-      serializer = Array2dYAMLSerializer.class.getSimpleName();
-      ArrayType array2d = (ArrayType) array.getComponentType();
-
-      expression =
-          propertyDefinitionFactory
-              .getFieldDefinition(array2d.getComponentType())
-              .getFieldSerializer(field, cu);
+      throw new GenerationException("2D array isn't supported");
     } else {
       serializer = ArrayYAMLSerializer.class.getSimpleName();
       expression =

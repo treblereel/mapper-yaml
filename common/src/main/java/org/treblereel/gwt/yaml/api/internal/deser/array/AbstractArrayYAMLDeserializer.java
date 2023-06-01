@@ -16,15 +16,15 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.array;
 
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
-import com.amihaiemil.eoyaml.YamlSequence;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
+import org.treblereel.gwt.yaml.api.node.YamlMapping;
+import org.treblereel.gwt.yaml.api.node.YamlNode;
+import org.treblereel.gwt.yaml.api.node.YamlSequence;
 
 /**
  * Base implementation of {@link YAMLDeserializer} for array.
@@ -66,11 +66,10 @@ public abstract class AbstractArrayYAMLDeserializer<T> implements YAMLDeserializ
     if (deserializer instanceof AbstractBeanYAMLDeserializer) {
       for (int i = 0; i < sequence.size(); i++) {
         list.add(
-            ((AbstractBeanYAMLDeserializer<C>) deserializer)
-                .deserialize(sequence.yamlMapping(i), ctx));
+            ((AbstractBeanYAMLDeserializer<C>) deserializer).deserialize(sequence.mapping(i), ctx));
       }
     } else {
-      Iterator<com.amihaiemil.eoyaml.YamlNode> iterator = sequence.iterator();
+      Iterator<YamlNode> iterator = sequence.iterator();
       while (iterator.hasNext()) {
         list.add(deserializer.deserialize(iterator.next(), ctx));
       }

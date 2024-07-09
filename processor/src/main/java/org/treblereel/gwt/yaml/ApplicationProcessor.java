@@ -40,7 +40,7 @@ import org.treblereel.gwt.yaml.logger.TreeLogger;
 import org.treblereel.gwt.yaml.processor.BeanProcessor;
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class ApplicationProcessor extends AbstractProcessor {
 
   private final PrintWriterTreeLogger logger = new PrintWriterTreeLogger();

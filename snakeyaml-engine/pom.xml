@@ -11,6 +11,7 @@
 
     <artifactId>snakeyaml-engine</artifactId>
     <packaging>jar</packaging>
+    <name>SnakeYaml for GWT/J2CL</name>
     <description>Core YAML 1.2 parser and emitter for Java</description>
 
     <inceptionYear>2018</inceptionYear>

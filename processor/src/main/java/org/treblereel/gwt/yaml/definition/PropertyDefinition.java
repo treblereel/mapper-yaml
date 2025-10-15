@@ -50,7 +50,10 @@ public class PropertyDefinition extends Definition {
       if (deserializer == null) {
         TypeMirror typeMirror = bean;
         if (!typeMirror.getKind().isPrimitive()) {
-          if (MoreTypes.asTypeElement(typeMirror).getAnnotation(YamlTypeDeserializer.class)
+          if (context.getTypeRegistry().containsDeserializer(bean)) {
+            return new ObjectCreationExpr()
+                .setType(context.getTypeRegistry().getCustomDeserializer(bean).toString());
+          } else if (MoreTypes.asTypeElement(typeMirror).getAnnotation(YamlTypeDeserializer.class)
               != null) {
             deserializer =
                 MoreTypes.asTypeElement(typeMirror).getAnnotation(YamlTypeDeserializer.class);
@@ -93,7 +96,14 @@ public class PropertyDefinition extends Definition {
       if (serializer == null) {
         TypeMirror typeMirror = bean;
         if (!typeMirror.getKind().isPrimitive()) {
-          if (MoreTypes.asTypeElement(typeMirror).getAnnotation(YamlTypeSerializer.class) != null) {
+          if (context.getTypeRegistry().containsSerializer(bean)) {
+            return new ObjectCreationExpr()
+                .setType(YamlTypeSerializerWrapper.class.getCanonicalName())
+                .addArgument(
+                    new ObjectCreationExpr()
+                        .setType(context.getTypeRegistry().getCustomSerializer(bean).toString()));
+          } else if (MoreTypes.asTypeElement(typeMirror).getAnnotation(YamlTypeSerializer.class)
+              != null) {
             serializer =
                 MoreTypes.asTypeElement(typeMirror).getAnnotation(YamlTypeSerializer.class);
           }

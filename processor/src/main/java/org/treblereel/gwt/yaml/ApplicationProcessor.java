@@ -36,7 +36,9 @@ import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.api.annotation.YamlMappers;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializerFor;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
+import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializerFor;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.logger.PrintWriterTreeLogger;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
@@ -79,24 +81,66 @@ public class ApplicationProcessor extends AbstractProcessor {
       logger.setMaxDetail(TreeLogger.Type.INFO);
       long started = System.currentTimeMillis();
 
-      addCustomDeserializers(
-          roundEnvironment.getElementsAnnotatedWith(YamlTypeSerializer.class).stream()
-              .filter(e -> e instanceof TypeElement)
-              .map(MoreElements::asType),
-          context);
-
-      addCustomSerializers(
-          roundEnvironment.getElementsAnnotatedWith(YamlTypeDeserializer.class).stream()
-              .filter(e -> e instanceof TypeElement)
-              .map(MoreElements::asType),
-          context);
-
+      processCustomSerializers(roundEnvironment, context);
       new BeanProcessor(context, logger, beans).process();
       logger.log(
           TreeLogger.Type.INFO,
           "YAML ser/deser generated in " + (System.currentTimeMillis() - started) + " ms");
     }
     return false;
+  }
+
+  private void processCustomSerializers(
+      RoundEnvironment roundEnvironment, GenerationContext context) {
+    addCustomDeserializers(
+        roundEnvironment.getElementsAnnotatedWith(YamlTypeSerializer.class).stream()
+            .filter(e -> e instanceof TypeElement)
+            .map(MoreElements::asType),
+        context);
+
+    addCustomSerializers(
+        roundEnvironment.getElementsAnnotatedWith(YamlTypeDeserializer.class).stream()
+            .filter(e -> e instanceof TypeElement)
+            .map(MoreElements::asType),
+        context);
+
+    addCustomSerializersFor(
+        roundEnvironment.getElementsAnnotatedWith(YamlTypeSerializerFor.class).stream()
+            .filter(e -> e instanceof TypeElement)
+            .map(MoreElements::asType),
+        context);
+
+    addCustomDeserializersFor(
+        roundEnvironment.getElementsAnnotatedWith(YamlTypeDeserializerFor.class).stream()
+            .filter(e -> e instanceof TypeElement)
+            .map(MoreElements::asType),
+        context);
+  }
+
+  private void addCustomDeserializersFor(Stream<TypeElement> elms, GenerationContext context) {
+    elms.forEach(
+        serializer ->
+            context
+                .getTypeUtils()
+                .getClassValueFromAnnotation(serializer, YamlTypeDeserializerFor.class, "value")
+                .ifPresent(
+                    type ->
+                        context
+                            .getTypeRegistry()
+                            .registerDeserializer(type.toString(), serializer)));
+  }
+
+  private void addCustomSerializersFor(Stream<TypeElement> elms, GenerationContext context) {
+    elms.forEach(
+        serializer ->
+            context
+                .getTypeUtils()
+                .getClassValueFromAnnotation(serializer, YamlTypeSerializerFor.class, "value")
+                .ifPresent(
+                    type -> {
+                      context.getTypeRegistry().registerSerializer(type.toString(), serializer);
+                      System.out.println("register serializer for " + type + " -> " + serializer);
+                    }));
   }
 
   private void addCustomDeserializers(Stream<TypeElement> elements, GenerationContext context) {

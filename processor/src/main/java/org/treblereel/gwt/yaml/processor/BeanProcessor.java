@@ -89,6 +89,9 @@ public class BeanProcessor {
   }
 
   private void checkTypeAndAdd(TypeMirror type) {
+    if (type.getKind().isPrimitive()) {
+      return;
+    }
     if (context
             .getTypeRegistry()
             .get(context.getProcessingEnv().getTypeUtils().erasure(type).toString())

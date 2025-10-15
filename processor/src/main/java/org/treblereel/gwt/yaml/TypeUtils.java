@@ -29,7 +29,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
@@ -50,6 +52,8 @@ import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
+import org.treblereel.gwt.yaml.api.annotation.YamlGetter;
+import org.treblereel.gwt.yaml.api.annotation.YamlSetter;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 
@@ -765,24 +769,38 @@ public class TypeUtils {
   }
 
   public ExecutableElement getGetter(VariableElement variable) {
-    List<String> method = compileGetterMethodName(variable);
-    return MoreElements.asType(variable.getEnclosingElement()).getEnclosedElements().stream()
-        .filter(e -> e.getKind().equals(ElementKind.METHOD))
-        .filter(e -> method.contains(e.getSimpleName().toString()))
-        .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
-        .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
-        .map(MoreElements::asExecutable)
-        .filter(elm -> elm.getParameters().isEmpty())
-        .filter(elm -> types.isSameType(elm.getReturnType(), variable.asType()))
+    List<String> getterNames = compileGetterMethodName(variable);
+    List<ExecutableElement> methods =
+        ElementFilter.methodsIn(variable.getEnclosingElement().getEnclosedElements());
+
+    TypeMirror type = variable.asType();
+
+    Predicate<ExecutableElement> isCandidate =
+        e ->
+            !e.getModifiers().contains(Modifier.PRIVATE)
+                && !e.getModifiers().contains(Modifier.STATIC)
+                && e.getParameters().isEmpty()
+                && types.isSameType(e.getReturnType(), type);
+
+    Predicate<ExecutableElement> matchByName =
+        e -> getterNames.contains(e.getSimpleName().toString());
+
+    Predicate<ExecutableElement> matchByAnnotation =
+        e -> {
+          YamlGetter yg = e.getAnnotation(YamlGetter.class);
+          return yg != null && yg.value().equals(variable.getSimpleName().toString());
+        };
+
+    return Stream.concat(
+            methods.stream().filter(isCandidate.and(matchByName)),
+            methods.stream().filter(isCandidate.and(matchByAnnotation)))
         .findFirst()
         .orElseThrow(
             () ->
                 new GenerationException(
                     String.format(
-                        "Unable to find suitable getter for %s %s at %s",
-                        variable.getEnclosingElement(),
-                        variable.getSimpleName(),
-                        variable.getEnclosingElement().getSimpleName())));
+                        "Unable to find suitable getter for %s.%s",
+                        variable.getEnclosingElement(), variable.getSimpleName())));
   }
 
   public List<String> compileGetterMethodName(VariableElement variable) {
@@ -806,13 +824,29 @@ public class TypeUtils {
   }
 
   public ExecutableElement getSetter(VariableElement variable) {
-    String method = compileSetterMethodName(variable);
-    return ElementFilter.methodsIn(variable.getEnclosingElement().getEnclosedElements()).stream()
-        .filter(e -> !e.getModifiers().contains(Modifier.PRIVATE))
-        .filter(e -> !e.getModifiers().contains(Modifier.STATIC))
-        .filter(e -> method.equals(e.getSimpleName().toString()))
-        .filter(elm -> elm.getParameters().size() == 1)
-        .filter(elm -> types.isSameType(elm.getParameters().get(0).asType(), variable.asType()))
+    String setterName = compileSetterMethodName(variable);
+
+    List<ExecutableElement> methods =
+        ElementFilter.methodsIn(variable.getEnclosingElement().getEnclosedElements());
+
+    Predicate<ExecutableElement> isCandidate =
+        e ->
+            !e.getModifiers().contains(Modifier.PRIVATE)
+                && !e.getModifiers().contains(Modifier.STATIC)
+                && e.getParameters().size() == 1
+                && types.isSameType(e.getParameters().get(0).asType(), variable.asType());
+
+    Predicate<ExecutableElement> matchByName = e -> setterName.equals(e.getSimpleName().toString());
+
+    Predicate<ExecutableElement> matchByAnnotation =
+        e -> {
+          YamlSetter ys = e.getAnnotation(YamlSetter.class);
+          return ys != null && ys.value().equals(variable.getSimpleName().toString());
+        };
+
+    return Stream.concat(
+            methods.stream().filter(isCandidate.and(matchByName)),
+            methods.stream().filter(isCandidate.and(matchByAnnotation)))
         .findFirst()
         .orElseThrow(
             () ->

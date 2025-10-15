@@ -779,8 +779,10 @@ public class TypeUtils {
             () ->
                 new GenerationException(
                     String.format(
-                        "Unable to find suitable getter for %s.%s",
-                        variable.getEnclosingElement(), variable.getSimpleName())));
+                        "Unable to find suitable getter for %s %s at %s",
+                        variable.getEnclosingElement(),
+                        variable.getSimpleName(),
+                        variable.getEnclosingElement().getSimpleName())));
   }
 
   public List<String> compileGetterMethodName(VariableElement variable) {

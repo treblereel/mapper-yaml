@@ -71,7 +71,9 @@ public class BeanProcessor {
   }
 
   private void processBean(TypeElement bean) {
-    if (!(beans.contains(bean) || typeUtils.isObject(bean.asType()))) {
+    if (!(beans.contains(bean)
+        || typeUtils.isObject(bean.asType())
+        || context.getTypeRegistry().containsSerializer(bean.asType()))) {
       beans.add(checkBean(bean));
       context.getTypeUtils().getAllFieldsIn(bean).stream()
           .filter(field -> field.getAnnotation(YamlTransient.class) == null)
@@ -102,7 +104,7 @@ public class BeanProcessor {
           }
         }
         return;
-      } else if (MoreTypes.isType(type)) {
+      } else if (MoreTypes.isType(type) && !context.getTypeUtils().isSimpleType(type)) {
         if (!MoreTypes.asElement(type).getKind().equals(ElementKind.ENUM)) {
           processBean(typeUtils.toTypeElement(type));
         }

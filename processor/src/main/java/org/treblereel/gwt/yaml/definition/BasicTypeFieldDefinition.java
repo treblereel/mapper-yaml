@@ -54,7 +54,8 @@ public class BasicTypeFieldDefinition extends FieldDefinition {
                     .getSerializer(context.getProcessingEnv().getTypeUtils().erasure(bean))
                     .toString());
 
-    if (field.hasYamlTypeSerializer()) {
+    if (field.hasYamlTypeSerializer()
+        || context.getTypeRegistry().containsSerializer(field.getBean())) {
       expression.addArgument(
           field.getFieldYamlTypeSerializerCreationExpr(
               field.getProperty().getAnnotation(YamlTypeSerializer.class)));

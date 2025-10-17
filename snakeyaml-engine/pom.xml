@@ -6,11 +6,12 @@
     <parent>
         <groupId>org.treblereel.gwt.yaml.mapper</groupId>
         <artifactId>yaml-parent</artifactId>
-        <version>0.6</version>
+        <version>0.7</version>
     </parent>
 
     <artifactId>snakeyaml-engine</artifactId>
     <packaging>jar</packaging>
+    <name>SnakeYaml for GWT/J2CL</name>
     <description>Core YAML 1.2 parser and emitter for Java</description>
 
     <inceptionYear>2018</inceptionYear>
@@ -51,7 +52,7 @@
             <artifactId>elemental2-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.treblereel.gwt.jakarta</groupId>
+            <groupId>org.treblereel.gwt</groupId>
             <artifactId>stdlib</artifactId>
         </dependency>
         <dependency>

@@ -26,39 +26,31 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
  *
  * <p>Cannot be overriden. Use {@link BaseMapYAMLDeserializer}.
  *
- * @param <K> Type of the keys inside the {@link java.util.Map}
  * @param <V> Type of the values inside the {@link java.util.Map}
  * @author Nicolas Morel
  * @version $Id: $
  */
-public final class MapYAMLDeserializer<K, V> extends BaseMapYAMLDeserializer<Map<K, V>, K, V> {
+public final class MapYAMLDeserializer<V> extends BaseMapYAMLDeserializer<Map<String, V>, V> {
 
-  /**
-   * @param keyDeserializer {@link YAMLDeserializer} used to deserialize the keys.
-   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
-   */
-  private MapYAMLDeserializer(
-      YAMLDeserializer<K> keyDeserializer, YAMLDeserializer<V> valueDeserializer) {
-    super(keyDeserializer, valueDeserializer);
+  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  private MapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
+    super(valueDeserializer);
   }
 
   /**
    * newInstance
    *
-   * @param keyDeserializer {@link YAMLDeserializer} used to deserialize the keys.
    * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
-   * @param <K> Type of the keys inside the {@link java.util.Map}
    * @param <V> Type of the values inside the {@link java.util.Map}
    * @return a new instance of {@link MapYAMLDeserializer}
    */
-  public static <K, V> MapYAMLDeserializer<K, V> newInstance(
-      YAMLDeserializer<K> keyDeserializer, YAMLDeserializer<V> valueDeserializer) {
-    return new MapYAMLDeserializer<>(keyDeserializer, valueDeserializer);
+  public static <K, V> MapYAMLDeserializer<V> newInstance(YAMLDeserializer<V> valueDeserializer) {
+    return new MapYAMLDeserializer<>(valueDeserializer);
   }
 
   /** {@inheritDoc} */
   @Override
-  protected Map<K, V> newMap() {
+  protected Map<String, V> newMap() {
     return new LinkedHashMap<>();
   }
 }

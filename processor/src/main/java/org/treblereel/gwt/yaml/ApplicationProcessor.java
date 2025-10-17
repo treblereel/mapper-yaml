@@ -139,7 +139,9 @@ public class ApplicationProcessor extends AbstractProcessor {
                 .ifPresent(
                     type -> {
                       context.getTypeRegistry().registerSerializer(type.toString(), serializer);
-                      System.out.println("register serializer for " + type + " -> " + serializer);
+                      logger.log(
+                          TreeLogger.Type.INFO,
+                          "Registered custom serializer for type: " + type.toString());
                     }));
   }
 

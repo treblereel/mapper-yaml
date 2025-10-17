@@ -55,7 +55,6 @@ import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -111,7 +110,6 @@ import org.treblereel.gwt.yaml.api.internal.deser.collection.StackYAMLDeserializ
 import org.treblereel.gwt.yaml.api.internal.deser.collection.TreeSetYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.collection.VectorYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.map.AbstractMapYAMLDeserializer;
-import org.treblereel.gwt.yaml.api.internal.deser.map.EnumMapYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.map.HashMapYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.map.IdentityHashMapYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.map.LinkedHashMapYAMLDeserializer;
@@ -458,12 +456,6 @@ public final class TypeRegistry {
         .register(simpleTypes);
 
     MAPPER
-        .forType(EnumMap.class)
-        .serializer(MapYAMLSerializer.class)
-        .deserializer(EnumMapYAMLDeserializer.class)
-        .register(simpleTypes);
-
-    MAPPER
         .forType(HashMap.class)
         .serializer(MapYAMLSerializer.class)
         .deserializer(HashMapYAMLDeserializer.class)
@@ -582,7 +574,6 @@ public final class TypeRegistry {
   private void initMapsDeserializersMappers() {
     mapDeserializers.put(Map.class.getName(), MapYAMLDeserializer.class);
     mapDeserializers.put(AbstractMap.class.getName(), AbstractMapYAMLDeserializer.class);
-    mapDeserializers.put(EnumMap.class.getName(), EnumMapYAMLDeserializer.class);
     mapDeserializers.put(HashMap.class.getName(), HashMapYAMLDeserializer.class);
     mapDeserializers.put(IdentityHashMap.class.getName(), IdentityHashMapYAMLDeserializer.class);
     mapDeserializers.put(LinkedHashMap.class.getName(), LinkedHashMapYAMLDeserializer.class);

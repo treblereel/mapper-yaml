@@ -22,8 +22,8 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.google.auto.common.MoreTypes;
 import java.util.Objects;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -36,9 +36,9 @@ import org.treblereel.gwt.yaml.context.GenerationContext;
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
 public class PropertyDefinition extends Definition {
 
-  private final VariableElement property;
+  private final Element property;
 
-  protected PropertyDefinition(VariableElement property, GenerationContext context) {
+  protected PropertyDefinition(Element property, GenerationContext context) {
     super(property.asType(), context);
     this.property = property;
   }
@@ -129,7 +129,7 @@ public class PropertyDefinition extends Definition {
     return property.getSimpleName().toString();
   }
 
-  public VariableElement getProperty() {
+  public Element getProperty() {
     return property;
   }
 

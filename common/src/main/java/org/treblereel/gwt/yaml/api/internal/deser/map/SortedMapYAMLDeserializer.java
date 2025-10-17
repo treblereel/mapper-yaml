@@ -26,40 +26,33 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
  *
  * <p>Cannot be overriden. Use {@link BaseMapYAMLDeserializer}.
  *
- * @param <K> Type of the keys inside the {@link java.util.SortedMap}
  * @param <V> Type of the values inside the {@link java.util.SortedMap}
  * @author Nicolas Morel
  * @version $Id: $
  */
-public final class SortedMapYAMLDeserializer<K, V>
-    extends BaseMapYAMLDeserializer<SortedMap<K, V>, K, V> {
+public final class SortedMapYAMLDeserializer<V>
+    extends BaseMapYAMLDeserializer<SortedMap<String, V>, V> {
 
-  /**
-   * @param keyDeserializer {@link YAMLDeserializer} used to deserialize the keys.
-   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
-   */
-  private SortedMapYAMLDeserializer(
-      YAMLDeserializer<K> keyDeserializer, YAMLDeserializer<V> valueDeserializer) {
-    super(keyDeserializer, valueDeserializer);
+  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  private SortedMapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
+    super(valueDeserializer);
   }
 
   /**
    * newInstance
    *
-   * @param keyDeserializer {@link YAMLDeserializer} used to deserialize the keys.
    * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
-   * @param <K> Type of the keys inside the {@link java.util.SortedMap}
    * @param <V> Type of the values inside the {@link java.util.SortedMap}
    * @return a new instance of {@link SortedMapYAMLDeserializer}
    */
-  public static <K, V> SortedMapYAMLDeserializer<K, V> newInstance(
-      YAMLDeserializer<K> keyDeserializer, YAMLDeserializer<V> valueDeserializer) {
-    return new SortedMapYAMLDeserializer<>(keyDeserializer, valueDeserializer);
+  public static <K, V> SortedMapYAMLDeserializer<V> newInstance(
+      YAMLDeserializer<V> valueDeserializer) {
+    return new SortedMapYAMLDeserializer<>(valueDeserializer);
   }
 
   /** {@inheritDoc} */
   @Override
-  protected SortedMap<K, V> newMap() {
+  protected SortedMap<String, V> newMap() {
     return new TreeMap<>();
   }
 }

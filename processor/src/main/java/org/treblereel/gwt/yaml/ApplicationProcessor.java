@@ -35,6 +35,7 @@ import javax.lang.model.type.MirroredTypesException;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.api.annotation.YamlMappers;
+import org.treblereel.gwt.yaml.api.annotation.YamlSchema;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializerFor;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
@@ -43,6 +44,7 @@ import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.logger.PrintWriterTreeLogger;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 import org.treblereel.gwt.yaml.processor.BeanProcessor;
+import org.treblereel.gwt.yaml.schema.SchemaGenerator;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
@@ -61,6 +63,13 @@ public class ApplicationProcessor extends AbstractProcessor {
       Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     if (!annotations.isEmpty()) {
       GenerationContext context = new GenerationContext(roundEnvironment, processingEnv);
+
+      new SchemaGenerator(context)
+          .generate(
+              roundEnvironment.getElementsAnnotatedWith(YamlSchema.class).stream()
+                  .map(MoreElements::asType)
+                  .collect(Collectors.toUnmodifiableSet()));
+
       roundEnvironment.getElementsAnnotatedWith(YAMLMapper.class).stream()
           .map(MoreElements::asType)
           .forEach(beans::add);
@@ -176,6 +185,6 @@ public class ApplicationProcessor extends AbstractProcessor {
   }
 
   private List<Class<?>> supportedAnnotations() {
-    return Arrays.asList(YAMLMapper.class);
+    return Arrays.asList(YAMLMapper.class, YamlSchema.class);
   }
 }

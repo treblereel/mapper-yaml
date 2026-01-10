@@ -41,6 +41,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.IntersectionType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -85,6 +86,7 @@ public class TypeUtils {
    */
   public String wrapperType(TypeMirror type) {
     if (isPrimitive(type)) {
+      type = types.getPrimitiveType(type.getKind());
       if ("boolean".equals(type.toString())) {
         return Boolean.class.getSimpleName();
       } else if ("byte".equals(type.toString())) {
@@ -102,7 +104,7 @@ public class TypeUtils {
       } else if ("double".equals(type.toString())) {
         return Double.class.getSimpleName();
       } else {
-        return Void.class.getSimpleName();
+        throw new IllegalArgumentException("Unknown primitive type: " + type.toString());
       }
     } else if (type.getKind().equals(TypeKind.ARRAY)) {
       ArrayType arrayType = (ArrayType) type;
@@ -246,7 +248,7 @@ public class TypeUtils {
         new SimpleTypeVisitor8<TypeMirror, Void>() {
           @Override
           public TypeMirror visitPrimitive(PrimitiveType t, Void p) {
-            return t;
+            return types.getPrimitiveType(t.getKind());
           }
 
           @Override
@@ -335,52 +337,79 @@ public class TypeUtils {
    * @return a {@link String} containing string representation of given TypeMirror
    */
   public String stringifyTypeWithPackage(TypeMirror type) {
+    TypeKind kind = type.getKind();
+
+    if (kind.isPrimitive()) {
+      return types.getPrimitiveType(kind).toString();
+    }
+
     if (type.getKind().equals(TypeKind.ARRAY)) {
       return stringifyTypeWithPackage(((ArrayType) type).getComponentType()) + "[]";
-    } else if (type.getKind().isPrimitive()) {
-      return type.toString();
     }
     return stringifyType(type, true);
   }
 
   private String stringifyType(TypeMirror type, boolean appendPackage) {
-    return (appendPackage ? !getPackage(type).isEmpty() ? getPackage(type) + "." : "" : "")
-        + type.accept(
-            new SimpleTypeVisitor8<String, Void>() {
-              @Override
-              public String visitPrimitive(PrimitiveType t, Void p) {
-                return t.toString();
-              }
+    return type.accept(
+        new SimpleTypeVisitor8<String, Void>() {
 
-              @Override
-              public String visitArray(ArrayType t, Void p) {
-                return visit(t.getComponentType(), p) + "[]";
-              }
+          @Override
+          public String visitPrimitive(PrimitiveType t, Void p) {
+            return t.toString();
+          }
 
-              @Override
-              public String visitDeclared(DeclaredType t, Void p) {
-                return t.asElement().getSimpleName()
-                    + ((!t.getTypeArguments().isEmpty())
-                        ? "_"
-                            + t.getTypeArguments().stream()
-                                .map(type -> visit(type, p))
-                                .collect(Collectors.joining("_"))
-                        : "");
-              }
+          @Override
+          public String visitArray(ArrayType t, Void p) {
+            return visit(t.getComponentType(), p) + "[]";
+          }
 
-              @Override
-              public String visitTypeVariable(TypeVariable t, Void p) {
-                return t.toString();
-              }
+          @Override
+          public String visitDeclared(DeclaredType t, Void p) {
+            String packageName = appendPackage ? getPackage(t) : "";
+            String prefix = (!packageName.isEmpty()) ? packageName + "." : "";
 
-              @Override
-              public String visitWildcard(WildcardType t, Void p) {
-                return (t.getExtendsBound() != null)
-                    ? "extends_" + visit(t.getExtendsBound(), p)
-                    : (t.getSuperBound() != null) ? "super_" + visit(t.getSuperBound(), p) : "";
-              }
-            },
-            null);
+            String simpleName = t.asElement().getSimpleName().toString();
+
+            if (!t.getTypeArguments().isEmpty()) {
+              String typeArgs =
+                  t.getTypeArguments().stream()
+                      .map(arg -> visit(arg, p))
+                      .collect(Collectors.joining(", "));
+              return prefix + simpleName + "<" + typeArgs + ">";
+            }
+
+            return prefix + simpleName;
+          }
+
+          @Override
+          public String visitTypeVariable(TypeVariable t, Void p) {
+            return t.toString();
+          }
+
+          @Override
+          public String visitWildcard(WildcardType t, Void p) {
+            if (t.getExtendsBound() != null) {
+              return "? extends " + visit(t.getExtendsBound(), p);
+            }
+            if (t.getSuperBound() != null) {
+              return "? super " + visit(t.getSuperBound(), p);
+            }
+            return "?";
+          }
+
+          @Override
+          public String visitIntersection(IntersectionType t, Void p) {
+            return t.getBounds().stream()
+                .map(bound -> visit(bound, p))
+                .collect(Collectors.joining(" & "));
+          }
+
+          @Override
+          protected String defaultAction(TypeMirror e, Void p) {
+            return e.toString();
+          }
+        },
+        null);
   }
 
   /**

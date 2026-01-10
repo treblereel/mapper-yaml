@@ -744,7 +744,8 @@ public final class TypeRegistry {
    * @return a {@link TypeElement} object.
    */
   public TypeElement getSerializer(TypeMirror typeMirror) {
-    return getSerializer(typeMirror.toString());
+    String fqcn = context.getTypeUtils().stringifyTypeWithPackage(typeMirror);
+    return getSerializer(fqcn);
   }
 
   public TypeElement getSerializer(String typeName) {
@@ -778,7 +779,8 @@ public final class TypeRegistry {
    * @return a {@link TypeElement} object.
    */
   public TypeElement getDeserializer(TypeMirror typeMirror) {
-    return getDeserializer(typeMirror.toString());
+    String fqcn = context.getTypeUtils().stringifyTypeWithPackage(typeMirror);
+    return getDeserializer(fqcn);
   }
 
   public TypeElement getDeserializer(String typeName) {

@@ -19,6 +19,6 @@ package org.treblereel.gwt.yaml.tests.schema;
 import org.treblereel.gwt.yaml.api.annotation.YamlSchema;
 
 @YamlSchema(
-    schemaLocation = "/schema/workflow.yaml",
+    schemaLocation = "../schema/workflow.yaml",
     pkg = "org.treblereel.gwt.yaml.tests.schema.generated")
 public class SchemaGenerationTest {}

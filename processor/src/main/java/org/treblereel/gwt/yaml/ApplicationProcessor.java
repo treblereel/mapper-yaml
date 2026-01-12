@@ -21,7 +21,6 @@ import com.google.auto.common.MoreTypes;
 import com.google.auto.service.AutoService;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,13 +32,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypesException;
 import javax.lang.model.type.TypeMirror;
-import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
-import org.treblereel.gwt.yaml.api.annotation.YamlMappers;
-import org.treblereel.gwt.yaml.api.annotation.YamlSchema;
-import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
-import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializerFor;
-import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
-import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializerFor;
+import org.treblereel.gwt.yaml.api.annotation.*;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.logger.PrintWriterTreeLogger;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
@@ -47,29 +40,22 @@ import org.treblereel.gwt.yaml.processor.BeanProcessor;
 import org.treblereel.gwt.yaml.schema.SchemaGenerator;
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
+@SupportedSourceVersion(SourceVersion.RELEASE_17)
 public class ApplicationProcessor extends AbstractProcessor {
 
   private final PrintWriterTreeLogger logger = new PrintWriterTreeLogger();
-  private final Set<TypeElement> beans = new HashSet<>();
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return supportedAnnotations().stream().map(Class::getCanonicalName).collect(Collectors.toSet());
+    return Set.of(YAMLMapper.class.getCanonicalName());
   }
 
   @Override
   public boolean process(
       Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
     if (!annotations.isEmpty()) {
+      Set<TypeElement> beans = new HashSet<>();
       GenerationContext context = new GenerationContext(roundEnvironment, processingEnv);
-
-      new SchemaGenerator(context)
-          .generate(
-              roundEnvironment.getElementsAnnotatedWith(YamlSchema.class).stream()
-                  .map(MoreElements::asType)
-                  .collect(Collectors.toUnmodifiableSet()));
-
       roundEnvironment.getElementsAnnotatedWith(YAMLMapper.class).stream()
           .map(MoreElements::asType)
           .forEach(beans::add);
@@ -89,9 +75,9 @@ public class ApplicationProcessor extends AbstractProcessor {
 
       logger.setMaxDetail(TreeLogger.Type.INFO);
       long started = System.currentTimeMillis();
-
       processCustomSerializers(roundEnvironment, context);
       new BeanProcessor(context, logger, beans).process();
+
       logger.log(
           TreeLogger.Type.INFO,
           "YAML ser/deser generated in " + (System.currentTimeMillis() - started) + " ms");
@@ -102,7 +88,7 @@ public class ApplicationProcessor extends AbstractProcessor {
   private void processCustomSerializers(
       RoundEnvironment roundEnvironment, GenerationContext context) {
     addCustomDeserializers(
-        roundEnvironment.getElementsAnnotatedWith(YamlTypeSerializer.class).stream()
+        roundEnvironment.getElementsAnnotatedWith(YamlTypeDeserializer.class).stream()
             .filter(e -> e instanceof TypeElement)
             .map(MoreElements::asType),
         context);
@@ -156,17 +142,20 @@ public class ApplicationProcessor extends AbstractProcessor {
 
   private void addCustomDeserializers(Stream<TypeElement> elements, GenerationContext context) {
     elements.forEach(
-        type ->
-            context
-                .getTypeUtils()
-                .getClassValueFromAnnotation(type, YamlTypeDeserializer.class, "value")
-                .ifPresent(
-                    serializer ->
-                        context
-                            .getTypeRegistry()
-                            .registerDeserializer(
-                                type.getQualifiedName().toString(),
-                                MoreTypes.asTypeElement(serializer))));
+        type -> {
+          System.out.println(
+              "Registering custom deserializer for type: " + type.getQualifiedName().toString());
+          context
+              .getTypeUtils()
+              .getClassValueFromAnnotation(type, YamlTypeDeserializer.class, "value")
+              .ifPresent(
+                  serializer ->
+                      context
+                          .getTypeRegistry()
+                          .registerDeserializer(
+                              type.getQualifiedName().toString(),
+                              MoreTypes.asTypeElement(serializer)));
+        });
   }
 
   private void addCustomSerializers(Stream<TypeElement> elements, GenerationContext context) {
@@ -184,7 +173,12 @@ public class ApplicationProcessor extends AbstractProcessor {
                                 MoreTypes.asTypeElement(serializer))));
   }
 
-  private List<Class<?>> supportedAnnotations() {
-    return Arrays.asList(YAMLMapper.class, YamlSchema.class);
+  private void processSchemaGeneration(
+      RoundEnvironment roundEnvironment, GenerationContext context) {
+    new SchemaGenerator(context, logger)
+        .generate(
+            roundEnvironment.getElementsAnnotatedWith(YamlSchema.class).stream()
+                .map(MoreElements::asType)
+                .collect(Collectors.toUnmodifiableSet()));
   }
 }

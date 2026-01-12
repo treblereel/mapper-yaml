@@ -1,5 +1,4 @@
 /*
- *
  * Copyright © 2020 ${name}
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -100,6 +99,8 @@ public class ResourceOracleImpl implements ResourceOracle {
   private URL findResource(List<Location> searchLocations, Path relativeName) {
     for (Location location : searchLocations) {
       try {
+        System.out.println("looking for resource " + relativeName.toString().replace('\\', '/'));
+
         FileObject fileObject =
             aptContext
                 .getProcessingEnv()
@@ -129,6 +130,8 @@ public class ResourceOracleImpl implements ResourceOracle {
 
   private URL getUrlClassLoader(Path path) {
     ClassLoader classLoader = getClass().getClassLoader();
+    System.out.println(
+        "looking for resource via ClassLoader " + path.toString().replace('\\', '/'));
     URL resource = classLoader.getResource(path.toString().replace('\\', '/'));
     if (resource != null) {
       return resource;

@@ -28,6 +28,7 @@ import java.util.TreeMap;
 
 import org.treblereel.gwt.yaml.JavaKeywords;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
+import org.treblereel.gwt.yaml.api.annotation.YamlSchema;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
@@ -43,7 +44,7 @@ class SchemaBeanProcessor {
         this.logger = logger;
     }
 
-    String process(ObjectType objectType, String clazz, String packageName) {
+    String process(ObjectType objectType, String clazz, String packageName, String defaultClassName) {
         CompilationUnit compilationUnit = new CompilationUnit();
         compilationUnit.setPackageDeclaration(packageName);
         String className = Character.toUpperCase(clazz.charAt(0)) + clazz.substring(1);
@@ -63,7 +64,9 @@ class SchemaBeanProcessor {
     }
 
     private void maybeAddAdditionalProperties(ClassOrInterfaceDeclaration classOrInterfaceDeclaration, ObjectType objectType) {
-        throw new GenerationException("Additional properties are not supported yet.");
+        if(objectType.getAdditionalProperties() != null) {
+            //throw new GenerationException("Additional properties are not supported yet.");
+        }
     }
 
     private void addProperty(ClassOrInterfaceDeclaration declaration, String name, String type) {
@@ -102,7 +105,7 @@ class SchemaBeanProcessor {
             return Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
         } else if (property instanceof ArrayType array) {
             HasType items = array.getItems();
-            return "List<" + getType(items) + ">";
+            return "java.util.List<" + getType(items) + ">";
         } else if (property instanceof StringType) {
             return "String";
         } else if (property instanceof IntegerType) {
@@ -111,8 +114,8 @@ class SchemaBeanProcessor {
             return "Double";
         } else if (property instanceof BooleanType) {
             return "Boolean";
-        } else if (property instanceof ObjectType obj) {
-            //return "Object";
+        } else if (property instanceof ObjectType) {
+            return "org.treblereel.gwt.yaml.api.schema.YamlObjectHolder";
         }
         throw new GenerationException("Unsupported property type: " + property.getClass().getName());
     }

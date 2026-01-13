@@ -16,32 +16,12 @@
 
 package org.treblereel.gwt.yaml.api.annotation;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.FIELD;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({TYPE})
-public @interface YamlSchema {
-
-  /*
-   * Location of the YAML schema file.
-   * @return the schema location
-   */
-  String schemaLocation();
-
-  /*
-   * Package name for the generated classes.
-   * @return the package name
-   */
-  String pkg();
-
-  /**
-   * Default class name to be used when the schema does not provide a title or property name.
-   *
-   * @return the default class name
-   */
-  String defaultClassName() default "Document";
-}
+@Target({FIELD})
+public @interface YamlAdditionalProperties {}

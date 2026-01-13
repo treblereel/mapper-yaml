@@ -550,6 +550,7 @@ public class TypeUtils {
 
   public List<String> compileGetterMethodName(VariableElement variable) {
     String varName = variable.getSimpleName().toString();
+    varName = varName.startsWith("_") ? varName.substring(1) : varName;
     boolean isBoolean = isBoolean(variable);
     List<String> result = new ArrayList<>();
     result.add("get" + capitalize(varName));
@@ -603,6 +604,7 @@ public class TypeUtils {
 
   private String compileSetterMethodName(VariableElement variable) {
     String varName = variable.getSimpleName().toString();
+    varName = varName.startsWith("_") ? varName.substring(1) : varName;
     StringBuffer sb = new StringBuffer();
     sb.append("set");
     sb.append(capitalize(varName));

@@ -19,7 +19,7 @@ package org.treblereel.gwt.yaml.schema;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.lang.model.element.Element;
@@ -46,7 +46,7 @@ public class SchemaGenerator {
   }
 
   public void generate(Set<Element> annotatedElements) {
-    Map<URI, String> schemaLocations = new HashMap<>();
+    Set<URI> processed = new HashSet<>();
     annotatedElements.stream()
         .forEach(
             element -> {
@@ -58,29 +58,27 @@ public class SchemaGenerator {
                       "Unable to find resource: " + yamlSchema.schemaLocation());
                 }
 
-                if (schemaLocations.containsKey(resource.toURI())) {
+                if (processed.contains(resource.toURI())) {
                   throw new RuntimeException(
                       "Duplicate schema location found: " + yamlSchema.schemaLocation());
                 } else {
-                  schemaLocations.put(resource.toURI(), yamlSchema.pkg());
+                  processed.add(resource.toURI());
+                  generate(resource.toURI(), yamlSchema.pkg(), yamlSchema.defaultClassName());
                 }
               } catch (Exception e) {
                 throw new RuntimeException(
                     "Unable to find resource: " + yamlSchema.schemaLocation(), e);
               }
             });
-
-    schemaLocations.forEach(this::generate);
   }
 
-  private void generate(URI uri, String pkg) {
+  private void generate(URI uri, String pkg, String defaultClassName) {
     SchemaDefinition definition = new Parser().parse(uri);
     for (Map.Entry<String, ObjectType> entry : definition.getDefinitions().entrySet()) {
       String k = entry.getKey();
       ObjectType v = entry.getValue();
-      String sourceCode = beanProcessor.process(v, k, pkg);
+      String sourceCode = beanProcessor.process(v, k, pkg, defaultClassName);
       try {
-        System.out.println("content of " + sourceCode);
         beanWriter.write(sourceCode, k, pkg);
       } catch (IOException e) {
         throw new GenerationException("Failed to write bean: " + k, e);

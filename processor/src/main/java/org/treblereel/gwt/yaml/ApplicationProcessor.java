@@ -22,7 +22,6 @@ import com.google.auto.service.AutoService;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -37,7 +36,6 @@ import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.logger.PrintWriterTreeLogger;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 import org.treblereel.gwt.yaml.processor.BeanProcessor;
-import org.treblereel.gwt.yaml.schema.SchemaGenerator;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
@@ -171,14 +169,5 @@ public class ApplicationProcessor extends AbstractProcessor {
                             .registerSerializer(
                                 type.getQualifiedName().toString(),
                                 MoreTypes.asTypeElement(serializer))));
-  }
-
-  private void processSchemaGeneration(
-      RoundEnvironment roundEnvironment, GenerationContext context) {
-    new SchemaGenerator(context, logger)
-        .generate(
-            roundEnvironment.getElementsAnnotatedWith(YamlSchema.class).stream()
-                .map(MoreElements::asType)
-                .collect(Collectors.toUnmodifiableSet()));
   }
 }

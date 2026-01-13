@@ -131,6 +131,8 @@ import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveIntegerArrayYAMLS
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveLongArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.array.PrimitiveShortArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.map.MapYAMLSerializer;
+import org.treblereel.gwt.yaml.api.schema.YamlObjectHolder;
+import org.treblereel.gwt.yaml.api.schema.YamlObjectHolderSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
 /**
@@ -167,6 +169,7 @@ public final class TypeRegistry {
     initPrimitiveArraysMappers();
     initCollectionsDeserializersMappers();
     initMapsDeserializersMappers();
+    initExtraDeserializersMappers();
   }
 
   private void initBasicMappers() {
@@ -579,6 +582,13 @@ public final class TypeRegistry {
     mapDeserializers.put(LinkedHashMap.class.getName(), LinkedHashMapYAMLDeserializer.class);
     mapDeserializers.put(SortedMap.class.getName(), SortedMapYAMLDeserializer.class);
     mapDeserializers.put(TreeMap.class.getName(), TreeMapYAMLDeserializer.class);
+  }
+
+  private void initExtraDeserializersMappers() {
+    ClassMapper classMapper = new ClassMapper(YamlObjectHolder.class);
+    classMapper.deserializer(YamlObjectHolderSerializer.class);
+    classMapper.serializer(YamlObjectHolderSerializer.class);
+    customMappers.put(YamlObjectHolder.class.getName(), classMapper);
   }
 
   public void addInActiveGenSerializer(TypeMirror typeMirror) {

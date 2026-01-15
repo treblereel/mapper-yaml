@@ -72,7 +72,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
    *
    * @return a {@link java.lang.Class} object.
    */
-  public abstract Class getDeserializedType();
+  public abstract Class<?> getDeserializedType();
 
   private BeanPropertyDeserializer<T, ?> getPropertyDeserializer(
       String propertyName, YAMLDeserializationContext ctx) {

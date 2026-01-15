@@ -37,10 +37,16 @@ import com.github.javaparser.ast.type.Type;
 import com.google.auto.common.MoreElements;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.util.ElementFilter;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
+import org.treblereel.gwt.yaml.api.annotation.YamlNewInstance;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
@@ -337,16 +343,50 @@ public class DeserializerGenerator extends AbstractGenerator {
     method.setName("create");
     method.setType(new ClassOrInterfaceType().setName(type.getSimpleName()));
 
-    ObjectCreationExpr instanceBuilder = new ObjectCreationExpr();
-    ClassOrInterfaceType instanceBuilderType =
-        new ClassOrInterfaceType().setName(type.getSimpleName());
-    instanceBuilder.setType(instanceBuilderType);
-
+    Expression newInstance = newInstanceExpression(type);
     method
         .getBody()
-        .ifPresent(
-            body -> body.addAndGetStatement(new ReturnStmt().setExpression(instanceBuilder)));
+        .ifPresent(body -> body.addAndGetStatement(new ReturnStmt().setExpression(newInstance)));
     anonymousClassBody.add(method);
+  }
+
+  private Expression newInstanceExpression(BeanDefinition type) {
+    Optional<ExecutableElement> newInstance =
+        ElementFilter.methodsIn(type.getElement().getEnclosedElements()).stream()
+            .filter(e -> e.getModifiers().contains(javax.lang.model.element.Modifier.STATIC))
+            .filter(e -> e.getAnnotation(YamlNewInstance.class) != null)
+            .filter(e -> e.getParameters().isEmpty())
+            .filter(
+                e ->
+                    this.context
+                        .getProcessingEnv()
+                        .getTypeUtils()
+                        .isSameType(e.getReturnType(), type.getElement().asType()))
+            .findFirst();
+
+    if (newInstance.isPresent()) {
+      return new MethodCallExpr(
+          new NameExpr(type.getQualifiedName()), newInstance.get().getSimpleName().toString());
+    }
+
+    ObjectCreationExpr instanceBuilder = new ObjectCreationExpr();
+    ClassOrInterfaceType instanceBuilderType = new ClassOrInterfaceType();
+    instanceBuilder.setType(instanceBuilderType);
+
+    if (type.getElement().getAnnotation(YAMLMapper.class) != null) {
+      try {
+        type.getElement().getAnnotation(YAMLMapper.class).implementation().getCanonicalName();
+      } catch (MirroredTypeException e) {
+        if (!Void.class.getCanonicalName().equals(e.getTypeMirror().toString())) {
+          if (type.getElement().getKind().isInterface()) {
+            instanceBuilderType.setName(e.getTypeMirror().toString());
+            return instanceBuilder;
+          }
+        }
+      }
+    }
+    instanceBuilderType.setName(type.getSimpleName());
+    return instanceBuilder;
   }
 
   private Expression getFieldAccessor(PropertyDefinition field) {

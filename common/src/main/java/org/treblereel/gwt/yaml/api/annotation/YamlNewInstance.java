@@ -21,14 +21,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface YAMLMapper {
-
-  /**
-   * Specify implementation class to be used during deserialization
-   *
-   * @return implementation class
-   */
-  Class<?> implementation() default Void.class;
-}
+public @interface YamlNewInstance {}

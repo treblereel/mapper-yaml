@@ -16,6 +16,7 @@
 
 package org.treblereel.gwt.yaml.definition;
 
+import com.google.auto.common.MoreTypes;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -25,10 +26,14 @@ import java.util.stream.Stream;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.api.annotation.YamlPropertyOrder;
 import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 import org.treblereel.gwt.yaml.context.GenerationContext;
+import org.treblereel.gwt.yaml.exception.GenerationException;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
 public class BeanDefinition extends Definition {
@@ -42,9 +47,11 @@ public class BeanDefinition extends Definition {
   }
 
   private void loadProperties() {
+    TypeElement current = getCurrentYamlBean();
+
     properties = new LinkedHashSet<>();
     Stream<VariableElement> asStream =
-        context.getTypeUtils().getAllFieldsIn(element).stream()
+        context.getTypeUtils().getAllFieldsIn(current).stream()
             .filter(field -> !field.getModifiers().contains(Modifier.STATIC))
             .filter(field -> !field.getModifiers().contains(Modifier.FINAL))
             .filter(field -> !field.getModifiers().contains(Modifier.TRANSIENT))
@@ -94,6 +101,25 @@ public class BeanDefinition extends Definition {
 
   public String getQualifiedName() {
     return getElement().getQualifiedName().toString();
+  }
+
+  private TypeElement getCurrentYamlBean() {
+    if (element.getKind().isInterface() && element.getAnnotation(YAMLMapper.class) != null) {
+      try {
+        element.getAnnotation(YAMLMapper.class).implementation().getCanonicalName();
+      } catch (MirroredTypeException e) {
+        if (!Void.class.getCanonicalName().equals(e.getTypeMirror().toString())) {
+          TypeMirror typeMirror = e.getTypeMirror();
+          if (typeMirror.getKind() == TypeKind.DECLARED) {
+            return MoreTypes.asTypeElement(typeMirror);
+          } else {
+            throw new GenerationException(
+                "Cannot process YAMLMapper implementation for " + element.toString());
+          }
+        }
+      }
+    }
+    return element;
   }
 
   @Override

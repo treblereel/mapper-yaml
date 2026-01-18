@@ -16,18 +16,20 @@
 
 package org.treblereel.gwt.yaml.schema;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import javax.lang.model.element.Element;
+
 import org.treblereel.gwt.yaml.api.annotation.YamlSchema;
 import org.treblereel.gwt.yaml.context.GenerationContext;
-import org.treblereel.gwt.yaml.exception.GenerationException;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 import org.treblereel.yaml.schema.Parser;
+import org.treblereel.yaml.schema.model.ArrayType;
+import org.treblereel.yaml.schema.model.HasType;
 import org.treblereel.yaml.schema.model.ObjectType;
 import org.treblereel.yaml.schema.model.SchemaDefinition;
 
@@ -36,53 +38,78 @@ public class SchemaGenerator {
   private final GenerationContext context;
   private final ResourceOracle resourceOracle;
   private final SchemaBeanProcessor beanProcessor;
-  private final BeanWriter beanWriter;
 
   public SchemaGenerator(GenerationContext context, TreeLogger logger) {
     this.context = context;
     this.resourceOracle = new ResourceOracleImpl(context);
     this.beanProcessor = new SchemaBeanProcessor(context, logger);
-    this.beanWriter = new BeanWriter(context, logger);
   }
 
   public void generate(Set<Element> annotatedElements) {
     Set<URI> processed = new HashSet<>();
     annotatedElements.stream()
-        .forEach(
-            element -> {
-              YamlSchema yamlSchema = element.getAnnotation(YamlSchema.class);
-              try {
-                URL resource = resourceOracle.findResource(element, yamlSchema.schemaLocation());
-                if (resource == null) {
-                  throw new RuntimeException(
-                      "Unable to find resource: " + yamlSchema.schemaLocation());
-                }
+            .forEach(
+                    element -> {
+                      YamlSchema yamlSchema = element.getAnnotation(YamlSchema.class);
+                      try {
+                        URL resource = resourceOracle.findResource(element, yamlSchema.schemaLocation());
+                        if (resource == null) {
+                          throw new RuntimeException(
+                                  "Unable to find resource: " + yamlSchema.schemaLocation());
+                        }
 
-                if (processed.contains(resource.toURI())) {
-                  throw new RuntimeException(
-                      "Duplicate schema location found: " + yamlSchema.schemaLocation());
-                } else {
-                  processed.add(resource.toURI());
-                  generate(resource.toURI(), yamlSchema.pkg(), yamlSchema.defaultClassName());
-                }
-              } catch (Exception e) {
-                throw new RuntimeException(
-                    "Unable to find resource: " + yamlSchema.schemaLocation(), e);
-              }
-            });
+                        if (processed.contains(resource.toURI())) {
+                          throw new RuntimeException(
+                                  "Duplicate schema location found: " + yamlSchema.schemaLocation());
+                        } else {
+                          processed.add(resource.toURI());
+                          generate(resource.toURI(), yamlSchema);
+                        }
+                      } catch (Exception e) {
+                        throw new RuntimeException(
+                                "Unable to find resource: " + yamlSchema.schemaLocation(), e);
+                      }
+                    });
   }
 
-  private void generate(URI uri, String pkg, String defaultClassName) {
+  private void generate(URI uri, YamlSchema yamlSchema) {
     SchemaDefinition definition = new Parser().parse(uri);
+    collectInnerTypes(yamlSchema, yamlSchema.defaultClassName(), definition.getObjectDefinition());
+    checkAllOf(yamlSchema, definition);
     for (Map.Entry<String, ObjectType> entry : definition.getDefinitions().entrySet()) {
       String k = entry.getKey();
       ObjectType v = entry.getValue();
-      String sourceCode = beanProcessor.process(v, k, pkg, defaultClassName);
-      try {
-        beanWriter.write(sourceCode, k, pkg);
-      } catch (IOException e) {
-        throw new GenerationException("Failed to write bean: " + k, e);
+      collectInnerTypes(yamlSchema, k, v);
+    }
+  }
+
+  private void collectInnerTypes(YamlSchema schema, String className, ObjectType objectType) {
+    Stack<ObjectTypeHolder> stack = new Stack<>();
+    stack.add(new ObjectTypeHolder(className, objectType));
+    while (!stack.isEmpty()) {
+      ObjectTypeHolder current = stack.pop();
+      ObjectType inner = current.objectType;
+      String name = current.name;
+      beanProcessor.process(inner, name, schema.pkg());
+      for (Map.Entry<String, HasType> kv : inner.properties().entrySet()) {
+        HasType hasType = kv.getValue();
+        if (hasType instanceof ObjectType objType) {
+          String typeName = Character.toUpperCase(kv.getKey().charAt(0)) + kv.getKey().substring(1);
+          stack.push(new ObjectTypeHolder(name + typeName, objType));
+        } else if (hasType instanceof ArrayType arrayType) {
+          if (arrayType.getItems() instanceof ObjectType objType) {
+            String typeName = Character.toUpperCase(kv.getKey().charAt(0)) + kv.getKey().substring(1);
+            stack.push(new ObjectTypeHolder(name + typeName, objType));
+          }
+        }
       }
     }
+  }
+
+  private void checkAllOf(YamlSchema yamlSchema, SchemaDefinition definition) {
+
+  }
+
+  private record ObjectTypeHolder(String name, ObjectType objectType) {
   }
 }

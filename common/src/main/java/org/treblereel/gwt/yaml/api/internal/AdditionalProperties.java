@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Treblereel
+ * Copyright © 2026 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.treblereel.gwt.yaml.api.internal;
 
-package org.treblereel.gwt.yaml.api.annotation;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.treblereel.gwt.yaml.api.HasAdditionalProperties;
+import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 
-import static java.lang.annotation.ElementType.TYPE;
+public class AdditionalProperties implements HasAdditionalProperties {
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+  @YamlTransient private final Map<String, Object> properties = new LinkedHashMap<>();
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({TYPE})
-public @interface YamlInclusiveUnion {
-
-  Class<?>[] value();
+  @Override
+  public Map<String, Object> getAdditionalProperties() {
+    return properties;
+  }
 }

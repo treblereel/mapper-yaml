@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Treblereel
+ * Copyright © 2026 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package org.treblereel.gwt.yaml.api.annotation;
+package org.treblereel.gwt.yaml.api;
 
-import static java.lang.annotation.ElementType.TYPE;
+import java.util.Map;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface HasAdditionalProperties {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({TYPE})
-public @interface YamlInclusiveUnion {
-
-  Class<?>[] value();
+  Map<String, Object> getAdditionalProperties();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Treblereel
+ * Copyright © 2026 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({TYPE})
-public @interface YamlInclusiveUnion {
+public @interface YamlNode {
 
-  Class<?>[] value();
+  boolean unevaluatedProperties() default true;
+
+  String[] required() default {};
 }

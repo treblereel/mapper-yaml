@@ -4,7 +4,7 @@
 
     <groupId>org.treblereel.gwt.yaml.mapper</groupId>
     <artifactId>yaml-parent</artifactId>
-    <version>0.7</version>
+    <version>0.8</version>
     <packaging>pom</packaging>
 
     <name>yaml-parent</name>
@@ -43,8 +43,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.version>3.8.0</maven.compiler.version>
         <maven.source.version>3.0.1</maven.source.version>
         <maven.fmt.plugin>2.9</maven.fmt.plugin>
@@ -65,10 +65,10 @@
         <auto.common.version>1.2.2</auto.common.version>
         <auto.service.version>1.1.1</auto.service.version>
 
-        <gwt.nio.version>1.5</gwt.nio.version>
+        <gwt.nio.version>1.6</gwt.nio.version>
         <gwt.jakarta.version>0.7</gwt.jakarta.version>
-        <stdlib.version>0.7</stdlib.version>
-        <j2cl.platform.version>20251001-1</j2cl.platform.version>
+        <stdlib.version>0.8</stdlib.version>
+        <j2cl.platform.version>20260527-1</j2cl.platform.version>
     </properties>
 
     <modules>
@@ -169,11 +169,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven.gpg.plugin}</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.vertispan.j2cl</groupId>
-                    <artifactId>j2cl-maven-plugin</artifactId>
-                    <version>${maven.j2cl.plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -302,7 +297,7 @@
                         <version>${maven.central.publishing.plugin}</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <publishingServerId>sonatype</publishingServerId>
+                            <publishingServerId>central</publishingServerId>
                         </configuration>
                     </plugin>
                     <plugin>

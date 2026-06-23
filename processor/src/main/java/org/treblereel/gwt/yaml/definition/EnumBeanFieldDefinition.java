@@ -29,7 +29,9 @@ import org.treblereel.gwt.yaml.api.internal.deser.EnumYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.ser.EnumYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class EnumBeanFieldDefinition extends FieldDefinition {
 
   protected EnumBeanFieldDefinition(TypeMirror property, GenerationContext context) {

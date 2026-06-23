@@ -26,7 +26,9 @@ import org.junit.Test;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.tests.AbstractYamlTest;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/26/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/26/20
+ */
 @J2clTestInput(CharacterTest.class)
 public class CharacterTest extends AbstractYamlTest<CharacterTest.CharacterBean> {
 

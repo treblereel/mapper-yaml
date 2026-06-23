@@ -24,7 +24,9 @@ import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class DefaultBeanFieldDefinition extends FieldDefinition {
 
   private final TypeUtils typeUtils;

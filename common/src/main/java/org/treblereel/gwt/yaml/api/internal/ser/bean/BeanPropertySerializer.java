@@ -29,6 +29,7 @@ import org.treblereel.gwt.yaml.api.node.YamlMapping;
 public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAMLSerializer<V>> {
 
   protected String propertyName;
+  protected boolean nillable;
 
   /**
    * Constructor for BeanPropertySerializer.
@@ -37,6 +38,18 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
    */
   protected BeanPropertySerializer(String propertyName) {
     this.propertyName = propertyName;
+    this.nillable = false;
+  }
+
+  /**
+   * Constructor for BeanPropertySerializer.
+   *
+   * @param propertyName a {@link String} object.
+   * @param nillable a boolean.
+   */
+  protected BeanPropertySerializer(String propertyName, boolean nillable) {
+    this.propertyName = propertyName;
+    this.nillable = nillable;
   }
 
   /**
@@ -49,6 +62,15 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
   }
 
   /**
+   * Getter for the field <code>nillable</code>.
+   *
+   * @return a boolean.
+   */
+  public boolean isNillable() {
+    return nillable;
+  }
+
+  /**
    * Serializes the property defined for this instance.
    *
    * @param writer writer
@@ -56,12 +78,22 @@ public abstract class BeanPropertySerializer<T, V> extends HasSerializer<V, YAML
    * @param ctx context of the serialization process
    */
   public void serialize(YamlMapping writer, T bean, YAMLSerializationContext ctx) {
-    getSerializer((V) bean.getClass()).serialize(writer, propertyName, getValue(bean, ctx), ctx);
+    V value = getValue(bean, ctx);
+    if (value == null && nillable) {
+      writer.addScalarNode(propertyName, "~");
+      return;
+    }
+    getSerializer((V) bean.getClass()).serialize(writer, propertyName, value, ctx);
   }
 
   public void serialize(
       YamlMapping writer, String propertyName, T value, YAMLSerializationContext ctx) {
-    getSerializer((V) value.getClass()).serialize(writer, propertyName, getValue(value, ctx), ctx);
+    V val = getValue(value, ctx);
+    if (val == null && nillable) {
+      writer.addScalarNode(propertyName, "~");
+      return;
+    }
+    getSerializer((V) value.getClass()).serialize(writer, propertyName, val, ctx);
   }
 
   public boolean isAbstractBeanYAMLSerializer(T bean) {

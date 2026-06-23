@@ -36,7 +36,9 @@ import org.treblereel.gwt.yaml.api.internal.ser.array.ArrayYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class ArrayBeanFieldDefinition extends FieldDefinition {
 
   protected ArrayBeanFieldDefinition(TypeMirror property, GenerationContext context) {

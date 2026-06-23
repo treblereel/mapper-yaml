@@ -16,7 +16,9 @@
 
 package org.treblereel.gwt.yaml.api.internal.utils;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/2/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/2/20
+ */
 public class Pair<K, V> {
 
   public final K key;

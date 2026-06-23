@@ -42,7 +42,9 @@ import org.treblereel.gwt.yaml.exception.GenerationException;
 import org.treblereel.gwt.yaml.generator.MapperGenerator;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/11/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/11/20
+ */
 public class BeanProcessor {
 
   private final GenerationContext context;

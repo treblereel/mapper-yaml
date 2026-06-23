@@ -43,6 +43,12 @@ public abstract class AbstractYAMLSerializer<T> implements YAMLSerializer<T> {
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, T value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
+    }
     YamlMapping childWriter = writer.addMappingNode(propertyName);
     serialize(childWriter, value, ctx);
   }

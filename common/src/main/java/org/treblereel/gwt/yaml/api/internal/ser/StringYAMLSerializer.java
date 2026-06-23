@@ -39,19 +39,21 @@ public class StringYAMLSerializer implements YAMLSerializer<String> {
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, String value, YAMLSerializationContext ctx) {
-    if (isEmpty(value) && ctx.isSerializeNulls()) {
-      writer.addScalarNode(propertyName, "~");
-    } else {
-      writer.addScalarNode(propertyName, value);
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
     }
+    writer.addScalarNode(propertyName, value);
   }
 
   @Override
   public void serialize(YamlSequence builder, String value, YAMLSerializationContext ctx) {
-    if (isEmpty(value) && ctx.isSerializeNulls()) {
+    if (null == value) {
       builder.addScalarNode("~");
-    } else {
-      builder.addScalarNode(value);
+      return;
     }
+    builder.addScalarNode(value);
   }
 }

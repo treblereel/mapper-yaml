@@ -18,7 +18,7 @@ package org.treblereel.gwt.yaml.context;
 
 import com.google.auto.common.MoreTypes;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
@@ -28,14 +28,16 @@ import org.treblereel.gwt.yaml.TypeRegistry;
 import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.definition.BeanDefinition;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/11/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/11/20
+ */
 public class GenerationContext {
 
   private final RoundEnvironment roundEnvironment;
   private final ProcessingEnvironment processingEnv;
   private final TypeRegistry typeRegistry;
   private final TypeUtils typeUtils;
-  private final Map<TypeMirror, BeanDefinition> beans = new HashMap<>();
+  private final Map<TypeMirror, BeanDefinition> beans = new LinkedHashMap<>();
 
   public GenerationContext(RoundEnvironment roundEnvironment, ProcessingEnvironment processingEnv) {
     this.processingEnv = processingEnv;

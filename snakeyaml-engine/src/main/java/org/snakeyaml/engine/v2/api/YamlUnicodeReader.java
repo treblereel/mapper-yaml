@@ -52,7 +52,9 @@ public class YamlUnicodeReader extends Reader {
   InputStreamReader internalIn2 = null;
   Charset encoding = UTF8;
 
-  /** @param in InputStream to be read */
+  /**
+   * @param in InputStream to be read
+   */
   public YamlUnicodeReader(InputStream in) {
     internalIn = new PushbackInputStream(in, BOM_SIZE);
   }

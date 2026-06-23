@@ -33,6 +33,12 @@ public class BooleanYAMLSerializer implements YAMLSerializer<Boolean> {
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, Boolean value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
+    }
     writer.addScalarNode(propertyName, value);
   }
 

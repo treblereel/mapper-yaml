@@ -36,14 +36,18 @@ public final class StreamReader {
   // temp buffer for one read operation (to avoid creating the array in stack)
   private final char[] buffer;
   private final boolean useMarks;
+
   /** Read data (as a moving window for input stream) */
   private int[] codePointsWindow;
+
   /** Real length of the data in dataWindow */
   private int dataLength;
+
   /** The variable points to the current position in the data array */
   private int pointer = 0;
 
   private boolean eof;
+
   /**
    * index is only required to implement 1024 key length restriction and the total length
    * restriction
@@ -290,7 +294,9 @@ public final class StreamReader {
     }
   }
 
-  /** @return current position as number (in characters) from the beginning of the current line */
+  /**
+   * @return current position as number (in characters) from the beginning of the current line
+   */
   public int getColumn() {
     return column;
   }
@@ -314,12 +320,16 @@ public final class StreamReader {
     documentIndex = 0;
   }
 
-  /** @return current position as number (in characters) from the beginning of the stream */
+  /**
+   * @return current position as number (in characters) from the beginning of the stream
+   */
   public int getIndex() {
     return index;
   }
 
-  /** @return current line from the beginning of the stream */
+  /**
+   * @return current line from the beginning of the stream
+   */
   public int getLine() {
     return line;
   }

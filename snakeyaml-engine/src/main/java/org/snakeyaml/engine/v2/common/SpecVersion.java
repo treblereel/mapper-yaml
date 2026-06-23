@@ -20,6 +20,7 @@ public class SpecVersion implements Serializable {
 
   /** keep major */
   private final int major;
+
   /** keep minor */
   private final int minor;
 

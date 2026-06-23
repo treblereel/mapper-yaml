@@ -53,6 +53,7 @@ public abstract class UnicodeEscaper implements Escaper {
 
   /** The amount of padding (chars) to use when growing the escape buffer. */
   private static final int DEST_PAD = 32;
+
   /**
    * A thread-local destination buffer to keep us from creating new buffers. The starting size is
    * 1024 characters. If we grow past this we don't put it back in the threadlocal, we just keep

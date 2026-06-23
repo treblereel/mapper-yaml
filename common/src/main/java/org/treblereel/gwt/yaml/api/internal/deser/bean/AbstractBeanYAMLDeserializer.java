@@ -16,9 +16,11 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.bean;
 
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
+import org.treblereel.gwt.yaml.api.exception.YAMLDeserializationException;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.node.NodeType;
 import org.treblereel.gwt.yaml.api.node.YamlMapping;
@@ -78,7 +80,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
       String propertyName, YAMLDeserializationContext ctx) {
     BeanPropertyDeserializer<T, ?> property = deserializers.get(propertyName);
     if (null == property) {
-      throw new Error(
+      throw new YAMLDeserializationException(
           "Unknown property '"
               + propertyName
               + "' in (de)serializer "
@@ -92,7 +94,7 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
       return null;
     }
 
-    Collection<String> props = yaml.keys();
+    Set<String> props = new HashSet<>(yaml.keys());
     props.retainAll(deserializers.keySet());
     if (props.isEmpty()) {
       return null;
@@ -100,16 +102,20 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
     T instance = instanceBuilder.newInstance(ctx).getInstance();
     props.forEach(
         key -> {
-          if (getPropertyDeserializer(key, ctx).getDeserializer()
-              instanceof AbstractBeanYAMLDeserializer) {
-            YamlMapping node = yaml.getMappingNode(key);
-            BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
+          @SuppressWarnings("unchecked")
+          BeanPropertyDeserializer propertyDeserializer = getPropertyDeserializer(key, ctx);
+          YamlNode node = yaml.getNode(key);
+          if (node != null && node.type() == NodeType.SCALAR && node.asScalar().value() == null) {
+            return;
+          }
+          if (propertyDeserializer.getDeserializer() instanceof AbstractBeanYAMLDeserializer) {
+            YamlMapping node2 = yaml.getMappingNode(key);
             Object value =
                 ((AbstractBeanYAMLDeserializer) propertyDeserializer.getDeserializer())
-                    .deserialize(node, ctx);
+                    .deserialize(node2, ctx);
             propertyDeserializer.setValue(instance, value, ctx);
           } else {
-            getPropertyDeserializer(key, ctx).deserialize(yaml, key, instance, ctx);
+            propertyDeserializer.deserialize(yaml, key, instance, ctx);
           }
         });
     return instance;
@@ -117,6 +123,9 @@ public abstract class AbstractBeanYAMLDeserializer<T> implements YAMLDeserialize
 
   @Override
   public T deserialize(YamlNode node, YAMLDeserializationContext ctx) {
+    if (node == null || node.isEmpty()) {
+      return null;
+    }
     if (node.type() == NodeType.MAPPING) {
       return deserialize(node.asMapping(), ctx);
     }

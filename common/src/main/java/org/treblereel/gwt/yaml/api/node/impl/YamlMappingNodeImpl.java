@@ -18,8 +18,8 @@ package org.treblereel.gwt.yaml.api.node.impl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -59,7 +59,7 @@ class YamlMappingNodeImpl implements YamlMapping, Wrappable<Map<String, Object>>
         Object v = entry.getValue();
         if (v instanceof Map) {
           holder.put(k, new YamlMappingNodeImpl(settings, (Map<String, Object>) v));
-        } else if (v instanceof Iterable) {
+        } else if (v instanceof List) {
           holder.put(k, new YamlSequenceNodeImpl(settings, (List<Object>) v));
         } else {
           holder.put(k, new YamlScalarNodeImpl(v));
@@ -70,7 +70,7 @@ class YamlMappingNodeImpl implements YamlMapping, Wrappable<Map<String, Object>>
 
   @Override
   public Collection<String> keys() {
-    return new HashSet<>(holder.keySet());
+    return new LinkedHashSet<>(holder.keySet());
   }
 
   @Override

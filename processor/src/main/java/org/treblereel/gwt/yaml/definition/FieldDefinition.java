@@ -21,7 +21,9 @@ import com.github.javaparser.ast.expr.Expression;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public abstract class FieldDefinition extends Definition {
 
   protected FieldDefinition(TypeMirror property, GenerationContext context) {

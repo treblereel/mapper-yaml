@@ -28,7 +28,9 @@ import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class IterableBeanFieldDefinition extends FieldDefinition {
 
   protected IterableBeanFieldDefinition(TypeMirror property, GenerationContext context) {
@@ -46,7 +48,7 @@ public class IterableBeanFieldDefinition extends FieldDefinition {
 
     MethodCallExpr method =
         new MethodCallExpr(new NameExpr(serializer.getSimpleName().toString()), "newInstance");
-    if (field.hasYamlTypeSerializer()) {
+    if (field.hasYamlTypeDeserializer()) {
       method.addArgument(
           field.getFieldYamlTypeDeserializerCreationExpr(
               field.getProperty().getAnnotation(YamlTypeDeserializer.class)));

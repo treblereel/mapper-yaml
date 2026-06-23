@@ -23,6 +23,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.AssignExpr;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -56,7 +57,9 @@ import org.treblereel.gwt.yaml.definition.PropertyDefinition;
 import org.treblereel.gwt.yaml.generator.AbstractGenerator;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/18/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/18/20
+ */
 public class SerializerGenerator extends AbstractGenerator {
 
   public SerializerGenerator(GenerationContext context, TreeLogger logger) {
@@ -153,6 +156,7 @@ public class SerializerGenerator extends AbstractGenerator {
 
     beanProperty.setType(beanType);
     beanProperty.addArgument(new StringLiteralExpr(variableElement.getPropertyName()));
+    beanProperty.addArgument(new BooleanLiteralExpr(variableElement.isNillable()));
     setTypeParams(beanDefinition, variableElement, beanType);
 
     body.addStatement(

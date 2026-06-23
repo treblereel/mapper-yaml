@@ -101,7 +101,9 @@ public abstract class AbstractBeanYAMLSerializer<T> extends AbstractYAMLSerializ
   private void serializeProperties(YamlMapping writer, T value, YAMLSerializationContext ctx) {
 
     for (BeanPropertySerializer<T, ?> propertySerializer : serializers) {
-      if (propertySerializer.getValue(value, ctx) == null && !ctx.isSerializeNulls()) {
+      if (propertySerializer.getValue(value, ctx) == null
+          && !ctx.isSerializeNulls()
+          && !propertySerializer.isNillable()) {
         continue;
       }
       if (propertySerializer.isAbstractBeanYAMLSerializer(value)) {

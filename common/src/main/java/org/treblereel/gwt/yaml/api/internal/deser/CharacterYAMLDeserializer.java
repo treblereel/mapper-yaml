@@ -37,6 +37,12 @@ public class CharacterYAMLDeserializer implements YAMLDeserializer<Character> {
       return '\u0000';
     }
     YamlScalar<String> scalar = value.asScalar();
+    if (scalar.value() == null) {
+      return ' ';
+    }
+    if (scalar.value().isEmpty()) {
+      return ' ';
+    }
     return scalar.value().charAt(0);
   }
 }

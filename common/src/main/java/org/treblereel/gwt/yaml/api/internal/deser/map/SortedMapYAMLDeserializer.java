@@ -33,7 +33,9 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 public final class SortedMapYAMLDeserializer<V>
     extends BaseMapYAMLDeserializer<SortedMap<String, V>, V> {
 
-  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  /**
+   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
+   */
   private SortedMapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
     super(valueDeserializer);
   }

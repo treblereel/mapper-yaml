@@ -29,7 +29,9 @@ import org.treblereel.gwt.yaml.api.internal.ser.map.MapYAMLSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 import org.treblereel.gwt.yaml.exception.GenerationException;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class MapBeanFieldDefinition extends FieldDefinition {
 
   private TypeMirror STRING_TYPE;
@@ -50,6 +52,16 @@ public class MapBeanFieldDefinition extends FieldDefinition {
     if (declaredType.getTypeArguments().size() != 2) {
       throw new GenerationException(
           declaredType.toString() + " must have type args [" + bean + "]");
+    }
+    if (!context
+        .getProcessingEnv()
+        .getTypeUtils()
+        .isSameType(declaredType.getTypeArguments().get(0), STRING_TYPE)) {
+      throw new GenerationException(
+          "Only Maps with String keys are supported for YAML deserialization. Problematic type: "
+              + declaredType.getTypeArguments().get(0).toString()
+              + " at "
+              + field.getBean());
     }
     return new MethodCallExpr(
             new NameExpr(MapYAMLDeserializer.class.getCanonicalName()), "newInstance")

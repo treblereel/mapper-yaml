@@ -24,7 +24,9 @@ import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class BasicTypeFieldDefinition extends FieldDefinition {
 
   protected BasicTypeFieldDefinition(TypeMirror property, GenerationContext context) {
@@ -49,8 +51,7 @@ public class BasicTypeFieldDefinition extends FieldDefinition {
     ObjectCreationExpr expression =
         new ObjectCreationExpr().setType(context.getTypeRegistry().getSerializer(bean).toString());
 
-    if (field.hasYamlTypeSerializer()
-        || context.getTypeRegistry().containsSerializer(field.getBean())) {
+    if (field.hasYamlTypeSerializer()) {
       expression.addArgument(
           field.getFieldYamlTypeSerializerCreationExpr(
               field.getProperty().getAnnotation(YamlTypeSerializer.class)));

@@ -47,10 +47,13 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public BigDecimal deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
+      if (value == null || value.isEmpty()) {
         return null;
       }
       YamlScalar<String> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       return new BigDecimal(scalar.value());
     }
   }
@@ -70,10 +73,13 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public BigInteger deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
+      if (value == null || value.isEmpty()) {
         return null;
       }
       YamlScalar<String> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       return new BigInteger(scalar.value());
     }
   }
@@ -92,10 +98,13 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public Byte deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
-        return 0;
+      if (value == null || value.isEmpty()) {
+        return null;
       }
       YamlScalar<?> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       if (scalar.value() instanceof Integer) {
         return ((Integer) scalar.value()).byteValue();
       }
@@ -118,12 +127,18 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public Double deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
+      if (value == null || value.isEmpty()) {
         return null;
       }
       YamlScalar<?> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       if (scalar.value() instanceof Integer) {
         return ((Integer) scalar.value()).doubleValue();
+      }
+      if (scalar.value() instanceof String) {
+        return Double.parseDouble((String) scalar.value());
       }
       return (Double) scalar.value();
     }
@@ -143,10 +158,13 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public Float deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
+      if (value == null || value.isEmpty()) {
         return null;
       }
       YamlScalar<?> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       if (scalar.value() instanceof Double) {
         return ((Double) scalar.value()).floatValue();
       }
@@ -175,6 +193,9 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
         return null;
       }
       YamlScalar<?> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       if (scalar.value() instanceof String) {
         return Integer.parseInt((String) scalar.value());
       }
@@ -196,12 +217,18 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public Long deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
+      if (value == null || value.isEmpty()) {
         return null;
       }
       YamlScalar<?> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       if (scalar.value() instanceof Integer) {
         return ((Integer) scalar.value()).longValue();
+      }
+      if (scalar.value() instanceof String) {
+        return Long.parseLong((String) scalar.value());
       }
       return (Long) scalar.value();
     }
@@ -221,12 +248,18 @@ public abstract class BaseNumberYAMLDeserializer<N extends Number> implements YA
 
     @Override
     public Short deserialize(YamlNode value, YAMLDeserializationContext ctx) {
-      if (value.isEmpty()) {
+      if (value == null || value.isEmpty()) {
         return null;
       }
       YamlScalar<?> scalar = value.asScalar();
+      if (scalar.value() == null) {
+        return null;
+      }
       if (scalar.value() instanceof Integer) {
         return ((Integer) scalar.value()).shortValue();
+      }
+      if (scalar.value() instanceof String) {
+        return Short.parseShort((String) scalar.value());
       }
       return (Short) scalar.value();
     }

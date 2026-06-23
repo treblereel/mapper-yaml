@@ -31,6 +31,7 @@ public class EnumYAMLDeserializer<E extends Enum<E>> implements YAMLDeserializer
 
   private final Class<E> enumClass;
   private final E[] values;
+
   /**
    * Constructor for EnumYAMLDeserializer.
    *
@@ -74,8 +75,15 @@ public class EnumYAMLDeserializer<E extends Enum<E>> implements YAMLDeserializer
   }
 
   private <E extends Enum<E>> E getEnum(E[] values, YamlNode name) {
+    if (name == null || name.isEmpty()) {
+      return null;
+    }
+    Object scalarValue = name.asScalar().value();
+    if (scalarValue == null) {
+      return null;
+    }
     for (int i = 0; i < values.length; i++) {
-      if (values[i].name().equals(name.asScalar().value())) {
+      if (values[i].name().equals(scalarValue)) {
         return values[i];
       }
     }

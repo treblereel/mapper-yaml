@@ -27,7 +27,9 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.tests.AbstractYamlTest;
 import org.treblereel.gwt.yaml.tests.primitive.DoubleTest.DoubleType;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/22/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/22/20
+ */
 @J2clTestInput(DoubleTest.class)
 public class DoubleTest extends AbstractYamlTest<DoubleType> {
 

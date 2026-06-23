@@ -31,7 +31,9 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 public final class IdentityHashMapYAMLDeserializer<V>
     extends BaseMapYAMLDeserializer<IdentityHashMap<String, V>, V> {
 
-  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  /**
+   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
+   */
   private IdentityHashMapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
     super(valueDeserializer);
   }

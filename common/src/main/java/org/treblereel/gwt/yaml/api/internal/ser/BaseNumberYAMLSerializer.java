@@ -34,6 +34,12 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> implements YAML
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, N value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
+    }
     writer.addScalarNode(propertyName, value);
   }
 
@@ -74,7 +80,12 @@ public abstract class BaseNumberYAMLSerializer<N extends Number> implements YAML
     @Override
     public void serialize(
         YamlMapping writer, String propertyName, Double value, YAMLSerializationContext ctx) {
-      // writer has a special method to write double, let's use instead of default Number method.
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode(propertyName, "~");
+        }
+        return;
+      }
       writer.addScalarNode(propertyName, value);
     }
   }

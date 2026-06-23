@@ -55,7 +55,9 @@ import org.treblereel.gwt.yaml.definition.PropertyDefinition;
 import org.treblereel.gwt.yaml.generator.AbstractGenerator;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/18/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/18/20
+ */
 public class DeserializerGenerator extends AbstractGenerator {
 
   public DeserializerGenerator(GenerationContext context, TreeLogger logger) {

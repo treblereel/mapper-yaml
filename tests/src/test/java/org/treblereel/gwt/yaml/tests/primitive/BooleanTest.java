@@ -28,7 +28,9 @@ import org.junit.Test;
 import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.tests.AbstractYamlTest;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/22/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/22/20
+ */
 @J2clTestInput(BooleanTest.class)
 public class BooleanTest extends AbstractYamlTest<BooleanTest.BooleanBean> {
 

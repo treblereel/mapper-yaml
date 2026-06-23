@@ -46,8 +46,11 @@ public class YamlSubtypeDeserializer<T> implements YAMLDeserializer<T> {
     if (yaml.getNode(key).type() == NodeType.MAPPING
         && yaml.getNode(key).asMapping().getScalarNode(typeFieldName) != null) {
       YamlScalar<String> scalarNode = yaml.getNode(key).asMapping().getScalarNode(typeFieldName);
-      AbstractBeanYAMLDeserializer<T> deser =
-          (AbstractBeanYAMLDeserializer<T>) types.get(scalarNode.value()).deser;
+      YamlSubtypeDeserializer.Info info = types.get(scalarNode.value());
+      if (info == null) {
+        throw new YAMLDeserializationException("Unknown subtype alias: " + scalarNode.value());
+      }
+      AbstractBeanYAMLDeserializer<T> deser = (AbstractBeanYAMLDeserializer<T>) info.deser;
       return (T) deser.deserialize(yaml.getNode(key).asMapping(), ctx);
     }
     throw new YAMLDeserializationException("Unable to find deserializer for " + yaml);
@@ -58,8 +61,11 @@ public class YamlSubtypeDeserializer<T> implements YAMLDeserializer<T> {
   public T deserialize(YamlNode node, YAMLDeserializationContext ctx) {
     if (node.type() == NodeType.MAPPING && node.asMapping().getScalarNode(typeFieldName) != null) {
       YamlScalar<String> scalarNode = node.asMapping().getScalarNode(typeFieldName);
-      AbstractBeanYAMLDeserializer<T> deser =
-          (AbstractBeanYAMLDeserializer<T>) types.get(scalarNode.value()).deser;
+      YamlSubtypeDeserializer.Info info = types.get(scalarNode.value());
+      if (info == null) {
+        throw new YAMLDeserializationException("Unknown subtype alias: " + scalarNode.value());
+      }
+      AbstractBeanYAMLDeserializer<T> deser = (AbstractBeanYAMLDeserializer<T>) info.deser;
       return (T) deser.deserialize(node.asMapping(), ctx);
     }
     throw new YAMLDeserializationException("Unable to find deserializer for " + node);

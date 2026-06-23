@@ -16,10 +16,8 @@
 
 package org.treblereel.gwt.yaml.api.internal.deser.collection;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.internal.deser.bean.AbstractBeanYAMLDeserializer;
@@ -58,19 +56,19 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
     if (sequence == null) {
       return null;
     }
-    List<T> list = new ArrayList<>();
+    C collection = newCollection();
     if (deserializer instanceof AbstractBeanYAMLDeserializer) {
       for (int i = 0; i < sequence.size(); i++) {
-        list.add(
+        collection.add(
             ((AbstractBeanYAMLDeserializer<T>) deserializer).deserialize(sequence.mapping(i), ctx));
       }
     } else {
       Iterator<YamlNode> iterator = sequence.iterator();
       while (iterator.hasNext()) {
-        list.add(deserializer.deserialize(iterator.next(), ctx));
+        collection.add(deserializer.deserialize(iterator.next(), ctx));
       }
     }
-    return (C) list;
+    return collection;
   }
 
   @Override

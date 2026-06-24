@@ -75,6 +75,9 @@ public abstract class BaseCollectionYAMLDeserializer<C extends Collection<T>, T>
   public C deserialize(YamlNode node, YAMLDeserializationContext ctx) {
     C result = newCollection();
     Collection<T> temp = deserialize(node.asSequence(), ctx);
+    if (temp == null) {
+      return null;
+    }
     for (T val : temp) {
       result.add(val);
     }

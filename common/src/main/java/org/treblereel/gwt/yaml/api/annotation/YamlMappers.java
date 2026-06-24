@@ -16,6 +16,7 @@
 
 package org.treblereel.gwt.yaml.api.annotation;
 
+import static java.lang.annotation.ElementType.PACKAGE;
 import static java.lang.annotation.ElementType.TYPE;
 
 import java.lang.annotation.Retention;
@@ -23,7 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({TYPE})
+@Target({TYPE, PACKAGE})
 public @interface YamlMappers {
 
   Class<?>[] value();

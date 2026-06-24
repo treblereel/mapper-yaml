@@ -31,11 +31,6 @@ public class StringYAMLSerializer implements YAMLSerializer<String> {
   public static final StringYAMLSerializer INSTANCE = new StringYAMLSerializer();
 
   /** {@inheritDoc} */
-  protected boolean isEmpty(String value) {
-    return null == value || value.length() == 0;
-  }
-
-  /** {@inheritDoc} */
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, String value, YAMLSerializationContext ctx) {
@@ -51,7 +46,9 @@ public class StringYAMLSerializer implements YAMLSerializer<String> {
   @Override
   public void serialize(YamlSequence builder, String value, YAMLSerializationContext ctx) {
     if (null == value) {
-      builder.addScalarNode("~");
+      if (ctx.isSerializeNulls()) {
+        builder.addScalarNode("~");
+      }
       return;
     }
     builder.addScalarNode(value);

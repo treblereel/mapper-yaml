@@ -46,9 +46,7 @@ public class StringYAMLSerializer implements YAMLSerializer<String> {
   @Override
   public void serialize(YamlSequence builder, String value, YAMLSerializationContext ctx) {
     if (null == value) {
-      if (ctx.isSerializeNulls()) {
-        builder.addScalarNode("~");
-      }
+      builder.addScalarNode(null);
       return;
     }
     builder.addScalarNode(value);

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2026 Treblereel
+ * Copyright © 2022 Treblereel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@YamlMappers({PackageExternalBean.class})
-package org.treblereel.gwt.yaml.tests.annotations.yamlmappers.packagelevel;
 
-import org.treblereel.gwt.yaml.api.annotation.YamlMappers;
+package org.treblereel.gwt.yaml.api.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
+public @interface YamlCreator {}

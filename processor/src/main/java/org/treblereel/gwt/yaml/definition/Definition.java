@@ -19,7 +19,9 @@ package org.treblereel.gwt.yaml.definition;
 import javax.lang.model.type.TypeMirror;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public abstract class Definition {
 
   protected final TypeMirror bean;

@@ -42,7 +42,9 @@ import org.treblereel.gwt.yaml.deserializer.DeserializerGenerator;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 import org.treblereel.gwt.yaml.serializer.SerializerGenerator;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/20/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/20/20
+ */
 public class MapperGenerator extends AbstractGenerator {
 
   private static final String MAPPER_IMPL = "_YamlMapperImpl";
@@ -85,10 +87,10 @@ public class MapperGenerator extends AbstractGenerator {
   @Override
   protected void init(BeanDefinition type) {
     if (type.getElement().getKind().isClass()) {
-      if (!context.getTypeRegistry().containsDeserializer(type.getQualifiedName())) {
+      if (!context.getTypeRegistry().containsSerializer(type.getQualifiedName())) {
         serializerGenerator.generate(type);
       }
-      if (!context.getTypeRegistry().containsSerializer(type.getQualifiedName())) {
+      if (!context.getTypeRegistry().containsDeserializer(type.getQualifiedName())) {
         deserializerGenerator.generate(type);
       }
     }

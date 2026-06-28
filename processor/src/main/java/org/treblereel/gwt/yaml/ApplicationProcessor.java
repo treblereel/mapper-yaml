@@ -28,7 +28,6 @@ import java.util.stream.Stream;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypesException;
@@ -45,11 +44,15 @@ import org.treblereel.gwt.yaml.logger.TreeLogger;
 import org.treblereel.gwt.yaml.processor.BeanProcessor;
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class ApplicationProcessor extends AbstractProcessor {
 
   private final PrintWriterTreeLogger logger = new PrintWriterTreeLogger();
   private final Set<TypeElement> beans = new HashSet<>();
+
+  @Override
+  public SourceVersion getSupportedSourceVersion() {
+    return SourceVersion.latestSupported();
+  }
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
@@ -92,13 +95,13 @@ public class ApplicationProcessor extends AbstractProcessor {
 
   private void processCustomSerializers(
       RoundEnvironment roundEnvironment, GenerationContext context) {
-    addCustomDeserializers(
+    addCustomSerializers(
         roundEnvironment.getElementsAnnotatedWith(YamlTypeSerializer.class).stream()
             .filter(e -> e instanceof TypeElement)
             .map(MoreElements::asType),
         context);
 
-    addCustomSerializers(
+    addCustomDeserializers(
         roundEnvironment.getElementsAnnotatedWith(YamlTypeDeserializer.class).stream()
             .filter(e -> e instanceof TypeElement)
             .map(MoreElements::asType),
@@ -176,6 +179,12 @@ public class ApplicationProcessor extends AbstractProcessor {
   }
 
   private List<Class<?>> supportedAnnotations() {
-    return Arrays.asList(YAMLMapper.class);
+    return Arrays.asList(
+        YAMLMapper.class,
+        YamlMappers.class,
+        YamlTypeSerializer.class,
+        YamlTypeDeserializer.class,
+        YamlTypeSerializerFor.class,
+        YamlTypeDeserializerFor.class);
   }
 }

@@ -34,6 +34,12 @@ public class EnumYAMLSerializer<E extends Enum<E>> implements YAMLSerializer<E> 
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, E value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
+    }
     writer.addScalarNode(propertyName, value.name());
   }
 

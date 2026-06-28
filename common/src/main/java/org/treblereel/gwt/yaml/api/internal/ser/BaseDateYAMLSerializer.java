@@ -44,6 +44,12 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
     @Override
     public void serialize(
         YamlMapping writer, String propertyName, Date value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode(propertyName, "~");
+        }
+        return;
+      }
       if ((ctx.isWriteDatesAsTimestamps())) {
         writer.addScalarNode(propertyName, String.valueOf(value.getTime()));
       } else {
@@ -54,6 +60,12 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
 
     @Override
     public void serialize(YamlSequence writer, Date value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode("~");
+        }
+        return;
+      }
       writer.addScalarNode(String.valueOf(value.getTime()));
     }
   }
@@ -65,7 +77,9 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
 
     private SqlDateYAMLSerializer() {}
 
-    /** @return an instance of {@link SqlDateYAMLSerializer} */
+    /**
+     * @return an instance of {@link SqlDateYAMLSerializer}
+     */
     public static SqlDateYAMLSerializer getInstance() {
       return INSTANCE;
     }
@@ -76,11 +90,23 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
         String propertyName,
         java.sql.Date value,
         YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode(propertyName, "~");
+        }
+        return;
+      }
       writer.addScalarNode(propertyName, value.toString());
     }
 
     @Override
     public void serialize(YamlSequence writer, java.sql.Date value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode("~");
+        }
+        return;
+      }
       writer.addScalarNode(value.toString());
     }
   }
@@ -92,7 +118,9 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
 
     private SqlTimeYAMLSerializer() {}
 
-    /** @return an instance of {@link SqlTimeYAMLSerializer} */
+    /**
+     * @return an instance of {@link SqlTimeYAMLSerializer}
+     */
     public static SqlTimeYAMLSerializer getInstance() {
       return INSTANCE;
     }
@@ -100,11 +128,23 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
     @Override
     public void serialize(
         YamlMapping writer, String propertyName, Time value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode(propertyName, "~");
+        }
+        return;
+      }
       writer.addScalarNode(propertyName, value.toString());
     }
 
     @Override
     public void serialize(YamlSequence writer, Time value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode("~");
+        }
+        return;
+      }
       writer.addScalarNode(value.toString());
     }
   }
@@ -116,7 +156,9 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
 
     private SqlTimestampYAMLSerializer() {}
 
-    /** @return an instance of {@link SqlTimestampYAMLSerializer} */
+    /**
+     * @return an instance of {@link SqlTimestampYAMLSerializer}
+     */
     public static SqlTimestampYAMLSerializer getInstance() {
       return INSTANCE;
     }
@@ -124,6 +166,12 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
     @Override
     public void serialize(
         YamlMapping writer, String propertyName, Timestamp value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode(propertyName, "~");
+        }
+        return;
+      }
       if (ctx.isWriteDatesAsTimestamps()) {
         writer.addScalarNode(propertyName, String.valueOf(value.getTime()));
       } else {
@@ -134,6 +182,12 @@ public abstract class BaseDateYAMLSerializer<D extends Date> extends AbstractYAM
 
     @Override
     public void serialize(YamlSequence writer, Timestamp value, YAMLSerializationContext ctx) {
+      if (null == value) {
+        if (ctx.isSerializeNulls()) {
+          writer.addScalarNode("~");
+        }
+        return;
+      }
       writer.addScalarNode(String.valueOf(value.getTime()));
     }
   }

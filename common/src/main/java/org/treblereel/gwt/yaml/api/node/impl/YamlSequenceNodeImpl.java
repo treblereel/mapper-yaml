@@ -46,8 +46,8 @@ class YamlSequenceNodeImpl implements YamlSequence, Wrappable<List<Object>> {
     this(settings);
     for (Object l : list) {
       if (l instanceof Map) {
-        nodes.add(new YamlMappingNodeImpl((Map<String, Object>) l));
-      } else if (l instanceof Iterable) {
+        nodes.add(new YamlMappingNodeImpl(settings, (Map<String, Object>) l));
+      } else if (l instanceof List) {
         nodes.add(new YamlSequenceNodeImpl(settings, (List<Object>) l));
       } else {
         nodes.add(new YamlScalarNodeImpl(l));
@@ -87,7 +87,7 @@ class YamlSequenceNodeImpl implements YamlSequence, Wrappable<List<Object>> {
 
   @Override
   public Collection<YamlNode> values() {
-    return nodes;
+    return Collections.unmodifiableCollection(nodes);
   }
 
   @Override

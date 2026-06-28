@@ -32,7 +32,9 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
  */
 public final class MapYAMLDeserializer<V> extends BaseMapYAMLDeserializer<Map<String, V>, V> {
 
-  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  /**
+   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
+   */
   private MapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
     super(valueDeserializer);
   }

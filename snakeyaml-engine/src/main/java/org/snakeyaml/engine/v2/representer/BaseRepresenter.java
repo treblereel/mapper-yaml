@@ -37,8 +37,10 @@ public abstract class BaseRepresenter {
 
   /** Keep representers which must match the class exactly */
   protected final Map<Class<?>, RepresentToNode> representers = new HashMap<>();
+
   /** Keep representers which match a parent of the class to be represented */
   protected final Map<Class<?>, RepresentToNode> parentClassRepresenters = new LinkedHashMap<>();
+
   /**
    * Keep references of already represented instances. The order is important (map can be also a
    * sequence of key-values)
@@ -50,12 +52,16 @@ public abstract class BaseRepresenter {
           return super.put(key, new AnchorNode(value));
         }
       };
+
   /** in Java 'null' is not a type. So we have to keep the null representer separately */
   protected RepresentToNode nullRepresenter;
+
   /** scalar style */
   protected ScalarStyle defaultScalarStyle = ScalarStyle.PLAIN;
+
   /** flow style for collections */
   protected FlowStyle defaultFlowStyle = FlowStyle.AUTO;
+
   /** the current object to be converted to Node */
   protected Object objectToRepresent;
 

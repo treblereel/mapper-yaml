@@ -31,7 +31,9 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 public final class LinkedHashMapYAMLDeserializer<V>
     extends BaseMapYAMLDeserializer<LinkedHashMap<String, V>, V> {
 
-  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  /**
+   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
+   */
   private LinkedHashMapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
     super(valueDeserializer);
   }

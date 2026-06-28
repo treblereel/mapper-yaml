@@ -43,8 +43,11 @@ public abstract class AbstractObjectMapper<T> {
 
   public T read(String in, YAMLDeserializationContext ctx)
       throws YAMLDeserializationException, IOException {
+    if (in == null) {
+      throw new YAMLDeserializationException("Input YAML string must not be null");
+    }
     YamlMapping reader = Yaml.fromString(in);
-    return ((AbstractBeanYAMLDeserializer<T>) getDeserializer()).deserializeInline(reader, ctx);
+    return ((AbstractBeanYAMLDeserializer<T>) getDeserializer()).deserialize(reader, ctx);
   }
 
   public YAMLDeserializer<T> getDeserializer() {

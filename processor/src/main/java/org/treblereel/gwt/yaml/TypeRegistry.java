@@ -902,9 +902,13 @@ public final class TypeRegistry {
 
     @Override
     public String toString() {
-      return "ClassMapper{" + "clazz='" + clazz + '\'' + ", serializer=" + serializer != null
-          ? serializer.toString()
-          : "" + ", deserializer=" + deserializer != null ? deserializer.toString() : "" + '}';
+      return "ClassMapper{clazz='"
+          + clazz
+          + "', serializer="
+          + (serializer != null ? serializer.toString() : "")
+          + ", deserializer="
+          + (deserializer != null ? deserializer.toString() : "")
+          + '}';
     }
   }
 }

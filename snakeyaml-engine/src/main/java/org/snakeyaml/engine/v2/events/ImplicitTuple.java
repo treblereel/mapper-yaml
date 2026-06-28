@@ -27,12 +27,16 @@ public class ImplicitTuple {
     this.nonPlain = nonplain;
   }
 
-  /** @return true when tag may be omitted when the scalar is emitted in a plain style. */
+  /**
+   * @return true when tag may be omitted when the scalar is emitted in a plain style.
+   */
   public boolean canOmitTagInPlainScalar() {
     return plain;
   }
 
-  /** @return true when tag may be omitted when the scalar is emitted in a non-plain style. */
+  /**
+   * @return true when tag may be omitted when the scalar is emitted in a non-plain style.
+   */
   public boolean canOmitTagInNonPlainScalar() {
     return nonPlain;
   }

@@ -72,7 +72,10 @@ public class Base64Utils {
     }
 
     int len = data.length();
-    assert (len % 4) == 0;
+    if ((len % 4) != 0) {
+      throw new IllegalArgumentException(
+          "Base64 input length must be a multiple of 4, got: " + len);
+    }
 
     if (len == 0) {
       return new byte[0];
@@ -94,10 +97,10 @@ public class Base64Utils {
     int iidx = 0;
     int oidx = 0;
     while (iidx < len) {
-      int c0 = base64Values[chars[iidx++] & 0xff];
-      int c1 = base64Values[chars[iidx++] & 0xff];
-      int c2 = base64Values[chars[iidx++] & 0xff];
-      int c3 = base64Values[chars[iidx++] & 0xff];
+      int c0 = base64Value(chars[iidx++]);
+      int c1 = base64Value(chars[iidx++]);
+      int c2 = base64Value(chars[iidx++]);
+      int c3 = base64Value(chars[iidx++]);
       int c24 = (c0 << 18) | (c1 << 12) | (c2 << 6) | c3;
 
       bytes[oidx++] = (byte) (c24 >> 16);
@@ -206,6 +209,13 @@ public class Base64Utils {
     base64Append(sb, low & 0x3f, true);
 
     return sb.toString();
+  }
+
+  private static int base64Value(char c) {
+    if (c > 127) {
+      throw new IllegalArgumentException("Invalid Base64 character: " + c);
+    }
+    return base64Values[c];
   }
 
   private static boolean base64Append(StringBuilder sb, int digit, boolean haveNonZero) {

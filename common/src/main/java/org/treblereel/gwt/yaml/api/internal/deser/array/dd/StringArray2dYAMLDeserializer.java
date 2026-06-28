@@ -21,7 +21,9 @@ import org.treblereel.gwt.yaml.api.internal.deser.StringYAMLDeserializer;
 import org.treblereel.gwt.yaml.api.internal.deser.YAMLDeserializationContext;
 import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/28/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/28/20
+ */
 public class StringArray2dYAMLDeserializer extends AbstractArray2dYAMLDeserializer<String[][]> {
 
   public static final StringArray2dYAMLDeserializer INSTANCE = new StringArray2dYAMLDeserializer();

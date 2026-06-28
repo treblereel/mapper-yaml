@@ -31,27 +31,24 @@ public class StringYAMLSerializer implements YAMLSerializer<String> {
   public static final StringYAMLSerializer INSTANCE = new StringYAMLSerializer();
 
   /** {@inheritDoc} */
-  protected boolean isEmpty(String value) {
-    return null == value || value.length() == 0;
-  }
-
-  /** {@inheritDoc} */
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, String value, YAMLSerializationContext ctx) {
-    if (isEmpty(value) && ctx.isSerializeNulls()) {
-      writer.addScalarNode(propertyName, "~");
-    } else {
-      writer.addScalarNode(propertyName, value);
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
     }
+    writer.addScalarNode(propertyName, value);
   }
 
   @Override
   public void serialize(YamlSequence builder, String value, YAMLSerializationContext ctx) {
-    if (isEmpty(value) && ctx.isSerializeNulls()) {
-      builder.addScalarNode("~");
-    } else {
-      builder.addScalarNode(value);
+    if (null == value) {
+      builder.addScalarNode(null);
+      return;
     }
+    builder.addScalarNode(value);
   }
 }

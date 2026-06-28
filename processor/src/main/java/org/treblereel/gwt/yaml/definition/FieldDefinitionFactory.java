@@ -25,12 +25,14 @@ import org.treblereel.gwt.yaml.TypeUtils;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeInfo;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class FieldDefinitionFactory {
 
   private final GenerationContext context;
   private final TypeUtils typeUtils;
-  private final Map<TypeMirror, FieldDefinition> holder = new HashMap<>();
+  private final Map<String, FieldDefinition> holder = new HashMap<>();
 
   FieldDefinitionFactory(GenerationContext context) {
     this.context = context;
@@ -41,8 +43,8 @@ public class FieldDefinitionFactory {
     property = context.getTypeUtils().removeOuterWildCards(property);
 
     FieldDefinition result;
-    if (holder.containsKey(property)) {
-      result = holder.get(property);
+    if (holder.containsKey(property.toString())) {
+      result = holder.get(property.toString());
     } else if (property.getKind().isPrimitive() || typeUtils.isSimpleType(property)) {
       result = new BasicTypeFieldDefinition(property, context);
     } else if (context.getTypeUtils().isIterable(property)) {
@@ -58,7 +60,7 @@ public class FieldDefinitionFactory {
     } else {
       result = new DefaultBeanFieldDefinition(property, context);
     }
-    holder.put(property, result);
+    holder.put(property.toString(), result);
     return result;
   }
 }

@@ -50,8 +50,10 @@ public class StandardRepresenter extends BaseRepresenter {
 
   /** all chars that represent a new line */
   public static final Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
+
   /** Connect classes to their tags */
   protected Map<Class<? extends Object>, Tag> classTags;
+
   /** keep the options */
   protected DumpSettings settings;
 

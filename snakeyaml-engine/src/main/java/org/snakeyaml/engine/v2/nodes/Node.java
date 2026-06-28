@@ -35,6 +35,7 @@ public abstract class Node {
 
   private final Optional<Mark> startMark;
   protected Optional<Mark> endMark;
+
   /** true when the tag is assigned by the resolver */
   protected boolean resolved;
 
@@ -87,7 +88,9 @@ public abstract class Node {
     return endMark;
   }
 
-  /** @return scalar, sequence, mapping */
+  /**
+   * @return scalar, sequence, mapping
+   */
   public abstract NodeType getNodeType();
 
   public Optional<Mark> getStartMark() {

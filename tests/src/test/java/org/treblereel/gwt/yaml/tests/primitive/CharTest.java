@@ -27,7 +27,9 @@ import org.treblereel.gwt.yaml.api.annotation.YAMLMapper;
 import org.treblereel.gwt.yaml.tests.AbstractYamlTest;
 import org.treblereel.gwt.yaml.tests.primitive.CharTest.CharType;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/22/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/22/20
+ */
 @J2clTestInput(CharTest.class)
 public class CharTest extends AbstractYamlTest<CharType> {
   private static final CharTest_CharType_YamlMapperImpl mapper =

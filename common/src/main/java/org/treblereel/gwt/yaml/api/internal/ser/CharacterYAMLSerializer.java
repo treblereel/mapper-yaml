@@ -34,6 +34,12 @@ public class CharacterYAMLSerializer implements YAMLSerializer<Character> {
   @Override
   public void serialize(
       YamlMapping writer, String propertyName, Character value, YAMLSerializationContext ctx) {
+    if (null == value) {
+      if (ctx.isSerializeNulls()) {
+        writer.addScalarNode(propertyName, "~");
+      }
+      return;
+    }
     writer.addScalarNode(propertyName, value.toString());
   }
 

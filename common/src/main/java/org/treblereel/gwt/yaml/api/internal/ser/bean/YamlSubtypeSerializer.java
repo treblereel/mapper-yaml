@@ -19,6 +19,7 @@ package org.treblereel.gwt.yaml.api.internal.ser.bean;
 import java.util.HashMap;
 import java.util.Map;
 import org.treblereel.gwt.yaml.api.YAMLSerializer;
+import org.treblereel.gwt.yaml.api.exception.YAMLSerializationException;
 import org.treblereel.gwt.yaml.api.internal.ser.StringYAMLSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YAMLSerializationContext;
 import org.treblereel.gwt.yaml.api.node.YamlMapping;
@@ -52,7 +53,7 @@ public class YamlSubtypeSerializer<T> implements YAMLSerializer<T> {
       stringSerializer.serialize(objWriter, typeFieldName, info.alias, ctx);
       serializer.serialize(objWriter, value, ctx);
     } else {
-      throw new Error("Unable to find ser for " + value.getClass());
+      throw new YAMLSerializationException("Unable to find ser for " + value.getClass());
     }
   }
 
@@ -68,7 +69,7 @@ public class YamlSubtypeSerializer<T> implements YAMLSerializer<T> {
       new InnerWrapper(serializer, info.alias).serialize(writer, value, ctx);
 
     } else {
-      throw new Error("Unable to find ser for " + value.getClass());
+      throw new YAMLSerializationException("Unable to find ser for " + value.getClass());
     }
   }
 
@@ -100,7 +101,7 @@ public class YamlSubtypeSerializer<T> implements YAMLSerializer<T> {
     }
 
     @Override
-    public Class getSerializedType() {
+    public Class<?> getSerializedType() {
       return serializer.getSerializedType();
     }
   }

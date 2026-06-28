@@ -24,16 +24,20 @@ import com.google.auto.common.MoreTypes;
 import java.util.Objects;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import org.treblereel.gwt.yaml.api.annotation.YamlNillable;
 import org.treblereel.gwt.yaml.api.annotation.YamlProperty;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeSerializer;
 import org.treblereel.gwt.yaml.api.internal.ser.YamlTypeSerializerWrapper;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class PropertyDefinition extends Definition {
 
   private final Element property;
@@ -163,6 +167,27 @@ public class PropertyDefinition extends Definition {
           .addArgument(new ObjectCreationExpr().setType(type));
     }
     return null;
+  }
+
+  public boolean isNillable() {
+    YamlNillable fieldAnnotation = property.getAnnotation(YamlNillable.class);
+    if (fieldAnnotation != null) {
+      return fieldAnnotation.value();
+    }
+
+    javax.lang.model.element.Element enclosing = property.getEnclosingElement();
+    YamlNillable classAnnotation = enclosing.getAnnotation(YamlNillable.class);
+    if (classAnnotation != null) {
+      return classAnnotation.value();
+    }
+
+    PackageElement pkg = context.getProcessingEnv().getElementUtils().getPackageOf(enclosing);
+    YamlNillable packageAnnotation = pkg.getAnnotation(YamlNillable.class);
+    if (packageAnnotation != null) {
+      return packageAnnotation.value();
+    }
+
+    return false;
   }
 
   @Override

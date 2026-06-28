@@ -16,21 +16,29 @@
 
 package org.treblereel.gwt.yaml.definition;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementFilter;
+import org.treblereel.gwt.yaml.api.annotation.YamlCreator;
+import org.treblereel.gwt.yaml.api.annotation.YamlProperty;
 import org.treblereel.gwt.yaml.api.annotation.YamlPropertyOrder;
 import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 import org.treblereel.gwt.yaml.context.GenerationContext;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 4/1/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 4/1/20
+ */
 public class BeanDefinition extends Definition {
 
   private final TypeElement element;
@@ -43,10 +51,11 @@ public class BeanDefinition extends Definition {
 
   private void loadProperties() {
     properties = new LinkedHashSet<>();
+    boolean hasCreator = hasYamlCreator();
     Stream<VariableElement> asStream =
         context.getTypeUtils().getAllFieldsIn(element).stream()
             .filter(field -> !field.getModifiers().contains(Modifier.STATIC))
-            .filter(field -> !field.getModifiers().contains(Modifier.FINAL))
+            .filter(field -> hasCreator || !field.getModifiers().contains(Modifier.FINAL))
             .filter(field -> !field.getModifiers().contains(Modifier.TRANSIENT))
             .filter(field -> field.getAnnotation(YamlTransient.class) == null);
 
@@ -116,5 +125,41 @@ public class BeanDefinition extends Definition {
   @Override
   public String toString() {
     return "BeanDefinition{" + "element=" + element + '}';
+  }
+
+  public boolean hasYamlCreator() {
+    return getYamlCreator() != null;
+  }
+
+  public ExecutableElement getYamlCreator() {
+    for (ExecutableElement constructor :
+        ElementFilter.constructorsIn(element.getEnclosedElements())) {
+      if (constructor.getAnnotation(YamlCreator.class) != null) {
+        return constructor;
+      }
+    }
+    for (ExecutableElement method : ElementFilter.methodsIn(element.getEnclosedElements())) {
+      if (method.getAnnotation(YamlCreator.class) != null) {
+        return method;
+      }
+    }
+    return null;
+  }
+
+  public Set<String> getCreatorParameterNames() {
+    ExecutableElement creator = getYamlCreator();
+    if (creator == null) {
+      return Collections.emptySet();
+    }
+    Set<String> names = new HashSet<>();
+    for (VariableElement param : creator.getParameters()) {
+      YamlProperty prop = param.getAnnotation(YamlProperty.class);
+      if (prop != null && !prop.value().isEmpty()) {
+        names.add(prop.value());
+      } else {
+        names.add(param.getSimpleName().toString());
+      }
+    }
+    return names;
   }
 }

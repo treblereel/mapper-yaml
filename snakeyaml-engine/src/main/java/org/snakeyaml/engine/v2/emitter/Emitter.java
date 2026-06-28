@@ -67,8 +67,10 @@ import org.snakeyaml.engine.v2.scanner.StreamReader;
 public final class Emitter implements Emitable {
 
   private static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<>();
+
   /** indent cannot be zero spaces */
   public static final int MIN_INDENT = 1;
+
   /** indent should not be more than 10 spaces */
   public static final int MAX_INDENT = 10;
 

@@ -46,7 +46,7 @@ public class MapYAMLSerializer<M extends Map<String, V>, V> extends AbstractYAML
       throw new IllegalArgumentException("valueSerializer cannot be null");
     }
     if (null == propertyName) {
-      throw new IllegalArgumentException("valueSerializer cannot be null");
+      throw new IllegalArgumentException("propertyName cannot be null");
     }
     this.valueSerializer = valueSerializer;
     this.propertyName = propertyName;
@@ -99,6 +99,9 @@ public class MapYAMLSerializer<M extends Map<String, V>, V> extends AbstractYAML
 
   @Override
   public void serialize(YamlSequence writer, M map, YAMLSerializationContext ctx) {
+    if (null == map) {
+      return;
+    }
     if (!map.isEmpty()) {
       YamlMapping yamlMapping = writer.addMappingNode();
       serializeValues(yamlMapping, map, ctx);

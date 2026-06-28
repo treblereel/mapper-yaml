@@ -31,7 +31,9 @@ import org.treblereel.gwt.yaml.api.YAMLDeserializer;
 public final class TreeMapYAMLDeserializer<V>
     extends BaseMapYAMLDeserializer<TreeMap<String, V>, V> {
 
-  /** @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values. */
+  /**
+   * @param valueDeserializer {@link YAMLDeserializer} used to deserialize the values.
+   */
   private TreeMapYAMLDeserializer(YAMLDeserializer<V> valueDeserializer) {
     super(valueDeserializer);
   }

@@ -96,6 +96,7 @@ public final class ScannerImpl implements Scanner {
       "expected alphabetic or numeric character, but found ";
   private static final String SCANNING_SCALAR = "while scanning a block scalar";
   private static final String SCANNING_PREFIX = "while scanning a ";
+
   /**
    * A regular expression matching characters which are not in the hexadecimal set (0-9, A-F, a-f).
    */
@@ -344,7 +345,7 @@ public final class ScannerImpl implements Scanner {
         // Is it the flow entry indicator?
         fetchFlowEntry();
         return;
-        // see block entry indicator above
+      // see block entry indicator above
       case '?':
         // Is it the key indicator?
         if (checkKey()) {

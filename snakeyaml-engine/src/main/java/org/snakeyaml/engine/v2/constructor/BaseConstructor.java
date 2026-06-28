@@ -44,6 +44,7 @@ public abstract class BaseConstructor {
   private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>
       maps2fill;
   private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
+
   /** keep the settings */
   protected LoadSettings settings;
 

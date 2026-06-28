@@ -20,6 +20,8 @@ import java.util.Map;
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.api.Load;
 import org.snakeyaml.engine.v2.api.LoadSettings;
+import org.snakeyaml.engine.v2.schema.CoreSchema;
+import org.treblereel.gwt.yaml.api.exception.YAMLReadingException;
 import org.treblereel.gwt.yaml.api.node.YamlMapping;
 
 public class Yaml {
@@ -35,14 +37,21 @@ public class Yaml {
   }
 
   public static YamlMapping fromString(String yaml) {
-    LoadSettings settings = LoadSettings.builder().build();
+    LoadSettings settings = LoadSettings.builder().setSchema(new CoreSchema()).build();
     return fromString(settings, yaml);
   }
 
   @SuppressWarnings("unchecked")
   public static YamlMapping fromString(LoadSettings settings, String yaml) {
     Load load = new Load(settings);
-    Map<String, Object> map = (Map<String, Object>) load.loadFromString(yaml);
-    return new YamlMappingNodeImpl(map);
+    Object result = load.loadFromString(yaml);
+    if (result == null) {
+      return new YamlMappingNodeImpl((Map<String, Object>) null);
+    }
+    if (!(result instanceof Map)) {
+      throw new YAMLReadingException(
+          "Expected a YAML mapping but got: " + result.getClass().getSimpleName());
+    }
+    return new YamlMappingNodeImpl((Map<String, Object>) result);
   }
 }

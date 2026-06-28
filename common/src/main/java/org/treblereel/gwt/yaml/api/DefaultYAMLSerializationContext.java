@@ -92,11 +92,9 @@ public class DefaultYAMLSerializationContext implements YAMLSerializationContext
 
     protected boolean writeEmptyYAMLArrays = true;
 
-    protected boolean mapKeyAndValueCanonical = false;
-
     /**
      * Sets whether object members are serialized when their value is null. This has no impact on
-     * array elements. The default is true.
+     * array elements. The default is false.
      *
      * @param serializeNulls true if should serializeNulls
      * @return the builder

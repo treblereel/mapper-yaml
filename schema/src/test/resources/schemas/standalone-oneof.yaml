@@ -1,0 +1,43 @@
+$defs:
+  DurationInline:
+    type: object
+    properties:
+      days:
+        type: integer
+      hours:
+        type: integer
+  duration:
+    oneOf:
+      - $ref: '#/$defs/DurationInline'
+      - type: string
+  CreditCard:
+    type: object
+    properties:
+      cardNumber:
+        type: string
+  BankTransfer:
+    type: object
+    properties:
+      iban:
+        type: string
+  payment:
+    oneOf:
+      - $ref: '#/$defs/CreditCard'
+      - $ref: '#/$defs/BankTransfer'
+  flowDirective:
+    anyOf:
+      - type: string
+        enum: [continue, exit, end]
+      - type: string
+
+title: StandaloneOneOfRoot
+type: object
+properties:
+  name:
+    type: string
+  timeout:
+    $ref: '#/$defs/duration'
+  payment:
+    $ref: '#/$defs/payment'
+  then:
+    $ref: '#/$defs/flowDirective'

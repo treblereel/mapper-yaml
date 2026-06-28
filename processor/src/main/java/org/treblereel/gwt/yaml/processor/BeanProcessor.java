@@ -32,6 +32,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import org.treblereel.gwt.yaml.TypeUtils;
+import org.treblereel.gwt.yaml.api.annotation.YamlCreator;
 import org.treblereel.gwt.yaml.api.annotation.YamlSubtype;
 import org.treblereel.gwt.yaml.api.annotation.YamlTransient;
 import org.treblereel.gwt.yaml.api.annotation.YamlTypeDeserializer;
@@ -42,7 +43,9 @@ import org.treblereel.gwt.yaml.exception.GenerationException;
 import org.treblereel.gwt.yaml.generator.MapperGenerator;
 import org.treblereel.gwt.yaml.logger.TreeLogger;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 3/11/20 */
+/**
+ * @author Dmitrii Tikhomirov Created by treblereel 3/11/20
+ */
 public class BeanProcessor {
 
   private final GenerationContext context;
@@ -75,17 +78,19 @@ public class BeanProcessor {
         || typeUtils.isObject(bean.asType())
         || context.getTypeRegistry().containsSerializer(bean.asType()))) {
       beans.add(checkBean(bean));
+      boolean hasCreator = hasYamlCreator(bean);
       context.getTypeUtils().getAllFieldsIn(bean).stream()
           .filter(field -> field.getAnnotation(YamlTransient.class) == null)
           .filter(field -> !field.getModifiers().contains(Modifier.STATIC))
           .filter(field -> !field.getModifiers().contains(Modifier.TRANSIENT))
-          .forEach(this::processField);
+          .forEach(field -> processField(field, hasCreator));
     }
   }
 
-  private void processField(VariableElement field) {
-    checkField(field);
-    checkTypeAndAdd(field.asType());
+  private void processField(VariableElement field, boolean hasCreator) {
+    if (checkField(field, hasCreator)) {
+      checkTypeAndAdd(field.asType());
+    }
   }
 
   private void checkTypeAndAdd(TypeMirror type) {
@@ -140,11 +145,14 @@ public class BeanProcessor {
     }
   }
 
-  private boolean checkField(VariableElement field) {
+  private boolean checkField(VariableElement field, boolean hasCreator) {
     if (field.getModifiers().contains(Modifier.STATIC)
         || field.getModifiers().contains(Modifier.TRANSIENT)
-        || field.getAnnotation(YamlTransient.class) != null
-        || field.getModifiers().contains(Modifier.FINAL)) {
+        || field.getAnnotation(YamlTransient.class) != null) {
+      return false;
+    }
+
+    if (!hasCreator && field.getModifiers().contains(Modifier.FINAL)) {
       return false;
     }
 
@@ -159,6 +167,10 @@ public class BeanProcessor {
                 "Field of type Object must be annotated with @YamlTypeSerializer && @YamlTypeDeserializer at [%s.%s]",
                 field.getEnclosingElement(), field.toString()));
       }
+    }
+
+    if (hasCreator && typeUtils.hasGetter(field)) {
+      return true;
     }
 
     if (!field.getModifiers().contains(Modifier.PRIVATE)
@@ -187,18 +199,35 @@ public class BeanProcessor {
       throw new GenerationException("A @YAMLMapper bean [" + type + "] must be public");
     }
 
-    List<ExecutableElement> constructors = ElementFilter.constructorsIn(type.getEnclosedElements());
-    if (!constructors.isEmpty()) {
-      long nonArgConstructorCount =
-          constructors.stream()
-              .filter(constr -> !constr.getModifiers().contains(Modifier.PRIVATE))
-              .filter(constr -> constr.getParameters().isEmpty())
-              .count();
-      if (nonArgConstructorCount != 1) {
-        throw new GenerationException(
-            "A @YAMLMapper bean [" + type + "] must have a non-private non-arg constructor");
+    if (!hasYamlCreator(type)) {
+      List<ExecutableElement> constructors =
+          ElementFilter.constructorsIn(type.getEnclosedElements());
+      if (!constructors.isEmpty()) {
+        long nonArgConstructorCount =
+            constructors.stream()
+                .filter(constr -> !constr.getModifiers().contains(Modifier.PRIVATE))
+                .filter(constr -> constr.getParameters().isEmpty())
+                .count();
+        if (nonArgConstructorCount != 1) {
+          throw new GenerationException(
+              "A @YAMLMapper bean [" + type + "] must have a non-private non-arg constructor");
+        }
       }
     }
     return type;
+  }
+
+  private boolean hasYamlCreator(TypeElement type) {
+    for (ExecutableElement constructor : ElementFilter.constructorsIn(type.getEnclosedElements())) {
+      if (constructor.getAnnotation(YamlCreator.class) != null) {
+        return true;
+      }
+    }
+    for (ExecutableElement method : ElementFilter.methodsIn(type.getEnclosedElements())) {
+      if (method.getAnnotation(YamlCreator.class) != null) {
+        return true;
+      }
+    }
+    return false;
   }
 }

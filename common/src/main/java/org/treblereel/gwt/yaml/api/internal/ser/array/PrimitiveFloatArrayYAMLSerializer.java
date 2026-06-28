@@ -51,8 +51,8 @@ public class PrimitiveFloatArrayYAMLSerializer extends AbstractYAMLSerializer<fl
       }
       return;
     }
-    YamlSequence YamlSequence = writer.addSequenceNode(propertyName);
-    serialize(YamlSequence, values, ctx);
+    YamlSequence yamlSequence = writer.addSequenceNode(propertyName);
+    serialize(yamlSequence, values, ctx);
   }
 
   @Override
